@@ -1,0 +1,6 @@
+# COMMENT
+
+INSTALL = WINTGT
+# Installs the DCAF WINDOWS Target component with default parameter settings
+
+

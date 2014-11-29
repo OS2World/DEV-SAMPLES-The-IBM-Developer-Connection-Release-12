@@ -1,0 +1,49 @@
+
+(readme file for newshow sample)
+
+
+NEWSHOW - a C++ Dive class sample.
+
+  (c)1995 IBM
+  Dive class and sample written by Larry Kyrala
+  DiveHandler class by Maria Ingold.
+  (Thanks to Luis R. and Mike K. for debugging help and questions answered.)
+
+
+
+REQUIRED TOOLS:
+
+  You will need to install the IBM VisualAge C++ compiler
+  in order to compile this sample.
+
+  Compile the sample by issuing NMAKE at the command line.
+  Use NMAKE CLEAN to remove *.OBJs and NMAKE CLOBBER to
+  remove *.OBJs and the NEWSHOW.EXE.
+
+
+
+REQUIRED DLLs:
+
+  You will need the following DLLs on your system in order to
+  run the newshow sample:
+
+         \OS2\DLL\PMGPI.DLL
+         \OS2\DLL\PMWIN.DLL
+
+         \MMOS2\DLL\MMIO.DLL
+         \MMOS2\DLL\DIVE.DLL
+
+         \IBMCPP\DLL\CPPOM30.DLL
+         \IBMCPP\DLL\CPPOOB3.DLL
+         \IBMCPP\DLL\CPPOOU3.DLL
+
+
+
+DEDICATION:
+
+  To all those who said it couldn't be done,
+             WE KNOW IT CAN BE!                 :)
+
+
+
+

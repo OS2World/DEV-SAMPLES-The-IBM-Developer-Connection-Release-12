@@ -1,0 +1,207 @@
+;------------------------------------------------------------------------;
+; This is a response file for the LAN Station Manager product.  It       ;
+; consists of a list of keyword = value lines.  The values can be        ;
+; edited and updated with appropriate data.  For a more detailed         ;
+; explanation of the value, see the LAN Station Manager User's Guide.    ;
+; There are 2 main keywords in the response file - Install and Config.   ;
+; The value associated with each keyword indicates which component to    ;
+; install or to configure.                                               ;
+; The file is divided into 3 groups:                                     ;
+;     Install - information on what LSM components to install            ;
+;     LSMMIB  - user-entered configuration information for the LSM MIB   ;
+;     HLMKrnl - information for configuring the HLM Kernel               ;
+;------------------------------------------------------------------------;
+
+
+;------------------------------------------------------------------------;
+; This group of data indicates which components of LSM to install        ;
+;------------------------------------------------------------------------;
+
+                        ; install the HLM Kernel
+Install = HLMKrnl
+                        ; install the LSM MIB application
+Install = LSMMIB
+
+
+;------------------------------------------------------------------------;
+; This group of data specifies configuration information for the LSM MIB.;
+; The data is information that is not automatically obtained from the    ;
+; workstation.  The data must be entered by the user.  The data is       ;
+; organized into 8 sections.  Enter data only in the sections            ;
+; that are relevant to your workstation.  The sections are Workstation,  ;
+; AttachedDevices, TokenRing 0 and 1, PCNetBroad 0 and 1, and PCNetBase  ;
+; 0 and 1.                                                               ;
+;------------------------------------------------------------------------;
+
+Config = LSMMIB (
+
+                     ; Information about your workstation
+[Workstation]
+                        ; workstation location, 0-40 characters
+                        ; character strings are surrounded by quotes
+      Location = "Shelf2"
+                        ; workstation type, 0-40 characters
+                        ; updated automatically if blank
+      WSType = ""
+                        ; workstation serial number, 0-15 characters
+      WSNum = ""
+                        ; user-defined data, 0-40 characters
+      UserData = ""
+
+                     ; Information about devices attached to your workstation
+[AttachedDevices]
+                        ; display type, 0-40 characters
+                        ; updated automatically if blank
+      DispType = ""
+                        ; Display serial number, 0-15 characters
+      DispNum = ""
+                        ; Printer type, 0-40 characters
+      PrntType = ""
+                        ; Printer serial number, 0-15 characters
+      PrntNum = ""
+                        ; Keyboard type, 0-40 characters
+      KbdType = ""
+                        ; Keyboard serial number, 0-15 characters
+      KbdNum = ""
+                        ; Device 1 type, 0-40 characters
+      Dv1Type = ""
+                        ; Device 1 serial number, 0-15 characters
+      Dv1Num = ""
+                        ; Device 2 type, 0-40 characters
+      Dv2Type = ""
+                        ; Device 2 serial number, 0-15 characters
+      Dv2Num = ""
+
+                     ; Information about your primary (0) Token-Ring
+                     ; adapter
+[TokenRing_0]
+                        ; wall faceplate label, 0-40 characters
+      FacePlate = ""
+                        ; access unit label, either MAU or CAU label,
+                        ; 0-4 characters
+      UnitLabel = ""
+                        ; access unit lobe receptacle number,
+                        ; numeric 1-8 for a MAU; 1-20 for a CAU
+      UnitLobe = 1
+
+                     ; Information about your alternate (1) Token-Ring
+                     ; adapter
+[TokenRing_1]
+                        ; wall faceplate label, 0-40 characters
+      FacePlate = ""
+                        ; access unit label, either MAU or CAU label,
+                        ; 0-4 characters
+      UnitLabel = ""
+                        ; access unit lobe receptacle number,
+                        ; numeric 1-8 for a MAU; 1-20 for a CAU
+      UnitLobe = 1
+
+                     ; Information about your primary (0) PC Network
+                     ; Broadband adapter
+[PCNetBroad_0]
+                        ; cable identifier, 0-10 characters
+      CableId = ""
+                        ; adapter frequency, numeric 1-3
+      Frequency = 0
+                        ; splitter unit ID, 0-10 characters
+      SplitId = ""
+                        ; splitter tap number, numeric 1-16
+      SplitTap = 0
+                        ; distribution leg, 0-10 characters
+      DistLeg = ""
+                        ; translator unit identifier, 0-10 characters
+      Translator = ""
+
+                     ; Information about your alternate (1) PC Network
+                     ; Broadband adapter
+[PCNetBroad_1]
+                        ; cable identifier, 0-10 characters
+      CableId = ""
+                        ; adapter frequency, numeric 1-3
+      Frequency = 0
+                        ; splitter unit ID, 0-10 characters
+      SplitId = ""
+                        ; splitter tap number, numeric 1-16
+      SplitTap = 0
+                        ; distribution leg, 0-10 characters
+      DistLeg = ""
+                        ; translator unit identifier, 0-10 characters
+      Translator = ""
+
+                     ; Information about your primary (0) PC Network
+                     ; Baseband adapter
+[PCNetBase_0]
+                        ; cable identifier, 0-10 characters
+                        ; update CableId under PCNetBroad_0
+
+                        ; baseband extender unit identifier,
+                        ; 0-10 characters
+      ExtId = ""
+                        ; baseband extender port number, numeric 1-10
+      ExtPort = 0
+
+                     ; Information about your alternate (1) PC Network
+                     ; Baseband adapter
+[PCNetBase_1]
+                        ; cable identifier, 0-10 characters
+                        ; update CableId under PCNetBroad_1
+
+                        ; baseband extender unit identifier,
+                        ; 0-10 characters
+      ExtId = ""
+                        ; baseband extender port number, numeric 1-10
+      ExtPort = 0
+)
+
+
+;------------------------------------------------------------------------;
+; This group of data specifies configuration parameters for the HLM      ;
+; Kernel.  In most cases, the default values should be sufficient.       ;
+; The data is organized into 3 sections: Resources, AdapterInfo, and     ;
+; AgentInfo                                                              ;
+;------------------------------------------------------------------------;
+
+Config = HLMKrnl (
+                     ; Parameters relating to the LAN adapters
+[AdapterInfo]
+                        ; enable HLM on your primary adapter (0),
+                        ; 0 = no, 1 = yes
+      Enable_0 = 1
+                        ; enable HLM on your alternate adapter (1),
+                        ; 0 = no, 1 = yes
+      Enable_1 = 0
+                        ; translate group addresses to functional addresses
+                        ; for adapter 0,  0 = no, 1 = yes
+      Translate_0 = 1
+                        ; translate group addresses to functional addresses
+                        ; for adapter 1, 0 = no, 1 = yes
+      Translate_1 = 1
+                        ; LLC buffers per adapter, numeric 1-5
+      LLCBuffers = 4
+
+                     ; Parameters relating to HLM Kernel system resources
+[Resources]
+                        ; number of kernel buffers, numeric 2-25
+      Buffers = 20
+                        ; maximum number of objects, numeric 4-100
+      MaxObjects = 12
+                        ; object buffer size, numeric 24-60
+      ObjBuffSize = 50
+                        ; maximum number of affiliates, numeric 4-100
+      MaxAffiliates = 10
+                        ; managers per object, numeric 2-100
+      ManagersObject = 2
+                        ; maximum number of Cp users, 1-5
+      MaxCp = 1
+                        ; maximum number of Me users, 5-30
+      MaxMe = 5
+
+                     ; Parameters relating to the Kernel as the HLM agent
+[AgentInfo]
+                        ; system identifier, 0-40 characters
+      SystemId = "IBM Station Manager"
+                        ; use the SystemId as the naming attribute,
+                        ; 0 = no, 1 = yes
+      NameAttribute = 1
+)
+

@@ -1,0 +1,23 @@
+**********************  IBM Internal Use Only  *************************        
+* :nick.EXCEPT      :sec.IBM Internal Use Only        :disk.********            
+* :title.Sample TRAP catcher code regs/stack dump/modules C-SET/2,IBM C/2       
+* :version.6.6                      :date.95/05/16   :ops.>OS/2 2.01 SP         
+* :oname.Marc Fiammante             :onode.LGEVM2    :ouser.FIAMMANT            
+* :aname.Marc Fiammante             :anode.LGEVM2    :auser.FIAMMANT            
+* :support.End User   :doc.source   files  :lang.C + C/Set2 :source.Y           
+* :hw.                              :sw.OS/2 V2.0                               
+* :kwd.Exception handler. Registers . Stack dump modules                        
+* :abs.EXCEPT is sample source  to set and use an exception handler from        
+* both C/2 and C-SET/2 . This exception handler dump the registers to a         
+* file together with the loaded modules data and code object addresses          
+* and the dump of the stack in word and ascii format + StackWalk                
+* from John Currier + Automatic Variables dump from Kim Rasmussen               
+* :lic.By placing material on this conference, I agree to grant                 
+*  IBM a non-exclusive, royalty-free license for the material as                
+*  set forth in the LICENSE AGREEMNT file on this conference.                   
+************************************************************************        
+* The programs and documentation                                                
+      EXCEPT     ZIPBIN   * the zipped source and objects use PKUNZIP2          
+      EXCEPT     DOCUMENT * Small doc                                           
+      EXCEPT     NEWS     * package evolution                                   
+*                           See except.DOC file for small doc                   

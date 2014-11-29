@@ -1,0 +1,46 @@
+
+
+ KBDSTAT
+
+ Start     Length     Name                   Class
+ 0001:0000 00A4EH     KBDSTAT_TEXT           CODE
+ 0001:0A4E 005A8H     _TEXT                  CODE
+ 0001:0FF6 00000H     C_ETEXT                ENDCODE
+ 0002:0000 00018H     FAR_BSS                FAR_BSS
+ 0003:0000 00042H     NULL                   BEGDATA
+ 0003:0042 004D8H     _DATA                  DATA
+ 0003:051A 0000EH     CDATA                  DATA
+ 0003:0528 00000H     XIFB                   DATA
+ 0003:0528 00000H     XIF                    DATA
+ 0003:0528 00000H     XIFE                   DATA
+ 0003:0528 00000H     XIB                    DATA
+ 0003:0528 00000H     XI                     DATA
+ 0003:0528 00000H     XIE                    DATA
+ 0003:0528 00000H     XPB                    DATA
+ 0003:0528 00000H     XP                     DATA
+ 0003:0528 00000H     XPE                    DATA
+ 0003:0528 00000H     XCB                    DATA
+ 0003:0528 00000H     XC                     DATA
+ 0003:0528 00000H     XCE                    DATA
+ 0003:0528 00000H     XCFB                   DATA
+ 0003:0528 00000H     XCF                    DATA
+ 0003:0528 00000H     XCFE                   DATA
+ 0003:0528 0000EH     CONST                  CONST
+ 0003:0536 00008H     HDR                    MSG
+ 0003:053E 000FAH     MSG                    MSG
+ 0003:0638 00002H     PAD                    MSG
+ 0003:063A 00001H     EPAD                   MSG
+ 0003:063C 00028H     _BSS                   BSS
+ 0003:0664 00000H     XOB                    BSS
+ 0003:0664 00000H     XO                     BSS
+ 0003:0664 00000H     XOE                    BSS
+ 0003:0670 00000H     c_common               BSS
+ 0003:0670 01FA0H     STACK                  STACK
+ 0004:0000 01D95H     $$TYPES                DEBTYP
+ 0005:0000 00280H     $$SYMBOLS              DEBSYM
+ 0006:0000 00001H      SRCLINES              DEBSRC
+
+ Origin   Group
+ 0003:0   DGROUP
+
+Program entry point at 0001:0A5E

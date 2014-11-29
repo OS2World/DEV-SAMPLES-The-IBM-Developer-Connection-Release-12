@@ -1,0 +1,14 @@
+[
+uuid(0077F830-1100-1BFC-9250-10005A4F5444),
+version(1.0)
+]
+interface mathi
+{
+   const short MAX_VALUES = 12;
+   typedef long value_array_t[ MAX_VALUES ];
+   void add (
+      [ in ] value_array_t value_a,
+      [ in ] long num_values,
+      [ out ] long *sum
+   );
+}

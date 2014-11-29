@@ -1,0 +1,296 @@
+
+ Car
+
+ Start         Length     Name                   Class
+ 0001:00000000 000002D48H CODE32                 CODE 32-bit
+ 0002:00000000 000000010H DDE4_DATA32            DATA 32-bit
+ 0003:00000000 0000015C0H DATA32                 DATA 32-bit
+ 0003:000015C0 000000000H CTOR_DTOR1             DATA 32-bit
+ 0003:000015C0 000000000H CTOR_DTOR2             DATA 32-bit
+ 0003:000015C0 000000000H CTOR_DTOR3             DATA 32-bit
+ 0003:000015C0 000000060H CONST32                CONST 32-bit
+ 0003:00001620 000000000H BSS32                  BSS 32-bit
+ 0003:00001620 0000001B8H c_common               BSS 32-bit
+
+ Origin   Group
+ 0003:0   DGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0003:0000003C CarCClassData           CarCClassData
+ 0003:00000000 CarClassData            CarClassData
+ 0001:00000000 CarNewClass             CarNewClass
+ 0003:0000004C M_CarCClassData         M_CarCClassData
+ 0003:00000044 M_CarClassData          M_CarClassData
+ 0001:00000038 M_CarNewClass           M_CarNewClass
+
+  Address         Publics by Name
+
+ 0003:0000017C       apszCarColTitles
+ 0003:0000003C       CarCClassData
+ 0003:00000000       CarClassData
+ 0001:000017D4       CarInit
+ 0001:000010C4       carM_clsQueryModuleHandle
+ 0001:000011B8       carM_wpclsInitData
+ 0001:000015A8       carM_wpclsQueryDefaultHelp
+ 0001:0000160C       carM_wpclsQueryDefaultView
+ 0001:00001778       carM_wpclsQueryDetails
+ 0001:00001648       carM_wpclsQueryDetailsInfo
+ 0001:00001534       carM_wpclsQueryIconData
+ 0001:0000173C       carM_wpclsQueryInstanceFilter
+ 0001:00001158       carM_wpclsQueryStyle
+ 0001:000014C4       carM_wpclsQueryTitle
+ 0001:0000146C       carM_wpclsUnInitData
+ 0001:00000000       CarNewClass
+ 0001:00001A28       CarWndProc
+ 0001:0000046C       car_AddDashboardPage
+ 0001:00000530       car_AddHornBeepPage
+ 0001:000003AC       car_BeepHorn
+ 0001:00000064       car_QueryBrakes
+ 0001:0000010C       car_QueryDuration
+ 0001:000001B4       car_QueryHighTone
+ 0001:0000025C       car_QueryLowTone
+ 0001:00000304       car_QuerySpeed
+ 0001:000000B8       car_SetBrakes
+ 0001:00000160       car_SetDuration
+ 0001:00000208       car_SetHighTone
+ 0001:000002B0       car_SetLowTone
+ 0001:00000358       car_SetSpeed
+ 0001:00000FE0       car_TrapTest
+ 0001:00000920       car_wpAddSettingsPages
+ 0001:000009D8       car_wpFilterPopupMenu
+ 0001:000005F4       car_wpInitData
+ 0001:00000C3C       car_wpMenuItemHelpSelected
+ 0001:00000B3C       car_wpMenuItemSelected
+ 0001:00000A58       car_wpModifyPopupMenu
+ 0001:00000DB8       car_wpOpen
+ 0001:00000CCC       car_wpQueryDetailsData
+ 0001:00000818       car_wpRestoreState
+ 0001:00000714       car_wpSaveState
+ 0001:00000E8C       car_wpSetup
+ 0001:000006A4       car_wpUnInitData
+ 0001:00001DD4       DashBoardDlgProc
+ 0000:00000000  Imp  DosBeep              (DOSCALLS.286)
+ 0000:00000000  Imp  DosClose             (DOSCALLS.257)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  DosOpen              (DOSCALLS.273)
+ 0000:00000000  Imp  DosQueryModuleHandle (DOSCALLS.319)
+ 0000:00000000  Imp  DosSleep             (DOSCALLS.229)
+ 0000:00000000  Imp  DosUnwindException   (DOSCALLS.357)
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0003:00001620       fieldinfo
+ 0003:000017B4       hmod
+ 0001:00002500       HornBeepDlgProc
+ 0003:000017B8       jmpState
+ 0001:00002A44       longjmp
+ 0001:00002B3C       memcpy
+ 0001:00002B5C       memset
+ 0003:0000004C       M_CarCClassData
+ 0003:00000044       M_CarClassData
+ 0001:00000038       M_CarNewClass
+ 0000:00000000  Imp  M_WPDataFileNewClass (PMWP.318)
+ 0000:00000000  Imp  M_WPObjectClassData  (PMWP.323)
+ 0003:00000174       pszDefaultText
+ 0003:00000178       pszTrapMessage
+ 0001:00002BA8       setjmp
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  SOMClassMgrClassData (som.6)
+ 0000:00000000  Imp  SOMClassMgrObject    (som.7)
+ 0000:00000000  Imp  somDataResolve       (som.47)
+ 0000:00000000  Imp  somIdFromString      (som.31)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0001:00002BE4       strcpy
+ 0001:00002C10       strlen
+ 0003:00000070       szCarClassTitle
+ 0003:00000060       szCarInstanceFilter
+ 0003:00000054       szCarWindowClass
+ 0003:00000068       szHelpLibrary
+ 0000:00000000  Imp  WinAlarm             (PMWIN.701)
+ 0000:00000000  Imp  WinBeginPaint        (PMWIN.703)
+ 0000:00000000  Imp  WinCreateWindow      (PMWIN.909)
+ 0000:00000000  Imp  WinDefDlgProc        (PMWIN.910)
+ 0000:00000000  Imp  WinDefWindowProc     (PMWIN.911)
+ 0000:00000000  Imp  WinDestroyWindow     (PMWIN.728)
+ 0000:00000000  Imp  WinDrawPointer       (PMWIN.732)
+ 0000:00000000  Imp  WinEndPaint          (PMWIN.738)
+ 0000:00000000  Imp  WinFillRect          (PMWIN.743)
+ 0000:00000000  Imp  WinInvalidateRect    (PMWIN.765)
+ 0000:00000000  Imp  WinLoadString        (PMWIN.781)
+ 0000:00000000  Imp  WinMessageBox        (PMWIN.789)
+ 0000:00000000  Imp  WinPostMsg           (PMWIN.919)
+ 0000:00000000  Imp  WinQueryAnchorBlock  (PMWIN.800)
+ 0000:00000000  Imp  WinQueryTaskSizePos  (PMSHAPI.127)
+ 0000:00000000  Imp  WinQueryWindow       (PMWIN.834)
+ 0000:00000000  Imp  WinQueryWindowPtr    (PMWIN.839)
+ 0000:00000000  Imp  WinQueryWindowRect   (PMWIN.840)
+ 0000:00000000  Imp  WinRegisterClass     (PMWIN.926)
+ 0000:00000000  Imp  WinRestoreWindowPos  (PMWP.208)
+ 0000:00000000  Imp  WinSendDlgItemMsg    (PMWIN.903)
+ 0000:00000000  Imp  WinSendMsg           (PMWIN.920)
+ 0000:00000000  Imp  WinSetDlgItemText    (PMWIN.859)
+ 0000:00000000  Imp  WinSetFocus          (PMWIN.860)
+ 0000:00000000  Imp  WinSetWindowPos      (PMWIN.875)
+ 0000:00000000  Imp  WinSetWindowPtr      (PMWIN.876)
+ 0000:00000000  Imp  WinSetWindowText     (PMWIN.877)
+ 0000:00000000  Imp  WinShowWindow        (PMWIN.883)
+ 0000:00000000  Imp  WinStartTimer        (PMWIN.884)
+ 0000:00000000  Imp  WinStopTimer         (PMWIN.885)
+ 0000:00000000  Imp  WinStoreWindowPos    (PMWP.207)
+ 0000:00000000  Imp  WinWindowFromID      (PMWIN.899)
+ 0000:00000000  Imp  WPDataFileNewClass   (PMWP.18)
+ 0000:00000000  Imp  WPFileSystemClassData (PMWP.11)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0002:00000000       _dllentry
+ 0001:00002B88       _DLL_InitTerm
+ 0003:00001620       _edata
+ 0003:000017D8       _end
+ 0001:00002938       _Exception
+ 0001:0000299C       _fpninit
+ 0001:000029A0       _itoa
+ 0001:00002A98       _ltoa
+ 0001:00002D38       _terminate
+ 0003:000015B0       __ctdtused
+ 0003:000017B0       __ctordtorCurrent
+ 0003:000015C0       __ctordtorEnd
+ 0001:00002C54       __ctordtorInit
+ 0003:000015C0       __ctordtorStart
+ 0001:00002C24       __ctordtorTerm
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  WinCreateWindow      (PMWIN.909)
+ 0000:00000000  Imp  WinEndPaint          (PMWIN.738)
+ 0000:00000000  Imp  WinQueryWindowPtr    (PMWIN.839)
+ 0000:00000000  Imp  WinBeginPaint        (PMWIN.703)
+ 0000:00000000  Imp  SOMClassMgrClassData (som.6)
+ 0000:00000000  Imp  WinWindowFromID      (PMWIN.899)
+ 0000:00000000  Imp  WinSendMsg           (PMWIN.920)
+ 0000:00000000  Imp  WinSendDlgItemMsg    (PMWIN.903)
+ 0000:00000000  Imp  WPDataFileNewClass   (PMWP.18)
+ 0000:00000000  Imp  WinStoreWindowPos    (PMWP.207)
+ 0000:00000000  Imp  WinAlarm             (PMWIN.701)
+ 0000:00000000  Imp  WinInvalidateRect    (PMWIN.765)
+ 0000:00000000  Imp  DosClose             (DOSCALLS.257)
+ 0000:00000000  Imp  M_WPDataFileNewClass (PMWP.318)
+ 0000:00000000  Imp  DosQueryModuleHandle (DOSCALLS.319)
+ 0000:00000000  Imp  somDataResolve       (som.47)
+ 0000:00000000  Imp  WinQueryTaskSizePos  (PMSHAPI.127)
+ 0000:00000000  Imp  WinMessageBox        (PMWIN.789)
+ 0000:00000000  Imp  WinQueryAnchorBlock  (PMWIN.800)
+ 0000:00000000  Imp  WinQueryWindow       (PMWIN.834)
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0000:00000000  Imp  WinFillRect          (PMWIN.743)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  WinSetWindowPtr      (PMWIN.876)
+ 0000:00000000  Imp  WinDefWindowProc     (PMWIN.911)
+ 0000:00000000  Imp  WinStartTimer        (PMWIN.884)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0000:00000000  Imp  WinStopTimer         (PMWIN.885)
+ 0000:00000000  Imp  SOMClassMgrObject    (som.7)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  WinDrawPointer       (PMWIN.732)
+ 0000:00000000  Imp  WinSetWindowPos      (PMWIN.875)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  WinShowWindow        (PMWIN.883)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  DosUnwindException   (DOSCALLS.357)
+ 0000:00000000  Imp  WinSetWindowText     (PMWIN.877)
+ 0000:00000000  Imp  WinQueryWindowRect   (PMWIN.840)
+ 0000:00000000  Imp  DosSleep             (DOSCALLS.229)
+ 0000:00000000  Imp  WinRestoreWindowPos  (PMWP.208)
+ 0000:00000000  Imp  WinSetDlgItemText    (PMWIN.859)
+ 0000:00000000  Imp  WinRegisterClass     (PMWIN.926)
+ 0000:00000000  Imp  WinLoadString        (PMWIN.781)
+ 0000:00000000  Imp  somIdFromString      (som.31)
+ 0000:00000000  Imp  WinDestroyWindow     (PMWIN.728)
+ 0000:00000000  Imp  WinPostMsg           (PMWIN.919)
+ 0000:00000000  Imp  DosBeep              (DOSCALLS.286)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  WPFileSystemClassData (PMWP.11)
+ 0000:00000000  Imp  WinDefDlgProc        (PMWIN.910)
+ 0000:00000000  Imp  DosOpen              (DOSCALLS.273)
+ 0000:00000000  Imp  M_WPObjectClassData  (PMWP.323)
+ 0000:00000000  Imp  WinSetFocus          (PMWIN.860)
+ 0001:00000000       CarNewClass
+ 0001:00000038       M_CarNewClass
+ 0001:00000064       car_QueryBrakes
+ 0001:000000B8       car_SetBrakes
+ 0001:0000010C       car_QueryDuration
+ 0001:00000160       car_SetDuration
+ 0001:000001B4       car_QueryHighTone
+ 0001:00000208       car_SetHighTone
+ 0001:0000025C       car_QueryLowTone
+ 0001:000002B0       car_SetLowTone
+ 0001:00000304       car_QuerySpeed
+ 0001:00000358       car_SetSpeed
+ 0001:000003AC       car_BeepHorn
+ 0001:0000046C       car_AddDashboardPage
+ 0001:00000530       car_AddHornBeepPage
+ 0001:000005F4       car_wpInitData
+ 0001:000006A4       car_wpUnInitData
+ 0001:00000714       car_wpSaveState
+ 0001:00000818       car_wpRestoreState
+ 0001:00000920       car_wpAddSettingsPages
+ 0001:000009D8       car_wpFilterPopupMenu
+ 0001:00000A58       car_wpModifyPopupMenu
+ 0001:00000B3C       car_wpMenuItemSelected
+ 0001:00000C3C       car_wpMenuItemHelpSelected
+ 0001:00000CCC       car_wpQueryDetailsData
+ 0001:00000DB8       car_wpOpen
+ 0001:00000E8C       car_wpSetup
+ 0001:00000FE0       car_TrapTest
+ 0001:000010C4       carM_clsQueryModuleHandle
+ 0001:00001158       carM_wpclsQueryStyle
+ 0001:000011B8       carM_wpclsInitData
+ 0001:0000146C       carM_wpclsUnInitData
+ 0001:000014C4       carM_wpclsQueryTitle
+ 0001:00001534       carM_wpclsQueryIconData
+ 0001:000015A8       carM_wpclsQueryDefaultHelp
+ 0001:0000160C       carM_wpclsQueryDefaultView
+ 0001:00001648       carM_wpclsQueryDetailsInfo
+ 0001:0000173C       carM_wpclsQueryInstanceFilter
+ 0001:00001778       carM_wpclsQueryDetails
+ 0001:000017D4       CarInit
+ 0001:00001A28       CarWndProc
+ 0001:00001DD4       DashBoardDlgProc
+ 0001:00002500       HornBeepDlgProc
+ 0001:00002938       _Exception
+ 0001:0000299C       _fpninit
+ 0001:000029A0       _itoa
+ 0001:00002A44       longjmp
+ 0001:00002A98       _ltoa
+ 0001:00002B3C       memcpy
+ 0001:00002B5C       memset
+ 0001:00002B88       _DLL_InitTerm
+ 0001:00002BA8       setjmp
+ 0001:00002BE4       strcpy
+ 0001:00002C10       strlen
+ 0001:00002C24       __ctordtorTerm
+ 0001:00002C54       __ctordtorInit
+ 0001:00002D38       _terminate
+ 0002:00000000       _dllentry
+ 0003:00000000       CarClassData
+ 0003:0000003C       CarCClassData
+ 0003:00000044       M_CarClassData
+ 0003:0000004C       M_CarCClassData
+ 0003:00000054       szCarWindowClass
+ 0003:00000060       szCarInstanceFilter
+ 0003:00000068       szHelpLibrary
+ 0003:00000070       szCarClassTitle
+ 0003:00000174       pszDefaultText
+ 0003:00000178       pszTrapMessage
+ 0003:0000017C       apszCarColTitles
+ 0003:000015B0       __ctdtused
+ 0003:000015C0       __ctordtorStart
+ 0003:000015C0       __ctordtorEnd
+ 0003:00001620       _edata
+ 0003:00001620       fieldinfo
+ 0003:000017B0       __ctordtorCurrent
+ 0003:000017B4       hmod
+ 0003:000017B8       jmpState
+ 0003:000017D8       _end
+
+Program entry point at 0001:00002B88

@@ -1,0 +1,56 @@
+
+/*************************************************************************
+ * File Name    :  riffsamp.dlg
+ *
+ * Description  :  This file holds the dialog window used by the Compound
+ *                 RIFF files  sample program.
+ *
+ * Concepts     :  See this sample program's C source file.
+ *
+ * MMPM/2 API's :  None.
+ *
+ * Required
+ *    Files     :  See this sample program's C source file.
+ *
+ * Copyright (C) IBM 1993
+ *************************************************************************/
+
+DLGTEMPLATE ID_DLG_MAIN LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+   DIALOG "",              /* window title will be set explicitly */
+          ID_DLG_MAIN,
+          40, 40,          /* x, y position  */
+          230, 120,        /* width, height  */
+          FS_NOBYTEALIGN | FS_SIZEBORDER | WS_VISIBLE,
+          FCF_SYSMENU | FCF_TITLEBAR | FCF_MINBUTTON | FCF_NOBYTEALIGN |
+          FCF_TASKLIST | FCF_VERTSCROLL | FCF_HORZSCROLL
+
+   BEGIN
+      CONTROL "File TOC", ID_TEXT_FILE_TOC,10, 105, 50, 8, WC_STATIC,
+                  SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+
+      CONTROL "", ID_LB_FILE_TOC, 10, 28, 100, 72, WC_LISTBOX,
+                  WS_TABSTOP | WS_VISIBLE | WS_GROUP
+
+      CONTROL "Add To File", ID_TEXT_ADD_FILE, 120, 105, 50, 8, WC_STATIC,
+                  SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+
+      CONTROL "", ID_LB_ADD_FILE, 120, 28, 100, 72, WC_LISTBOX,
+                  WS_TABSTOP | WS_VISIBLE | WS_GROUP
+
+
+      CONTROL "Add", ID_PB_ADD,15, 8, 40, 13, WC_BUTTON,
+                  BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+
+      CONTROL "Delete", ID_PB_DEL,70, 8, 40, 13, WC_BUTTON,
+                  BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+
+      CONTROL "Play", ID_PB_PLAY,130, 8, 40, 13, WC_BUTTON,
+                  BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+
+      CONTROL "Compact", ID_PB_COMPACT,185, 8, 40, 13, WC_BUTTON,
+                  BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+
+   END
+END
+

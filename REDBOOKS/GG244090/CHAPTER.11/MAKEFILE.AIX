@@ -1,0 +1,57 @@
+#
+# Makefile for the AIX Version of the Threads Example
+#
+
+# interface name
+INTFC    = look
+
+# program name prefixes
+CLIENT   = lookup
+PSERV    = phon
+ASERV    = addr
+
+# command names
+CC       = cc_r
+IDL      = idl
+DEL      = rm -f
+
+# command flags
+CFLAGS   = -I/usr/include/dce
+IDLFLAGS = -no_mepv -no_cpp -I.
+
+# libraries
+LIBS     = -ldce
+
+# object files
+POBJS = $(PSERV)_s.o $(PSERV)_m.o $(INTFC)_sstub.o
+AOBJS = $(ASERV)_s.o $(ASERV)_m.o $(INTFC)_sstub.o
+COBJS = $(CLIENT).o $(INTFC)_cstub.o
+
+# targets
+all: $(PSERV)_s $(ASERV)_s $(CLIENT) 
+
+$(PSERV)_s: $(POBJS)
+	$(CC) $(POBJS) -o $(PSERV)_s $(LIBS)
+
+$(ASERV)_s: $(AOBJS)
+	$(CC) $(AOBJS) -o $(ASERV)_s $(LIBS)
+
+$(CLIENT): $(COBJS)
+	$(CC) $(COBJS) -o $(CLIENT) $(LIBS)
+
+$(INTFC).h $(INTFC)_sstub.o $(INTFC)_cstub.o: $(INTFC).idl $(INTFC).acf
+	$(IDL) $(IDLFLAGS) $(INTFC).idl
+
+clean:
+	-$(DEL) core *.o $(INTFC)_?stub.c $(INTFC).h 
+
+# dependencies
+$(PSERV)_m.o: $(PSERV)_m.c $(INTFC).h
+
+$(ASERV)_m.o: $(ASERV)_m.c $(INTFC).h
+
+$(PSERV)_s.o: $(PSERV)_s.c $(INTFC).h
+
+$(ASERV)_s.o: $(ASERV)_s.c $(INTFC).h
+
+$(CLIENT).o: $(CLIENT).c $(INTFC).h

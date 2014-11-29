@@ -1,0 +1,220 @@
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     1
+                                      * * * * *   P R O L O G   * * * * *
+
+ Compiler . . . . . . . . . . . . : IBM C/C++ Tools V2.0
+ Command options:
+    Compiler mode . . . . . . . . : C
+    Program name. . . . . . . . . : VDFTPDD.C
+    Assemble name . . . . . . . . : "vdftpdd.asm"
+    Object name . . . . . . . . . : "vdftpdd.obj"
+    Listing name. . . . . . . . . : vdftpdd.lst
+    Compiler options. . . . . . . : /C+  /Fa+ /Fc- /Fd- /Fi- /Fl- /Fm- /Fo+ /Fw- /Gd- /Ge+ /Gf- /Gh- /Gi- /Gm- /Gn- /Gr+ /Gs-
+                                  : /Gt- /Gu- /Gv- /Gw- /J+  /L-  /La- /Lb- /Le- /Lf- /Li- /Lj- /Ls+ /Lx- /Ly- /O-  /Ol- /Om-
+                                  : /Op+ /Os- /P-  /Pc- /Pd- /Pe- /Q+  /Sd- /Sh- /Si- /Sm- /Sn- /Sr- /Ss+ /Sv- /Ti- /Tm- /Tx-
+                                  : /Xi-
+                                  : /Wcls- /Wcmp- /Wcnd- /Wcns- /Wcnv- /Wcpy- /Wdcl- /Weff- /Wenu- /Wext- /Wgen- /Wgnr- /Wgot-
+                                  : /Wini- /Wlan- /Wobs- /Word- /Wpar- /Wpor- /Wppc- /Wppt- /Wpro- /Wrea- /Wret- /Wtrd- /Wtru-
+                                  : /Wund- /Wuni- /Wuse- /Wvft-
+                                  : /Mp  /Rn  /Se  /Sp1  /G3  /W3  /H255  /Lp66  /Sg-  /Sq-  /N  /Oi0  /Su-  /Tl10 
+                                  : /DM_I386=1  
+                                  : /I  
+                                  : /Lt 
+                                  : /Lu 
+                                  : /B  
+                                  : /V  
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     2
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+*=WARNING=========>     EDC0463 Option /Gp is not valid.                                                                 
+    1       |/******************************************************************************/                  |      1           
+    2       |/*                                                                            */                  |      2           
+    3       |/*                     IBM Sample Virtual Device Driver                       */                  |      3           
+    4       |/*                                                                            */                  |      4           
+    5       |/*                 Copyright (c) IBM Corporation 1993                         */                  |      5           
+    6       |/*                         All Rights Reserved                                */                  |      6           
+    7       |/*                                                                            */                  |      7           
+    8       |/*   DISCLAIMER OF WARRANTIES.  The following [enclosed] code is              */                  |      8           
+    9       |/*   sample code created by IBM Corporation. This sample code is not          */                  |      9           
+   10       |/*   part of any standard or IBM product and is provided to you solely        */                  |     10           
+   11       |/*   for  the purpose of assisting you in the development of your             */                  |     11           
+   12       |/*   applications.  The code is provided "AS IS", without                     */                  |     12           
+   13       |/*   warranty of any kind.  IBM shall not be liable for any damages           */                  |     13           
+   14       |/*   arising out of your use of the sample code, even if they have been       */                  |     14           
+   15       |/*   advised of the possibility of   such damages.                            */                  |     15           
+   16       |/*                                                                            */                  |     16           
+   17       |/************************** START OF SPECIFICATIONS ***************************/                  |     17           
+   18       |/*                                                                            */                  |     18           
+   19       |/*   SOURCE FILE NAME:  VDFTPDD.C                                             */                  |     19           
+   20       |/*                                                                            */                  |     20           
+   21       |/*   DESCRIPTIVE NAME:  Initialize virtual DFT device driver(VDFT)            */                  |     21           
+   22       |/*                                                                            */                  |     22           
+   23       |/*   FUNCTION: These routines comprise the Virtual DFT device driver which    */                  |     23           
+   24       |/*             supports the 3270 DFT adapter card.                            */                  |     24           
+   25       |/*                                                                            */                  |     25           
+   26       |/*   NOTES:    These routines work in conjunction with DFT_DDM.ASM ( the      */                  |     26           
+   27       |/*             DFT physical device driver.                                    */                  |     27           
+   28       |/*                                                                            */                  |     28           
+   29       |/*   RESTRICTIONS: None                                                       */                  |     29           
+   30       |/*                                                                            */                  |     30           
+   31       |/*   ENTRY POINTS:                                                            */                  |     31           
+   32       |/*             VDFTPDDProc - VDFT entry point for PDFT                        */                  |     32           
+   33       |/*                                                                            */                  |     33           
+   34       |/*   EXTERNAL REFERENCES:                                                     */                  |     34           
+   35       |/*             VDHSetVIRR  - start simulating Interrupts to the VDM           */                  |     35           
+   36       |/*                                                                            */                  |     36           
+   37       |/**************************** END OF SPECIFICATIONS ***************************/                  |     37           
+   38       |                                                                                                  |     38           
+   39       |#define INCL_VDH                                                                                  |     39           
+   40       |#define NULL 0                                                                                    |     40           
+   41       |                                                                                                  |     41           
+   42       |#include <mvdm.h>                       /* VDH services, etc.        */                           |     42           
+   43       |#include <basemid.h>                    /* message numbers           */                           |     43           
+   44       |#include <builtin.h>                    /* builtin functions         */                           |     44           
+   45       |#include "VDFTP.H"                      /* Local Stuff               */                           |     45           
+   46       |                                                                                                  |     46           
+   47       |int _dllentry=1;   // We must avoid standard DLL Library inclusion                                |     47           
+   48       |                   // /gp option was used in compilation                                          |     48           
+   49       |                   // This option is protected DLL                                                |     49           
+   50       |                                                                                                  |     50           
+   51       |                                                                                                  |     51           
+   52       |/*                                                                   */                           |     52           
+   53       |/*                 GLOBAL DATA AREA FOR VDFT                         */                           |     53           
+   54       |/*                                                                   */                           |     54           
+   55       |                                                                                                  |     55           
+   56       |extern HIRQ hirq_DFT;                          // holds handle for EOI hook                       |     56           
+   57       |                                                                                                  |     57           
+   58       |extern HVDM HVDM_Owner;                        // hvdm of owner                                   |     58           
+   59       |extern INT   Status_byte;                      // Status Register value                           |     59           
+   60       |                                                                                                  |     60           
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     3
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+   61       |extern BOOL  interruptsnotenabled;             // T = interrupts not enabled in DD                |     61           
+   62       |extern BOOL  wait_for_EOI;                     // T = EOI not done yet                            |     62           
+   63       |extern BOOL  wait_for_status_out;              // T = out to status port not done yet             |     63           
+   64       |                                                                                                  |     64           
+   65       |                                                                                                  |     65           
+   66       |/* Global Code begins here */                                                                     |     66           
+   67       |                                                                                                  |     67           
+   68       |/***************************START OF SPECIFICATIONS ***********************/                      |     68           
+   69       |/*                                                                        */                      |     69           
+   70       |/* SUBROUTINE NAME: VDFTPDDProc                                           */                      |     70           
+   71       |/*                                                                        */                      |     71           
+   72       |/*DESCRIPTIVE NAME: Routine to service the PDD at interrupt time.         */                      |     72           
+   73       |/*                                                                        */                      |     73           
+   74       |/*                                                                        */                      |     74           
+   75       |/* FUNCTION:  The function of this routine is to service the interrupt    */                      |     75           
+   76       |/*            when received from the PDD. It verifies this VDD is the     */                      |     76           
+   77       |/*            owner.  The interrupt will then be passed to the VDM's      */                      |     77           
+   78       |/*            context, to be serviced next time the VDM gains context     */                      |     78           
+   79       |/*                                                                        */                      |     79           
+   80       |/* CONTEXT:  VDM task time                                                */                      |     80           
+   81       |/*                                                                        */                      |     81           
+   82       |/* ENTRY POINT: VDFTPDBDestroy                                            */                      |     82           
+   83       |/*        LINKAGE:   CALL NEAR 32                                         */                      |     83           
+   84       |/*                                                                        */                      |     84           
+   85       |/* INPUT:                                                                 */                      |     85           
+   86       |/*          ulFunc - request function                                     */                      |     86           
+   87       |/*          f16p1  - parameter 1                                          */                      |     87           
+   88       |/*          f16p2  - parameter 2                                          */                      |     88           
+   89       |/*                                                                        */                      |     89           
+   90       |/* EXIT-NORMAL: return TRUE                                               */                      |     90           
+   91       |/*                                                                        */                      |     91           
+   92       |/* EXIT-ERROR: return FALSE - requestor not valid                         */                      |     92           
+   93       |/*                                                                        */                      |     93           
+   94       |/* EXIT-NORMAL:  return byte of data from status port for DFT             */                      |     94           
+   95       |/*                                                                        */                      |     95           
+   96       |/* EXIT-ERROR:    NONE                                                    */                      |     96           
+   97       |/*                                                                        */                      |     97           
+   98       |/* EFFECTS:       NONE                                                    */                      |     98           
+   99       |/*                                                                        */                      |     99           
+  100       |/* INTERNAL REFERENCES:                                                   */                      |    100           
+  101       |/*                                                                        */                      |    101           
+  102       |/* EXTERNAL REFERENCES:   VDHSetVIRR  - start simulating Interrupts       */                      |    102           
+  103       |/*                                            to the VDM                  */                      |    103           
+  104       |/*                                                                        */                      |    104           
+  105       |/**************************************************************************/                      |    105           
+  106       |                                                                                                  |    106           
+  107       |SBOOL VDDENTRY VDFTPDDProc(ULONG ulFunc, F16PVOID f16p1, F16PVOID f16p2)                          |    107           
+  108       |{                                                                                                 |    108           
+  109       |#ifdef  DEBUG                                                                                     |    109           
+  110       |           _interrupt(3);                                                                         |    110           
+  111       |#endif                                                                                            |    111           
+  112       |                                                                                                  |    112           
+  113       |    /*---------------------------------------------------------------*/                           |    113           
+  114       |    /* Make sure a VDM has the port as direct access.  If not,       */                           |    114           
+  115       |    /* ignore the interrupt.                                         */                           |    115           
+  116       |    /*---------------------------------------------------------------*/                           |    116           
+  117       |                                                                                                  |    117           
+  118     1 |        if  ( HVDM_Owner )                                                                        |    118           
+  119       |        {                                                                                         |    119           
+  120       |                                                                                                  |    120           
+  121     2 |           Status_byte = __inpb (StatusReg);                                                      |    121           
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     4
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  122     3 |           __outpb (StatusReg, Status_byte);                                                      |    122           
+  123       |                                                                                                  |    123           
+  124       |    /*---------------------------------------------------------------*/                           |    124           
+  125       |    /* Send the interrupt to the VDM's context.                      */                           |    125           
+  126       |    /*---------------------------------------------------------------*/                           |    126           
+  127     4 |           interruptsnotenabled = TRUE;                                                           |    127           
+  128     5 |           wait_for_status_out = TRUE;                                                            |    128           
+  129     6 |           wait_for_EOI = TRUE;                                                                   |    129           
+  130     7 |           VDHSetVIRR (HVDM_Owner,hirq_DFT);                                                      |    130           
+  131       |                                                                                                  |    131           
+  132     8 |           return TRUE;                                                                           |    132           
+  133       |                                                                                                  |    133           
+  134       |       }                                                                                          |    134           
+  135       |                                                                                                  |    135           
+  136     9 |       return FALSE;                                                                              |    136           
+  137       |                                                                                                  |    137           
+  138       | }                                                                                                |    138           
+  139       |                                                                                                  |    139           
+  140       |/* Global Code ends here */                                                                       |    140           
+  141       |                                                                                                  |    141           
+                                    * * * * *   E N D   O F   S O U R C E   * * * * *
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     5
+                        * * * * *   I N C L U D E S   * * * * *
+
+INCLUDE FILES  ---  FILE#   NAME
+                      1       F:\TOOLKT21\C\OS2H\VDD\MVDM.H
+                      2       F:\TOOLKT21\C\OS2H\VDD\BASEMAC.H
+                      3       F:\TOOLKT21\C\OS2H\VDD\BASEDEF.H
+                      4       F:\TOOLKT21\C\OS2H\VDD\VDMPROP.H
+                      5       F:\TOOLKT21\C\OS2H\VDD\VDMM.H
+                      6       F:\TOOLKT21\C\OS2H\VDD\V8086.H
+                      7       F:\TOOLKT21\C\OS2H\VDD\VDOS.H
+                      8       F:\TOOLKT21\C\OS2H\VDD\VPIC.H
+                      9       F:\TOOLKT21\C\OS2H\VDD\VKBD.H
+                     10       F:\TOOLKT21\C\OS2H\VDD\VLPT.H
+                     11       F:\TOOLKT21\C\OS2H\VDD\VDMA.H
+                     12       F:\TOOLKT21\C\OS2H\VDD\VDMBIOS.H
+                     13       F:\TOOLKT21\C\OS2H\VDD\BASEMID.H
+                     14       G:\IBMCPP\INCLUDE\BUILTIN.H
+                     15       G:\IBMCPP\SRC\VDFTP.H
+
+                        * * * * *   E N D   O F   I N C L U D E S   * * * * *
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     6
+                             * * * * *   M E S S A G E   S U M M A R Y   * * * * *
+
+        Total            Informational(00)          Warning(10)          Error(30)            Severe Error(40)
+
+          1                    0                        1                   0                        0
+
+                        * * * * *   E N D   O F   M E S S A G E   S U M M A R Y   * * * * *
+VDFTPDD.C                                                                                      12/28/93 10:22:39     Page     7
+                                   * * * * *   M E S S A G E S   * * * * *
+MSG ID      SEV     TEXT
+                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+EDC0463     10      Option is not valid.                                                                                         
+                     ( 0-0:0 )
+                             * * * * *   E N D   O F   M E S S A G E S   * * * * *
+
+                             * * * * *   E N D   O F   C O M P I L A T I O N   * * * * *

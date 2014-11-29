@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "mathb" sample application.
+#
+
+all: mathb.h mathb_c.exe mathb_s.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = mathb_c.c mathb_m.c mathb_s.c
+COBJECTS        = mathb_c.obj mathbc.obj
+SOBJECTS        = mathb_m.obj mathb_s.obj mathbs.obj
+
+mathb.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+mathb_c.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc mathb_c.exe
+
+mathb_s.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc mathb_s.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del mathb.h
+        -del mathbc.c
+        -del mathbs.c
+

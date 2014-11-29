@@ -1,0 +1,143 @@
+LS30UTIL README
+==========================================================================
+Special Notices:
+
+
+Programs on this diskette are not intended as the
+specification of any programming interfaces that are provided by
+OS/2 LAN Server Version 3.0.
+See the PUBLICATIONS section of the IBM Programming Announcement for
+OS/2 LAN Server V.3.0 for more information about what publications are
+considered to be product documentation.
+Programs on this diskette were developed in conjunction with use of
+the equipment specified, and is limited in application to those
+specific hardware and software products and levels.
+
+Programs contained on this diskette have not been submitted to
+any formal IBM test and is distributed AS IS.
+The use of this information or the implementation of any of these techniques
+is a customer responsibility and depends on the customer's ability
+to evaluate and integrate them into the customer's operational environment.
+While each item may have been reviewed by IBM for accuracy in a specific
+situation, there is no guarantee that the same or similar results will
+be obtained elsewhere.  Customers attempting to adapt these techniques
+to their own environments do so at their own risk.
+==============================================================================
+Difference from the documentation GG24-4043:
+
+There is two versions of LS30UT.DLL in this diskette.
+One is in LS30UTIL directory and the new version is in LS30NEW directory.
+The new version has some additional functions and INF file is provided to view
+the all functions.  The C source code for the new version is not available.
+
+==============================================================================
+Warning of FIXACC problem with 386 HPFS file system !!!!!!!!!
+
+Chapter 8 of the documentation GG24-4043 describes the FIXACC function but
+the problem was discovered with the FIXACC running on 386 HPFS.
+FIXACC will cause an ACL problem with any 386 HPFS machine.
+Please do NOT use FIXACC.
+RESTACC will reset (recover) the damaged ACLs but if you don't have BACKACC
+operation before FIXACC, there is NO recovery method other than manually
+changing the ACLs.
+
+==============================================================================
+Directories:
+
+LS30UTIL     <DIR>      2-25-93   3:21p
+RECOVER      <DIR>      2-25-93   3:21p
+CID          <DIR>      2-25-93   3:24p
+FT           <DIR>      3-09-93   9:51a
+TAPE         <DIR>      3-09-93   9:51a
+LS30NEW      <DIR>      7-23-93   3:41p
+---------------------------------------
+ Directory of A:\LS30UTIL
+
+SWITCHPS EXE    21200   2-18-93   2:54p
+SWITCHPS C       6240   2-18-93   1:06p
+SETLASN  CMD     4100   3-03-93   3:09p
+LS30UT   MAK      307   3-06-93   2:15p
+LS30UT   DLL    63045   3-09-93   9:14a
+LS30UT   C     107772   3-09-93   9:13a
+USERS    LST       19   2-17-93   7:47p
+ASSIGN   LST      112   2-16-93   6:38p
+LS30UT   DEF      403   3-08-93   8:12a
+INSUSR   CMD     1828   2-13-93  10:28a
+CPYAACP  CMD     4083   2-10-93   7:23p
+CPYDACP  CMD     3591   2-10-93   7:23p
+MOVDA    CMD     1481   2-10-93   5:02p
+DMPUSR   CMD     2334   2-10-93   4:57p
+MDALIAS  CMD      691   2-10-93   4:26p
+CDALIAS  CMD      698   2-10-93   2:38p
+DELUSR   CMD     1078   2-10-93   1:31p
+DMPALLU  CMD     1319   2-10-93   1:11p
+WSUSERS  LST       34   2-10-93  12:45p
+FLUSHALL C       2349   2-10-93  11:44a
+USERLIST TXT       82   2-10-93  11:21a
+QDALIAS  CMD      731   2-09-93   6:10p
+COPYACL  CMD      613   2-09-93   3:02p
+INSERTU  CMD      833   2-09-93  11:52a
+GET1LASN CMD     2441   3-03-93   3:26p
+FLUSHALL EXE    23552   2-07-93  10:28a
+RXCDCDB  CMD     1594   2-25-93   3:48p
+RXCRIPL  CMD     1447   2-25-93   3:47p
+BXC4AS   CMD     4043   3-03-93  10:06a
+BXC4ES   CMD     3696   3-03-93  10:06a
+INSASN   CMD     3901   3-05-93   9:21a
+ALLASN   CMD     3328   3-03-93   6:36p
+GETASN   CMD     3240   3-03-93   3:28p
+PRINTDEV CMD     1213   3-04-93   3:00p
+PRTENUM  CMD     1765   3-05-93   1:59p
+PRTSTAT  CMD     2423   3-05-93   1:46p
+ENUMSRV  CMD     1964   3-05-93  10:03a
+LISTSRV  CMD     2550   3-07-93   1:22p
+LISTAPPS CMD     3072   3-07-93   3:19p
+LASNACC  CMD     2938   3-09-93   9:00a
+DOIT     CMD       78   3-09-93  11:58a
+LS30UTDB MAK      316   3-06-93   2:15p
+---------------------------------------
+ Directory of A:\RECOVER\LS30CMDS
+
+LSRDBASE FIL     9569   2-25-93   2:34p
+REMSTATE CMD      655   2-25-93   2:06p
+DEFAULT  CMD    17831   2-25-93   3:24p
+MAKECON  CMD      326   2-25-93  11:19a
+MOREACLS LST      129   2-24-93   6:23p
+OS2ACLS  LST       77   2-24-93   9:27a
+---------------------------------------
+ Directory of A:\CID\RSP\LAPS
+
+LAPSRSP  RSP     1465   2-19-93   3:13p
+---------------------------------------
+ Directory of A:\CID\RSP\LS30
+
+HPFS386  RSP     1922   2-25-93   8:17a
+ESSRV0   RSP     1723   2-20-93  11:05a
+ESSRV1   RSP     1812   2-20-93  11:02a
+ASSRV1   RSP     2022   2-20-93  11:01a
+ASSRV0   RSP     1943   2-20-93  11:00a
+GENERAL      <DIR>      2-25-93   3:32p
+---------------------------------------
+ Directory of A:\CID\RSP\LS30\GENERAL
+
+MUSTEXIT DIR      104   2-25-93   3:33p
+---------------------------------------
+ Directory of A:\CID\RSP\OS2V20
+
+SVP      RSP      105   2-20-93  11:10a
+NEWINST  RSP    49079   2-20-93  11:09a
+UPDATE   RSP    49014   2-20-93  11:08a
+---------------------------------------
+ Directory of A:\FT
+
+ZIPFT    CMD     2500   7-21-93   9:13a
+---------------------------------------
+ Directory of A:\TAPE
+
+BACKINI  CMD     2315   2-12-93   1:28p
+---------------------------------------
+ Directory of A:\LS30NEW
+
+LS30UT   DLL   224325   7-23-93   3:45p
+LS30UTIL INF   129195   7-23-93   3:45p
+

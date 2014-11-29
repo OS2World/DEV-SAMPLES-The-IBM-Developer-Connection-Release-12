@@ -1,0 +1,24 @@
+/*********** AVIOSAMP C Sample Program Resource Script File (.RC) *************/
+/*                                                                            */
+/*                                                                            */
+/******************************************************************************/
+
+
+#define  INCL_PM
+#include <os2.h>
+#include "viospy.h"
+
+MENU ID_WINDOW  PRELOAD
+BEGIN
+    MENUITEM    "E~xit...\tF3"               ,  ID_EXITPROG
+END
+
+ICON    ID_WINDOW aviospy.ico
+
+ACCELTABLE ID_WINDOW  PRELOAD
+BEGIN
+   VK_F3       , ID_EXITPROG     , VIRTUALKEY
+END
+
+
+

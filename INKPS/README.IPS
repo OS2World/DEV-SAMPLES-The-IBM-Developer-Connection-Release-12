@@ -1,0 +1,13 @@
+
+   The INKPS.EXE program demonstrates how the new ink presentation space and
+ink API's can be used.  The new API's are BeginInkPath, StrokeInkPath, and
+EndInkPath.  The program also allows the user to change the line and area
+attributes and see how they look on the screen.  Make sure and use the FM_XOR
+or FM_INVERT foreground mix options so that the ink can be erased from the
+screen.
+
+   Press the left mouse button to draw line segments.
+
+   Double click the right mouse buttton to end the path.
+
+

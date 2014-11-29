@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err4" sample application.
+#
+
+all: err4.h  err4_cli.exe err4_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err4_cli.c err4_mgr.c err4_srv.c
+COBJECTS        = err4_cli.obj err4c.obj
+SOBJECTS        = err4_mgr.obj err4_srv.obj err4s.obj
+
+err4.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err4_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err4_cli.exe
+
+err4_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err4_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err4.h
+        -del err4c.c
+        -del err4s.c
+

@@ -1,0 +1,10 @@
+**********************************************************************
+*
+*   This is a sample response file to be used when the product has completed its
+*   test phase and there is no need to restore the target machine to its previous
+*   code level.  Once you have used this response file to commit the WR07060 code
+*   level, you will not be able to remove the CSD.
+*
+   :COMMIT
+   :SYSLEVEL C:\IBMCOM\SYSLEVEL.TRP
+

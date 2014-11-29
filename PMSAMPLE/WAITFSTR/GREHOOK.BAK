@@ -1,0 +1,25 @@
+#define INCL_BASE
+#include <os2.h>
+typedef  APIRET16  (APIENTRY16  _PFN16)();
+APIRET16 APIENTRY16 Test(VOID);
+typedef  _PFN16 * _Seg16 PFN16;
+APIRET16 APIENTRY16 DOS16CALLBACK(PFN16 Fct);
+ULONG GSubfunc;
+LONG APIENTRY OS2_PM_DRV_ENABLE(ULONG Subfunc,
+                                ULONG Param1,
+                                ULONG Param2,
+                                PVOID FctTable
+                                ) {
+    GSubfunc=Subfunc;
+    DOS16CALLBACK(Test);
+    return 0;
+}
+APIRET16 APIENTRY16 Test() {
+    int i;
+    for (i=0;i<=GSubfunc;i++) {
+       DosBeep(400,50);
+       DosBeep(1400,50);
+    } /* endif */
+    return 0;
+}
+

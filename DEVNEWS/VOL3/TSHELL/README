@@ -1,0 +1,316 @@
+TShell -- Text Shell for OS/2
+
+(c) Copyright International Business Machines Corporation 1993, 1995.
+All Rights Reserved.
+
+Monte Copeland, IBM Boca Raton, monte@vnet.ibm.com
+
+
+
+
+
+REVISION HISTORY
+--------------------------------------------------------------------
+
+09OCT95: delete, LEDs, pgmshell fix
+06JUN95: color; update readme
+16FEB94: better listboxes
+19JAN94: first release for IBM EWS
+05JAN94: home,end keys for listboxes; tweak readme
+13DEC93: CSHELL->TShell name change; less RAM used if no REXX
+16NOV93: start group is programmable with REXX
+18AUG93: first release on OS2TOOLS.
+
+
+
+
+
+
+INTRODUCTION
+--------------------------------------------------------------------
+
+TShell is a reduced-function shell for OS/2. Reduced function
+means that more system resources are available to applications.
+TShell is small and does well in 4MB RAM.
+
+TShell is a text-only shell for OS/2. There is no Presentation
+Manager under TShell. TShell runs DOS and OS/2 programs, but not
+PM programs. There are other restrictions; see below.
+
+TShell has applications in low-resource systems, servers, embedded
+systems, floppy boots, and test beds.
+
+TShell is IBM Employee Written Software. Please read the "as-is"
+license agreement from IBM. Essentially, you use this program "as
+is," and IBM makes no warranty about the correctness of this program
+or its suitability to any purpose.
+
+
+
+
+
+
+
+
+
+
+INSTALLATION
+--------------------------------------------------------------------
+
+1. Install a plain-text editor such as TEDIT.EXE from OS/2 Warp.
+
+2. Make a backup copy of CONFIG.SYS.
+
+3. Copy TSHELL.EXE into the root directory of the bootup drive.
+
+4. Edit CONFIG.SYS and change the PROTSHELL setting to
+
+            PROTSHELL=\TSHELL.EXE
+
+5. (OPTIONAL) Copy PGMSHELL.EXE into your PATH.
+
+
+
+
+
+
+
+
+
+
+USING TSHELL
+--------------------------------------------------------------------
+
+A session under OS/2 is a "virtual console" consisting of a virtual
+keyboard and a virtual display. TShell and OS/2 support multiple
+virtual sessions. Only one session at a time may occupy the real
+computer console; this is called the foreground session.
+
+Use TShell hot keys CTRL-ESC and ALT-ESC to switch sessions.
+Ctrl-Esc switches to TShell, and Alt-Esc switches to the next
+session in queue.
+
+The basic functions of TShell are to
+
+  . start a new session
+  . switch to a session
+  . kill a session
+  . shutdown the system
+
+On the left of the TShell screen is the "Start Group," a list of
+startable sessions. To start a session, highlight an item with the
+cursor keys and press Enter. Customize this list with PGMSHELL.EXE.
+
+On the right of the TShell screen is the "Running Group," a list of
+active sessions. To switch to a session, highlight the item and press
+Enter.
+
+Tab, left arrow, or right arrow keys navigate the two lists. Double
+border indicates the active list.
+
+To kill a session, highlight the program in the Running Group and
+press Delete. TShell deletes the session immediately.
+
+To shutdown, end all running sessions, then select "Shutdown System."
+
+
+
+
+
+
+
+
+
+
+
+
+RESTRICTIONS AND KNOWN BUGS
+--------------------------------------------------------------------
+
+TShell works on OS/2 2.0 and later.
+
+TShell will not run programs that require Presentation Manager. TShell
+does not initialize PM. Some TShell/Warp systems hang when running a PM
+application by mistake.
+
+TShell does not spool. If you have no printer attached, and you
+accidentally press Print-Screen, wait for the parallel port to timeout:
+up to two minutes. See SetParallelTimeout() function below for a
+workaround.
+
+Some DOS programs query/drive the printer with INT 17h. INT 17h in OS/2
+DOS does work correctly because it always reports that the printer is
+on line, even when off line. Since there is no spooler under TShell, this
+can be a problem for some DOS applications. NEW17.COM is a DOS TSR which
+might work around this error.
+
+TShell does not start the file system cache program for HPFS. Start
+CACHE.EXE somewhere in STARTUP.CMD.
+
+REXX works (if present) but REXX utilities DLL (REXXUTIL.DLL) does not.
+
+The START /DOS command does not work right.  CMD.EXE should start a DOS
+session, but it incorrectly starts an OS/2 session.  Get my STARTDOS
+package (STARTD.ZIP) for a workaround.
+
+Programmers using DosStartSession() API must use appropriate lengths for the
+STARTDATA structure. Valid lengths are 24, 30, and 32 (decimal).
+
+IBM LAN Server version 3.01 or higher works with TShell.
+
+If TShell has a shutdown option on the menu, end all running programs
+first, then it works. If not, press Ctrl-Alt-Del, wait a second for the
+disk activity light to go out, and power off. This is a clean shutdown.
+
+Starting more than 12 sessions can cause a system hang. For best results,
+limit your sessions to 12.
+
+TShell works best with swapping turned on, MEMMAN=SWAP in CONFIG.SYS.
+If running NOSWAP, compute your RAM requirements carefully.
+
+TShell on Warp has problems running WinOS2 in a DOS session. WinOS2
+works much better on OS/2 2.1 and 2.11. PMDD.SYS, if left installed, may
+cause a hang in DOS-less configurations on Warp.
+
+
+
+
+
+
+
+
+
+
+PGMSHELL.EXE: PROGRAMMING THE TSHELL START LIST
+--------------------------------------------------------------------
+
+Usage: PGMSHELL <REXX cmd file>
+
+You can modify TShell's list of startable programs by writing a
+script in REXX and invoking it via the utility PGMSHELL.EXE.
+PGMSHELL collects data from REXX and passes it to TShell.
+
+PGMSHELL is optional. If you never use PGMSHELL, TShell will
+provide a default list of items to start. PGMSHELL requires REXX.
+
+
+
+
+/* Sample REXX program to modify the TShell start list  */
+
+if 'PGMSHELL' <> address() then do
+  say 'Expected PGMSHELL environment.'
+  say 'Usage:  PGMSHELL <cmd filename>'
+  return 2
+end
+
+/* TShell does not spool, so reduce parallel port timeout
+from 120 to 5 seconds in case you accidentally hit print-screen
+and there is no printer hooked up. */
+rc = SetParallelTimeout( "LPT1", 5 )
+
+/* title text for the start list  */
+rc = SetStartTitle( "Start Group" )
+
+/* title text for the running list  */
+rc = SetRunningTitle( "Running Group" )
+
+/* Add OS2 program; arguments: title, startup dir, parameters, exe */
+/* I omit the title of CMD.EXE session, then CMD.EXE will dynamically */
+/* update the title based on the currently-running program. */
+rc = AddOS2Program( "",,,"CMD.EXE" )
+
+/* Add OS2 program; arguments: title, startup dir, parameters, exe */
+rc = AddOS2Program( "Format Floppy",,"A:","FORMAT.COM" )
+
+/* is configured for DOS? */
+if QueryDOSCapable() then do
+  /* Add DOS program;
+  arguments: title, startup dir, parameters, settings stem */
+  drop settings
+  settings.0 = "DPMI_DOS_API=ENABLED"
+  settings.1 = "DPMI_MEMORY_LIMIT=8"
+  rc = AddDOSProgram( "DPMI DOS Session",,, "settings" )
+end
+
+/* add shutdown option. arguments: title, completion msg */
+rc = AddShutdown( "Shutdown", "Shutdown Complete" )
+
+/* make text white on blue; 0=black; 1=blue; 2=green; 3=cyan; 4=red;
+5=pink; 6=orange; 7=white */
+rc = SetForegroundColor( 7 )
+rc = SetBackgroundColor( 1 )
+return 0
+
+/************* end of code *************/
+
+
+
+
+
+These special functions are available to REXX programs under the PGMSHELL
+environment:
+
+
+SetParallelTimeout( portname, timeout in decimal seconds )
+   Sets the parallel port timeout. Set the port timeout to zero if there
+   is no printer attached.
+
+SetStartTitle( start group title )
+   Sets the title text above the list of startable programs.
+
+SetRunningTitle( running group title )
+   Sets the title text above the list of running programs.
+
+SetBackgroundColor( n ), SetForegroundColor( n )
+   Sets the text colors of the TShell screen. N is a number from zero
+   to seven.
+
+   0 black
+   1 blue
+   2 green
+   3 cyan
+   4 red
+   5 pink
+   6 orange
+   7 white
+
+   Default background color is 0; default foreground color is 7.
+
+QueryDOSCapable()
+   Returns a Boolean indicating if the system is configured to emulate DOS.
+
+AddOS2Program( title, startup dir, parameters, EXE )
+   Adds an OS/2, protected-mode program to the start list.
+
+AddDOSProgram( title, startup dir, command.com arguments, settings stem )
+   Adds a DOS mode program to the start list. ALL elements of the stem
+   variable are considered DOS settings. Therefore, drop the stem variable
+   before assigning DOS settings to it.  For help with DOS settings,
+   1) see the settings dialog in Workplace Shell or 2) obtain my
+   STARTDOS package and run settings.exe, a PM application.
+
+AddShutdown( shutdown title, shutdown complete message )
+   Adds the shutdown option to the start group.
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+LICENSE INFORMATION:
+----------------------------------------------------------------------------
+Please read LICENSE.TXT, the IBM license agreement.  If you redistribute
+TShell, be sure the ZIP contains these files:
+
+    TSHELL.EXE
+    PGMSHELL.EXE
+    NEW17.COM
+    README
+    LICENSE.TXT
+    TSHELL.ABS
+
+
+

@@ -1,0 +1,42 @@
+             SOMobjects: Management Utilities for Distributed SOM (DSOM)
+
+The files on this diskette include the source and executable files 
+described in the IBM Technical Bulletin "SOMobjects: Management Utilities 
+for Distributed SOM (DSOM)" (GG24-4479).
+
+These utilities are designed to work with Version 2.1 of the 
+SOMobjects Developers Toolkit and Enablers.  They were written and tested
+on OS/2 Warp and AIX V4.1.
+
+NOTE: Some of these utilities require corrective service for SOM beforre 
+they will run correctly.
+
+The files on this diskette are:
+
+     \aix\dsomutil.trz   <======= A compressed tar file.  Copy this
+                                  file to an AIX 4.1 system as dsomutil.tar.Z.
+                                  Use 'uncompress' to create the file
+                                  'dsomutil.tar' and use the command
+                                  'tar -xvf dsomutil.tar' to unpack the
+                                  files.
+
+     \os2\dsomutil.pak   <======= An OS/2 PACKed file containg the OS/2 version
+                                  of the utilities.  Use the command 'itscinst'
+                                  described below to unpack this file into the
+                                  appropriate sub-directories.
+
+ 
+     \os2\itscinst.cmd   <======= An OS/2 command file that will create a
+                                  series of relate directories and then
+                                  unpack 'dsomutil.pak' into those directories.
+
+     \os2\mergedef.exe   <======= A utility used by the OS/2 version of the makefiles.
+                                  It merges .DEF files when multiple classes will
+                                  be contained in a single DLL.  This file is also
+                                  in the bin\ subdirectory after running 'itscinst'
+
+     \readme             <======= This file.
+
+To install and use these files, refer to the technical bulletin.  It 
+contains step by step installation and configuration instructions.  
+

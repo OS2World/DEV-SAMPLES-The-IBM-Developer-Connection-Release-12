@@ -1,0 +1,104 @@
+/*************************************************************************
+ * File Name    : RIFFSAMP.RC
+ *
+ * Description  : This is the resource file for Compound RIFF file sample
+ *                program.
+ *
+ * Concepts     : See the C source file for this program.
+ *
+ * MMPM/2 API's : See the C source file for this program.
+ *
+ * Required
+ *    Files     : See the C source file for this program.
+ *
+ * Copyright (C) IBM 1993
+ *************************************************************************/
+
+#define  INCL_WIN
+#define  INCL_PM
+#define  INCL_DOS
+
+#include <os2.h>
+
+#include "riffsamp.h"
+
+
+RCINCLUDE riffsamp.dlg
+
+ICON ID_ICON riffsamp.ico
+
+
+
+/*
+ * Help Table Definition.
+ *
+ * The help table definition for the dialog window.
+ */
+
+HELPTABLE ID_RIFFSAMP_HELPTABLE
+{
+    HELPITEM ID_RIFFSAMP_DIALOG_BOX,   0,                   0
+    HELPITEM ID_MESSAGE_BOX,        ID_SUBTABLE_MESSAGEBOX, ID_MESSAGE_BOX
+}
+
+HELPSUBTABLE ID_SUBTABLE_MESSAGEBOX
+{
+}
+
+STRINGTABLE
+{
+   IDS_MAIN_WINDOW_TITLE,
+   "RIFF Compound File Utility"
+
+   IDS_HELP_CREATION_ERROR,
+   "Help Initialization failed.  Help will not be available."
+
+   IDS_HELP_WINDOW_TITLE,
+   "RIFF Compound File Help Window"
+
+   IDS_ERROR_TITLE,
+   "RIFF Compound File Utility Error"
+
+   IDS_CANNOT_GET_MEMORY,
+   "The Compound RIFF File Utility cannot play Wave File because there"
+   " are not enough system resources available.  End one or more of your"
+   " running programs and try again."
+
+
+   IDS_CANT_PROCESS_MESSAGE,
+   "The selected action could not be processed at the time it was requested."
+   "  Please retry the action."
+
+
+   IDS_DEFAULT_SIZE,
+   "~Default Size"
+
+   IDS_NO_WAVE_FILES,
+   "No wave files exist in the current directory.  The RIFF Compound utility "
+   "cannot create a compound file without wave files.  Please copy the wave "
+   "files into the current directory and restart the application"
+
+   IDS_NO_FILES_SELECTED,
+   "No wave file has been selected from the list box.  Please select one file "
+   "and try the action again."
+
+   IDS_RIFF_CREATION_ERROR,
+   "The Riff Compound File could not be created.  Please close the application"
+   " and retry this action again. "
+
+   IDS_COULD_NOT_OPEN_WAVE,
+   "The selected wave file could not be opened.  Make sure the file is in"
+   " the current directory and retry this action again. "
+
+   IDS_FILE_NOT_FOUND,
+   "The selected wave file could not be found.  Make sure the file is in"
+   " the current directory and retry this action again. "
+
+   IDS_NO_CTOC_ENTRIES_SELECTED,
+   "No CTOC element entry has been selected from the list box.  Please select"
+   " one entry and try the action again."
+
+   IDS_ENTRY_ALREADY_EXISTS,
+   "The selected wave file is already an entry in the CTOC for the RIFF"
+   " compound file.  Select another wave file and try this action again."
+}

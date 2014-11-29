@@ -1,0 +1,27 @@
+//---------------------------------------------------------------------------
+//
+//  Name     : animate2.rc
+//
+//  Purpose  : Resource definitions for the animate2 application
+//
+//             Author:  Kelvin R. Lawrence
+//             29th-September
+//
+//---------------------------------------------------------------------------
+
+#define INCL_WIN
+
+#include <os2.h>
+#include "animate2.h"
+
+MENU ID_PROG PRELOAD
+BEGIN
+    SUBMENU    "Exit", -1
+    BEGIN
+        MENUITEM "~Exit now", IDM_EXIT  , MIS_TEXT, 0
+        MENUITEM "~Resume"  , IDM_RESUME, MIS_TEXT, 0
+    END
+END
+
+
+BITMAP ID_FRAMES   "frames.bmp"  

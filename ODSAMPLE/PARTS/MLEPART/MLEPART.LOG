@@ -1,0 +1,70 @@
+
+Operating System/2 Program Maintenance Utility
+Version 2.001.000 Jan 28 1994
+Copyright (C) IBM Corporation 1988-1993
+Copyright (C) Microsoft Corp. 1988-1991
+All rights reserved.
+
+	nmake  -f makefile OPT=dbg386lx  all
+Path E:\opendoc\src\opendoc\lib already exists
+
+Operating System/2 Program Maintenance Utility
+Version 2.001.000 Jan 28 1994
+Copyright (C) IBM Corporation 1988-1993
+Copyright (C) Microsoft Corp. 1988-1991
+All rights reserved.
+
+	makepath E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart E:\opendoc\rel\386\debug E:\opendoc\src\opendoc\common\include E:\opendoc\src\opendoc\common\lib
+Path E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart already exists
+Path E:\opendoc\rel\386\debug already exists
+Path E:\opendoc\src\opendoc\common\include already exists
+Path E:\opendoc\src\opendoc\common\lib already exists
+	touch E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\dephold
+E:\OPENDOC\OBJ\386\DEBUG\OPENDOC\OD_PARTS\MLEPART\DEPHOLD          touched
+etouch (Touch Files) Version 2.11 by Eric Brown
+	makepath E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart
+Path E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart already exists
+	touch E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\depchk
+E:\OPENDOC\OBJ\386\DEBUG\OPENDOC\OD_PARTS\MLEPART\DEPCHK           touched
+etouch (Touch Files) Version 2.11 by Eric Brown
+	echo generate depend.mak
+generate depend.mak
+	includes  -IE:\opendoc\src\opendoc\common\include -IE:\opendoc\src\opendoc\common\include\od_parts -I -IE:\opendoc\src\opendoc\include -IE:\opendoc\rel\386\include\os2 -IE:\opendoc\rel\386\include\os2\priv -e -lxh -sxh -C=idl *.idl > E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\depend.mak  2>nul
+	includes  -IE:\opendoc\src\opendoc\common\include -IE:\opendoc\src\opendoc\common\include\od_parts -I -IE:\opendoc\src\opendoc\include -IE:\opendoc\rel\386\include\os2 -IE:\opendoc\rel\386\include\os2\priv -e -lobj -C=xh -C=xih -C=api *.cpp >> E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\depend.mak  2>nul
+	includes  -IE:\opendoc\src\opendoc\common\include -IE:\opendoc\src\opendoc\common\include\od_parts -I -IE:\opendoc\src\opendoc\include -IE:\opendoc\rel\386\include\os2 -IE:\opendoc\rel\386\include\os2\priv -e -lxh  -sres -C=rc -C=xh -C=xih -C=api *.rc >> E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\depend.mak  2>nul
+	del E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\depchk
+	del E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\dephold
+	makepath E:\opendoc\rel\386\debug\os2\dll
+Path E:\opendoc\rel\386\debug\os2\dll already exists
+--------------------------------
+- Linking MLEPART DLL
+- mlepart.dll
+--------------------------------
+	link386 @E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\mlepart.lnk
+Object Modules [.obj]: /DEBUG /noi /map /nod /nol /noe /pmtype:pm +
+Object Modules [.obj]: E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\mlepart.obj+
+Object Modules [.obj]: E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\ordcoll.obj+
+Object Modules [.obj]: E:\opendoc\obj\386\debug\opendoc\od\utils\focuslib.obj
+Run File [mlepart.exe]: E:\opendoc\rel\386\debug\os2\dll\mlepart.dll
+List File [E:mlepart.map]: E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\mlepart.map,
+Libraries [.lib]: E:\opendoc\src\opendoc\common\lib\os2386.lib+
+Libraries [.lib]: E:\opendoc\rel\386\lib\os2\priv\os2cmbsi.lib+
+Libraries [.lib]: E:\opendoc\rel\386\lib\os2\simplprt.lib+
+Libraries [.lib]: E:\opendoc\rel\386\lib\os2\somtk.lib+
+Libraries [.lib]: E:\opendoc\rel\386\lib\os2\opendoc.lib
+Definitions File [nul.def]: E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\mlepart.def
+	mapsym E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\mlepart.map
+
+Operating System/2 Symbol File Generator
+Version 2.10.000 Jan 28 1994
+Copyright (C) IBM Corporation 1988-1991.
+Copyright (C) Microsoft Corp. 1988-1991.
+All rights reserved.
+
+
+Program entry point at 0001:423c
+	copy E:\opendoc\obj\386\debug\opendoc\od_parts\mlepart\mlepart.map E:\opendoc\rel\386\debug\os2\dll
+        1 file(s) copied.
+	copy mlepart.sym E:\opendoc\rel\386\debug\os2\dll
+        1 file(s) copied.
+	del  mlepart.sym

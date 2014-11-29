@@ -1,0 +1,90 @@
+
+ dragexam
+
+ Start         Length     Name                   Class
+ 0001:00000000 000000258H CODE32                 CODE 32-bit
+ 0002:00000000 000000004H DDE4_DATA32            DATA 32-bit
+ 0003:00000000 0000002D0H DATA32                 DATA 32-bit
+ 0003:000002D0 000000000H CTOR_DTOR1             DATA 32-bit
+ 0003:000002D0 000000000H CTOR_DTOR2             DATA 32-bit
+ 0003:000002D0 000000000H CTOR_DTOR3             DATA 32-bit
+ 0003:000002D0 000000000H CONST32                CONST 32-bit
+ 0003:000002D0 000000000H BSS32                  BSS 32-bit
+ 0003:000002D0 000000004H c_common               BSS 32-bit
+
+ Origin   Group
+ 0003:0   DGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0003:00000004 DRAGEXAMCClassData      DRAGEXAMCClassData
+ 0003:00000000 DRAGEXAMClassData       DRAGEXAMClassData
+ 0001:00000000 DRAGEXAMNewClass        DRAGEXAMNewClass
+ 0003:00000010 M_DRAGEXAMCClassData    M_DRAGEXAMCClassData
+ 0003:0000000C M_DRAGEXAMClassData     M_DRAGEXAMClassData
+ 0001:00000038 M_DRAGEXAMNewClass      M_DRAGEXAMNewClass
+
+  Address         Publics by Name
+
+ 0003:00000004       DRAGEXAMCClassData
+ 0003:00000000       DRAGEXAMClassData
+ 0001:00000000       DRAGEXAMNewClass
+ 0001:000000E8       dragM_wpclsQueryTitle
+ 0001:00000064       drag_wpFormatDragItem
+ 0000:00000000  Imp  DrgAddStrHandle      (PMDRAG.33)
+ 0000:00000000  Imp  DrgDeleteStrHandle   (PMDRAG.37)
+ 0003:00000010       M_DRAGEXAMCClassData
+ 0003:0000000C       M_DRAGEXAMClassData
+ 0001:00000038       M_DRAGEXAMNewClass
+ 0000:00000000  Imp  M_WPDataFileNewClass (PMWP.318)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  WPDataFileNewClass   (PMWP.18)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0002:00000000       _dllentry
+ 0001:00000120       _DLL_InitTerm
+ 0003:000002D0       _edata
+ 0003:000002D4       _end
+ 0001:00000140       _fpninit
+ 0003:000002C0       __ctdtused
+ 0003:000002D0       __ctordtorCurrent
+ 0003:000002D0       __ctordtorEnd
+ 0001:00000174       __ctordtorInit
+ 0003:000002D0       __ctordtorStart
+ 0001:00000144       __ctordtorTerm
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  DrgDeleteStrHandle   (PMDRAG.37)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  WPDataFileNewClass   (PMWP.18)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0000:00000000  Imp  DrgAddStrHandle      (PMDRAG.33)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  M_WPDataFileNewClass (PMWP.318)
+ 0001:00000000       DRAGEXAMNewClass
+ 0001:00000038       M_DRAGEXAMNewClass
+ 0001:00000064       drag_wpFormatDragItem
+ 0001:000000E8       dragM_wpclsQueryTitle
+ 0001:00000120       _DLL_InitTerm
+ 0001:00000140       _fpninit
+ 0001:00000144       __ctordtorTerm
+ 0001:00000174       __ctordtorInit
+ 0002:00000000       _dllentry
+ 0003:00000000       DRAGEXAMClassData
+ 0003:00000004       DRAGEXAMCClassData
+ 0003:0000000C       M_DRAGEXAMClassData
+ 0003:00000010       M_DRAGEXAMCClassData
+ 0003:000002C0       __ctdtused
+ 0003:000002D0       __ctordtorCurrent
+ 0003:000002D0       __ctordtorEnd
+ 0003:000002D0       __ctordtorStart
+ 0003:000002D0       _edata
+ 0003:000002D4       _end
+
+Program entry point at 0001:00000120

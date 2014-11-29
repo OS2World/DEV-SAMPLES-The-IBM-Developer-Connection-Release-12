@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "matho" sample application.
+#
+
+all: matho.h matho_c.exe matho_s.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -no_mepv -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = matho_c.c matho_m.c matho_s.c
+COBJECTS        = matho_c.obj mathoc.obj
+SOBJECTS        = matho_m.obj matho_s.obj mathos.obj
+
+matho.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+matho_c.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc matho_c.exe
+
+matho_s.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc matho_s.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del matho.h
+        -del mathoc.c
+        -del mathos.c
+

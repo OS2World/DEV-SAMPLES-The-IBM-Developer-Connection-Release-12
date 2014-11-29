@@ -1,0 +1,11 @@
+DBModelCFG=*DEFAULT
+DBUpdateType=1
+DBStopCommunications=1
+DBTarget=C:
+DBCommunicationType=1
+DBInstallDatabaseTools=Y
+DBInstallQueryManager=Y
+DBInstallDocumentation=Y
+DBUpdateConfigSys=Y
+DBWorkstationName=CIDA053
+

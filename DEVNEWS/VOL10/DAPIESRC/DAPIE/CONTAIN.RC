@@ -1,0 +1,8 @@
+#include "contain.h"
+
+MENU            IDM_DISPLAY
+BEGIN
+    MENUITEM    "Icon",     IDM_ICON
+    MENUITEM    "Text",     IDM_TEXT
+    MENUITEM    "Name",     IDM_NAME
+END

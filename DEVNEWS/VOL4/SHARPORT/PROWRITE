@@ -1,0 +1,65 @@
+
+; ROUTINE NAME: ProWrite.  Transfer data out the Parallel Port.
+;
+; FUNCTION:     This routine requests exclusive access to the parallel
+;               port through the PDD-PDD IDC interface with the parallel
+;               port device driver.  It transfers data out the parallel
+;               port and then releases exclusive access to the parallel
+;               port through the PDD-PDD IDC interface.
+;
+; ENTRY:        es:bx -> kernel request packet
+;               ds      our data segment
+;
+; EXIT:
+;
+        PUBLIC  prowrite
+prowrite proc   near
+        ASSUME  CS:SWAPSEG,DS:DSEG,ES:NOTHING,SS:NOTHING
+
+        push    es                                      ; Save Register
+        push    bx                                      ; Save Register
+
+        ; request exclusive access to parallel port.
+
+        call    proreqexclusive                         ; Req exclusive access
+        test    flags,HAVEACCESS                        ; Test global flag
+        jz      error                                   ; if error, exit
+
+        ; setup hardware interrupt handler. ISA bus systems only.
+
+        mov     ax,OFFSET ISR                           ; Interrupt Service Rtn
+        mov     bx,7                                    ; IRQ7
+        mov     dh,0                                    ; IRQ not shared
+        mov     dl,DevHlp_SetIRQ                        ; SetIRQ function
+        call    DWORD PTR [device_help]                 ; Call device help
+        jc      error                                   ; Error processing
+
+        ; perform data transfer here.
+
+
+        ; release hardware interrupt handler.  ISA bus systems only.
+
+        mov     bx,7                                    ; IRQ7
+        mov     dl,DevHlp_UnSetIRQ                      ; UnSetIRQ function
+        call    DWORD PTR [device_help]                 ; Call device help
+        jc      error                                   ; Error processing
+
+        ; release exclusive access to parallel port.
+
+        call    prorelexclusive                         ; Rel exclusive access
+        test    flags,HAVEACCESS                        ; Test global flag
+        jz      prowrite_1                              ; if no error, exit
+
+        ; do error logic here.
+error:
+
+
+prowrite_1:
+        pop     bx                                      ; Restore register
+        pop     es                                      ; Restore register
+        mov     es:[bx].RPStatus,REQDONE                ; Set the done bit
+        ret
+prowrite endp
+
+Figure 2. Prototype Device Driver ProWrite Routine
+

@@ -1,0 +1,463 @@
+// ---------------------------------------------------------------------------
+#ifdef __PRIVATE__
+//#
+//#     File:           GtkPart.idl
+//#
+//#     Contains:       IDL description of 2D Graphics Part
+//#
+//#     Written by:     Alan Warren
+//#
+//#     Copyright:      (c) 1994 by IBM Corp., all rights reserved.
+//#
+//#     Change History (most recent first):
+//#
+//#              <1>      10/25/94      acw     first checked in
+//#
+//#     To Do:
+//#
+#else
+//#     Copyright:      (c) 1993-1994 by IBM Corp., all rights reserved.
+#endif
+
+
+#ifndef _GTKPART_
+#define _GTKPART_
+
+#ifndef _PART_
+#include "Part.idl"
+#endif
+
+interface ODWindow;
+interface ODFocusSet;
+//interface ODFrame;
+interface ODHelp;
+interface ODMenuBar;
+interface ODSemanticInterface;
+interface ODSettingsExtension;
+interface ODSession;
+interface ODTransform;
+interface M_GraphicsPart;
+interface ODStatusLineExtension;
+interface ODMenuExtension;
+interface ODPopup;
+interface ODViewExtension;
+
+#define CCHMAXPATH 260
+
+
+//#ifdef __PRIVATE__
+//=====================================================================================
+// Implementation Types
+//=====================================================================================
+
+interface ODxOrderedCollection;
+typedef somToken RGBColor;
+typedef somToken Proxy;
+typedef somToken MATRIXLF;
+
+typedef somToken GtkPic;
+typedef somToken GtkObject;
+typedef somToken GtkPointer;
+
+   typedef long PRNINFO;
+   typedef long HDC;
+   typedef long HRGN;
+   typedef long HMODULE;
+   typedef long HPOINTER;
+   typedef long HBITMAP;
+
+
+interface GraphicsPart : ODPart
+{
+  ODSemanticInterface GetSemanticInterface();
+  Proxy* ProxyForFrame(in ODFrame frame);
+  Proxy* ProxyFromId(in ODULong id);
+  void AddProxy( in Proxy* proxy, in ODBoolean fixup );
+  void RemoveProxy( in Proxy* proxy );
+  void ClipEmbeddedFrames(in ODFrame frame);
+
+  void CommonInitGraphicsPart();
+  GtkPic* GetPicture();
+
+  void HighlightSelection( in ODFacet facet, in ODShape invalShape);
+
+  ODBoolean HandleMenuEvent(in ODFrame focusFrame, in ODEventData event);
+  void PartUpdated(in ODFrame frame, in ODULong flags);
+  void CreateThumbnail( in ODFrame frame );
+
+  ODBoolean DoCut(in ODFrame frame);
+  ODBoolean DoCopy(in ODFrame frame);
+  ODBoolean DoPaste(in ODFrame frame, in ODULong pasteType, in ODBoolean keyboardused);
+  ODBoolean DoClear(in ODFrame frame);
+  ODBoolean ReadNativeContent(in ODFrame frame, in ODStorageUnit sourceSU,
+                              in ODBoolean tryLink);
+
+  void ActivateFrame(in ODFrame frame);
+  void DeActivateFrame(in ODFrame frame);
+  void ActivatingWindow(in ODFrame frame);
+  void DeActivatingWindow(in ODFrame frame);
+
+  void InstallMenus(in ODFrame frame);
+
+  void SetBGColor(in ODFrame aFrame, in ODULong rgb, in ODBoolean propagate );
+
+  void InitPalette( in ODFrame sourceFrame);
+  void UpdatePalette( in ODFrame frame);
+  void MovePalette( in long dx, in long dy);
+  void QueryPaletteOffset( in POINTL* ptlOffset);
+
+  ODBoolean DisplayText(in string str,in ODFrame curFrame );// 124281
+  ODBoolean DisplayResourceText(in ODULong strId, in ODFrame curFrame );// 124281
+  void      DisplayMenuPromptText(in ODULong menuItemId, in ODFrame frame);
+
+  ODFrame MakeEmbeddedFrame(in ODFrame containingFrame, in ODShape frameShape,
+                            in ODTransform externalTransform, in ODPart embedPart,
+                            in ODID frameID, in ODBoolean isOverlaid);
+
+  void CreateEmbeddedFacets(in ODFrame containingFrame, in ODFrame embeddedFrame);
+
+  ODWindow CreateWindow(in ODFrame sourceFrame);
+
+   void ExternalizeContents( in ODStorageUnit su, in ODDraftKey key,
+                             in ODBoolean fSelected );
+
+     // FREEZES the embedded Part
+   void LockEmbed( in ODULong id, in ODBoolean fLock );
+     // set IsSelected on the embed's facet
+   void SelectEmbed( in ODULong id, in ODBoolean fSelected );
+   void SetEmbedId( in ODULong id, in ODULong newId );
+   void CopyEmbed( in ODULong idOld, in ODULong idNew );
+   void ReFrameEmbed( in ODULong id, in RECTL* rclBounds );
+   void TransformEmbed( in ODULong id, in MATRIXLF* mx );
+   void DeleteEmbed( in ODULong id );
+   void DrawEmbed( in ODULong id, in ODFacet containingFacet );
+     // does the check against the used shape
+   ODBoolean EmbedHit( in ODULong id, in POINTL* ptl);
+     // gets full USED shape of embed
+   HRGN QueryEmbedRgn( in ODULong id, in ODFacet containingFacet );
+     // clip embeds for overlapping objects
+   void SetEmbedRgn( in ODULong id, in ODFacet containingFacet, in HRGN rgn );
+     // adjust embeds' clipping and ours to them
+   void ClipEmbeds( in ODFacet facet, in RECTL* rcl);
+
+   void AddObject( in GtkObject* obj );
+   void InvalidateRECTL( in RECTL* prcl );
+   void InvalidateObject( in GtkObject* obj );
+
+   ODBoolean InitDrag( in ODEventData event );
+
+   void Resize( in ODFrame frame, in ODULong ulMode);
+   void DoPopup( in ODFacet facet, in POINTL* ptl);
+
+   ODBoolean fsm_execute( in short action, in POINTL* pPtl );
+   ODBoolean fsm_set_state( in short sType, in short sState );
+   void      fsm_query_state( in short* pType, in short* pState );
+   ODBoolean fsm_set_buffer( in void* pBuf );
+
+   ODBoolean fsm_select( in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_line( in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_box( in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_ellipse( in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_polyline( in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_arc( in short action, in POINTL* pptl, in ODULong flags );
+
+   ODBoolean fsm_movecopy(  in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_pointedit( in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_resize(    in short action, in POINTL* pptl, in ODULong flags );
+   ODBoolean fsm_rotate(    in short action, in POINTL* pptl, in ODULong flags );
+
+#ifdef __SOMIDL__
+ implementation
+{
+  functionprefix = GraphicsPart;
+  metaclass      = M_GraphicsPart;
+  majorversion = 1;
+  minorversion = 0;
+
+  releaseorder:
+     GetSemanticInterface,
+     CreateNewPart ,
+     SetNewBounds ,
+     ProxyForFrame,
+     ProxyFromId,
+     AddProxy,
+     RemoveProxy,
+     UpdateProxyRegion,
+     ClipEmbeddedFrames,
+     HighlightSelection,
+     CommonInitGraphicsPart,
+     InstallObjectAccessors,
+     GetPicture,
+     ExternalizeContents,
+     MoveResize,
+     HandleMenuEvent,
+     PartUpdated,
+     CreateThumbnail,
+     HandlePageSetup,
+     DoCut,
+     DoCopy,
+     DoPaste,
+     DoClear,
+     ReadNativeContent,
+     ActivateFrame,
+     DeActivateFrame,
+     ActivatingWindow,
+     DeActivatingWindow,
+     CreateMenus,
+     InstallMenus,
+     RemoveMenus,
+     SetBGColor,
+     Embed,
+     SetGrafPortOrigin,
+     MakeEmbeddedFrame,
+     CreateEmbeddedFacets,
+     CreateWindow,
+     InitPalette,
+     UpdatePalette,
+     MovePalette,
+     QueryPaletteOffset,
+     DisplayText,
+     DisplayResourceText,
+     DisplayMenuPromptText,
+     LockEmbed,
+     SelectEmbed,
+     SetEmbedId,
+     CopyEmbed,
+     ReFrameEmbed,
+     TransformEmbed,
+     DeleteEmbed,
+     DrawEmbed,
+     EmbedHit,
+     QueryEmbedRgn,
+     SetEmbedRgn,
+     ClipEmbeds,
+     AddObject,
+     InvalidateRECTL,
+     InvalidateObject,
+     InitDrag,
+     Resize,
+     DoPopup,
+     fsm_execute,
+     fsm_set_state,
+     fsm_query_state,
+     fsm_set_buffer,
+     fsm_select,
+     fsm_line,
+     fsm_box,
+     fsm_ellipse,
+     fsm_polyline,
+     fsm_arc,
+     fsm_movecopy,
+     fsm_pointedit,
+     fsm_resize,
+     fsm_rotate
+     ;
+
+  override:
+     somInit,
+     somUninit,
+     FulfillPromise,
+     DropCompleted,
+     DragEnter,
+     DragWithin,
+     DragLeave,
+     Drop,
+     AcquireExtension,
+     ReleaseExtension,
+     HasExtension,
+     ContainingPartPropertiesUpdated,
+     AcquireContainingPartProperties,
+     CreateRootMenuBar,
+     RevealFrame,
+     EmbeddedFrameSpec,
+     CreateEmbeddedFramesIterator,
+     DisplayFrameAdded,
+     AttachSourceFrame,
+     DisplayFrameRemoved,
+     DisplayFrameConnected,
+     DisplayFrameClosed,
+     FrameShapeChanged,
+     ViewTypeChanged,
+     PresentationChanged,
+     SequenceChanged,
+     WritePartInfo,
+     ReadPartInfo,
+     ClonePartInfo,
+     Open,
+     RequestEmbeddedFrame,
+     RemoveEmbeddedFrame,
+     RequestFrameShape,
+     UsedShapeChanged,
+     AdjustBorderShape,
+     FacetAdded,
+     FacetRemoved,
+     CanvasChanged,
+     GeometryChanged,
+     Draw,
+     CanvasUpdated,
+     HighlightChanged,
+     GetPrintResolution,
+     CreateLink,
+     LinkUpdated,
+     RevealLink,
+     BreakLink,
+     BreakLinkSource,
+     LinkBroken,
+     UpdateFromLinkSource,
+     ShowLink,
+     EmbeddedFrameUpdated,
+     LinkStatusChanged,
+     BeginRelinquishFocus,
+     CommitRelinquishFocus,
+     AbortRelinquishFocus,
+     FocusAcquired,
+     FocusLost,
+     CloneInto,
+     ExternalizeKinds,
+     Externalize,
+     ChangeKind,
+     HandleEvent,
+     AdjustMenus,
+     UndoAction,
+     RedoAction,
+     DisposeActionState,
+     WriteActionState,
+     ReadActionState,
+     InitPart,
+     InitPartFromStorage,
+     Release;
+
+   passthru C_xh = ""
+                   "class ODFrame ;"
+                   "class ODTransform ;"
+                   "class GtkPic ;"
+                   "class GtkObject ;"
+                   "class GtkPointer ;"
+                   "struct Proxy ;"
+                   "struct PRNINFO ;";
+   passthru C_xh_after = "typedef long RGBColor;";
+
+#ifdef __PRIVATE__
+
+   // instance variables
+   ODxOrderedCollection       fDisplayFrames;
+   ODxOrderedCollection       fEmbeddedFrames;
+   ODID                       fWindowID;       // ID of View As Window window
+   ODULong                    fFacetCount;
+
+   ODULong                    fFrameGroupIDCounter;
+
+   ODxOrderedCollection       fContents;
+
+   ODFocusSet                 fFocusSet;
+   ODTypeToken                fSelectionFocus;
+   ODTypeToken                fMenuFocus;
+   ODTypeToken                fKeyFocus;
+   ODTypeToken                fMouseFocus;
+   ODTypeToken                fClipboardFocus;
+
+   ODSemanticInterface        fSemtIntf;
+
+   ODSession                  fSession;
+   ODBoolean                  fNeedToExternalize;
+   ODSettingsExtension        fNotebook;
+   ODHelp                     fHelp;
+
+   ODPart                     fPartWrapper;
+   ODFrame                    fCurFrame;
+
+   HPS                        hpsMem;
+   HDC                        hdcMem;
+   ODMenuExtension            fExtension;
+   ODMenuBar                  fMenuBar;
+
+   POINTL                     ptlUpDown;
+   POINTL                     fDragStart;
+
+   ODTypeToken                fStatusFocus;
+   ODStatusLineExtension      fStatusLn;
+   ODBoolean                  fHaveStatusLineFocus;
+   ODViewExtension            fViewExtension;
+
+   ODEventData                baseEvent;
+   ODBoolean                  fIgnoreSingleSelect;
+
+   // NEW instance vars
+
+   HWND          hwndTools;
+   HWND          hwndObj;
+
+   POINTL        mousePt;
+   POINTL        frameOffset;
+   RECTL         rclFrame;
+
+   ODBoolean     fAltMark;
+   ODBoolean     fMB2handled;
+   ODBoolean     fLinksVisible;
+   ODBoolean     fReadOnly;
+
+   short         fsmType;
+   short         fsmLastType;
+   short         fsmState;
+   void*         fsmData;
+   HPS           fsmHps;
+
+   // these were STATIC before...
+
+   HMODULE       hmod;
+   GtkPointer*   icon;
+
+   GtkPointer*   ptr;
+
+   HPOINTER      ptrXhair;
+   HPOINTER      ptrLine;
+   HPOINTER      ptrBox;
+   HPOINTER      ptrEllipse;
+   HPOINTER      ptrPolyline;
+   HPOINTER      ptrArc;
+
+   ODStorageUnit appSU;
+   ODUpdateID    fClipboardChangeID;
+
+   HBITMAP       hbmBackground;
+   RECTL         rclFrameView;         // frameViewType frame rect (window coords)
+   HBITMAP       hbmThumbnail;
+
+   // THE FOLLOWING *MUST* BE SAVED PERSISTENTLY!!!
+
+   GtkPic*       picture;
+
+   ODBoolean     fRectShape;
+   ODBoolean     fToolsVisible;
+   POINTL        toolsOffset;
+
+   ODULong       fBGMode;              // color/tile/fill
+   char          fBitmapFile[CCHMAXPATH];
+   RGBColor      fBGColor;             // background color of display frames
+   ODBoolean     fMatchBGColor;
+
+   #endif
+
+   };
+#endif
+};
+
+interface M_GraphicsPart : M_ODPart
+{
+
+#ifdef __SOMIDL__
+  implementation
+  {
+    functionprefix = M_GraphicsPart;
+    override:
+      clsGetODPartHandlerName,
+      clsGetODPartHandlerDisplayName,
+      clsGetODPartKinds,
+      clsGetOLE2ClassId,
+      clsGetWindowsIconFileName;
+  };
+#endif
+};
+
+#endif  // _GTKPART_
+

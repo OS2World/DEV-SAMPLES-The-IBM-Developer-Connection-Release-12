@@ -1,0 +1,179 @@
+
+ HELLO
+
+ Start         Length     Name                   Class
+ 0001:00000000 000001CA8H CODE32                 CODE 32-bit
+ 0002:00000000 0000002A0H DATA32                 DATA 32-bit
+ 0002:000002A0 000000000H CTOR_DTOR1             DATA 32-bit
+ 0002:000002A0 000000000H CTOR_DTOR2             DATA 32-bit
+ 0002:000002A0 000000000H CTOR_DTOR3             DATA 32-bit
+ 0002:000002A0 0000002A0H CONST32                CONST 32-bit
+ 0002:00000540 000000000H EDC1                   EDC_CLASS 32-bit
+ 0002:00000540 000000000H EDC2                   EDC_CLASS 32-bit
+ 0002:00000540 000000000H EDC3                   EDC_CLASS 32-bit
+ 0002:00000540 000000000H BSS32                  BSS 32-bit
+ 0002:00000540 000000200H c_common               BSS 32-bit
+
+ Origin   Group
+ 0000:0   FLAT
+ 0002:0   DGROUP
+
+ Address       Export                  Alias
+
+ 0002:00000010 HelloPartCClassData     HelloPartCClassData
+ 0002:00000000 HelloPartClassData      HelloPartClassData
+ 0001:0000019C HelloPartNewClass       HelloPartNewClass
+
+  Address         Publics by Name
+
+ 0002:00000544       @BSSE:\ODTLKT\SAMPLES\PARTS\HELLO\HELLO.CPP
+ 0000:00000000  Imp  ContainerPartNewClass (CNTNRPRT.3)
+ 0000:00000000  Imp  GpiCharStringAt      (PMGPI.359)
+ 0000:00000000  Imp  GpiCreateLogFont     (PMGPI.368)
+ 0000:00000000  Imp  GpiDeleteSetId       (PMGPI.378)
+ 0000:00000000  Imp  GpiQueryFontMetrics  (PMGPI.453)
+ 0000:00000000  Imp  GpiQueryRegionBox    (PMGPI.481)
+ 0000:00000000  Imp  GpiResetPS           (PMGPI.498)
+ 0000:00000000  Imp  GpiSetCharBox        (PMGPI.510)
+ 0000:00000000  Imp  GpiSetCharSet        (PMGPI.513)
+ 0000:00000000  Imp  GpiSetCharShear      (PMGPI.514)
+ 0000:00000000  Imp  GpiSetClipRegion     (PMGPI.516)
+ 0000:00000000  Imp  GpiSetColor          (PMGPI.517)
+ 0000:00000000  Imp  GpiSetModelTransformMatrix (PMGPI.538)
+ 0000:00000000  Imp  GpiSetTextAlignment  (PMGPI.649)
+ 0001:000001C8       HelloCommonInitPart
+ 0001:0000066C       HelloDraw
+ 0001:000008F8       HelloExternalize
+ 0001:000009D0       HelloHandleEvent
+ 0001:00000AAC       HelloInitPart
+ 0001:00000B70       HelloInitPartFromStorage
+ 0002:00000010       HelloPartCClassData
+ 0002:00000000       HelloPartClassData
+ 0001:0000019C       HelloPartNewClass
+ 0001:000002E0       HelloRenderPart
+ 0001:0000020C       HelloSetOrigin
+ 0001:000005D4       HellosomInit
+ 0001:00000624       HellosomUninit
+ 0000:00000000  Imp  memset               (OS2CMBS.memset)
+ 0000:00000000  Imp  ODBaseCanvasClassData (OPENDOC.201)
+ 0000:00000000  Imp  ODBaseFacetClassData (OPENDOC.216)
+ 0000:00000000  Imp  ODBaseShapeCClassData (OPENDOC.245)
+ 0000:00000000  Imp  ODBaseShapeClassData (OPENDOC.246)
+ 0000:00000000  Imp  ODCanvasClassData    (OPENDOC.273)
+ 0000:00000000  Imp  ODFrameClassData     (OPENDOC.327)
+ 0000:00000000  Imp  ODObjectCClassData   (OPENDOC.371)
+ 0000:00000000  Imp  ODPartClassData      (OPENDOC.378)
+ 0000:00000000  Imp  ODPersistentObjectClassData (OPENDOC.387)
+ 0000:00000000  Imp  ODShapeCClassData    (OPENDOC.407)
+ 0000:00000000  Imp  ODShapeClassData     (OPENDOC.408)
+ 0000:00000000  Imp  ODShapeNewClass      (OPENDOC.409)
+ 0000:00000000  Imp  ODStorageUnitClassData (OPENDOC.417)
+ 0000:00000000  Imp  ODTransformClassData (OPENDOC.432)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  SOMClassClassData    (som.3)
+ 0000:00000000  Imp  somIsObj             (som.60)
+ 0000:00000000  Imp  SOMObjectClassData   (som.14)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  strcpy               (OS2CMBS.strcpy)
+ 0002:00000280       _dllentry
+ 0001:00001B60       _DLL_InitTerm
+ 0002:00000540       _edata
+ 0002:00000740       _end
+ 0001:00001814       _Exception_CPP
+ 0000:00000000  Imp  _exception_dllinit   (OS2CMBS._exception_dllinit)
+ 0000:00000000  Imp  _fltused             (OS2CMBS._fltused)
+ 0000:00000000  Imp  _matherr             (OS2CMBS._matherr)
+ 0002:00000540       _matherr_ptr
+ 0000:00000000  Imp  _PGLOBAL_PTR         (OS2CMBS._PGLOBAL_PTR)
+ 0000:00000000  Imp  _ProfileUnwind32     (OS2CMBS._ProfileUnwind32)
+ 0000:00000000  Imp  _sprintfieee         (OS2CMBS._sprintfieee)
+ 0002:00000290       __ctdtused
+ 0002:0000073C       __ctordtorCurrent
+ 0002:000002A0       __ctordtorEnd
+ 0001:00001BC4       __ctordtorInit
+ 0002:000002A0       __ctordtorStart
+ 0001:00001B8C       __ctordtorTerm
+ 0000:00000000  Imp  __CurrentException   (OS2CMBS.__CurrentException)
+ 0000:00000000  Imp  __Invoke__Delete     (OS2CMBS.__Invoke__Delete)
+ 0000:00000000  Imp  __Invoke__Destructor (OS2CMBS.__Invoke__Destructor)
+ 0000:00000000  Imp  __RestoreRegsAndJump (OS2CMBS.__RestoreRegsAndJump)
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  ODTransformClassData (OPENDOC.432)
+ 0000:00000000  Imp  __RestoreRegsAndJump (OS2CMBS.__RestoreRegsAndJump)
+ 0000:00000000  Imp  __Invoke__Destructor (OS2CMBS.__Invoke__Destructor)
+ 0000:00000000  Imp  ODStorageUnitClassData (OPENDOC.417)
+ 0000:00000000  Imp  GpiSetColor          (PMGPI.517)
+ 0000:00000000  Imp  SOMObjectClassData   (som.14)
+ 0000:00000000  Imp  _PGLOBAL_PTR         (OS2CMBS._PGLOBAL_PTR)
+ 0000:00000000  Imp  _sprintfieee         (OS2CMBS._sprintfieee)
+ 0000:00000000  Imp  GpiSetCharBox        (PMGPI.510)
+ 0000:00000000  Imp  ContainerPartNewClass (CNTNRPRT.3)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  GpiQueryFontMetrics  (PMGPI.453)
+ 0000:00000000  Imp  somIsObj             (som.60)
+ 0000:00000000  Imp  GpiSetCharSet        (PMGPI.513)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  GpiDeleteSetId       (PMGPI.378)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  ODPersistentObjectClassData (OPENDOC.387)
+ 0000:00000000  Imp  GpiSetTextAlignment  (PMGPI.649)
+ 0000:00000000  Imp  GpiResetPS           (PMGPI.498)
+ 0000:00000000  Imp  ODBaseShapeClassData (OPENDOC.246)
+ 0000:00000000  Imp  ODBaseShapeCClassData (OPENDOC.245)
+ 0000:00000000  Imp  ODBaseFacetClassData (OPENDOC.216)
+ 0000:00000000  Imp  ODBaseCanvasClassData (OPENDOC.201)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  _ProfileUnwind32     (OS2CMBS._ProfileUnwind32)
+ 0000:00000000  Imp  _exception_dllinit   (OS2CMBS._exception_dllinit)
+ 0000:00000000  Imp  _fltused             (OS2CMBS._fltused)
+ 0000:00000000  Imp  ODPartClassData      (OPENDOC.378)
+ 0000:00000000  Imp  ODCanvasClassData    (OPENDOC.273)
+ 0000:00000000  Imp  ODFrameClassData     (OPENDOC.327)
+ 0000:00000000  Imp  GpiSetCharShear      (PMGPI.514)
+ 0000:00000000  Imp  ODShapeNewClass      (OPENDOC.409)
+ 0000:00000000  Imp  memset               (OS2CMBS.memset)
+ 0000:00000000  Imp  GpiSetModelTransformMatrix (PMGPI.538)
+ 0000:00000000  Imp  GpiCharStringAt      (PMGPI.359)
+ 0000:00000000  Imp  ODObjectCClassData   (OPENDOC.371)
+ 0000:00000000  Imp  GpiCreateLogFont     (PMGPI.368)
+ 0000:00000000  Imp  ODShapeCClassData    (OPENDOC.407)
+ 0000:00000000  Imp  ODShapeClassData     (OPENDOC.408)
+ 0000:00000000  Imp  GpiSetClipRegion     (PMGPI.516)
+ 0000:00000000  Imp  __Invoke__Delete     (OS2CMBS.__Invoke__Delete)
+ 0000:00000000  Imp  strcpy               (OS2CMBS.strcpy)
+ 0000:00000000  Imp  SOMClassClassData    (som.3)
+ 0000:00000000  Imp  __CurrentException   (OS2CMBS.__CurrentException)
+ 0000:00000000  Imp  _matherr             (OS2CMBS._matherr)
+ 0000:00000000  Imp  GpiQueryRegionBox    (PMGPI.481)
+ 0001:0000019C       HelloPartNewClass
+ 0001:000001C8       HelloCommonInitPart
+ 0001:0000020C       HelloSetOrigin
+ 0001:000002E0       HelloRenderPart
+ 0001:000005D4       HellosomInit
+ 0001:00000624       HellosomUninit
+ 0001:0000066C       HelloDraw
+ 0001:000008F8       HelloExternalize
+ 0001:000009D0       HelloHandleEvent
+ 0001:00000AAC       HelloInitPart
+ 0001:00000B70       HelloInitPartFromStorage
+ 0001:00001814       _Exception_CPP
+ 0001:00001B60       _DLL_InitTerm
+ 0001:00001B8C       __ctordtorTerm
+ 0001:00001BC4       __ctordtorInit
+ 0002:00000000       HelloPartClassData
+ 0002:00000010       HelloPartCClassData
+ 0002:00000280       _dllentry
+ 0002:00000290       __ctdtused
+ 0002:000002A0       __ctordtorEnd
+ 0002:000002A0       __ctordtorStart
+ 0002:00000540       _matherr_ptr
+ 0002:00000540       _edata
+ 0002:00000544       @BSSE:\ODTLKT\SAMPLES\PARTS\HELLO\HELLO.CPP
+ 0002:0000073C       __ctordtorCurrent
+ 0002:00000740       _end
+
+Program entry point at 0001:00001B60

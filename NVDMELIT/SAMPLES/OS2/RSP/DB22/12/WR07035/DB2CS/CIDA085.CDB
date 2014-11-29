@@ -1,0 +1,8 @@
+DBUpdateType=1
+DBStopCommunications=1
+DBUpdateConfigSys=Y
+DBInstallDatabaseTools=Y
+DBInstallQueryManager=Y
+DBInstallEngine=Y
+DBReplace=Y
+

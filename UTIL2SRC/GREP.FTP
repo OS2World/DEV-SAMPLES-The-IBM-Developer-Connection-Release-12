@@ -1,0 +1,11 @@
+user beyoder
+cd beyoder.191
+ascii
+put grep.doc                 grep.doc
+binary
+put grep.exe                 grep.exebin
+put ..\utildos\grep.exe      grep.exedbin
+close
+quit
+
+

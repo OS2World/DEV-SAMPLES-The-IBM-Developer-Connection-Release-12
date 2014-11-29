@@ -1,0 +1,36 @@
+
+                     3270 Screen Capture sample program
+                                                                 11/08/91
+
+Introduction
+============
+
+EHLLAPI.EXE is a sample program using EHLLAPI. This program is to capture
+a screen of 3270 emulator's session A and to display it in a OS/2 window.
+By re-sizing an application window, the program selects a proper size of
+a font automatically and displays the screen within the OS/2 application 
+window.
+This program works on both SBCS and DBCS OS/2 with a 3270 emulator of CM.
+Color atributes are not supported. 
+
+How to run CPCONV.EXE
+=====================
+
+ 1. To execute EHLLAPI.EXE, type "EHLLAPI" and hit the enter key at the 
+    directory where EHLLAPI.EXE is stored.
+    
+ 2. After invocation, a OS/2 window appears, which displays the screen 
+    as same as 3270 emulator's A session.
+
+ 3. You can re-sizing the application window. The program automatically 
+    selects the fitest size of the application window and a font.
+     
+NOTE 
+====
+
+ 1. This program requires that 3270 emulator session A must be for type 
+    3278/9 model 2, 80 X 25. If Session A is configured as any of other 
+    terminal types, this program causes TRAP-D at re-sizing of an aplication 
+    window. 
+ 
+

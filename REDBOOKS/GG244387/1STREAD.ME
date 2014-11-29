@@ -1,0 +1,39 @@
+This diskette comes with the GG24-4387 Red book.
+It contains the following files :
+1STREAD.ME   : this file
+INSTALL.CMD  : install program for the utilities
+PCMTAB.ZIP   : compressed file with the list of hardware
+               supported by OS/2 2.x and LAN Server
+LANTAB.TXT   : contains a list of network cards and tape 
+               drives supported by OS/2 2.x, extracted 
+               from PCMTAB.ZIP for easier search
+PKUNZIP.EXE  : used to unzip PCMTAB.ZIP 
+MIGRATE.CMD  : utility to extract data from the LAN Manager
+	       servers
+EXTRACT.CMD  : extract utility to be run locally on a LAN
+               Manager server with REXX installed
+LEXTRACT.CMD : limited extract utility to be run locally on
+               a LAN Manager server without REXX
+SETUP.CMD    : utility to setup the new LAN Server systems 
+               according to the existing LAN Manager setup
+LM2LS.EXE    : GUI front-end for the extraction and setup
+               utilities.  Runs on OS/2 2.x 
+BACKACC.EXE  : backup utility for accounts and ACLs, from LAN
+	       Server 3.0 (US version)
+MKADMIN.CMD  : creates a file containing name and password of
+               an administrator account for migration purposes
+CLEANUP.CMD  : batch file to remove all migration data for a
+               given server, when you want to run the migration
+               process again
+NIF2NIF.CMD  : utility to convert .NIF files so that they can be
+               used by the LAPS installation program
+NICBBS.TXT   : some BBS phone numbers for network card makers
+
+The directory SOURCE contains the code for the graphical version
+of the utilities, for VISPRO/REXX, as well as a non tokenised
+version of LM2LS.EXE.
+
+To install the utilities, run INSTALL, providing the drive 
+where you want to install and optionnaly provide the drive
+where the diskette is, if different from A.
+For example : A:INSTALL C A

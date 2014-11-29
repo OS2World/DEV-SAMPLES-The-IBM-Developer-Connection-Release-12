@@ -1,0 +1,6 @@
+LIBRARY cntnrprt INITINSTANCE
+DESCRIPTION 'Sample Shell Plug-In Class Library'
+PROTMODE
+DATA MULTIPLE NONSHARED LOADONCALL
+EXPORTS
+    ODShellPlugInInstallProc = MyShellPlugInInstallProc

@@ -1,0 +1,84 @@
+#ifndef OS2_INCLUDED
+   #include <os2.h>
+#endif
+DLGINCLUDE 1 "osadlg.h"
+
+DLGTEMPLATE IDD_SCRED LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Script Editor and Recorder - ", IDD_SCRED, 100, 14, 188, 139,
+            FS_NOMOVEWITHOWNER | NOT FS_DLGBORDER | FS_SCREENALIGN |
+            FS_SIZEBORDER, FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        MLE             "", IDD_SCRED_SCRIPT, 6, 8, 175, 79, MLS_HSCROLL |
+                        MLS_VSCROLL | WS_GROUP
+        LTEXT           "", IDD_SCRED_STATUSTEXT, 6, 128, 175, 8
+        MLE             "", IDD_SCRED_STATUS, 6, 93, 175, 32, MLS_READONLY |
+                        MLS_WORDWRAP | MLS_HSCROLL | MLS_VSCROLL | WS_GROUP |
+                        NOT WS_TABSTOP
+    END
+END
+
+DLGTEMPLATE IDD_ODRECORDEVENTS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Display Recorded Events", IDD_ODRECORDEVENTS, 101, -64, 234,
+            219, FS_NOMOVEWITHOWNER | NOT FS_DLGBORDER | FS_SCREENALIGN |
+            FS_SIZEBORDER, FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        MLE             "", IDD_ODDISPLAYEVENTS, 5, 28, 226, 171,
+                        MLS_READONLY | MLS_WORDWRAP | MLS_HSCROLL |
+                        MLS_VSCROLL | WS_GROUP
+        PUSHBUTTON      "Start Recording", IDD_ODRECSTART, 8, 5, 67, 14,
+                        BS_AUTOSIZE
+        PUSHBUTTON      "Stop Recording", IDD_ODRECSTOP, 82, 5, 68, 14,
+                        BS_AUTOSIZE
+        DEFPUSHBUTTON   "Cancel", IDD_ODRECCANCEL, 189, 5, 34, 14
+        LTEXT           "", IDD_ODRECSTATUS, 5, 204, 226, 8
+    END
+END
+
+DLGTEMPLATE IDD_ODSENDEVENTS LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "OpenDoc Events", IDD_ODSENDEVENTS, 102, -21, 273, 194,
+            FS_NOMOVEWITHOWNER | FS_SCREENALIGN | WS_VISIBLE, FCF_SYSMENU |
+            FCF_TITLEBAR
+    BEGIN
+        LTEXT           "Properties", -1, 9, 111, 54, 8
+        CONTROL         "", IDD_PROPCOMBO, 8, 84, 100, 21, WC_COMBOBOX,
+                        CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+        AUTORADIOBUTTON "formName", IDD_NAME, 125, 164, 52, 10, WS_TABSTOP
+        ENTRYFIELD      "", IDD_NAMEENTRY, 196, 166, 66, 8, ES_MARGIN
+        AUTORADIOBUTTON "formUniqueID", IDD_ID, 125, 144, 64, 10, WS_TABSTOP
+        ENTRYFIELD      "", IDD_IDENTRY, 196, 146, 66, 8, ES_MARGIN
+        AUTORADIOBUTTON "formAbsolutePosition", IDD_ABS, 125, 124, 98, 10,
+                        WS_TABSTOP
+        AUTORADIOBUTTON "Embedded Part", IDD_PARTDESC, 126, 69, 89, 10,
+                        WS_TABSTOP
+        AUTORADIOBUTTON "Index", IDD_ABSIDX, 135, 89, 46, 10, WS_GROUP |
+                        WS_TABSTOP
+        AUTORADIOBUTTON "Ordinal", IDD_ABSORD, 136, 109, 35, 10, WS_TABSTOP
+        CONTROL         "", IDD_ABSORDCOMBO, 185, 85, 61, 35, WC_COMBOBOX,
+                        CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+        DEFPUSHBUTTON   "Send Event", IDD_SENDEVENT, 4, 6, 65, 14, WS_GROUP
+        LTEXT           "Result", -1, 131, 23, 30, 8, NOT WS_GROUP
+        ENTRYFIELD      "", IDD_ABSIDXENTRY, 187, 91, 32, 8, ES_MARGIN
+        PUSHBUTTON      "Cancel", IDD_CANCELEVENT, 81, 6, 40, 14
+        LTEXT           "Data to set", -1, 9, 42, 48, 8
+        GROUPBOX        "Part Addressability", -1, 116, 39, 153, 148
+        LTEXT           "OSA Event", -1, 9, 146, 47, 8
+        CONTROL         "", IDD_EVENTCOMBO, 8, 120, 100, 20, WC_COMBOBOX,
+                        CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP |
+                        WS_VISIBLE
+        LTEXT           "Application", -1, 9, 183, 48, 8
+        CONTROL         "", IDD_APPCOMBO, 8, 155, 100, 24, WC_COMBOBOX,
+                        CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP |
+                        WS_VISIBLE
+        MLE             "", IDD_SPECIFY, 134, 45, 130, 20, MLS_HSCROLL |
+                        WS_GROUP
+        MLE             "", IDD_DATA, 8, 26, 99, 12, WS_GROUP
+        MLE             "", IDD_RESULT, 130, 7, 134, 12, MLS_READONLY |
+                        WS_GROUP
+        MLE             "", IDD_ODDOCUMENT, 8, 56, 99, 12, WS_GROUP
+        LTEXT           "OpenDoc Document", -1, 9, 75, 81, 8
+    END
+END
+

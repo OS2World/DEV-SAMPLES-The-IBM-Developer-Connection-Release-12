@@ -1,0 +1,12 @@
+**********************************************************************
+*
+*   This is a sample response file to be used when applying service
+*   using FSERVICE when there is an need to backup the existing
+*   system so that it may be restored later if needed.
+*
+   :LOGFILE C:\WR07060\SERVICE.LOG
+   :FLAGS REPLACE_PROTECTED REPLACE_NEWER
+   :SERVICE
+   :SYSLEVEL C:\IBMCOM\syslevel.trp
+   :BACKUP C:\WR07060\BACKUP
+

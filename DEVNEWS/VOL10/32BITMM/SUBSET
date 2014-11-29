@@ -1,0 +1,9 @@
+#define LEN_HEAP   0x20000
+
+PVOID  pvHeap;
+
+rc = DosAllocMem( &pvHeap, LEN_HEAP, PAG_WRITE );
+assert( rc == 0 );
+rc = DosSubSetMem( pvHeap, DOSSUB_INIT | DOSSUB_SPARSE_OBJ, LEN_HEAP );
+assert( rc == 0 );
+

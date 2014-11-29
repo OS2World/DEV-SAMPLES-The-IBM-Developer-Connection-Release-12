@@ -1,0 +1,15 @@
+[AUTOEXEC.BAT]
+InsertToken(SET,DB2PATH,LEFT)
+$(TargetDir)SQLWINSD
+InsertToken(SET,LIB,LEFT)
+$(TargetDir)SQLWINSD\LIB
+InsertToken(SET,INCLUDE,LEFT)
+$(TargetDir)SQLWINSD\INCLUDE
+InsertToken(SET,IPF_PATH,LEFT)
+$(TargetDir)SQLWINSD\BIN
+InsertToken(SET,HELP,LEFT)
+$(TargetDir)SQLWINSD\HELP
+InsertToken(SET,BOOKSHELF,LEFT)
+$(TargetDir)SQLWINSD\HELP
+InsertToken(PATH,,RIGHT)
+$(TargetDir)SQLWINSD\BIN

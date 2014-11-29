@@ -1,0 +1,4 @@
+[ auto_handle ] interface MyError
+{
+   divide( [ fault_status, comm_status ] st );
+}

@@ -1,0 +1,5 @@
+winos2.obj wininit.obj                  
+winos2.exe               
+winos2.map               
+\c600\lib\llibcer.lib                  
+nul.def               

@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err3" sample application.
+#
+
+all: err3.h  err3_cli.exe err3_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err3_cli.c err3_mgr.c err3_srv.c
+COBJECTS        = err3_cli.obj err3c.obj
+SOBJECTS        = err3_mgr.obj err3_srv.obj err3s.obj
+
+err3.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err3_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err3_cli.exe
+
+err3_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err3_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err3.h
+        -del err3c.c
+        -del err3s.c
+

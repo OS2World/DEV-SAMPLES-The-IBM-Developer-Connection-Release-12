@@ -1,0 +1,43 @@
+//---------------------------------------------------------------------------
+//
+//  Name     : animate1.rc
+//
+//  Purpose  : Resource definitions for the animate1 application
+//
+//             Author: Kelvin R. Lawrence
+//             29th-September-1996
+//
+//---------------------------------------------------------------------------
+
+#define INCL_WIN
+
+#include <os2.h>
+#include "animate1.h"
+
+MENU ID_PROG PRELOAD
+BEGIN
+    SUBMENU    "Exit", -1
+    BEGIN
+        MENUITEM "~Exit now", IDM_EXIT  , MIS_TEXT, 0
+        MENUITEM "~Resume"  , IDM_RESUME, MIS_TEXT, 0
+    END
+END
+
+
+BITMAP ID_BITMAP01   "frame1.bmp"  
+BITMAP ID_BITMAP02   "frame2.bmp"  
+BITMAP ID_BITMAP03   "frame3.bmp"  
+BITMAP ID_BITMAP04   "frame4.bmp"  
+BITMAP ID_BITMAP05   "frame5.bmp"  
+BITMAP ID_BITMAP06   "frame6.bmp"  
+BITMAP ID_BITMAP07   "frame7.bmp"  
+BITMAP ID_BITMAP08   "frame8.bmp"  
+BITMAP ID_BITMAP09   "frame9.bmp"  
+BITMAP ID_BITMAP10   "frame10.bmp"  
+BITMAP ID_BITMAP11   "frame11.bmp"  
+BITMAP ID_BITMAP12   "frame12.bmp"  
+BITMAP ID_BITMAP13   "frame13.bmp"  
+BITMAP ID_BITMAP14   "frame14.bmp"  
+BITMAP ID_BITMAP15   "frame15.bmp"  
+BITMAP ID_BITMAP16   "frame16.bmp"  
+

@@ -1,0 +1,316 @@
+StartDos                        Monte Copeland, IBM Boca Raton
+
+(c) Copyright International Business Machines Corporation 1993-1995.
+All rights reserved.
+
+REVISION HISTORY
+
+26JUN95: PMSD.EXE for WinStartApp() on Warp.
+10MAY94: mods to StartSeamless(); WinStartApp for common vdm
+15FEB94: new api's SetWindowPos() and QueryDesktop()
+20JAN94: IBM Employee Written Software release
+05JAN94: tweak readme
+11NOV93: new api StartSeamless(); tweak readme
+25OCT93: settings.exe; sprintf pid into term queue name
+11OCT93: fix REXX file search bug; tweak readme
+09OCT93: tweak readme; new REXX API SetSessionTitle()
+21SEP93: new REXX API SetCommandArgs()
+27AUG93: default session full screen; searches PATH environment
+for CMD file; startdata length changed to 32.
+06MAY93: first release on OS2TOOLS.
+
+
+--------------------------- STARTDOS USAGE -------------------------------
+
+STARTDOS <REXX CMD file> <optional command.com arguments>
+PMSD     <REXX CMD file> <optional command.com arguments>
+
+Example STARTDOS/PMSD command lines:
+
+startdos                        prints this readme
+startdos sets.cmd               searches path for sets.cmd
+startdos sets                   adds .CMD then searches path
+startdos sets /c wp             /c for call; session exits with wp
+startdos sets /k dir            /k for keep; dir and session stays
+                                /c and /k are command.com-defined switches
+startdos sets /c winos2 word    starts winos2 and a windows program
+
+
+-------------------------------- INTRODUCTION ----------------------------
+
+StartDos is an OS/2 program to start virtual DOS mode sessions under OS/2.
+The nature of DOS sessions under OS/2 is controlled by DOS settings, some of
+which can only be set at session startup. StartDos accepts these settings via
+a REXX command file then starts a DOS session. Examples of some setting
+strings that can only be specified at start time:
+
+  DOS_DEVICE=<device driver file spec>
+  DOS_HIGH=1                                (1 means yes)
+  DPMI_DOS_API=ENABLED
+  DPMI_MEMORY_LIMIT=8                       (integer represents megabytes)
+
+Most settings that require ON accept either ON or 1, but some settings must
+have a 1 instead of ON. For help with settings strings, run SETTINGS.EXE.
+
+To specify DOS settings to StartDos, name a REXX command file on the command
+line. StartDos will add .CMD if necessary. StartDos looks in the current
+directory for the REXX file. If not present, it searches the PATH. StartDos
+invokes the REXX interpreter, and the command file executes in a special
+StartDos environment. In this environment, the REXX program can call
+functions in StartDos like AddDosSetting() and StartWindowed(). Example REXX:
+
+  /* REXX command file for StartDos (comment mandatory on first line!) */
+  parse arg szCommandComArgs
+  if 'STARTDOS' <> address()  then do
+    say 'Expected STARTDOS environment'
+    return 2
+  end
+  rc = SetSessionTitle( 'DPMI DOS Session' )
+  rc = AddDosSetting( 'DOS_DEVICE=C:\OS2\MDOS\ANSI.SYS' )
+  rc = AddDosSetting( 'DOS_HIGH=1'  )
+  rc = AddDosSetting( 'DPMI_DOS_API=ENABLED' )
+  rc = AddDosSetting( 'DPMI_MEMORY_LIMIT=8' )
+  /* override the default and start the session in a text window */
+  rc = StartWindowed()
+  return 0
+
+The REXX program should return a zero result code, and StartDos will start
+the DOS session.
+
+The PM version of StartDos may prove useful for starting Windows apps. The
+PM version is compatible with the text-mode version.
+
+StartDos is IBM Employee Written Software. Please read the "as-is" license
+agreement from IBM. Essentially, you use this program "as is," and IBM
+makes no warranty about the correctness of this program or its suitability
+to any purpose.
+
+Monte Copeland, IBM Boca Raton. monte@vnet.ibm.com
+
+
+
+----------------------- SPECIAL STARTDOS FUNCTIONS -----------------------
+
+These special functions are available to REXX programs invoked from StartDos:
+
+  AddDosSetting( <setting string> )    /* may be called multiple times */
+  ExecSynchronous()                    /* asynchronous start is default */
+  QueryDesktop()                       /* returns PM desktop size in pels*/
+  SetCommandArgs( <command.com args> ) /* args acceptable to command.com */
+  SetWindowPos( x, y, cx, cy )         /* set position, size of window */
+  SetSessionTitle( <session title> )   /* title to appear in window list */
+  StartBackground()                    /* start session in background */
+  StartForeground()                    /* foreground start is default */
+  StartFullscreen()                    /* fullscreen start is the default */
+  StartSeamless()                      /* start windows programs */
+  StartWindowed()                      /* start session in a text window */
+
+AddDosSetting( <setting string> ) -- AddDosSetting may be called multiple
+times in order to specify all the setting strings to StartDos. Expects one
+string parameter.
+
+ExecSynchronous() -- The default exec is asynchronous; i.e., StartDos will
+end as soon as the child DOS session is started. A synchronous exec is one
+where StartDos waits until the child DOS session ends before StartDos itself
+ends. In this case, StartDos will return the same errorlevel as COMMAND.COM.
+COMMAND.COM in OS/2 returns the same errorlevel as the DOS program invoked
+with the /c option. Therefore, a synchronous exec and /c option causes
+StartDos to return with the same errorlevel as the DOS program. This is
+important when invoking DOS programs from OS/2 batch (or make) files. Expects
+no parameter.
+
+QueryDesktop() -- returns a string "xxx yyy" which is the size of the PM
+desktop window in pels. For example, the string "640 480" is returned
+for PM on VGA. This is useful to compute x, y, cx, cy for the SetWindowPos()
+function. There are no parameters to QueryDesktop(). Returns a zero-length
+string under TShell.
+
+SetCommandArgs( <command.com args> ) -- Parameters to COMMAND.COM may be
+specified two different ways: on the StartDos command line after the REXX
+command file name, or by using SetCommandArgs() in the batch file.
+SetCommandArgs() always overrides arguments given on the StartDos command
+line. COMMAND.COM arguments given on the StartDos command line may be
+examined from the REXX file by using PARSE ARG.
+
+SetSessionTitle( <session title> ) -- Sets the session title that appears in
+the Window List. Expects one string parameter.
+
+SetWindowPos( x, y, cx, cy ) -- provide initial placement and size of a DOS
+session when a windowed session is desired. When SetWindowPos() is used,
+StartWindowed() is not required. Expects four numeric parameters in pels. x
+and y are position, cx and cy are size. See QueryDesktop(). Invalid under
+TShell.
+
+StartBackground() -- Start the DOS session in background. No parameters.
+
+StartForeground() -- Start the DOS session in the foreground. This is the
+default action. No parameters.
+
+StartFullscreen() -- Start the DOS session in its own, full screen session.
+This is the default action. No parameters.
+
+StartSeamless() -- When used without parameters, will start WINOS2.COM in
+its own seamless VDM session, and SetCommandArgs() will supply parameters
+to WINOS2.COM. This is compatible with the 11NOV93 version. When parameters
+are supplied, then they are as follows:
+
+  1. program category
+
+           PROG_30_STDSEAMLESSVDM                 13
+           PROG_30_STDSEAMLESSCOMMON              14
+           PROG_31_STDSEAMLESSVDM                 15
+           PROG_31_STDSEAMLESSCOMMON              16
+           PROG_31_ENHSEAMLESSVDM                 17
+           PROG_31_ENHSEAMLESSCOMMON              18
+           PROG_31_ENH                            19
+           PROG_31_STD                            20
+
+  2. windows program exe name
+  3. startup directory
+
+and parameters supplied with SetCommandArgs() are for the windows program exe.
+If you specify StartSeamless() parameters, parameter 3 is optional.
+
+StartWindowed() -- Start the DOS session in a PM text window. Expects no
+parameters. Invalid under TShell.
+
+
+
+
+--------------------- SAMPLE REXX: CLEAN.CMD -----------------------------
+
+Assume there is a DOS program called CLEANDSK.EXE that writes zeroes to
+unused sectors on a floppy disk. Using the REXX address() function, you can
+write one REXX file that senses whether it is running under CMD.EXE or
+STARTDOS.EXE. Under CMD, it invokes StartDos. Under StartDos, it calls the
+special StartDos functions.
+
+     /* clean.cmd */
+     parse arg szDriveLetter .
+     parse source . . szREXXFileName .
+     select
+       when 'CMD' = address()  then do
+         'STARTDOS' szREXXFileName szDriveLetter
+       end
+       when 'STARTDOS' = address()  then do
+         rc = SetCommandArgs( "/c cleandsk" szDriveLetter )
+         rc = StartBackground()
+         rc = ExecSynchronous( )
+       end
+       otherwise do
+         say 'Unexpected execution environment'
+         return 4
+       end
+     end
+     return 0
+
+
+Then from an OS/2 prompt, enter
+
+     CLEAN A:
+
+
+--------------------- SAMPLE REXX: SEAMLESS WINDOWS WRITE ----------------
+
+This REXX program starts the windows program WRITE.EXE seamlessly. For
+seamless starts, SetCommandArgs() really sets the arguments to WINOS2.COM. To
+WINOS2.COM, /s means standard mode and /3 means enhanced mode.
+
+     /* write.cmd */
+     parse source . . szREXXFileName .
+     select
+       when 'CMD' = address()  then do
+         'STARTDOS' szREXXFileName
+       end
+       when 'STARTDOS' = address()  then do
+         rc = StartSeamless()
+         rc = SetCommandArgs( "/s write" )
+       end
+       otherwise do
+         say 'Unexpected execution environment'
+         return 4
+       end
+     end
+     return 0
+
+
+--------------------- SAMPLE REXX: SEAMLESS COMMON -----------------------
+
+For performance reasons, you might run all your Windows programs in a
+common VDM session. The first application start takes longer to load, but
+subsequent starts load much more quickly. On Warp, PMSD.EXE has a better
+chance of working than STARTDOS.EXE.
+
+     /* notepad.cmd  */
+     parse source . . szREXXFileName .
+     select
+       when 'CMD' = address()  then do
+         'pmsd' szREXXFileName
+       end
+       when 'STARTDOS' = address()  then do
+         rc = StartSeamless( 18, "notepad.exe" )
+       end
+       otherwise do
+         say 'Unexpected environment'
+       end
+     end
+     return 0
+
+--------------------- SAMPLE REXX: MULTIPLE SETTING STRINGS  ----------
+
+You can specify more than one DOS character device driver with the DOS_DEVICE
+setting. You can specify more than one DOS_VERSION string at a time. In both
+cases, the strings must be separated with the linefeed character, ascii 10.
+The REXX function d2c(10) works to embed the linefeed character. Sample REXX:
+
+    /* for startdos */
+    if 'STARTDOS' <> address() then do
+      say 'Expected StartDos environment.'
+      return 2
+    end
+
+    /* this shows d2c(10) and the comma used for REXX line continuation */
+    rc = AddDosSetting( 'DOS_VERSION=DFIA0MOD.SYS,3,40,255'||d2c(10)||,
+    'EXCEL.EXE,10,10,4'||d2c(10)||,
+    'WIN200.BIN,10,10,4' )
+
+    /* similar thing */
+    rc = AddDosSetting( 'DOS_DEVICE=c:\os2\mdos\ansi.sys'||d2c(10)||,
+    'c:\os2\mdos\ega.sys' )
+    return 0
+
+
+
+--------------------- SAMPLE REXX: WINDOW SIZE AND POSITION  ----------
+
+This sample calls QueryDesktop for PM information, then starts a windowed
+DOS session squarely in the center of the screen.
+
+    /* for startdos */
+    if 'STARTDOS' <> address() then do
+      say 'Expected StartDos environment.'
+      return 2
+    end
+    /* ask about PM */
+    xy = QueryDesktop()
+    if length( xy ) = 0 then do
+       /* must be TShell, where there is no PM */
+       return 2
+    end
+    x = word( xy, 1 )
+    y = word( xy, 2 )
+    rc = SetWindowPos( x/4, y/4, x/2, y/2 )
+    return 0
+
+-------------------------- ERROR CHECKING ---------------------------------
+
+If you specify an incorrect DOS setting, chances are the session
+will start anyway. You may get an error message from OS/2. For
+brevity, most of the sample REXX shown here does not do error
+checking.
+
+
+------------------------ LICENSING  ---------------------------------------
+
+Please read the IBM license agreement in LICENSE.TXT.
+

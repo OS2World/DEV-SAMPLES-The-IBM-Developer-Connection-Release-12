@@ -1,0 +1,44 @@
+#
+# Makefile for the AIX Version of the MessageBox example.
+#
+
+# command names
+CC       = cc_r
+IDL	 = idl
+RM	 = rm -f
+
+# command flags
+CFLAGS   = -I/usr/include/dce
+IDLFLAGS = -no_cpp -keep all -I. 
+
+# libraries
+LIBS     = -ldce
+
+# object files
+SOBJS	 = server.o manager.o mbox_sstub.o security.o
+COBJS	 = client.o mbox_cstub.o
+
+# targets
+all:	mbox message
+
+message: $(COBJS)
+	$(CC) $(CFLAGS) $(COBJS) $(LIBS) -o $@
+
+mbox: $(SOBJS)
+	$(CC) $(CFLAGS) $(SOBJS) $(LIBS) -o $@
+
+mbox.h mbox_stub.o mbox_cstub.o: mbox.idl mbox.acf
+	$(IDL) $(IDLFLAGS) mbox.idl
+
+clean:
+	-$(RM)  core *.o mbox_?stub.c mbox.h 
+
+# dependencies
+client.o: client.c mbox.h common.h
+
+server.o: server.c mbox.h common.h
+
+manager.o: manager.c mbox.h
+
+security.o: security.c common.h
+

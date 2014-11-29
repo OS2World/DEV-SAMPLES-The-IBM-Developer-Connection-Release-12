@@ -1,0 +1,9 @@
+/*********** Rafael  C Sample Program Resource Script File (.RC) **************/
+/*                                                                            */
+/*                                    rcinclude dialog2.dlg                   */
+/*                                                                            */
+/******************************************************************************/
+#include "os2.h"
+#include "mousplay.h"
+rcinclude mousplay.dlg
+

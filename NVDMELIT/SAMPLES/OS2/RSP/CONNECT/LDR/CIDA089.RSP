@@ -1,0 +1,7 @@
+Target = C:\
+Phone = 92545472
+LANTYPE = TOKENRING
+Port = COM2
+Modem = OPTIMA14.PIF
+Address = 40000CIDA089
+

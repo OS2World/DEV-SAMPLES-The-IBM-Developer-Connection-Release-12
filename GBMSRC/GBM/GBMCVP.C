@@ -1,0 +1,157 @@
+/*
+
+gbmcvp.c - Portrait
+
+*/
+
+/*...sincludes:0:*/
+#include <stdio.h>
+#include <ctype.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+#include <memory.h>
+#include <malloc.h>
+#ifdef AIX
+#include <unistd.h>
+#else
+#include <io.h>
+#endif
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "gbm.h"
+#include "gbmhelp.h"
+
+/*...vgbm\46\h:0:*/
+/*...vgbmhelp\46\h:0:*/
+/*...e*/
+
+static GBMFT cvp_gbmft =
+	{
+	"Portrait",
+	"Portrait",
+	"CVP",
+	GBM_FT_R24|
+	GBM_FT_W24,
+	};
+
+#define	GBM_ERR_CVP_FSIZE	((GBM_ERR) 1800)
+#define	GBM_ERR_CVP_SIZE	((GBM_ERR) 1801)
+
+/*...scvp_qft:0:*/
+GBM_ERR cvp_qft(GBMFT *gbmft)
+	{
+	*gbmft = cvp_gbmft;
+	return GBM_ERR_OK;
+	}
+/*...e*/
+/*...scvp_rhdr:0:*/
+GBM_ERR cvp_rhdr(const char *fn, int fd, GBM *gbm, const char *opt)
+	{
+	long length;
+	int w, h;
+	const char *width;
+
+	fn=fn; fd=fd; /* Suppress 'unref arg' compiler warnings */
+
+	length = lseek(fd, 0L, SEEK_END);
+	lseek(fd, 0L, SEEK_SET);
+
+	if ( length != 512*512*3 )
+		return GBM_ERR_CVP_FSIZE;
+
+	gbm->w = 512;
+	gbm->h = 512;
+	gbm->bpp = 24;
+
+	return GBM_ERR_OK;
+	}
+/*...e*/
+/*...scvp_rpal:0:*/
+GBM_ERR cvp_rpal(int fd, GBM *gbm, GBMRGB *gbmrgb)
+	{
+	fd=fd; gbm=gbm; gbmrgb=gbmrgb; /* Suppress 'unref arg' compiler warnings */
+
+	return GBM_ERR_OK;
+	}
+/*...e*/
+/*...scvp_rdata:0:*/
+GBM_ERR cvp_rdata(int fd, GBM *gbm, byte *data)
+	{
+	int p, stride = ((gbm->w*3+3)&~3);
+	byte *line;
+	if ( (line = malloc(gbm->w)) == NULL )
+		return GBM_ERR_MEM;
+	for ( p = 2; p >= 0; p-- )
+		{
+		int y;
+		byte *ptr = data + ( (stride * (gbm->h-1)) + p );
+		for ( y = 0; y < gbm->h; y++, ptr-=stride )
+			{
+			int x;
+			if ( read(fd, line, gbm->w) != gbm->w )
+				{
+				free(line);
+				return GBM_ERR_READ;
+				}
+			for ( x = 0; x < gbm->w; x++ )
+				ptr[x*3] = line[gbm->w-1-x];
+			}
+		}
+	free(line);
+	return GBM_ERR_OK;
+	}
+/*...e*/
+/*...scvp_w:0:*/
+GBM_ERR cvp_w(const char *fn, int fd, const GBM *gbm, const GBMRGB *gbmrgb, const byte *data, const char *opt)
+	{
+	int p, stride = ((gbm->w*3+3)&~3);
+	byte *line;
+
+	fn=fn; opt=opt; /* Suppress 'unref arg' compiler warning */
+
+	if ( gbm->bpp != 24 )
+		return GBM_ERR_NOT_SUPP;
+
+	if ( gbm->w != 512 || gbm->h != 512 )
+		return GBM_ERR_CVP_SIZE;
+
+	if ( (line = malloc(gbm->w)) == NULL )
+		return GBM_ERR_MEM;
+
+	for ( p = 2; p >= 0; p-- )
+		{
+		int y;
+		const byte *ptr = data + ( (stride * (gbm->h-1)) + p );
+		for ( y = 0; y < gbm->h; y++, ptr-=stride )
+			{
+			int x;
+			for ( x = 0; x < gbm->w; x++ )
+				line[gbm->w-1-x] = ptr[x*3];
+			if ( write(fd, line, gbm->w) != gbm->w )
+				{
+				free(line);
+				return GBM_ERR_WRITE;
+				}
+			}
+		}
+	free(line);
+	return GBM_ERR_OK;
+
+	return GBM_ERR_OK;
+	}
+/*...e*/
+/*...scvp_err:0:*/
+char *cvp_err(GBM_ERR rc)
+	{
+	switch ( (int) rc )
+		{
+		case GBM_ERR_CVP_FSIZE:
+			return "file is not correct size";
+		case GBM_ERR_CVP_SIZE:
+			return "portrait files can only hold 512x512 images";
+		}
+	return NULL;
+	}
+/*...e*/

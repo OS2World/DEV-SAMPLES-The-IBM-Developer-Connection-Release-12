@@ -1,0 +1,7 @@
+WorkStationType = REMOTE
+Target = C:\
+ConnectionType = Async
+LANTYPE = TOKENRING
+Address = 40000C1DA044
+Modem = IBM7855.PIF
+PORT = COM1

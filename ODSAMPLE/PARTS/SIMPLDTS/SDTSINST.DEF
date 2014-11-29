@@ -1,0 +1,12 @@
+;       IBM Confidential
+;
+; Copyright (c) IBM Corp. 1995
+; All rights reserved
+NAME    sdtsinst
+DESCRIPTION 'SimpleDTSPart Install Sample Application'
+PROTMODE
+DATA    MOVEABLE MULTIPLE
+CODE    MOVEABLE
+HEAPSIZE   1024
+STACKSIZE  8192
+

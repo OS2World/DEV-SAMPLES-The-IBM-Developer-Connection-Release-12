@@ -1,0 +1,14 @@
+
+ SERVBOOT
+
+ Start     Length     Name                   Class
+ 0001:0000 000D1H     DEVDDATA               DATA
+ 0002:0000 000BBH     DEVDCODE               CODE
+
+  Address         Publics by Name
+
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)

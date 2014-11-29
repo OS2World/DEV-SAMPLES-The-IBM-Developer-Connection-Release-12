@@ -1,0 +1,72 @@
+/*****************************************************************************/
+/* Module: database.idl                                                      */
+/*                                                                           */
+/* Description:                                                              */
+/*    This IDL file defines the interface named "Database", which provides   */
+/*    the following RPC operations:                                          */
+/*                                                                           */
+/*             db_open         establishes the connection to a database      */
+/*             db_close        detaches the connection                       */
+/*             db_read         reads a record from the current position      */
+/*             db_setpos       sets the current position                     */
+/*             db_getpos       gets the current position                     */
+/*                                                                           */
+/*    This file also define the following types:                             */
+/*                                                                           */
+/*             db_context_t    identifies the connection to a database       */
+/*             db_data_t       defines a record to be read by db_read()      */
+/*                                                                           */
+/*****************************************************************************/
+[
+   uuid(0039FBC0-3C08-1C22-9300-10005AA85812),
+   version(1.0)
+]
+interface Database
+
+{
+   /**************************************************************************/
+   /* Defining types                                                         */
+   /**************************************************************************/
+   const char *ENTRY_NAME = "/.:/Servers/Database";
+   const long  MAX_DB_DATA_SIZE = 64;
+
+   typedef [ context_handle ] void *db_context_t;
+
+   typedef struct _db_data_t {
+      long size;
+      char data[ MAX_DB_DATA_SIZE ];
+   } db_data_t;
+
+   /**************************************************************************/
+   /* Defining RPC operations                                                */
+   /**************************************************************************/
+   void db_open(
+      [ in  ]         handle_t         binding_h,
+      [ out ]         db_context_t    *pcontext_h,
+      [ out ]         error_status_t  *pst );
+
+   void db_close(
+      [ in, out ]     db_context_t    *pcontext_h,
+      [ out ]         error_status_t  *pst );
+
+
+   void db_read(
+      [ in  ]         db_context_t     context_h,
+      [ out ]         db_data_t       *pdata,
+      [ out ]         long            *ppos,
+      [ out ]         error_status_t  *pst );
+
+
+   void db_setpos(
+      [ in  ]         db_context_t     context_h,
+      [ in  ]         long            *ppos,
+      [ out ]         error_status_t  *pst );
+
+
+   void db_getpos(
+      [ in  ]         db_context_t     context_h,
+      [ out ]         long            *ppos,
+      [ out ]         error_status_t  *pst );
+
+}
+

@@ -1,0 +1,8 @@
+;------------------------------------
+; xprmres.def module definition file
+;------------------------------------
+
+LIBRARY      XPRMRES
+
+DESCRIPTION  'DBCS OS/2 XPG4 Primer Resource File'
+

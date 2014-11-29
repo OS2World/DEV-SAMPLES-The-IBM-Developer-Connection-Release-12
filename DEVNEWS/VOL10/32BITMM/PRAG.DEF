@@ -1,0 +1,10 @@
+NAME prag WINDOWCOMPAT
+
+
+
+
+SEGMENTS
+  PIECE_1      CLASS 'DATA' SHARED
+
+
+

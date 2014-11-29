@@ -1,0 +1,6 @@
+DCFModelCFG=*DEFAULT
+DCFUpdateType=1
+DCFStopCommunications=0
+DCFTarget=C
+DCFUpdateConfigSys=Y
+

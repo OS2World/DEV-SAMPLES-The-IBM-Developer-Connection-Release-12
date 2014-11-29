@@ -1,0 +1,107 @@
+#include <os2.h>
+#include "osadlg.h"
+#include "ucmenus.h"
+
+MENU ID_OSATEST
+  BEGIN
+    MENUITEM     "Send Events",             IDM_OSASENDEVENTS,   MIS_TEXT
+    MENUITEM     "Record Events",           IDM_OSARECORDEVENTS, MIS_TEXT
+    MENUITEM     "Script Editor",           IDM_OSASCRIPTEDITOR, MIS_TEXT
+  END
+
+ICON ID_OSATEST osatest.ico
+
+STRINGTABLE
+BEGIN
+  PROGRAM_TITLE,                "OSA Tests"
+END
+
+/* Define bitmaps for menus bar.  To make processing of the */
+/* UCMENU_QUERYRESBMP message easy, the resource IDs for    */
+/* all bitmaps are sequential.  Some 'holes' in the list    */
+/* are OK (e.g. it does not have to be strictly sequential).*/
+/* IDs start with MIN_BMPID and ends at MAX_BMPID.          */
+
+
+BITMAP 1   "open.bmp"             /*-Script Editor-*/
+BITMAP 2   "save.bmp"
+BITMAP 3   "cut.bmp"
+BITMAP 4   "copy.bmp"
+BITMAP 5   "paste.bmp"
+BITMAP 6   "new.bmp"
+BITMAP 7   "font.bmp"
+BITMAP 9   "styles.bmp"
+BITMAP 10  "fontbold.bmp"
+BITMAP 11  "fontital.bmp"
+BITMAP 12  "fontunde.bmp"
+BITMAP 13  "undo.bmp"
+
+BITMAP 15  "play.bmp"
+BITMAP 16  "record.bmp"
+BITMAP 17  "stop.bmp"
+BITMAP 18  "syntax.bmp"
+
+BITMAP 21  "testevnt.bmp"        /*-Main Toolbar-*/
+BITMAP 22  "testrec.bmp"
+BITMAP 23  "scredit.bmp"
+
+/**************************************************************/
+/* Resource template for UCMenu toolbar.                      */
+/*                                                            */
+/* Text strings are interpreted as:                           */
+/*                                                            */
+/* "<c>Text<c>BitmapID<c>ActionStr<c>ParamStr<c>DataStr"      */
+/*                                                            */
+/*   where <c> is any character that does not appear in       */
+/*   the strings.                                             */
+/*                                                            */
+/* Item style MIS_SPACER produces a gap in the menu bar.      */
+/*                                                            */
+/* Note that syntax does not allow symbolic specification of  */
+/* bitmap IDs so they are hardcoded.                          */
+/*                                                            */
+/* IDs are arbitrary since we detect menu selects by "Action" */
+/* strings, not by item ID.                                   */
+/**************************************************************/
+
+/* For the command bar, we keep the bubble-help in DataString */
+
+MENU ID_COMMANDBAR LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  MENUITEM "/Send Events/21/OSATest: Send Events//Send Events to OpenDoc or other OSA apps"              ,    1,  MIS_TEXT
+  MENUITEM "/Record Events/22/OSATest: Record Events//Receive and display recorded events"                 ,    2,  MIS_TEXT
+  MENUITEM "/Script Editor/23/OSATest: Script Editor//Sample Script Editor to execute and record scripts",    3,  MIS_TEXT
+END
+
+MENU ID_SCRIPTTOOLBAR LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  MENUITEM "/New/6/Cmd: New//Create new script",             1,  MIS_TEXT
+  MENUITEM "/Open/1/Cmd: Open//Load script from a file",    2,  MIS_TEXT
+  MENUITEM "/Save/2/Cmd: Save//Save script to a file",      3,  MIS_TEXT
+  MENUITEM "/SaveAs/2/Cmd: SaveAs//Save script to another file",      4,  MIS_TEXT
+  MENUITEM "",                                               5,  MIS_SPACER
+  MENUITEM "/Cut/3/Cmd: Cut//Cut selected text to clipboard",       10,  MIS_TEXT
+  MENUITEM "/Copy/4/Cmd: Copy//Copy selected text to clipboard",    11,  MIS_TEXT
+  MENUITEM "/Paste/5/Cmd: Paste//Paste clipboard text into script",12,  MIS_TEXT
+  MENUITEM "/Undo/13/Cmd: Undo//Undo the last action",13,  MIS_TEXT
+  MENUITEM "",                                                         14,  MIS_SPACER
+  MENUITEM "/Fonts/7/Cmd: Fonts//Change font",                  15, MIS_TEXT
+  SUBMENU  "/Styles/9/Styles Submenu//Select font styles",     16, MIS_TEXT
+  BEGIN
+    MENUITEM "/Bold/10/Style: Bold",         20, MIS_TEXT
+    MENUITEM "/Italic/11/Style: Italic",     21, MIS_TEXT
+    MENUITEM "/UnderLn/12/Style: Underline", 22, MIS_TEXT
+  END
+END
+MENU ID_SCRIPTCMDBAR LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  MENUITEM "/Play Script/15/Cmd: Play//Play the script",       30,  MIS_TEXT
+  MENUITEM "",                                                         1,  MIS_SPACER
+  MENUITEM "/Record Events/16/Cmd: Record//Start recording events",       31,  MIS_TEXT
+  MENUITEM "",                                                         8,  MIS_SPACER
+  MENUITEM "/Stop Recording/17/Cmd: Stop//Stop recording events",       32,  MIS_TEXT
+  MENUITEM "",                                                        14,  MIS_SPACER
+  MENUITEM "/Check Syntax/18/Cmd: Compile//Check syntax of script",       33,  MIS_TEXT
+END
+rcinclude osatest.dlg
+

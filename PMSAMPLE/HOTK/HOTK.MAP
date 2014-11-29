@@ -1,0 +1,476 @@
+
+ hotk
+
+ Start         Length     Name                   Class
+ 0001:00000000 000004720H CODE32                 CODE 32-bit
+               at offset 00000000 0044CH bytes from hotk.OBJ (F:\switch\hotk.C)
+               at offset 0000044C 0006CH bytes from E:\IBMC\LIB\dde4sbs.lib (SPRINTF.C)
+               at offset 000004B8 00096H bytes from E:\IBMC\LIB\dde4sbs.lib (EDC3216.ASM)
+               at offset 00000550 0006BH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCPROL.ASM)
+               at offset 000005BC 000B3H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCSTRT.ASM)
+               at offset 00000670 00030H bytes from E:\IBMC\LIB\dde4sbs.lib (MEMCPY.C)
+               at offset 000006A0 0000DH bytes from E:\IBMC\LIB\dde4sbs.lib (SEL_FLAT.ASM)
+               at offset 000006B0 00024H bytes from E:\IBMC\LIB\dde4sbs.lib (STRLEN.C)
+               at offset 000006D4 00ED0H bytes from E:\IBMC\LIB\dde4sbs.lib (DOFMTO.C)
+               at offset 000015A4 00478H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCINIT.C)
+               at offset 00001A1C 000B4H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCTERM.C)
+               at offset 00001AD0 00074H bytes from E:\IBMC\LIB\dde4sbs.lib (EXIT.C)
+               at offset 00001B44 00014H bytes from E:\IBMC\LIB\dde4sbs.lib (MATHERR.C)
+               at offset 00001B58 00E38H bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCEPT.C)
+               at offset 00002990 001F8H bytes from E:\IBMC\LIB\dde4sbs.lib (SETUPARG.ASM)
+               at offset 00002B88 00011H bytes from E:\IBMC\LIB\dde4sbs.lib (BTS.ASM)
+               at offset 00002B9C 000F4H bytes from E:\IBMC\LIB\dde4sbs.lib (BUFPRINT.C)
+               at offset 00002C90 00014H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCMXDEF.C)
+               at offset 00002CA4 00014H bytes from E:\IBMC\LIB\dde4sbs.lib (FCLWEAK.C)
+               at offset 00002CB8 00090H bytes from E:\IBMC\LIB\dde4sbs.lib (FFLUSH.C)
+               at offset 00002D48 000A8H bytes from E:\IBMC\LIB\dde4sbs.lib (FREE.C)
+               at offset 00002DF0 000C8H bytes from E:\IBMC\LIB\dde4sbs.lib (FREEFCB.C)
+               at offset 00002EB8 00104H bytes from E:\IBMC\LIB\dde4sbs.lib (GETENV.C)
+               at offset 00002FBC 002C8H bytes from E:\IBMC\LIB\dde4sbs.lib (HEAPMIN.C)
+               at offset 00003284 00098H bytes from E:\IBMC\LIB\dde4sbs.lib (LTOA.C)
+               at offset 0000331C 00300H bytes from E:\IBMC\LIB\dde4sbs.lib (MALLOC.C)
+               at offset 0000361C 00077H bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCPTA.ASM)
+               at offset 00003694 00228H bytes from E:\IBMC\LIB\dde4sbs.lib (PRTEMSG.C)
+               at offset 000038BC 00008H bytes from E:\IBMC\LIB\dde4sbs.lib (W_RAISE.C)
+               at offset 000038C4 000E4H bytes from E:\IBMC\LIB\dde4sbs.lib (SETUPENV.C)
+               at offset 000039A8 0003CH bytes from E:\IBMC\LIB\dde4sbs.lib (STRSPN.ASM)
+               at offset 000039E4 00050H bytes from E:\IBMC\LIB\dde4sbs.lib (STRUPR.C)
+               at offset 00003A34 00020H bytes from E:\IBMC\LIB\dde4sbs.lib (TERMINAT.C)
+               at offset 00003A54 00180H bytes from E:\IBMC\LIB\dde4sbs.lib (WCSTOMBS.C)
+               at offset 00003BD4 000E4H bytes from E:\IBMC\LIB\dde4sbs.lib (WCTOMB.C)
+               at offset 00003CB8 00028H bytes from E:\IBMC\LIB\dde4sbs.lib (WEAKFMT.C)
+               at offset 00003CE0 00014H bytes from E:\IBMC\LIB\dde4sbs.lib (WEAKCPUT.C)
+               at offset 00003CF4 00022H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCMSG.ASM)
+               at offset 00003D18 00254H bytes from E:\IBMC\LIB\dde4sbs.lib (FILLB.C)
+               at offset 00003F6C 001B8H bytes from E:\IBMC\LIB\dde4sbs.lib (FLUSH.C)
+               at offset 00004124 00006H bytes from E:\IBMC\LIB\dde4sbs.lib (ILOG2.ASM)
+               at offset 0000412C 00178H bytes from E:\IBMC\LIB\dde4sbs.lib (UWRITE.C)
+               at offset 000042A4 00094H bytes from E:\IBMC\LIB\dde4sbs.lib (ALLOCSPC.C)
+               at offset 00004338 003E8H bytes from E:\IBMC\LIB\dde4sbs.lib (FLUSHB.C)
+
+ 0002:00000000 000000019H CODE16                 CODE 16-bit
+               at offset 00000000 00019H bytes from E:\IBMC\LIB\dde4sbs.lib (EDC3216.ASM)
+
+ 0003:00000000 000000030H _MSGSEG32              CODE 32-bit
+               at offset 00000000 00030H bytes from C:\TOOLKT20\OS2LIB\OS2386.LIB (.\msgseg32.asm)
+
+ 0004:00000000 00000000CH SEG16_F:\switch\hotk0  DATA16 16-bit
+               at offset 00000000 0000CH bytes from hotk.OBJ (F:\switch\hotk.C)
+
+ 0005:00000000 000000008H LIBDATA16              DATA16 16-bit
+               at offset 00000000 00008H bytes from E:\IBMC\LIB\dde4sbs.lib (EDC3216.ASM)
+
+ 0006:00000000 000000000H SEG16_F:\switch\hotk1  BSS16 16-bit
+ 0006:00000000 0000000D0H FAR_BSS                FAR_BSS 16-bit
+ 0007:00000000 000000828H DATA32                 DATA 32-bit
+               at offset 00000000 000B4H bytes from hotk.OBJ (F:\switch\hotk.C)
+               at offset 000000B4 0000EH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCSTRT.ASM)
+               at offset 000000C4 005E0H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCINIT.C)
+               at offset 000006A4 00168H bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCEPT.C)
+               at offset 0000080C 00010H bytes from E:\IBMC\LIB\dde4sbs.lib (SETUPARG.ASM)
+               at offset 0000081C 00004H bytes from E:\IBMC\LIB\dde4sbs.lib (PRTEMSG.C)
+               at offset 00000820 00008H bytes from E:\IBMC\LIB\dde4sbs.lib (FLUSHB.C)
+
+ 0007:00000828 00000022CH CONST32                CONST 32-bit
+               at offset 00000000 00028H bytes from E:\IBMC\LIB\dde4sbs.lib (DOFMTO.C)
+               at offset 00000028 00150H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCINIT.C)
+               at offset 00000178 00004H bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCEPT.C)
+               at offset 0000017C 00028H bytes from E:\IBMC\LIB\dde4sbs.lib (LTOA.C)
+               at offset 000001A4 00088H bytes from E:\IBMC\LIB\dde4sbs.lib (PRTEMSG.C)
+
+ 0007:00000A54 00000000CH EDC1                   EDC_CLASS 32-bit
+               at offset 00000000 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCPTA.ASM)
+
+ 0007:00000A60 0000001BCH EDC2                   EDC_CLASS 32-bit
+               at offset 00000000 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (SPRINTF.C)
+               at offset 0000000C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCSTRT.ASM)
+               at offset 00000018 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (MEMCPY.C)
+               at offset 00000024 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (STRLEN.C)
+               at offset 00000030 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (DOFMTO.C)
+               at offset 0000003C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCINIT.C)
+               at offset 00000048 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCTERM.C)
+               at offset 00000054 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (EXIT.C)
+               at offset 00000060 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (MATHERR.C)
+               at offset 0000006C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCEPT.C)
+               at offset 00000078 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (SETUPARG.ASM)
+               at offset 00000084 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (BTS.ASM)
+               at offset 00000090 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (BUFPRINT.C)
+               at offset 0000009C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCMXDEF.C)
+               at offset 000000A8 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FCLWEAK.C)
+               at offset 000000B4 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FFLUSH.C)
+               at offset 000000C0 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FREE.C)
+               at offset 000000CC 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FREEFCB.C)
+               at offset 000000D8 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (GETENV.C)
+               at offset 000000E4 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (HEAPMIN.C)
+               at offset 000000F0 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (LTOA.C)
+               at offset 000000FC 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (MALLOC.C)
+               at offset 00000108 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (PRTEMSG.C)
+               at offset 00000114 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (SETUPENV.C)
+               at offset 00000120 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (STRSPN.ASM)
+               at offset 0000012C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (STRUPR.C)
+               at offset 00000138 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (TERMINAT.C)
+               at offset 00000144 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (WCSTOMBS.C)
+               at offset 00000150 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (WCTOMB.C)
+               at offset 0000015C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (WEAKFMT.C)
+               at offset 00000168 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (WEAKCPUT.C)
+               at offset 00000174 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (EDCMSG.ASM)
+               at offset 00000180 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FILLB.C)
+               at offset 0000018C 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FLUSH.C)
+               at offset 00000198 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (UWRITE.C)
+               at offset 000001A4 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (ALLOCSPC.C)
+               at offset 000001B0 0000CH bytes from E:\IBMC\LIB\dde4sbs.lib (FLUSHB.C)
+
+ 0007:00000C1C 000000004H EDC3                   EDC_CLASS 32-bit
+               at offset 00000000 00004H bytes from E:\IBMC\LIB\dde4sbs.lib (N_EXCPTA.ASM)
+
+ 0007:00000C20 000000000H BSS32                  BSS 32-bit
+ 0007:00000C20 0000000B4H c_common               BSS 32-bit
+ 0007:00000CE0 000004000H STACK32                STACK 32-bit
+               at offset 00000000 02000H bytes from E:\IBMC\LIB\dde4sbs.lib (EDCSTRT.ASM)
+
+
+ Origin   Group
+ 0007:0   DGROUP
+ 0000:0   FLAT
+
+  Address         Publics by Name
+
+ 0007:00000C54       @BSSEDCINIT.C
+ 0007:00000C24       @BSSN_EXCEPT.C
+ 0007:00000CC4       @BSSPRTEMSG.C
+ 0000:00000000  Imp  DOS32FLATTOSEL       (DOSCALLS.425)
+ 0003:00000012       DOS32GETMESSAGE
+ 0000:00000000  Imp  DOS32IQUERYMESSAGECP (MSG.8)
+ 0000:00000000  Imp  DOS32SELTOFLAT       (DOSCALLS.426)
+ 0000:00000000  Imp  DOS32TRUEGETMESSAGE  (MSG.6)
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  DosCreateMutexSem    (DOSCALLS.331)
+ 0000:00000000  Imp  DosDevIOCtl          (DOSCALLS.284)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  DosExitList          (DOSCALLS.296)
+ 0000:00000000  Imp  DOSFLATTOSEL         (DOSCALLS.425)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  DosGetInfoBlocks     (DOSCALLS.312)
+ 0003:00000012       DosGetMessage
+ 0000:00000000  Imp  DosOpen              (DOSCALLS.273)
+ 0000:00000000  Imp  DosQueryDBCSEnv      (NLS.6)
+ 0000:00000000  Imp  DosQueryHType        (DOSCALLS.224)
+ 0000:00000000  Imp  DosQuerySysInfo      (DOSCALLS.348)
+ 0000:00000000  Imp  DosRaiseException    (DOSCALLS.356)
+ 0000:00000000  Imp  DosReleaseMutexSem   (DOSCALLS.335)
+ 0000:00000000  Imp  DosRequestMutexSem   (DOSCALLS.334)
+ 0000:00000000  Imp  DosSetFilePtr        (DOSCALLS.256)
+ 0000:00000000  Imp  DosSetSignalExceptionFocus (DOSCALLS.378)
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0007:00000C6C       errno
+ 0001:00001AD0       exit
+ 0001:00002CB8       fflush
+ 0001:00002D48       free
+ 0001:00002EB8       getenv
+ 0000:00000000  Imp  GpiCharStringAt      (PMGPI.359)
+ 0000:00000000  Imp  GpiSetBackColor      (PMGPI.504)
+ 0000:00000000  Imp  GpiSetBackMix        (PMGPI.505)
+ 0000:00000000  Imp  GpiSetColor          (PMGPI.517)
+ 0006:00000060       hab
+ 0006:00000064       hotkl
+ 0006:000000C8       hwndButton
+ 0006:00000058       hwndClient
+ 0006:0000005C       hwndFrame
+ 0006:00000000       hwndkbd
+ 0004:00000004       Labels
+ 0001:00000000       main
+ 0001:0000340C       malloc
+ 0001:00000670       memcpy
+ 0001:00000168       MyWindowProc
+ 0004:00000000       OnOff
+ 0006:0000006A       Packet
+ 0006:00000066       RetI
+ 0006:00000070       RetO
+ 0003:00000000       sig32
+ 0007:000000CC       stderr
+ 0007:000000C4       stdin
+ 0007:000000C8       stdout
+ 0001:000006B0       strlen
+ 0001:000039A8       strspn
+ 0001:000039E4       strupr
+ 0006:00000008       szString
+ 0006:00000004       ulTemp
+ 0006:000000C4       ulTemp1
+ 0006:000000CC       ulTemp2
+ 0001:00003A54       wcstombs
+ 0001:00003BD4       wctomb
+ 0000:00000000  Imp  WinBeginPaint        (PMWIN.703)
+ 0000:00000000  Imp  WinCreateMsgQueue    (PMWIN.716)
+ 0000:00000000  Imp  WinCreateStdWindow   (PMWIN.908)
+ 0000:00000000  Imp  WinCreateWindow      (PMWIN.909)
+ 0000:00000000  Imp  WinDefWindowProc     (PMWIN.911)
+ 0000:00000000  Imp  WinDestroyMsgQueue   (PMWIN.726)
+ 0000:00000000  Imp  WinDestroyWindow     (PMWIN.728)
+ 0000:00000000  Imp  WinDispatchMsg       (PMWIN.912)
+ 0000:00000000  Imp  WinEndPaint          (PMWIN.738)
+ 0000:00000000  Imp  WinFillRect          (PMWIN.743)
+ 0000:00000000  Imp  WinGetMsg            (PMWIN.915)
+ 0000:00000000  Imp  WinInitialize        (PMWIN.763)
+ 0000:00000000  Imp  WinInvalidateRegion  (PMWIN.766)
+ 0000:00000000  Imp  WinPostMsg           (PMWIN.919)
+ 0000:00000000  Imp  WinRegisterClass     (PMWIN.926)
+ 0000:00000000  Imp  WinSetSysModalWindow (PMWIN.872)
+ 0000:00000000  Imp  WinSetWindowPos      (PMWIN.875)
+ 0000:00000000  Imp  WinSetWindowText     (PMWIN.877)
+ 0000:00000000  Imp  WinTerminate         (PMWIN.888)
+ 0006:00000074       wMsg
+ 0001:000042A4       _AllocSpace
+ 0007:000000B8       _argc
+ 0007:000000BC       _argv
+ 0007:00000C38       _Async_exception_flag
+ 0001:00002B88       _bit_test_set
+ 0007:00000C34       _broken_time_ptr
+ 0001:00002B9C       _bufprint
+ 0001:00003640       _callback_opt_sys
+ 0001:0000268C       _critlib_except
+ 0001:000015A4       _CRT_init
+ 0001:00001A1C       _CRT_term
+ 0007:000000D4       _ctable
+ 0007:00000C44       _ctype
+ 0007:00000C48       _cvt_buf_ptr
+ 0007:000001D8       _daylight
+ 0007:00000CC8       _doserrno
+ 0001:000006A8       _DosFlatToSel
+ 0001:000006A0       _DosSelToFlat
+ 0007:00000C68       _dttm_ptr
+ 0007:00000C20       _edata
+ 0001:00003CF4       _edcGetMessage
+ 0007:00000CE0       _end
+ 0007:00000C20       _environ
+ 0001:0000361C       _Exception
+ 0001:00001BF8       _exception_dllinit
+ 0001:00001BC4       _exception_procinit
+ 0007:000000B4       _exeentry
+ 0001:000028A4       _EXE_Exception
+ 0001:00002CA4       _fcloseall_weak
+ 0001:00003D18       _fillb
+ 0007:00000A54       _firsteib
+ 0007:00000CD0       _flags
+ 0001:00003F6C       _Flush
+ 0001:00004338       _flushb
+ 0001:00002DF0       _FreeFCB
+ 0001:00003658       _get_seglim
+ 0001:000030A0       _heapmin
+ 0001:00004124       _ilog2
+ 0007:00000CCC       _internal_buf_ptr
+ 0007:00000C1C       _lasteib
+ 0007:00000C64       _lcvt_buf_ptr
+ 0001:00002524       _Lib_excpt
+ 0001:00003284       _ltoa
+ 0001:00001B44       _matherr
+ 0007:000006A4       _matherr_ptr
+ 0001:00002C90       _Math_Exception_Def
+ 0001:00003694       _MesgServ
+ 0001:00001B58       _mig_eib_store
+ 0007:00000C40       _osmajor
+ 0007:00000C50       _osminor
+ 0007:000001E0       _osmode
+ 0007:00000C70       _pBucketArr
+ 0007:00000CBC       _perror_msg_ptr
+ 0007:000000D0       _PGLOBAL_PTR
+ 0001:00003864       _PrintErrMsg
+ 0007:000001E8       _random_seed
+ 0001:000027A0       _recreate_exception
+ 0001:0000364C       _Regen_exception
+ 0007:00000C4C       _Saved_Return_Address
+ 0001:00002990       _setuparg
+ 0001:000038C4       _setupenv
+ 0001:0000331C       _split_chunk
+ 0001:0000046C       _sprintfieee
+ 0001:0000044C       _sprintf_ansi
+ 0007:00000CC0       _strerror_msg_ptr
+ 0007:00000CB0       _strtok_pos
+ 0007:00000C3C       _tempname_ptr
+ 0001:00003A34       _terminate
+ 0001:00003634       _Test_and_reset
+ 0001:000019C0       _test_handle
+ 0007:000001DC       _timezone
+ 0007:00000CB4       _tzname
+ 0001:0000412C       _uwrite
+ 0007:000001E4       _version
+ 0001:00003CE0       _wcputs
+ 0001:00003CB8       _wfloatfmt
+ 0001:000038BC       _w_raise
+ 0001:000006D4       __dofmto
+ 0001:000004B8       __EDC3216
+ 0001:00000550       __EDCThunkProlog
+ 0001:00001C28       __Exception
+ 0005:00000000       __fac
+ 0001:000005BC       __RunExitList
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  DOS32SELTOFLAT       (DOSCALLS.426)
+ 0000:00000000  Imp  WinCreateWindow      (PMWIN.909)
+ 0000:00000000  Imp  WinDestroyMsgQueue   (PMWIN.726)
+ 0000:00000000  Imp  DosDevIOCtl          (DOSCALLS.284)
+ 0000:00000000  Imp  WinCreateMsgQueue    (PMWIN.716)
+ 0000:00000000  Imp  DosQuerySysInfo      (DOSCALLS.348)
+ 0000:00000000  Imp  WinDefWindowProc     (PMWIN.911)
+ 0000:00000000  Imp  DosSetSignalExceptionFocus (DOSCALLS.378)
+ 0000:00000000  Imp  WinSetWindowPos      (PMWIN.875)
+ 0000:00000000  Imp  WinDestroyWindow     (PMWIN.728)
+ 0000:00000000  Imp  WinInitialize        (PMWIN.763)
+ 0000:00000000  Imp  DosSetFilePtr        (DOSCALLS.256)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  WinSetWindowText     (PMWIN.877)
+ 0000:00000000  Imp  DosRequestMutexSem   (DOSCALLS.334)
+ 0000:00000000  Imp  DosQueryHType        (DOSCALLS.224)
+ 0000:00000000  Imp  DosExitList          (DOSCALLS.296)
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  WinFillRect          (PMWIN.743)
+ 0000:00000000  Imp  DosGetInfoBlocks     (DOSCALLS.312)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  WinGetMsg            (PMWIN.915)
+ 0000:00000000  Imp  GpiCharStringAt      (PMGPI.359)
+ 0000:00000000  Imp  WinPostMsg           (PMWIN.919)
+ 0000:00000000  Imp  DOS32IQUERYMESSAGECP (MSG.8)
+ 0000:00000000  Imp  WinInvalidateRegion  (PMWIN.766)
+ 0000:00000000  Imp  DosCreateMutexSem    (DOSCALLS.331)
+ 0000:00000000  Imp  WinCreateStdWindow   (PMWIN.908)
+ 0000:00000000  Imp  DosReleaseMutexSem   (DOSCALLS.335)
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0000:00000000  Imp  DOS32TRUEGETMESSAGE  (MSG.6)
+ 0000:00000000  Imp  GpiSetColor          (PMGPI.517)
+ 0000:00000000  Imp  WinSetSysModalWindow (PMWIN.872)
+ 0000:00000000  Imp  WinDispatchMsg       (PMWIN.912)
+ 0000:00000000  Imp  DosQueryDBCSEnv      (NLS.6)
+ 0000:00000000  Imp  DOS32FLATTOSEL       (DOSCALLS.425)
+ 0000:00000000  Imp  WinEndPaint          (PMWIN.738)
+ 0000:00000000  Imp  GpiSetBackMix        (PMGPI.505)
+ 0000:00000000  Imp  DOSFLATTOSEL         (DOSCALLS.425)
+ 0000:00000000  Imp  WinTerminate         (PMWIN.888)
+ 0000:00000000  Imp  WinBeginPaint        (PMWIN.703)
+ 0000:00000000  Imp  GpiSetBackColor      (PMGPI.504)
+ 0000:00000000  Imp  WinRegisterClass     (PMWIN.926)
+ 0000:00000000  Imp  DosOpen              (DOSCALLS.273)
+ 0000:00000000  Imp  DosRaiseException    (DOSCALLS.356)
+ 0001:00000000       main
+ 0001:00000168       MyWindowProc
+ 0001:0000044C       _sprintf_ansi
+ 0001:0000046C       _sprintfieee
+ 0001:000004B8       __EDC3216
+ 0001:00000550       __EDCThunkProlog
+ 0001:000005BC       __RunExitList
+ 0001:00000670       memcpy
+ 0001:000006A0       _DosSelToFlat
+ 0001:000006A8       _DosFlatToSel
+ 0001:000006B0       strlen
+ 0001:000006D4       __dofmto
+ 0001:000015A4       _CRT_init
+ 0001:000019C0       _test_handle
+ 0001:00001A1C       _CRT_term
+ 0001:00001AD0       exit
+ 0001:00001B44       _matherr
+ 0001:00001B58       _mig_eib_store
+ 0001:00001BC4       _exception_procinit
+ 0001:00001BF8       _exception_dllinit
+ 0001:00001C28       __Exception
+ 0001:00002524       _Lib_excpt
+ 0001:0000268C       _critlib_except
+ 0001:000027A0       _recreate_exception
+ 0001:000028A4       _EXE_Exception
+ 0001:00002990       _setuparg
+ 0001:00002B88       _bit_test_set
+ 0001:00002B9C       _bufprint
+ 0001:00002C90       _Math_Exception_Def
+ 0001:00002CA4       _fcloseall_weak
+ 0001:00002CB8       fflush
+ 0001:00002D48       free
+ 0001:00002DF0       _FreeFCB
+ 0001:00002EB8       getenv
+ 0001:000030A0       _heapmin
+ 0001:00003284       _ltoa
+ 0001:0000331C       _split_chunk
+ 0001:0000340C       malloc
+ 0001:0000361C       _Exception
+ 0001:00003634       _Test_and_reset
+ 0001:00003640       _callback_opt_sys
+ 0001:0000364C       _Regen_exception
+ 0001:00003658       _get_seglim
+ 0001:00003694       _MesgServ
+ 0001:00003864       _PrintErrMsg
+ 0001:000038BC       _w_raise
+ 0001:000038C4       _setupenv
+ 0001:000039A8       strspn
+ 0001:000039E4       strupr
+ 0001:00003A34       _terminate
+ 0001:00003A54       wcstombs
+ 0001:00003BD4       wctomb
+ 0001:00003CB8       _wfloatfmt
+ 0001:00003CE0       _wcputs
+ 0001:00003CF4       _edcGetMessage
+ 0001:00003D18       _fillb
+ 0001:00003F6C       _Flush
+ 0001:00004124       _ilog2
+ 0001:0000412C       _uwrite
+ 0001:000042A4       _AllocSpace
+ 0001:00004338       _flushb
+ 0003:00000000       sig32
+ 0003:00000012       DOS32GETMESSAGE
+ 0003:00000012       DosGetMessage
+ 0004:00000000       OnOff
+ 0004:00000004       Labels
+ 0005:00000000       __fac
+ 0006:00000000       hwndkbd
+ 0006:00000004       ulTemp
+ 0006:00000008       szString
+ 0006:00000058       hwndClient
+ 0006:0000005C       hwndFrame
+ 0006:00000060       hab
+ 0006:00000064       hotkl
+ 0006:00000066       RetI
+ 0006:0000006A       Packet
+ 0006:00000070       RetO
+ 0006:00000074       wMsg
+ 0006:000000C4       ulTemp1
+ 0006:000000C8       hwndButton
+ 0006:000000CC       ulTemp2
+ 0007:000000B4       _exeentry
+ 0007:000000B8       _argc
+ 0007:000000BC       _argv
+ 0007:000000C4       stdin
+ 0007:000000C8       stdout
+ 0007:000000CC       stderr
+ 0007:000000D0       _PGLOBAL_PTR
+ 0007:000000D4       _ctable
+ 0007:000001D8       _daylight
+ 0007:000001DC       _timezone
+ 0007:000001E0       _osmode
+ 0007:000001E4       _version
+ 0007:000001E8       _random_seed
+ 0007:000006A4       _matherr_ptr
+ 0007:00000A54       _firsteib
+ 0007:00000C1C       _lasteib
+ 0007:00000C20       _edata
+ 0007:00000C20       _environ
+ 0007:00000C24       @BSSN_EXCEPT.C
+ 0007:00000C34       _broken_time_ptr
+ 0007:00000C38       _Async_exception_flag
+ 0007:00000C3C       _tempname_ptr
+ 0007:00000C40       _osmajor
+ 0007:00000C44       _ctype
+ 0007:00000C48       _cvt_buf_ptr
+ 0007:00000C4C       _Saved_Return_Address
+ 0007:00000C50       _osminor
+ 0007:00000C54       @BSSEDCINIT.C
+ 0007:00000C64       _lcvt_buf_ptr
+ 0007:00000C68       _dttm_ptr
+ 0007:00000C6C       errno
+ 0007:00000C70       _pBucketArr
+ 0007:00000CB0       _strtok_pos
+ 0007:00000CB4       _tzname
+ 0007:00000CBC       _perror_msg_ptr
+ 0007:00000CC0       _strerror_msg_ptr
+ 0007:00000CC4       @BSSPRTEMSG.C
+ 0007:00000CC8       _doserrno
+ 0007:00000CCC       _internal_buf_ptr
+ 0007:00000CD0       _flags
+ 0007:00000CE0       _end
+
+Program entry point at 0001:05E0

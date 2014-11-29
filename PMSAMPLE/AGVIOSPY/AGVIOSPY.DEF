@@ -1,0 +1,21 @@
+;******* mousplay    C Sample Program Module Definition File (.DEF) ********
+;
+;  The module definition file supplies extra information about the program
+;  module to the LINKER.
+;
+
+
+NAME    agviospy WINDOWAPI
+
+DESCRIPTION 'OS/2 Presentation Manager Sample'
+
+STUB    'OS2STUB.EXE'
+
+DATA    MULTIPLE
+
+STACKSIZE   4096
+HEAPSIZE    4096
+
+PROTMODE
+
+

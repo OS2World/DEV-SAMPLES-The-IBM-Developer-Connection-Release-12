@@ -1,0 +1,796 @@
+VDFT.C                                                                                         06/05/94 14:21:58     Page     1
+                                      * * * * *   P R O L O G   * * * * *
+
+ Compiler . . . . . . . . . . . . : IBM C/C++ Tools V2.0
+ Command options:
+    Compiler mode . . . . . . . . : C
+    Program name. . . . . . . . . : VDFT.C
+    Assemble name . . . . . . . . : "vdft.asm"
+    Object name . . . . . . . . . : "vdft.obj"
+    Listing name. . . . . . . . . : vdft.lst
+    Compiler options. . . . . . . : /C+  /Fa+ /Fc- /Fd- /Fi- /Fl- /Fm- /Fo+ /Fw- /Gd- /Ge+ /Gf- /Gh- /Gi- /Gm- /Gn- /Gr+ /Gs-
+                                  : /Gt- /Gu- /Gv- /Gw- /J+  /L-  /La- /Lb- /Le- /Lf- /Li- /Lj- /Ls+ /Lx- /Ly- /O-  /Ol- /Om-
+                                  : /Op+ /Os- /P-  /Pc- /Pd- /Pe- /Q+  /Sd- /Sh- /Si- /Sm- /Sn- /Sr- /Ss+ /Sv- /Ti- /Tm- /Tx-
+                                  : /Xi-
+                                  : /Wcls- /Wcmp- /Wcnd- /Wcns- /Wcnv- /Wcpy- /Wdcl- /Weff- /Wenu- /Wext- /Wgen- /Wgnr- /Wgot-
+                                  : /Wini- /Wlan- /Wobs- /Word- /Wpar- /Wpor- /Wppc- /Wppt- /Wpro- /Wrea- /Wret- /Wtrd- /Wtru-
+                                  : /Wund- /Wuni- /Wuse- /Wvft-
+                                  : /Mp  /Rn  /Se  /Sp1  /G3  /W3  /H255  /Lp66  /Sg-  /Sq-  /N  /Oi0  /Su-  /Tl10 
+                                  : /DM_I386=1  
+                                  : /I  
+                                  : /Lt 
+                                  : /Lu 
+                                  : /B  
+                                  : /V  
+VDFT.C                                                                                         06/05/94 14:21:58     Page     2
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+    1       |/******************************************************************************/                  |      1           
+    2       |/*                                                                            */                  |      2           
+    3       |/*                     IBM Sample Virtual Device Driver                       */                  |      3           
+    4       |/*                                                                            */                  |      4           
+    5       |/*                 Copyright (c) IBM Corporation 1993                         */                  |      5           
+    6       |/*                         All Rights Reserved                                */                  |      6           
+    7       |/*                                                                            */                  |      7           
+    8       |/*   DISCLAIMER OF WARRANTIES.  The following [enclosed] code is              */                  |      8           
+    9       |/*   sample code created by IBM Corporation. This sample code is not          */                  |      9           
+   10       |/*   part of any standard or IBM product and is provided to you solely        */                  |     10           
+   11       |/*   for  the purpose of assisting you in the development of your             */                  |     11           
+   12       |/*   applications.  The code is provided "AS IS", without                     */                  |     12           
+   13       |/*   warranty of any kind.  IBM shall not be liable for any damages           */                  |     13           
+   14       |/*   arising out of your use of the sample code, even if they have been       */                  |     14           
+   15       |/*   advised of the possibility of such damages.                              */                  |     15           
+   16       |/*                                                                            */                  |     16           
+   17       |/******************************************************************************/                  |     17           
+   18       |/**************************** END OF SPECIFICATIONS ***************************/                  |     18           
+   19       |                                                                                                  |     19           
+   20       |#define INCL_VDH                                                                                  |     20           
+   21       |#define NULL 0                                                                                    |     21           
+   22       |                                                                                                  |     22           
+   23       |#include <mvdm.h>                       /* VDH services, etc.        */                           |     23           
+   24       |#include <basemid.h>                    /* message numbers           */                           |     24           
+   25       |#include <builtin.h>                    /* builtin functions         */                           |     25           
+   26       |#include "VDFTP.H"                      /* Local Stuff               */                           |     26           
+   27       |#include "common.h"                                                                               |     27           
+   28       |                                                                                                  |     28           
+   29       |/*                                                                   */                           |     29           
+   30       |/*                 GLOBAL DATA AREA FOR VDFT                         */                           |     30           
+   31       |/*                                                                   */                           |     31           
+   32       |#define DEBUG                                                                                     |     32           
+   33       |HIRQ hirq_DFT = 0;                      /* holds handle for EOI hook */                           |     33           
+   34       |                                                                                                  |     34           
+   35       |HVDM HVDM_Owner = 0;                    /* hvdm of owner             */                           |     35           
+   36       |INT   Status_byte;                      /* Status Register value     */                           |     36           
+   37       |PMESSAGE pMessage = NULL;                                                                         |     37           
+   38       |                                                                                                  |     38           
+   39       |LONG   VDHENTRY VDHRegisterAPI(PSZ,PFNHOOK,PFNHOOK);                                              |     39           
+   40       |HVDHSEM SemOS2Handle = 0;                                                                         |     40           
+   41       |HVDHSEM SemWinHandle = 0;                                                                         |     41           
+   42       |#pragma data_seg(CSWAP_DATA)                                                                      |     42           
+   43       |                                                                                                  |     43           
+   44       |                                                                                                  |     44           
+   45       |#pragma data_seg()                                                                                |     45           
+   46       |                                                                                                  |     46           
+   47       |#pragma data_seg(SWAPINSTDATA)                                                                    |     47           
+   48       |                                                                                                  |     48           
+   49       |HVDM  HVDM_Current;                     /* Current VDM handle  */                                 |     49           
+   50       |VDFTPDB PDB_Current;                    /* Current PDB         */                                 |     50           
+   51       |                                                                                                  |     51           
+   52       |#pragma data_seg()                                                                                |     52           
+   53       |                                                                                                  |     53           
+   54       |#pragma data_seg(CINIT_DATA)                                                                      |     54           
+   55       |                                                                                                  |     55           
+   56       |char szPDDName[]=DFT_NAME;                                                                        |     56           
+   57       |                                                                                                  |     57           
+   58       |#pragma data_seg()                                                                                |     58           
+   59       |                                                                                                  |     59           
+   60       |#pragma alloc_text(CSWAP_TEXT, VDFTDaIn, VDFTStIn, VDFTDaOut)                                     |     60           
+   61       |/*                                                                                                |     61           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     3
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+   62       | *local function prototypes go here                                                               |     62           
+   63       | */                                                                                               |     63           
+   64       |                                                                                                  |     64           
+   65       |LONG EXPENTRY OS2Service(SGID sgid,ULONG ulCommand,ULONG ulCountIn,                               |     65           
+   66       |                         PVOID pvDataIn,ULONG ulCountout,                                         |     66           
+   67       |                         PVOID pvDataOut);                                                        |     67           
+   68       |LONG OS2ReadQueue(SGID sgid,ULONG ulCountout,                                                     |     68           
+   69       |                    PVOID pvDataOut);                                                             |     69           
+   70       |                                                                                                  |     70           
+   71       |BOOL OS2TerminateService(VOID);                                                                   |     71           
+   72       |BOOL OS2PostMessage(SGID SessionId,ULONG ulCountIn,PVOID pvDataIn);                               |     72           
+   73       |BOOL OS2InitSetup(VOID);                                                                          |     73           
+   74       |BOOL OS2ReadMessageData(SGID sgid,ULONG ulCountout,PVOID pvDataOut);                              |     74           
+   75       |PMESSAGE GetNextLink(VOID);                                                                       |     75           
+   76       |BOOL HOOKENTRY VddDpmiEntry(ULONG ulMessageID,PVOID pvDataIn,PVOID pvDataOut);                    |     76           
+   77       |                                                                                                  |     77           
+   78       |#pragma alloc_text(CINIT_TEXT, Start_Here)                                                        |     78           
+   79       |//#pragma alloc_text(CINIT_TEXT, VDDInit)                                                         |     79           
+   80       |                                                                                                  |     80           
+   81       |/********************** START OF SPECIFICATIONS ***********************/                          |     81           
+   82       |/*                                                                    */                          |     82           
+   83       |/* SUBROUTINE NAME:  VDFTInit (Start_here)                            */                          |     83           
+   84       |/*                                                                    */                          |     84           
+   85       |/* DESCRIPTIVE NAME:  Virtual DFT Initialization entry point          */                          |     85           
+   86       |/*                                                                    */                          |     86           
+   87       |/* FUNCTION:  The function of this routine is to register the VDM     */                          |     87           
+   88       |/*            Creation, Termination, PDB Change, and PDB Destroy      */                          |     88           
+   89       |/*            handlers. This routine also sets up the VDFT Port       */                          |     89           
+   90       |/*            Address table in the global data area.                  */                          |     90           
+   91       |/*                                                                    */                          |     91           
+   92       |/* NOTES:                                                             */                          |     92           
+   93       |/*                                                                    */                          |     93           
+   94       |/* CONTEXT: System Initialization                                     */                          |     94           
+   95       |/*                                                                    */                          |     95           
+   96       |/* ENTRY POINT:  VDFTInit                                             */                          |     96           
+   97       |/*    LINKAGE:  CALL NEAR 32                                          */                          |     97           
+   98       |/*                                                                    */                          |     98           
+   99       |/* INPUT: psz - pointer to configuration strings                      */                          |     99           
+  100       |/*                                                                    */                          |    100           
+  101       |/* EXIT-NORMAL: returns !0                                            */                          |    101           
+  102       |/*                                                                    */                          |    102           
+  103       |/* EXIT-ERROR: returns 0                                              */                          |    103           
+  104       |/*                                                                    */                          |    104           
+  105       |/* EFFECTS: VDFT Port Address table in the global data area.          */                          |    105           
+  106       |/*                                                                    */                          |    106           
+  107       |/* INTERNAL REFERENCES:  NONE                                         */                          |    107           
+  108       |/*                                                                    */                          |    108           
+  109       |/* EXTERNAL REFERENCES:  VDHInstallUserHook - Install VDM event hook  */                          |    109           
+  110       |/*                       VDHOpenPDD         - Get PDD entry point     */                          |    110           
+  111       |/*                       VDHOpenVIRQ        - register an IRQ for VDM */                          |    111           
+  112       |/*                       VDHReservePages    - set up some linear      */                          |    112           
+  113       |/*                                 space for use as the adapter space */                          |    113           
+  114       |/************************ END OF SPECIFICATIONS ***********************/                          |    114           
+  115       |#pragma entry(Start_Here)                                                                         |    115           
+  116       |BOOL EXPENTRY Start_Here(PSZ psz)                                                                 |    116           
+  117       |{                                                                                                 |    117           
+  118       |                                                                                                  |    118           
+  119       |     ULONG ErrorNumber;                 /* holds error number from getError*/                     |    119           
+  120       |#ifdef DEBUG                                                                                      |    120           
+  121     1 |     _interrupt(3);                                                                               |    121           
+  122       |#endif                                                                                            |    122           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     4
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  123     2 |     if(!VDHRegisterVDD(VDDNAME,OS2Service,NULL))                                                 |    123           
+  124       |     {                                                                                            |    124           
+  125     3 |       return(FALSE);                                                                             |    125           
+  126       |     }                                                                                            |    126           
+  127       |                                                                                                  |    127           
+  128       |    /*---------------------------------------------------------------*/                           |    128           
+  129       |    /*- Register a VDM termination handler entry point.             -*/                           |    129           
+  130       |    /*---------------------------------------------------------------*/                           |    130           
+  131       |                                                                                                  |    131           
+  132     4 |    if ((VDHInstallUserHook(VDM_TERMINATE, (PUSERHOOK) VDFTTerminate)) == 0)                      |    132           
+  133     5 |        return FALSE;             /* return FALSE if VDH call failed */                           |    133           
+  134       |                                                                                                  |    134           
+  135       |    /*---------------------------------------------------------------*/                           |    135           
+  136       |    /*- Register a VDM creation handler entry point.                -*/                           |    136           
+  137       |    /*---------------------------------------------------------------*/                           |    137           
+  138       |                                                                                                  |    138           
+  139     6 |    if ((VDHInstallUserHook(VDM_CREATE, (PUSERHOOK) VDFTCreate)) == 0)                            |    139           
+  140     7 |        return FALSE;             /* return FALSE if VDH call failed */                           |    140           
+  141       |                                                                                                  |    141           
+  142     8 |     return TRUE;                                                                                 |    142           
+  143       |}                                                                                                 |    143           
+  144       |/****************************************************************\                                |    144           
+  145       | *                                                                                                |    145           
+  146       | *--------------------------------------------------------------                                  |    146           
+  147       | *                                                                                                |    147           
+  148       | *  Name:OS2Service                                                                               |    148           
+  149       | *                                                                                                |    149           
+  150       | *  Purpose:                                                                                      |    150           
+  151       | *                                                                                                |    151           
+  152       | *                                                                                                |    152           
+  153       | *                                                                                                |    153           
+  154       | *  Usage:                                                                                        |    154           
+  155       | *                                                                                                |    155           
+  156       | *  Method:                                                                                       |    156           
+  157       | *          -                                                                                     |    157           
+  158       | *                                                                                                |    158           
+  159       | *          -                                                                                     |    159           
+  160       | *          -                                                                                     |    160           
+  161       | *                                                                                                |    161           
+  162       | *          -                                                                                     |    162           
+  163       | *          -                                                                                     |    163           
+  164       | *                                                                                                |    164           
+  165       | *  Returns:                                                                                      |    165           
+  166       | *          1 - if sucessful execution completed                                                  |    166           
+  167       | *          0 - if error                                                                          |    167           
+  168       |\****************************************************************/                                |    168           
+  169       |LONG EXPENTRY OS2Service(SGID sgid,ULONG ulCommand,ULONG ulCountIn,                               |    169           
+  170       |                         PVOID pvDataIn,ULONG ulCountout,                                         |    170           
+  171       |                         PVOID pvDataOut)                                                         |    171           
+  172       |                                                                                                  |    172           
+  173       |{                                                                                                 |    173           
+  174       |                                                                                                  |    174           
+  175       |     LONG apiRet;                                                                                 |    175           
+  176       |                                                                                                  |    176           
+  177       |#ifdef DEBUG                                                                                      |    177           
+  178     9 |     _interrupt(3);                                                                               |    178           
+  179       |#endif                                                                                            |    179           
+  180    10 |     do                                                                                           |    180           
+  181       |     {                                                                                            |    181           
+  182    11 |          switch(ulCommand)                                                                       |    182           
+  183       |          {                                                                                       |    183           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     5
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  184       |          case INIT_COMMAND:                                                                      |    184           
+  185    12 |               apiRet= OS2InitSetup();                                                            |    185           
+  186    13 |               break;                                                                             |    186           
+  187       |          case POST_MESSAGE:                                                                      |    187           
+  188    14 |               apiRet=OS2PostMessage(sgid,ulCountIn,pvDataIn);                                    |    188           
+  189    15 |               break;                                                                             |    189           
+  190       |                                                                                                  |    190           
+  191       |          case READ_QUEUE:                                                                        |    191           
+  192    16 |               apiRet= OS2ReadQueue(sgid,ulCountout,pvDataOut);                                   |    192           
+  193    17 |               break;                                                                             |    193           
+  194       |          case TERMINATE_COMMAND:                                                                 |    194           
+  195    18 |               OS2TerminateService();                                                             |    195           
+  196    19 |               break;                                                                             |    196           
+  197       |          default:                                                                                |    197           
+  198    20 |               apiRet = TRUE;                                                                     |    198           
+  199    21 |               break;                                                                             |    199           
+  200       |          }                                                                                       |    200           
+  201       |                                                                                                  |    201           
+  202       |                                                                                                  |    202           
+  203    22 |     }ONCE;                                                                                       |    203           
+  204    23 |     return(apiRet);                                                                              |    204           
+  205       |}                                                                                                 |    205           
+  206       |/****************************************************************\                                |    206           
+  207       | *                                                                                                |    207           
+  208       | *--------------------------------------------------------------                                  |    208           
+  209       | *                                                                                                |    209           
+  210       | *  Name:                                                                                         |    210           
+  211       | *                                                                                                |    211           
+  212       | *  Purpose:                                                                                      |    212           
+  213       | *                                                                                                |    213           
+  214       | *                                                                                                |    214           
+  215       | *                                                                                                |    215           
+  216       | *  Usage:                                                                                        |    216           
+  217       | *                                                                                                |    217           
+  218       | *  Method:                                                                                       |    218           
+  219       | *          -                                                                                     |    219           
+  220       | *                                                                                                |    220           
+  221       | *          -                                                                                     |    221           
+  222       | *          -                                                                                     |    222           
+  223       | *                                                                                                |    223           
+  224       | *          -                                                                                     |    224           
+  225       | *          -                                                                                     |    225           
+  226       | *                                                                                                |    226           
+  227       | *  Returns:                                                                                      |    227           
+  228       | *          1 - if sucessful execution completed                                                  |    228           
+  229       | *          0 - if error                                                                          |    229           
+  230       |\****************************************************************/                                |    230           
+  231       |LONG OS2ReadQueue(SGID sgid,ULONG ulCountout,                                                     |    231           
+  232       |                    PVOID pvDataOut)                                                              |    232           
+  233       |{                                                                                                 |    233           
+  234       |                                                                                                  |    234           
+  235       |#ifdef DEBUG                                                                                      |    235           
+  236    24 |     _interrupt(3);                                                                               |    236           
+  237       |#endif                                                                                            |    237           
+  238    25 |     do                                                                                           |    238           
+  239       |     {                                                                                            |    239           
+  240       |                                                                                                  |    240           
+  241       |          /*                                                                                      |    241           
+  242       |           *wait until we get cleared                                                             |    242           
+  243       |           *and if so assume we have a new message waiting for us                                 |    243           
+  244       |           */                                                                                     |    244           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     6
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  245       |          if(!VDHWaitEventSem(SemOS2Handle,                                                       |    245           
+  246    26 |                          SEM_INDEFINITE_WAIT) )                                                  |    246           
+  247       |          {                                                                                       |    247           
+  248    27 |               return(TRUE);                                                                      |    248           
+  249       |          }                                                                                       |    249           
+  250       |          /*                                                                                      |    250           
+  251       |           *reset the semaphore for the next time                                                 |    251           
+  252       |           *through                                                                               |    252           
+  253       |           */                                                                                     |    253           
+  254    28 |          VDHResetEventSem(SemOS2Handle);                                                         |    254           
+  255       |          /*                                                                                      |    255           
+  256       |           *retrieve the message data                                                             |    256           
+  257       |           *and store it in pvDataOut                                                             |    257           
+  258       |           */                                                                                     |    258           
+  259    29 |          if(OS2ReadMessageData(sgid,ulCountout,pvDataOut) )                                      |    259           
+  260       |          {                                                                                       |    260           
+  261    30 |               return(TRUE);                                                                      |    261           
+  262       |          }                                                                                       |    262           
+  263       |                                                                                                  |    263           
+  264    31 |     }ONCE;                                                                                       |    264           
+  265    32 |     return(FALSE);                                                                               |    265           
+  266       |                                                                                                  |    266           
+  267       |}                                                                                                 |    267           
+  268       |                                                                                                  |    268           
+  269       |/****************************************************************\                                |    269           
+  270       | *                                                                                                |    270           
+  271       | *--------------------------------------------------------------                                  |    271           
+  272       | *                                                                                                |    272           
+  273       | *  Name:                                                                                         |    273           
+  274       | *                                                                                                |    274           
+  275       | *  Purpose:                                                                                      |    275           
+  276       | *                                                                                                |    276           
+  277       | *                                                                                                |    277           
+  278       | *                                                                                                |    278           
+  279       | *  Usage:                                                                                        |    279           
+  280       | *                                                                                                |    280           
+  281       | *  Method:                                                                                       |    281           
+  282       | *          -                                                                                     |    282           
+  283       | *                                                                                                |    283           
+  284       | *          -                                                                                     |    284           
+  285       | *          -                                                                                     |    285           
+  286       | *                                                                                                |    286           
+  287       | *          -                                                                                     |    287           
+  288       | *          -                                                                                     |    288           
+  289       | *                                                                                                |    289           
+  290       | *  Returns:                                                                                      |    290           
+  291       | *          1 - if sucessful execution completed                                                  |    291           
+  292       | *          0 - if error                                                                          |    292           
+  293       |\****************************************************************/                                |    293           
+  294       |BOOL OS2InitSetup(VOID)                                                                           |    294           
+  295       |{                                                                                                 |    295           
+  296       |                                                                                                  |    296           
+  297       |#ifdef DEBUG                                                                                      |    297           
+  298    33 |     _interrupt(3);                                                                               |    298           
+  299       |#endif                                                                                            |    299           
+  300       |                                                                                                  |    300           
+  301       |     /*                                                                                           |    301           
+  302       |      *if we have not created our structure yet                                                   |    302           
+  303       |      */                                                                                          |    303           
+  304    34 |     if(!pMessage)                                                                                |    304           
+  305       |     {                                                                                            |    305           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     7
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  306       |                                                                                                  |    306           
+  307       |         /*                                                                                       |    307           
+  308       |          *allocate our control                                                                   |    308           
+  309       |          *structure for our messagelist                                                          |    309           
+  310       |          */                                                                                      |    310           
+  311       |          if( ( pMessage = VDHAllocMem(sizeof(MESSAGE),                                           |    311           
+  312    35 |                                        VDHAM_SWAPPABLE) ) == NULL)                               |    312           
+  313       |          {                                                                                       |    313           
+  314    36 |               return(TRUE);                                                                      |    314           
+  315       |          }                                                                                       |    315           
+  316       |     }                                                                                            |    316           
+  317    37 |     pMessage->SrcSessionIdentifier = -1;                                                         |    317           
+  318    38 |     pMessage->DstSessionIdentifier = -1;                                                         |    318           
+  319    39 |     pMessage->ulMessageType        = 0;                                                          |    319           
+  320    40 |     pMessage->ulMessageSubCommand  = 0;                                                          |    320           
+  321    41 |     pMessage->ulBufferSize         = 0;                                                          |    321           
+  322    42 |     pMessage->pvMessageData    = NULL;                                                           |    322           
+  323    43 |     pMessage->pvNextMessage    = NULL;                                                           |    323           
+  324       |     /*                                                                                           |    324           
+  325       |      *create our event semaphore for the                                                         |    325           
+  326       |      *read thread from the OS/2 process                                                          |    326           
+  327       |      */                                                                                          |    327           
+  328       |                                                                                                  |    328           
+  329       |     if(!VDHCreateSem(&SemOS2Handle,                                                              |    329           
+  330    44 |                     VDH_EVENTSEM) )                                                              |    330           
+  331       |     {                                                                                            |    331           
+  332    45 |          return(TRUE);                                                                           |    332           
+  333       |     }                                                                                            |    333           
+  334       |                                                                                                  |    334           
+  335    46 |     VDHResetEventSem(SemOS2Handle);                                                              |    335           
+  336    47 |     return(FALSE);                                                                               |    336           
+  337       |                                                                                                  |    337           
+  338       |}                                                                                                 |    338           
+  339       |                                                                                                  |    339           
+  340       |                                                                                                  |    340           
+  341       |/****************************************************************\                                |    341           
+  342       | *                                                                                                |    342           
+  343       | *--------------------------------------------------------------                                  |    343           
+  344       | *                                                                                                |    344           
+  345       | *  Name:                                                                                         |    345           
+  346       | *                                                                                                |    346           
+  347       | *  Purpose:                                                                                      |    347           
+  348       | *                                                                                                |    348           
+  349       | *                                                                                                |    349           
+  350       | *                                                                                                |    350           
+  351       | *  Usage:                                                                                        |    351           
+  352       | *                                                                                                |    352           
+  353       | *  Method:                                                                                       |    353           
+  354       | *          -                                                                                     |    354           
+  355       | *                                                                                                |    355           
+  356       | *          -                                                                                     |    356           
+  357       | *          -                                                                                     |    357           
+  358       | *                                                                                                |    358           
+  359       | *          -                                                                                     |    359           
+  360       | *          -                                                                                     |    360           
+  361       | *                                                                                                |    361           
+  362       | *  Returns:                                                                                      |    362           
+  363       | *          1 - if sucessful execution completed                                                  |    363           
+  364       | *          0 - if error                                                                          |    364           
+  365       |\****************************************************************/                                |    365           
+  366       |BOOL OS2TerminateService(VOID)                                                                    |    366           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     8
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  367       |{                                                                                                 |    367           
+  368       |     BOOL fError = FALSE;                                                                         |    368           
+  369       |                                                                                                  |    369           
+  370       |#ifdef DEBUG                                                                                      |    370           
+  371    48 |     _interrupt(3);                                                                               |    371           
+  372       |#endif                                                                                            |    372           
+  373       |                                                                                                  |    373           
+  374    49 |     do                                                                                           |    374           
+  375       |     {                                                                                            |    375           
+  376       |                                                                                                  |    376           
+  377       |          /*                                                                                      |    377           
+  378       |           *post our semaphore                                                                    |    378           
+  379       |           */                                                                                     |    379           
+  380    50 |          VDHPostEventSem(SemOS2Handle);                                                          |    380           
+  381       |          /*                                                                                      |    381           
+  382       |           *and get rid of it                                                                     |    382           
+  383       |           */                                                                                     |    383           
+  384    51 |          VDHDestroySem(SemOS2Handle);                                                            |    384           
+  385       |                                                                                                  |    385           
+  386    52 |     }ONCE;                                                                                       |    386           
+  387    53 |     return(fError);                                                                              |    387           
+  388       |}                                                                                                 |    388           
+  389       |                                                                                                  |    389           
+  390       |/****************************************************************\                                |    390           
+  391       | *                                                                                                |    391           
+  392       | *--------------------------------------------------------------                                  |    392           
+  393       | *                                                                                                |    393           
+  394       | *  Name:                                                                                         |    394           
+  395       | *                                                                                                |    395           
+  396       | *  Purpose:                                                                                      |    396           
+  397       | *                                                                                                |    397           
+  398       | *                                                                                                |    398           
+  399       | *                                                                                                |    399           
+  400       | *  Usage:                                                                                        |    400           
+  401       | *                                                                                                |    401           
+  402       | *  Method:                                                                                       |    402           
+  403       | *          -                                                                                     |    403           
+  404       | *                                                                                                |    404           
+  405       | *          -                                                                                     |    405           
+  406       | *          -                                                                                     |    406           
+  407       | *                                                                                                |    407           
+  408       | *          -                                                                                     |    408           
+  409       | *          -                                                                                     |    409           
+  410       | *                                                                                                |    410           
+  411       | *  Returns:                                                                                      |    411           
+  412       | *          1 - if sucessful execution completed                                                  |    412           
+  413       | *          0 - if error                                                                          |    413           
+  414       |\****************************************************************/                                |    414           
+  415       |BOOL OS2PostMessage(SGID SessionId,ULONG ulCountIn,PVOID pvDataIn)                                |    415           
+  416       |{                                                                                                 |    416           
+  417       |     BOOL fError = FALSE;                                                                         |    417           
+  418       |     PMESSAGE pMessage;                                                                           |    418           
+  419       |                                                                                                  |    419           
+  420       |                                                                                                  |    420           
+  421    54 |     do                                                                                           |    421           
+  422       |     {                                                                                            |    422           
+  423       |          /*                                                                                      |    423           
+  424       |           *get the next link in our list                                                         |    424           
+  425       |           */                                                                                     |    425           
+  426    55 |           pMessage = GetNextLink();                                                              |    426           
+  427       |                                                                                                  |    427           
+VDFT.C                                                                                         06/05/94 14:21:58     Page     9
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  428       |                                                                                                  |    428           
+  429       |          /*                                                                                      |    429           
+  430       |           *allocate some local storage                                                           |    430           
+  431       |           */                                                                                     |    431           
+  432    56 |           if( (pMessage = VDHAllocMem(ulCountIn,VDHAM_SWAPPABLE))== NULL)                        |    432           
+  433       |           {                                                                                      |    433           
+  434    57 |               return(TRUE);                                                                      |    434           
+  435       |           }                                                                                      |    435           
+  436       |                                                                                                  |    436           
+  437       |          /*                                                                                      |    437           
+  438       |           *copy our message data in                                                              |    438           
+  439       |           *and hold onto our session identifier                                                  |    439           
+  440       |           */                                                                                     |    440           
+  441    58 |           pMessage->SrcSessionIdentifier = SessionId;                                            |    441           
+  442    59 |           pMessage->ulBufferSize         = ulCountIn;                                            |    442           
+  443       |           memcpy(pMessage->pvMessageData,pvDataIn,                                               |    443           
+  444    60 |                  ulCountIn);                                                                     |    444           
+  445       |                                                                                                  |    445           
+  446       |                                                                                                  |    446           
+  447       |          /*                                                                                      |    447           
+  448       |           *clear the semaphore on the Windows side                                               |    448           
+  449       |           */                                                                                     |    449           
+  450    61 |          VDHPostEventSem(SemWinHandle);                                                          |    450           
+  451       |                                                                                                  |    451           
+  452       |                                                                                                  |    452           
+  453    62 |     }ONCE;                                                                                       |    453           
+  454    63 |     return(fError);                                                                              |    454           
+  455       |}                                                                                                 |    455           
+  456       |/****************************************************************\                                |    456           
+  457       | *                                                                                                |    457           
+  458       | *--------------------------------------------------------------                                  |    458           
+  459       | *                                                                                                |    459           
+  460       | *  Name:                                                                                         |    460           
+  461       | *                                                                                                |    461           
+  462       | *  Purpose:                                                                                      |    462           
+  463       | *                                                                                                |    463           
+  464       | *                                                                                                |    464           
+  465       | *                                                                                                |    465           
+  466       | *  Usage:                                                                                        |    466           
+  467       | *                                                                                                |    467           
+  468       | *  Method:                                                                                       |    468           
+  469       | *          -                                                                                     |    469           
+  470       | *                                                                                                |    470           
+  471       | *          -                                                                                     |    471           
+  472       | *          -                                                                                     |    472           
+  473       | *                                                                                                |    473           
+  474       | *          -                                                                                     |    474           
+  475       | *          -                                                                                     |    475           
+  476       | *                                                                                                |    476           
+  477       | *  Returns:                                                                                      |    477           
+  478       | *          1 - if sucessful execution completed                                                  |    478           
+  479       | *          0 - if error                                                                          |    479           
+  480       |\****************************************************************/                                |    480           
+  481       |BOOL OS2ReadMessageData(SGID sgid,ULONG ulCountout,PVOID pvDataOut)                               |    481           
+  482       |{                                                                                                 |    482           
+  483       |                                                                                                  |    483           
+  484       |                                                                                                  |    484           
+  485       |                                                                                                  |    485           
+  486       |                                                                                                  |    486           
+  487       |                                                                                                  |    487           
+  488    64 |     return(FALSE);                                                                               |    488           
+VDFT.C                                                                                         06/05/94 14:21:58     Page    10
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  489       |}                                                                                                 |    489           
+  490       |/****************************************************************\                                |    490           
+  491       | *                                                                                                |    491           
+  492       | *--------------------------------------------------------------                                  |    492           
+  493       | *                                                                                                |    493           
+  494       | *  Name:                                                                                         |    494           
+  495       | *                                                                                                |    495           
+  496       | *  Purpose:                                                                                      |    496           
+  497       | *                                                                                                |    497           
+  498       | *                                                                                                |    498           
+  499       | *                                                                                                |    499           
+  500       | *  Usage:                                                                                        |    500           
+  501       | *                                                                                                |    501           
+  502       | *  Method:                                                                                       |    502           
+  503       | *          -                                                                                     |    503           
+  504       | *                                                                                                |    504           
+  505       | *          -                                                                                     |    505           
+  506       | *          -                                                                                     |    506           
+  507       | *                                                                                                |    507           
+  508       | *          -                                                                                     |    508           
+  509       | *          -                                                                                     |    509           
+  510       | *                                                                                                |    510           
+  511       | *  Returns:                                                                                      |    511           
+  512       | *          1 - if sucessful execution completed                                                  |    512           
+  513       | *          0 - if error                                                                          |    513           
+  514       |\****************************************************************/                                |    514           
+  515       |PMESSAGE GetNextLink(VOID)                                                                        |    515           
+  516       |{                                                                                                 |    516           
+  517       |     PMESSAGE pMessageNext;                                                                       |    517           
+  518       |                                                                                                  |    518           
+  519    65 |     do                                                                                           |    519           
+  520       |     {                                                                                            |    520           
+  521       |          /*                                                                                      |    521           
+  522       |           *spin through our list looking for the                                                 |    522           
+  523       |           *first null link                                                                       |    523           
+  524       |           *in our list                                                                           |    524           
+  525       |           */                                                                                     |    525           
+  526       |          for(pMessageNext = (PMESSAGE)pMessage->pvNextMessage;                                   |    526           
+  527       |                         !pMessageNext;                                                           |    527           
+  528    66 |                         pMessageNext = pMessageNext->pvNextMessage)                              |    528           
+  529       |          {                                                                                       |    529           
+  530    67 |               ;                                                                                  |    530           
+  531       |          }                                                                                       |    531           
+  532       |                                                                                                  |    532           
+  533       |                                                                                                  |    533           
+  534    68 |     }ONCE;                                                                                       |    534           
+  535    69 |     return(pMessageNext);                                                                        |    535           
+  536       |}                                                                                                 |    536           
+  537       |/****************************************************************\                                |    537           
+  538       | *                                                                                                |    538           
+  539       | *--------------------------------------------------------------                                  |    539           
+  540       | *                                                                                                |    540           
+  541       | *  Name:                                                                                         |    541           
+  542       | *                                                                                                |    542           
+  543       | *  Purpose:                                                                                      |    543           
+  544       | *                                                                                                |    544           
+  545       | *                                                                                                |    545           
+  546       | *                                                                                                |    546           
+  547       | *  Usage:                                                                                        |    547           
+  548       | *                                                                                                |    548           
+  549       | *  Method:                                                                                       |    549           
+VDFT.C                                                                                         06/05/94 14:21:58     Page    11
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  550       | *          -                                                                                     |    550           
+  551       | *                                                                                                |    551           
+  552       | *          -                                                                                     |    552           
+  553       | *          -                                                                                     |    553           
+  554       | *                                                                                                |    554           
+  555       | *          -                                                                                     |    555           
+  556       | *          -                                                                                     |    556           
+  557       | *                                                                                                |    557           
+  558       | *  Returns:                                                                                      |    558           
+  559       | *          1 - if sucessful execution completed                                                  |    559           
+  560       | *          0 - if error                                                                          |    560           
+  561       |\****************************************************************/                                |    561           
+  562       |BOOL VddDpmiEntry(ULONG ulMessageID,PVOID pvDataIn,PVOID pvDataOut)                               |    562           
+  563       |{                                                                                                 |    563           
+  564       |     BOOL fError = FALSE;                                                                         |    564           
+  565       |                                                                                                  |    565           
+  566    70 |          switch(ulMessageID)                                                                     |    566           
+  567       |          {                                                                                       |    567           
+  568       |          case WINOS2_INIT:                                                                       |    568           
+  569    71 |               break;                                                                             |    569           
+  570       |          case WINOS2_REGISTERCALLBACK:                                                           |    570           
+  571    72 |               break;                                                                             |    571           
+  572       |          case WINOS2_TERMINATE:                                                                  |    572           
+  573    73 |               break;                                                                             |    573           
+  574       |          case WINOS2_POSTMESSAGE:                                                                |    574           
+  575    74 |               break;                                                                             |    575           
+  576       |          default:                                                                                |    576           
+  577    75 |               fError = TRUE;                                                                     |    577           
+  578    76 |               break;                                                                             |    578           
+  579       |          }                                                                                       |    579           
+  580       |                                                                                                  |    580           
+  581    77 |     return(fError);                                                                              |    581           
+  582       |}                                                                                                 |    582           
+  583       |                                                                                                  |    583           
+  584       |/***************************START OF SPECIFICATIONS ***********************/                      |    584           
+  585       |/*                                                                        */                      |    585           
+  586       |/* SUBROUTINE NAME: VDFTCreate                                            */                      |    586           
+  587       |/*                                                                        */                      |    587           
+  588       |/* DESCRIPTIVE NAME: DFT routine called at VDM creation                   */                      |    588           
+  589       |/*                                                                        */                      |    589           
+  590       |/* FUNCTION:  The function of this routine is to service the creation of  */                      |    590           
+  591       |/*            a new VDM. I/O hooks will be installed for the DFT port.    */                      |    591           
+  592       |/*                                                                        */                      |    592           
+  593       |/* CONTEXT:  VDM task time                                                */                      |    593           
+  594       |/*                                                                        */                      |    594           
+  595       |/* ENTRY POINT: VDFTCreate                                                */                      |    595           
+  596       |/*        LINKAGE:   CALL NEAR 32                                         */                      |    596           
+  597       |/*                                                                        */                      |    597           
+  598       |/*  INPUT: (PARAMETERS)   (passed on the stack)                           */                      |    598           
+  599       |/*          hvdm   - handle of current VDM                                */                      |    599           
+  600       |/*                                                                        */                      |    600           
+  601       |/* EXIT-NORMAL:                                                           */                      |    601           
+  602       |/*                                                                        */                      |    602           
+  603       |/* EXIT-ERROR:    NONE                                                    */                      |    603           
+  604       |/*                                                                        */                      |    604           
+  605       |/* EFFECTS:          NONE                                                 */                      |    605           
+  606       |/*                                                                        */                      |    606           
+  607       |/* INTERNAL REFERENCES:                                                   */                      |    607           
+  608       |/*                                                                        */                      |    608           
+  609       |/* EXTERNAL REFERENCES:   VDHInstallIOHook - Install I/O port hooks       */                      |    609           
+  610       |/*                        VDHMapPages - map physical to linear pages      */                      |    610           
+VDFT.C                                                                                         06/05/94 14:21:58     Page    12
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  611       |/*                                                                        */                      |    611           
+  612       |/**************************************************************************/                      |    612           
+  613       |                                                                                                  |    613           
+  614       |BOOL HOOKENTRY VDFTCreate(HVDM hvdm)                                                              |    614           
+  615       |{                                                                                                 |    615           
+  616       |#ifdef  DEBUG                                                                                     |    616           
+  617    78 |           _interrupt(3);                                                                         |    617           
+  618       |#endif                                                                                            |    618           
+  619       |                                                                                                  |    619           
+  620       |    /*---------------------------------------------------------------*/                           |    620           
+  621       |    /* Set up per VDM instance data.                                 */                           |    621           
+  622       |    /*---------------------------------------------------------------*/                           |    622           
+  623    79 |     HVDM_Current = hvdm;                                                                         |    623           
+  624       |                                                                                                  |    624           
+  625    80 |     if(!VDHRegisterAPI(VDDNAME,(PFNHOOK)0,(PFNHOOK)VddDpmiEntry))                                |    625           
+  626       |     {                                                                                            |    626           
+  627    81 |          return(FALSE);                                                                          |    627           
+  628       |     }                                                                                            |    628           
+  629    82 |     return  TRUE;                                                                                |    629           
+  630       |}                                                                                                 |    630           
+  631       |                                                                                                  |    631           
+  632       |/***************************START OF SPECIFICATIONS ***********************/                      |    632           
+  633       |/*                                                                        */                      |    633           
+  634       |/* SUBROUTINE NAME: VDFTTerminate                                         */                      |    634           
+  635       |/*                                                                        */                      |    635           
+  636       |/* DESCRIPTIVE NAME: DFT routine called at VDM termination                */                      |    636           
+  637       |/*                                                                        */                      |    637           
+  638       |/* FUNCTION:                                                                                      |    638           
+  639       |/*                                                                                                |    639           
+  640       |/*                                                                                                |    640           
+  641       |/*                                                                        */                      |    641           
+  642       |/* CONTEXT:  VDM task time                                                */                      |    642           
+  643       |/*                                                                        */                      |    643           
+  644       |/* ENTRY POINT: VDFTTerminate                                             */                      |    644           
+  645       |/*        LINKAGE:   CALL NEAR 32                                         */                      |    645           
+  646       |/*                                                                        */                      |    646           
+  647       |/*  INPUT: (PARAMETERS)   (passed on the stack)                           */                      |    647           
+  648       |/*          hvdm   - handle of current VDM                                */                      |    648           
+  649       |/*                                                                        */                      |    649           
+  650       |/* EXIT-NORMAL:                                                           */                      |    650           
+  651       |/*                                                                        */                      |    651           
+  652       |/* EXIT-ERROR:    NONE                                                    */                      |    652           
+  653       |/*                                                                        */                      |    653           
+  654       |/* EFFECTS:          NONE                                                 */                      |    654           
+  655       |/*                                                                        */                      |    655           
+  656       |/* INTERNAL REFERENCES:                                                   */                      |    656           
+  657       |/*                                                                        */                      |    657           
+  658       |/* EXTERNAL REFERENCES:   VDHRemoveIOHook - release IO hook               */                      |    658           
+  659       |/*                                                                        */                      |    659           
+  660       |/**************************************************************************/                      |    660           
+  661       |                                                                                                  |    661           
+  662       |BOOL HOOKENTRY VDFTTerminate(HVDM hvdm)                                                           |    662           
+  663       |{                                                                                                 |    663           
+  664       |#ifdef  DEBUG                                                                                     |    664           
+  665    83 |           _interrupt(3);                                                                         |    665           
+  666       |#endif                                                                                            |    666           
+  667       |                                                                                                  |    667           
+  668    84 |        return TRUE;                                                                              |    668           
+  669       |                                                                                                  |    669           
+  670       |}                                                                                                 |    670           
+  671       |                                                                                                  |    671           
+VDFT.C                                                                                         06/05/94 14:21:58     Page    13
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  672       |                                                                                                  |    672           
+  673       |                                                                                                  |    673           
+  674       |                                                                                                  |    674           
+  675       |                                                                                                  |    675           
+  676       |                                                                                                  |    676           
+  677       |                                                                                                  |    677           
+  678       |                                                                                                  |    678           
+  679       |                                                                                                  |    679           
+                                    * * * * *   E N D   O F   S O U R C E   * * * * *
+VDFT.C                                                                                         06/05/94 14:21:58     Page    14
+                        * * * * *   I N C L U D E S   * * * * *
+
+INCLUDE FILES  ---  FILE#   NAME
+                      1       C:\TOOLKT21\C\OS2H\VDD\MVDM.H
+                      2       C:\TOOLKT21\C\OS2H\VDD\BASEMAC.H
+                      3       C:\TOOLKT21\C\OS2H\VDD\BASEDEF.H
+                      4       C:\TOOLKT21\C\OS2H\VDD\VDMPROP.H
+                      5       C:\TOOLKT21\C\OS2H\VDD\VDMM.H
+                      6       C:\TOOLKT21\C\OS2H\VDD\V8086.H
+                      7       C:\TOOLKT21\C\OS2H\VDD\VDOS.H
+                      8       C:\TOOLKT21\C\OS2H\VDD\VPIC.H
+                      9       C:\TOOLKT21\C\OS2H\VDD\VKBD.H
+                     10       C:\TOOLKT21\C\OS2H\VDD\VLPT.H
+                     11       C:\TOOLKT21\C\OS2H\VDD\VDMA.H
+                     12       C:\TOOLKT21\C\OS2H\VDD\VDMBIOS.H
+                     13       C:\TOOLKT21\C\OS2H\VDD\BASEMID.H
+                     14       C:\IBMCPP\INCLUDE\BUILTIN.H
+                     15       C:\IBMCPP\SRC\WINOS2\VDFTP.H
+                     16       C:\IBMCPP\SRC\WINOS2\COMMON.H
+
+                        * * * * *   E N D   O F   I N C L U D E S   * * * * *
+VDFT.C                                                                                         06/05/94 14:21:58     Page    15
+                             * * * * *   M E S S A G E   S U M M A R Y   * * * * *
+
+        Total            Informational(00)          Warning(10)          Error(30)            Severe Error(40)
+
+          0                    0                        0                   0                        0
+
+                        * * * * *   E N D   O F   M E S S A G E   S U M M A R Y   * * * * *
+
+                             * * * * *   E N D   O F   C O M P I L A T I O N   * * * * *

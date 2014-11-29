@@ -1,0 +1,7 @@
+StartDos Abstract
+
+StartDos is a utility to start DOS sessions programmatically.
+Useful when running under reduced-functions shells like MShell
+and TShell or when starting DOS programs from OS/2 batch files.
+Uses REXX to specify DOS settings prior to session start.
+

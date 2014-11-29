@@ -1,0 +1,160 @@
+
+ Start  Stop   Length Name                   Class
+ 00000H 00033H 00034H WINOS2_TEXT            CODE
+ 00034H 0006CH 00039H CSEG                   CODE
+ 0006EH 01363H 012F6H _TEXT                  CODE
+ 01370H 01371H 00002H EMULATOR_TEXT          CODE
+ 01372H 01372H 00000H C_ETEXT                ENDCODE
+ 01372H 01372H 00000H VDDMISCDATA            DATA
+ 01380H 01380H 00000H EMULATOR_DATA          FAR_DATA
+ 01380H 01383H 00004H FAR_BSS                FAR_BSS
+ 01390H 013D1H 00042H NULL                   BEGDATA
+ 013D2H 0171FH 0034EH _DATA                  DATA
+ 01720H 01721H 00002H XIQC                   DATA
+ 01722H 0172FH 0000EH DBDATA                 DATA
+ 01730H 0173DH 0000EH CDATA                  DATA
+ 0173EH 0173EH 00000H XIFB                   DATA
+ 0173EH 0173EH 00000H XIF                    DATA
+ 0173EH 0173EH 00000H XIFE                   DATA
+ 0173EH 0173EH 00000H XIB                    DATA
+ 0173EH 0173EH 00000H XI                     DATA
+ 0173EH 0173EH 00000H XIE                    DATA
+ 0173EH 0173EH 00000H XPB                    DATA
+ 0173EH 01741H 00004H XP                     DATA
+ 01742H 01742H 00000H XPE                    DATA
+ 01742H 01742H 00000H XCB                    DATA
+ 01742H 01742H 00000H XC                     DATA
+ 01742H 01742H 00000H XCE                    DATA
+ 01742H 01742H 00000H XCFB                   DATA
+ 01742H 01742H 00000H XCF                    DATA
+ 01742H 01742H 00000H XCFE                   DATA
+ 01742H 01742H 00000H CONST                  CONST
+ 01742H 01749H 00008H HDR                    MSG
+ 0174AH 0181FH 000D6H MSG                    MSG
+ 01820H 01821H 00002H PAD                    MSG
+ 01822H 01822H 00001H EPAD                   MSG
+ 01824H 01824H 00000H _BSS                   BSS
+ 01824H 01824H 00000H XOB                    BSS
+ 01824H 01824H 00000H XO                     BSS
+ 01824H 01824H 00000H XOE                    BSS
+ 01830H 01A2FH 00200H c_common               BSS
+ 01A30H 0222FH 00800H STACK                  STACK
+
+ Origin   Group
+ 0139:0   DGROUP
+
+  Address         Publics by Value
+
+ 0000:0000       _main
+ 0003:0004       _OS2TEST
+ 0003:001B       _GETVDDAPIENTRY
+ 0006:001E       __astart
+ 0006:00E9       __cintDIV
+ 0006:00F9       __amsg_exit
+ 0006:011B       __dataseg
+ 0006:011E       __chkstk
+ 0006:011E       __aFchkstk
+ 0006:0142       _printf
+ 0006:0186       __cinit
+ 0006:024B       _exit
+ 0006:0252       __exit
+ 0006:025A       __cexit
+ 0006:0264       __c_exit
+ 0006:02CE       __ctermsub
+ 0006:030E       __FF_MSGBANNER
+ 0006:0330       __setargv
+ 0006:04DE       __setenvp
+ 0006:057E       __NMSG_TEXT
+ 0006:05A9       __NMSG_WRITE
+ 0006:05E0       __stbuf
+ 0006:0661       __ftbuf
+ 0006:06BA       __output
+ 0006:0BA4       __fptrap
+ 0006:0BAA       __nullcheck
+ 0006:0BCE       __myalloc
+ 0006:0BF4       __flsbuf
+ 0006:0CE0       _fflush
+ 0006:0D60       _flushall
+ 0006:0DB4       _malloc
+ 0006:0DBA       __getbuf
+ 0006:0E06       _lseek
+ 0006:0E80       _write
+ 0006:0FE0       __ffree
+ 0006:0FF3       __fmalloc
+ 0006:1070       __growseg
+ 0006:10FF       __incseg
+ 0006:1150       __findlast
+ 0006:1170       __dosret0
+ 0006:1178       __dosreturn
+ 0006:1185       __dosretax
+ 0006:1192       __maperror
+ 0006:11C6       _stackavail
+ 0006:11DA       __searchseg
+ 0006:1256       __newseg
+ 0006:129A       __initseg
+ 0006:12CE       __linkseg
+ 0137:0000       __EmDataSeg
+ 0138:0000       _VDDPROCADR
+ 0139:0042       __anullsize
+ 0139:0072       _VDD_NAME
+ 0139:0076       _OS2VERSION
+ 0139:0078       __atopsp
+ 0139:007A       __aexit_rtn
+ 0139:007C       __asizds
+ 0139:007E       __nheap_desc
+ 0139:0092       __aseghi
+ 0139:0094       __aseglo
+ 0139:0096       __aaltstkovr
+ 0139:009A       STKHQQ
+ 0139:009C       __acfinfo
+ 0139:00AA       __aintdiv
+ 0139:00AE       __fac
+ 0139:00B8       _errno
+ 0139:00BA       __umaskval
+ 0139:00BC       __pspadr
+ 0139:00BE       __psp
+ 0139:00C0       __osversion
+ 0139:00C0       __osmajor
+ 0139:00C0       __dosvermajor
+ 0139:00C1       __osminor
+ 0139:00C1       __dosverminor
+ 0139:00C2       __osmode
+ 0139:00C3       __doserrno
+ 0139:00C3       __oserr
+ 0139:00C5       __nfile
+ 0139:00C7       __osfile
+ 0139:00DB       ___argc
+ 0139:00DD       ___argv
+ 0139:00E1       _environ
+ 0139:00E5       __pgmptr
+ 0139:00EA       __child
+ 0139:00EC       __ovlflag
+ 0139:00ED       __intno
+ 0139:00EE       __ovlvec
+ 0139:00F2       __adbgmsg
+ 0139:00FA       __iob
+ 0139:01EA       __iob2
+ 0139:02DA       __lastiob
+ 0139:034C       __cflush
+ 0139:034E       __cfltcvt_tab
+ 0139:0366       __sigintseg
+ 0139:0368       __sigintoff
+ 0139:036A       __asizeC
+ 0139:036B       __asizeD
+ 0139:036C       __amblksiz
+ 0139:0382       __fheap
+ 0139:0390       ___qczrinit
+ 0139:0392       ___aDBswpflg
+ 0139:0394       ___aDBswpchk
+ 0139:0396       ___aDBrterr
+ 0139:0398       ___aDBexit
+ 0139:039E       ___aDBptrchk
+ 0139:03A2       __fpinit
+ 0139:0494       _edata
+ 0139:04A0       __bufin
+ 0139:06A0       _end
+ 0000:9876  Abs  __acrtused
+ 0000:9876  Abs  __acrtmsg
+ 0000:D6D6  Abs  __aDBdoswp
+
+Program entry point at 0006:001E

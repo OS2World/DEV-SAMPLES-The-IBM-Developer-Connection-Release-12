@@ -1,0 +1,21 @@
+This is a sample graphic engine hooking to wait for a string in any PM
+window even from other processes, from a rexx function or C code.
+GREHOOK is the graphic engine hook code, WAITFSTR is the 2/Rexx function
+implementation to be called by the wait.cmd 2/Rexx sample.
+ 
+Install the GREHOOK.DLL and WAITFSTR.DLL DLLs to a valid
+DLL path (see LIBPATH).
+Use EDITINI.EXE from EDITINI package to add the following entry
+ 
+Application:  PM_ED_HOOKS
+Key        :  GREHOOK            (Hook DLL name with no path no extension)
+Data       :  Full qualified Path and name extension of GREHOOK.DLL where
+              you installed it. eg: C:\WAITFSTR\GREHOOK.DLL
+ 
+REBOOT
+ 
+Then start wait.cmd, once started and waiting open an OS/2 window and
+type in 'its me' the wait.cmd should exit saying Found.
+Cheers
+Marc Fiammante
+

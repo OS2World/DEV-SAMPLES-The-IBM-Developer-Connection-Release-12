@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err7" sample application.
+#
+
+all: err7.h  err7_cli.exe err7_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err7_cli.c err7_mgr.c err7_srv.c
+COBJECTS        = err7_cli.obj err7c.obj
+SOBJECTS        = err7_mgr.obj err7_srv.obj err7s.obj
+
+err7.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err7_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err7_cli.exe
+
+err7_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err7_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err7.h
+        -del err7c.c
+        -del err7s.c
+

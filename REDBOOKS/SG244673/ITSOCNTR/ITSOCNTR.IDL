@@ -1,0 +1,388 @@
+/* ******************************************************************** *
+ * Copyright International Business Machines Corporation 1995, 1996     *
+ * DISCLAIMER OF WARRANTIES.                                            *
+ * The following [enclosed] code is sample code created by IBM          *
+ * Corporation. This sample code is not part of any standard or IBM     *
+ * product and is provided to you solely for the purpose of assisting   *
+ * you in the development of your applications.  The code is provided   *
+ * "AS IS". IBM MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT  *
+ * NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS *
+ * FOR A PARTICULAR PURPOSE, REGARDING THE FUNCTION OR PERFORMANCE OF   *
+ * THIS CODE.  IBM shall not be liable for any damages arising out of   *
+ * your use of the sample code, even if they have been advised of the   *
+ * possibility of such damages.                                         *
+ *                                                                      *
+ * DISTRIBUTION.                                                        *
+ * This sample code can be freely distributed, copied, altered, and     *
+ * incorporated into other software, provided that it bears the above   *
+ * Copyright notice and DISCLAIMER intact.                              *
+ * -------------------------------------------------------------------- *
+ * This file is part of the source for OpenDoc parts document in:       *
+ *  IBM International Technical Support Organization Bulletin (Redbook) *
+ *  "OpenDoc : An Introduction to Part Development" (SG24-4673)         *
+ *                                                                      *
+ * ******************************************************************** *
+ */
+#ifndef _ITSOCNTR_
+#define _ITSOCNTR_
+
+#ifndef _PART_
+#include "part.idl"
+#endif
+
+// Forward interface class declarations
+interface ODWindow;
+interface ODFocusSet;
+interface ODFrame;
+interface ODMenuBar;
+interface ODSession;
+interface ODTransform;
+interface ODStatusLineExtension;
+interface ODPopup;
+interface ODMenuExtension;
+interface ODViewExtension;
+
+// Forward interface metaclass declarations
+interface M_ITSOContainerPart;
+
+// Implementation types
+interface ODxOrderedCollection;
+
+typedef somToken Proxy;
+typedef somToken FacetClip;
+typedef somToken MATRIXLF;
+
+typedef void* PPOLYGON;
+typedef long  HMODULE;
+typedef void* PRECTL;
+typedef void* PDRAGITEM;
+//typedef char* PSZ;
+
+#pragma somemittypes on
+enum TrackingMode
+{
+  kRubberBandSelection,
+  kBotLeftResize,
+  kTopLeftResize,
+  kTopRightResize,
+  kBotRightResize
+};
+
+enum MouseMode 
+{
+  kNormal,
+  kTracking
+};
+
+enum TrackingUpdateMode 
+{
+  kUpdateModeStart,
+  kUpdateModeContinue,
+  kUpdateModeEnd
+};
+#pragma somemittypes off
+
+interface ITSOContainerPart : ODPart
+{
+  Proxy*     ICPProxyForFrame(in ODFrame frame);
+  Proxy*     ICPProxyForFrameID(in ODID frameID);
+  void       ICPClipEmbeddedFrames(in ODFrame frame);
+  void       ICPCommonInit();
+  void       ICPHighlightSelection(in ODFacet facet);
+  ODBoolean  ICPHandleMenuEvent(in ODFrame focusFrame,in ODEventData event);
+  void       ICPMouseFocusLost(in ODFrame ownerFrame);
+  ODBoolean  ICPDoClear(in ODFrame frame);
+  void       ICPActivateFrame(in ODFrame frame);
+  void       ICPDeActivateFrame(in ODFrame frame);
+  void       ICPActivatingWindow(in ODFrame frame);
+  void       ICPDeActivatingWindow(in ODFrame frame);
+  void       ICPInstallMenus();
+  ODFrame    ICPMakeEmbeddedFrame(in ODFrame     containingFrame,
+                                  in ODShape     frameShape,
+                                  in ODTransform externalTransform,
+                                  in ODPart      embedPart,
+                                  in ODBoolean   isOverlaid);
+  void       ICPCreateEmbeddedFacets(in ODFrame containingFrame,
+                                     in ODFrame embeddedFrame);
+  ODWindow   ICPCreateWindow(in ODFrame sourceFrame);
+  void       ICPResize(in ODFrame frame, in ODULong ulMode);
+  FacetClip* ICPFindFacetClip(in ODFacet facet);
+  void       ICPCreateSelectSizingHandlesShape();
+  void       ICPSetFrameSelected(in ODFrame   frame,
+                              in ODBoolean isSelected);
+  void       ICPClipSelectionFromEmbeddedFrames(in ODFrame frame);
+  void       ICPClipSelectionFromEmbeddedFacets(in ODFacet facet);
+  void       ICPHighlightProxyBorder(in Proxy   *p,
+                                  in ODFacet facet);
+  void       ICPClipEmbeddedFacets(in ODFacet facet);
+  void       ICPEmptySelection();
+  ODBoolean  ICPHandleButton1Click(in ODFacet facet,
+                                   in ODPoint where,
+                                   in ODEventData event);
+  ODBoolean  ICPHandleButton1MotionStart(in ODFacet facet,
+                                         in ODPoint where,
+                                         in ODEventData event);
+  ODBoolean  ICPHandleMouseDrag(in ODFacet     container,
+                                in ODFacet     facet,
+                                in ODPoint*    mouse,
+                                in ODEventData event);
+  ODBoolean  ICPHandleButton1ClickInEmbeddedFrame(in ODFacet     container,
+                                                  in ODFacet     facet,
+                                                  in ODPoint     where,
+                                                  in ODEventData event);
+  ODBoolean  ICPHandleButton1ClickInBorder(in ODFacet container,
+                                           in ODFacet facet,
+                                           in ODPoint where,
+                                           in ODEventData event);
+  ODBoolean  ICPHandleKeyDown(in ODFrame focusFrame,
+                              in ODEventData event);
+  ODBoolean  ICPHandleMouseMove(in ODFacet facet,
+                                in ODFrame frame,
+                                in ODPoint where,
+                                in ODEventData event);
+  ODBoolean  ICPHandleButton1MotionEnd(in ODFacet facet,
+                                       in ODFrame frame,
+                                       in ODPoint where,
+                                       in ODEventData event);
+  void       ICPResetMouseMode();
+  void       ICPUpdateTrackRect(in ODPoint* ptMouse,
+                                in ODFacet  facet,
+                                in TrackingUpdateMode updateMode);
+  void       ICPDrawPolygons(in HPS hps);
+  ODBoolean  ICPBeginTrackingMouse(in ODFacet facet);
+  ODBoolean  ICPMoveToFront(in ODFrame frame);
+  ODBoolean  ICPMoveToBack(in ODFrame frame);
+  ODBoolean  ICPMoveForward(in ODFrame frame);
+  ODBoolean  ICPMoveBackward(in ODFrame frame);
+  ODBoolean  ICPDisplayStatusLineText(in string str,
+                                      in ODFrame curFrame);
+  void       ICPFreezeEmbeddedFrames(in ODBoolean freeze);
+  void       ICPCreateTrackingPolygons(in ODBoolean transformPoints);
+  void       ICPDrawIconView(in ODFacet facet,
+                             in ODULong size);
+
+  void       ICPInvertDragHilite(in ODFacet facet);
+  void       ICPInitSU(in ODStorageUnit su);
+  void       ICPSaveEmbeddedFrames(in ODStorageUnit su);
+  void       ICPSaveFrameGroup(in ODStorageUnit su);
+  void       ICPReadEmbeddedFrames(in ODStorageUnit su);
+  void       ICPReadFrameGroup(in ODStorageUnit su);
+  void       ICPHandleLocalDrop(in ODStorageUnit su, 
+                                in ODFacet facet,
+                                in ODPoint where);
+  void       ICPHandleRemoteDrop(in ODStorageUnit su,
+                                 in ODFacet facet,
+                                 in ODPoint where);
+  void      ICPDuplicateAndAttachEmbedded(in ODFrame frame, in ODFrame sourceFrame);
+  void      ICPRemoveEmbeddedFrames(in ODFrame displayFrame);
+  void      ICPRemovePartWindows(in ODFrame displayFrame);
+  void      ICPDrawFrameView(in ODFacet facet, in ODShape invalidShape);
+  #ifdef __SOMIDL__
+  implementation
+  {
+    metaclass      = M_ITSOContainerPart;
+
+    releaseorder:
+      ICPProxyForFrame,
+      ICPProxyForFrameID,
+      ICPClipEmbeddedFrames,
+      ICPCommonInit,
+      ICPHighlightSelection,
+      ICPHandleMenuEvent,
+      ICPMouseFocusLost,
+      ICPDoClear,
+      ICPActivateFrame,
+      ICPDeActivateFrame,
+      ICPActivatingWindow,
+      ICPDeActivatingWindow,
+      ICPInstallMenus,
+      ICPMakeEmbeddedFrame,
+      ICPCreateEmbeddedFacets,
+      ICPCreateWindow,
+      ICPResize,
+      ICPFindFacetClip,
+      ICPCreateSelectSizingHandlesShape,
+      ICPSetFrameSelected,
+      ICPClipSelectionFromEmbeddedFrames,
+      ICPClipSelectionFromEmbeddedFacets,
+      ICPHighlightProxyBorder,
+      ICPClipEmbeddedFacets,
+      ICPEmptySelection,
+      ICPHandleButton1Click,
+      ICPHandleButton1MotionStart,
+      ICPHandleMouseDrag,
+      ICPHandleButton1ClickInEmbeddedFrame,
+      ICPHandleButton1ClickInBorder,
+      ICPHandleKeyDown,
+      ICPHandleMouseMove,
+      ICPHandleButton1MotionEnd,
+      ICPResetMouseMode,
+      ICPUpdateTrackRect,
+      ICPDrawPolygons,
+      ICPBeginTrackingMouse,
+      ICPMoveToFront,
+      ICPMoveToBack,
+      ICPMoveForward,
+      ICPMoveBackward,
+      ICPDisplayStatusLineText,
+      ICPFreezeEmbeddedFrames,
+      ICPCreateTrackingPolygons,
+      ICPDrawIconView,
+      ICPInvertDragHilite,
+      ICPInitSU,
+      ICPSaveEmbeddedFrames,
+      ICPSaveFrameGroup,
+      ICPReadEmbeddedFrames,
+      ICPReadFrameGroup,
+      ICPHandleLocalDrop,
+      ICPHandleRemoteDrop,
+      ICPDuplicateAndAttachEmbedded,
+      ICPRemoveEmbeddedFrames,
+      ICPRemovePartWindows,
+      ICPDrawFrameView,
+      dummy;
+
+    override:
+      somInit,
+      somUninit,
+      FulfillPromise,
+      DropCompleted,
+      DragEnter,
+      DragWithin,
+      DragLeave,
+      Drop,
+      AcquireExtension,
+      ReleaseExtension,
+      HasExtension,
+      ContainingPartPropertiesUpdated,
+      AcquireContainingPartProperties,
+      CreateRootMenuBar,
+      RevealFrame,
+      EmbeddedFrameSpec,
+      CreateEmbeddedFramesIterator,
+      DisplayFrameAdded,
+      AttachSourceFrame,
+      DisplayFrameRemoved,
+      DisplayFrameConnected,
+      DisplayFrameClosed,
+      FrameShapeChanged,
+      ViewTypeChanged,
+      PresentationChanged,
+      SequenceChanged,
+      WritePartInfo,
+      ReadPartInfo,
+      Open,
+      RequestEmbeddedFrame,
+      RemoveEmbeddedFrame,
+      RequestFrameShape,
+      UsedShapeChanged,
+      AdjustBorderShape,
+      FacetAdded,
+      FacetRemoved,
+      CanvasChanged,
+      GeometryChanged,
+      Draw,
+      CanvasUpdated,
+      HighlightChanged,
+      GetPrintResolution,
+      CreateLink,
+      LinkUpdated,
+      RevealLink,
+      EmbeddedFrameUpdated,
+      LinkStatusChanged,
+      BeginRelinquishFocus,
+      CommitRelinquishFocus,
+      AbortRelinquishFocus,
+      FocusAcquired,
+      FocusLost,
+      CloneInto,
+      ExternalizeKinds,
+      Externalize,
+      ChangeKind,
+      HandleEvent,
+      AdjustMenus,
+      UndoAction,
+      RedoAction,
+      DisposeActionState,
+      WriteActionState,
+      ReadActionState,
+      InitPart,
+      InitPartFromStorage,
+      ClonePartInfo,
+      EditInLinkAttempted
+      ;
+
+    passthru C_xh = ""
+                    "struct Proxy;"
+                    "struct FacetClip;"
+                    "";
+
+    #ifdef __PRIVATE__
+    // Instance variables
+    HMODULE               hmod;
+    MouseMode             fMouseMode;
+    ODBoolean             fAlreadyActive;
+    ODBoolean             fHaveStatusLineFocus;
+    ODBoolean             fIgnoreContextMenu;
+    ODBoolean             fNeedToExternalize;
+    ODFacet               fTrackingFacet;
+    ODFocusSet            fFocusSet;
+    ODFrame               fSelectionFrame;
+    ODID                  fWindowID;
+    ODMenuBar             fMenuBar;
+    ODMenuExtension       fExtension;
+    ODPart                fPartWrapper;
+    ODPoint               ptMouseStart;
+    ODPoint               ptEnd;
+    ODPoint               ptMouseOffset;
+    ODPoint               ptOrigin;
+    ODPoint               ptRef;
+    ODPopup               fPopup;
+    ODSession             fSession;
+    ODShape               fSelectSizingHandlesShape;
+    ODStatusLineExtension fStatusLn;
+    ODTypeToken           CurrentView;
+    ODTypeToken           FrameView;
+    ODTypeToken           LargeIconView;
+    ODTypeToken           PresDefault;
+    ODTypeToken           SmallIconView;
+    ODTypeToken           ThumbnailView;
+    ODTypeToken           fKeyFocus;
+    ODTypeToken           fMenuFocus;
+    ODTypeToken           fMouseFocus;
+    ODTypeToken           fSelectionFocus;
+    ODTypeToken           fStatusFocus;
+    ODULong               fFrameGroupIDCounter;
+    ODULong               fNumPolygons;
+    ODULong               fSequence;
+    ODViewExtension       fViewExtension;
+    ODxOrderedCollection  fContents;
+    ODxOrderedCollection  fDisplayFrames;
+    ODxOrderedCollection  fEmbeddedFrames;
+    ODxOrderedCollection  fSavedFacetClipShapes;
+    ODxOrderedCollection  fSelection;
+    PPOLYGON              fPolygons;
+    Proxy                *dadSelection;
+    TrackingMode          fTrackingMode;
+    #endif
+  };
+  #endif
+};
+
+interface M_ITSOContainerPart : M_ODPart
+{
+  #ifdef __SOMIDL__
+  implementation
+  {
+    override:
+      clsGetODPartHandlerName,
+      clsGetODPartHandlerDisplayName,
+      clsGetODPartKinds,
+      clsGetOLE2ClassId,
+      clsGetWindowsIconFileName;
+  };
+  #endif
+};
+#endif // _ITSOCNTR_
+
+

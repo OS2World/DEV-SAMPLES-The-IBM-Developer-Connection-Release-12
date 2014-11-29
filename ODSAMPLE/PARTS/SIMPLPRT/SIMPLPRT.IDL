@@ -1,0 +1,288 @@
+#ifdef __PRIVATE__
+//#
+//#     File:           CntnrPrt.idl
+//#
+//#     Contains:       IDL description of Simple Part
+//#
+//#     Written by:     Jason Crawford
+//#
+//#     Copyright:      (c) 1994 by IBM Corp., all rights reserved.
+//#
+//#     Change History (most recent first):
+//#     123163  5/23/95 st    add popup menu support
+//#     121993  5/11/95 ced   add fIsInitialized and fPartWrapper attribute
+//#     119388  4/29/95 st    add has/get/release extension and menu stuff
+//#     120017  4/22/95 ced   Added CreateDisplayFramesIterator for derived
+//#                           classes.
+//#      <1>    7/6/94  jlc   first checked in
+//#
+//#     To Do:
+//#
+#else
+//#     Copyright:      (c) 1993-1994 by IBM Corp., all rights reserved.
+#endif
+
+
+#ifndef _SIMPLPRT_
+#define _SIMPLPRT_
+#ifndef _PART_
+
+#include "Part.idl"
+#endif
+
+interface ODWindow;
+interface ODSession;
+interface ODFocusSet;
+interface ODSemanticInterface;
+interface M_SimplePart;
+interface PartInfoRec;
+interface ODMenubar;
+interface ODPopup;
+interface MyMenuExtension;
+interface ODxOrderedCollection;
+interface ODxOrderedCollectionIterator;
+
+//=====================================================================================
+// Implementation Types
+//=====================================================================================
+
+typedef somToken Proxy;
+   //@jlc hack to get this to pass through idl compile without asking too many questions.
+   typedef long PRNINFO;
+   // typedef long MRESULT;
+   typedef long HDC;
+   //typedef long RECTL;
+
+
+typedef somToken RGBColor;
+
+interface SimplePart : ODPart
+{
+
+        ODSemanticInterface GetSemanticInterface();
+
+        void CommonInitSimplePart();
+        ODBoolean HandleMouseDown( in ODFacet facet,
+                                   in ODPoint where,
+                                   in ODEventData event);
+        void MoveResize( in ODFacet facet, in Proxy* selection, in ODSLong fs );
+        ODBoolean HandleMouseDownEdgeResize(in ODFacet facet, in Proxy* selection, in POINTL mouse);
+        ODBoolean HandleMouseDownCornerResize(in ODFacet facet, in Proxy* selection, in POINTL mouse);
+        ODBoolean HandleKeyDown(in ODFrame focusFrame, in ODEventData event);
+           ODBoolean HandleMouseMove( in ODFacet facet,
+                                       in ODPoint where,
+                                       in ODEventData event);
+
+        void ActivateFrame(in ODFrame frame);
+        void DeActivateFrame(in ODFrame frame);
+        void ActivatingWindow(in ODFrame frame);
+        void DeActivatingWindow(in ODFrame frame);
+
+        void UserSetBGColor(in ODFrame frame, in RGBColor whichColor);
+        void SetBGColor(in ODFrame aFrame, in ODUShort whichColor);
+        ODWindow CreateWindow(in ODFrame sourceFrame);
+
+        ODBoolean HandleMenuEvent(in ODFrame focusFrame, in ODEventData event);
+        RGBColor GetDefaultColor( );
+        void SetDefaultColor( in RGBColor color );
+        void Activate( in ODFacet facet );
+        void InstallMenus();
+        PartInfoRec AllocFramePartInfo();
+        ODxOrderedCollectionIterator CreateDisplayFramesIterator();
+
+        readonly attribute ODPart  fPartWrapper;    // [121993]  ced
+        struct simpleContent
+        {
+          long fColor;
+        };
+
+#ifdef __SOMIDL__
+        implementation
+        {
+                functionprefix = SimplePart;
+                metaclass     = M_SimplePart;
+                majorversion = 1;
+                minorversion = 0;
+
+        releaseorder:
+                GetSemanticInterface,
+                CommonInitSimplePart,
+                        HandleMouseDown,
+                MoveResize,
+                HandleMouseDownDrag,
+                HandleMouseDownEdgeResize,
+                HandleMouseDownCornerResize,
+                HandleKeyDown,
+                HandleMenuEvent,
+                HandleMouseMove,
+                        ActivateFrame,
+                DeActivateFrame,
+                ActivatingWindow,
+                DeActivatingWindow,
+                SetBGColor,
+                UserSetBGColor,
+                        CreateWindow,
+                GetDefaultColor,
+                SetDefaultColor,
+                Activate,
+                InstallMenus,
+                AllocFramePartInfo,
+                CreateDisplayFramesIterator,
+                _get_fPartWrapper
+                        ;
+
+        override:
+                somInit,
+                somUninit,
+        FulfillPromise,
+        DropCompleted,
+#if 0
+        DragEnter,
+        DragWithin,
+        DragLeave,
+#endif
+        Drop,
+        ContainingPartPropertiesUpdated,
+        AcquireContainingPartProperties,
+        RevealFrame,
+        EmbeddedFrameSpec,
+        CreateEmbeddedFramesIterator,
+        DisplayFrameAdded,
+        DisplayFrameConnected,
+        AttachSourceFrame,
+        DisplayFrameRemoved,
+        DisplayFrameClosed,
+        FrameShapeChanged,
+        ViewTypeChanged,
+        PresentationChanged,
+                SequenceChanged,
+        WritePartInfo,
+        ReadPartInfo,
+        ClonePartInfo,
+        Open,
+        RequestEmbeddedFrame,
+        RemoveEmbeddedFrame,
+        RequestFrameShape,
+        UsedShapeChanged,
+        AdjustBorderShape,
+        FacetAdded,
+        FacetRemoved,
+        CanvasChanged,
+        GeometryChanged,
+        Draw,
+        CanvasUpdated,
+        HighlightChanged,
+        CreateLink,
+        LinkUpdated,
+        RevealLink,
+        BreakLink,
+        BreakLinkSource,
+        LinkBroken,
+        UpdateFromLinkSource,
+        ShowLink,
+        EmbeddedFrameUpdated,
+        LinkStatusChanged,
+        BeginRelinquishFocus,
+        CommitRelinquishFocus,
+        AbortRelinquishFocus,
+        FocusAcquired,
+        FocusLost,
+        CloneInto,
+        ExternalizeKinds,
+                Externalize,
+        ChangeKind,
+        HandleEvent,
+#if 0
+        HandleEventInEmbedded,
+        MouseEnter,
+        MouseWithin,
+        MouseLeave,
+#endif
+        AdjustMenus,
+        UndoAction,
+        RedoAction,
+        DisposeActionState,
+        WriteActionState,
+        ReadActionState,
+        InitPart,
+        InitPartFromStorage,
+                Release,
+        HasExtension,
+        AcquireExtension,
+        ReleaseExtension;
+
+
+        passthru C_xh = ""
+         "class ODFrame ;"
+         "class ODTransform ;"
+         "struct Proxy;"
+         "typedef long RGBColor;"
+         ;
+        passthru C_xh_after = ""
+         "class PartInfoRec {"
+         "public:"
+         "   PartInfoRec() { fIsActive = kODFalse; fNeedsActivating = kODFalse; "
+         "                   fIsPopupMenu = kODFalse; fIsSelected = kODFalse; }"
+         "   virtual ~PartInfoRec() { }"
+         "   ODBoolean  fIsActive;  // Does this frame have its focus set?"
+         "   ODBoolean  fNeedsActivating; // should this be activated when its window is activated?"
+         "   ODBoolean  fIsPopupMenu;                  // Is this a popup menu ?"
+         "   ODBoolean  fIsSelected;                   // Is this the selected frame?"
+         "};"
+         ;
+         passthru C_xih = "class ODxOrderedCollection;"
+         ;
+
+        // instance variables
+   //        ODxOrderedCollection*      fDisplayFrames;
+             ODID                               fWindowID;                      // ID of View As Window window
+
+             ODULong                    fFrameGroupIDCounter;
+             POINTL                     fDragStart;
+
+             ODxOrderedCollection       fContents;
+             ODxOrderedCollection       fDisplayFrames;
+             simpleContent                fContentStruct;
+
+
+             ODFocusSet                 fFocusSet;
+             ODTypeToken                fSelectionFocus;
+             ODTypeToken                fMenuFocus;
+             ODTypeToken                fKeyFocus;
+
+             ODSemanticInterface        fSemtIntf;
+
+             ODSession                  fSession;
+
+             ODStorageUnit              fTestDrawSU;
+                HPS               hpsMem;
+                HDC               hdcMem;
+
+                ODPoint           mouseStart;   //dwf
+                ODMenuBar            fMenuBar;
+                ODPopup              fPopup;
+                MyMenuExtension      fMenuExt;
+             ODBoolean            fIsInitialized;       // [121993]  ced
+
+
+        };
+#endif
+};
+
+interface M_SimplePart : M_ODPart
+{
+
+#ifdef __SOMIDL__
+  implementation
+  {
+    functionprefix = M_SimplePart;
+    override:
+      clsGetODPartHandlerName,
+      clsGetODPartHandlerDisplayName,
+      clsGetODPartKinds,
+      clsGetOLE2ClassId,
+      clsGetWindowsIconFileName;
+  };
+#endif
+};
+#endif  // _SIMPLPRT_

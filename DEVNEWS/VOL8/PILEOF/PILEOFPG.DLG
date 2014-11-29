@@ -1,0 +1,25 @@
+DLGINCLUDE 1 "pileofpg.h"
+
+DLGTEMPLATE DLG_TITLE LOADONCALL FIXED DISCARDABLE
+BEGIN
+    DIALOG  "PileOf Page", DLG_TITLE, 9, -47, 271, 181, NOT FS_DLGBORDER |
+            WS_VISIBLE
+    BEGIN
+        PUSHBUTTON      "~Undo", PUSHB_UNDO, 10, 4, 40, 14
+        PUSHBUTTON      "~Default", PUSHB_DEFAULT, 65, 4, 40, 14
+        PUSHBUTTON      "Help", PUSHB_HELP, 121, 4, 40, 14
+        GROUPBOX        "PileOf...Options", 203, 5, 27, 84, 112
+        AUTOCHECKBOX    "~Spread contents", CHKB_SPREAD, 7, 99, 80, 10
+        LISTBOX         LBOX_CLASSES, 95, 27, 101, 96, LS_HORZSCROLL
+        LTEXT           "PileOf...Classes", 201, 111, 131, 74, 8
+        LTEXT           "(One or more)", 202, 111, 124, 64, 8
+        AUTOCHECKBOX    "~Delete if empty", CHKB_DELEMPTY, 7, 82, 79, 10
+        AUTOCHECKBOX    "~One Class only", CHKB_ONEOBJ, 7, 116, 79, 10
+        GROUPBOX        "Objects piled", 204, 9, 32, 76, 39
+        AUTORADIOBUTTON "~Left to Right", 205, 12, 50, 65, 10, WS_TABSTOP |
+                        WS_DISABLED
+        AUTORADIOBUTTON "~Top to bottom", RADIOB_TOPTOBOTTOM, 12, 37, 70, 10,
+                        WS_TABSTOP
+    END
+END
+

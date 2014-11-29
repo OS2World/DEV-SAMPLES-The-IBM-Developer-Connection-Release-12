@@ -1,0 +1,80 @@
+#ifdef __PRIVATE__
+//#
+//#	File:		hello.idl
+//#	Contains:	IDL description of Hello Part
+//#	Written by:	Robert L. Tycast
+//#	Change History (most recent first):
+//#		 <2>	   1Jan95      RLT     DevCon6 Version
+//#		 <1>	  26Oct94      RLT     created
+#endif
+
+#ifndef _HELLO_
+#define _HELLO_
+ 
+        #ifndef _CNTNRPRT_
+        #include "cntnrprt.idl" 
+        #endif
+
+interface HelloPart : ContainerPart
+{
+
+        typedef long HPS ;  
+        typedef long HDC ; 
+        
+        #ifdef __PRIVATE__
+
+        void CommonInitPart(in ODStorageUnit su);
+        void SetOrigin(in ODFacet facet);
+        void RenderPart(in ODFacet facet, in RECTL pframeRect, in HPS hpsDraw);
+
+        #endif
+
+        #ifdef __SOMIDL__
+        implementation
+        {
+                functionprefix = Hello;
+                majorversion = 1;
+                minorversion = 0;
+        releaseorder:
+                #ifdef __PRIVATE__
+
+                        CommonInitPart,
+                        SetOrigin,
+                        RenderPart
+                        ;
+                #else
+		       reserved03
+		      ,reserved02
+		      ,reserved01;
+                #endif
+	override:
+                somInit,
+                somUninit,
+                Draw,
+                Externalize,
+                HandleEvent,
+                InitPart,
+                InitPartFromStorage;
+
+                #ifdef __PRIVATE__
+
+                // instance variables
+        
+                        ODStorageUnit           StorageUnit;
+                        ODULong                 Iteration;
+                        ODSession               Session;
+                        ODBoolean               Initialized;
+                        ODFocusSet              FocusSet;
+                        ODTypeToken             SelectionFocus;
+                        ODTypeToken             MenuFocus;
+                        ODTypeToken             KeyFocus;
+                        HPS                     hpsMem;
+                        HDC                     hdcMem;
+
+                #endif  // __PRIVATE__
+        };
+        #endif
+};  
+#endif  //_HELLO_
+
+

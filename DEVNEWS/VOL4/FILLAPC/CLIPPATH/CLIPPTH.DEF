@@ -1,0 +1,8 @@
+NAME  Clippath  WINDOWAPI
+
+DESCRIPTION 'Clippath - Simple clipping'
+
+PROTMODE
+HEAPSIZE    32768
+STACKSIZE   16384
+

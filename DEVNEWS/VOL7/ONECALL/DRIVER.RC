@@ -1,0 +1,21 @@
+
+#include <os2.h>
+#include "setup.h"
+#include "driver.h"
+
+
+
+MENU ID_DRIVER
+BEGIN
+  SUBMENU    "~File", 0, MIS_TEXT
+  BEGIN
+    MENUITEM "Print ...",                         IDM_PRINT,        MIS_TEXT
+    MENUITEM "Printer setup...",                  IDM_PRINTERSETUP, MIS_TEXT
+  END
+END
+
+
+
+rcinclude setup.dlg
+
+

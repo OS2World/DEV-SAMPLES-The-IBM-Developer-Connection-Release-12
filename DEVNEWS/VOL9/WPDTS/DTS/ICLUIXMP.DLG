@@ -1,0 +1,18 @@
+DLGTEMPLATE IDDLG_SETVARIABLE
+BEGIN
+    DIALOG  "ICLUI Example", IDDLG_SETVARIABLE,
+            0, 0, 172, 121, NOT FS_DLGBORDER | WS_VISIBLE
+    BEGIN
+        GROUPBOX        "Instance Variable", -1, 3, 24, 162, 94
+        LTEXT           "Click on one of the radio buttons below to change t"
+                        "he value of the instance variable:", -1, 10, 76,
+                        149, 32, DT_WORDBREAK | NOT WS_GROUP
+        AUTORADIOBUTTON "Value ~A", IDR_VALUEA, 11, 60, 146, 10, WS_TABSTOP
+        AUTORADIOBUTTON "Value ~B", IDR_VALUEB, 11, 46, 146, 10
+        PUSHBUTTON      "~Undo", IDC_RESET, 4, 5, 40, 14, WS_GROUP
+        PUSHBUTTON      "~Default", IDC_DEFAULT, 49, 5, 40, 14, NOT
+                        WS_TABSTOP
+        PUSHBUTTON      "Help", IDC_HELP, 94, 5, 40, 14, BS_HELP |
+                        BS_NOPOINTERFOCUS | NOT WS_TABSTOP
+    END
+END

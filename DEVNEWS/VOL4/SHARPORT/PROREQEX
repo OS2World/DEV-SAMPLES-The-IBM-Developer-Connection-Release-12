@@ -1,0 +1,47 @@
+
+; ROUTINE NAME: ProReqExclusive Request Exclusive use of Parallel Port.
+;
+; FUNCTION:     This routine calls the parallel port device driver
+;               using the PDD-PDD IDC interface requesting exclusive
+;               use of the parallel port for a short duration.
+;
+; NOTES:        The caller of this routine must also issue the
+;               corresponding ProRelExclusive so that other device
+;               drivers can access the parallel port.
+;
+; ENTRY:        ds       our data segment
+;
+; EXIT:         ax     = 0              (if no error)
+;               flags  = HAVEACCESS     (if access granted)
+;               ax    != 0              (if error)
+;               flags != HAVEACCESS     (if access not granted)
+;               other registers are not preserved
+;
+        PUBLIC  proreqexclusive
+proreqexclusive proc    near
+        ASSUME  CS:SWAPSEG,DS:DSEG,ES:NOTHING,SS:NOTHING
+
+        push    ds                                      ; Save our DS
+
+        mov     ax,REQEXCLUSIVE                         ; Set Function Code
+        mov     bx,REQWAIT                              ; Set Flag
+        mov     cx,LPT1                                 ; Set Port ID
+
+        push    ds
+        pop     es                                      ; ES = our DS
+        mov     di,OFFSET prt                           ; ES:DI -> IDC STRUCTURE
+
+        mov     ds,WORD PTR es:[di].IDCProtDS           ; Setup IDC DS
+        call    DWORD PTR es:[di].IDCProtEntry          ; Call IDC entry point
+        pop     ds                                      ; Restore our DS
+
+        or      ax,ax                                   ; Success or failure?
+        jnz     proreqex_1                              ; Failure, exit
+
+        or      flags,HAVEACCESS                        ; Set global flag
+proreqex_1:
+        ret
+proreqexclusive endp
+
+<< Prototype Device Driver ProReqExclusive Routine >>
+

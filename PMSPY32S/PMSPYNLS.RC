@@ -1,0 +1,603 @@
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³                                                                          ³*/
+/*³ PROGRAM NAME: PMSPY                                                      ³*/
+/*³ -------------                                                            ³*/
+/*³  A PM program that is used to look at or 'spy' on the message queue of   ³*/
+/*³  other PM applications windows.                                          ³*/
+/*³                                                                          ³*/
+/*³ COPYRIGHT:                                                               ³*/
+/*³ ----------                                                               ³*/
+/*³  Copyright (C) International Business Machines Corp., 1992               ³*/
+/*³                                                                          ³*/
+/*³ DISCLAIMER OF WARRANTIES:                                                ³*/
+/*³ -------------------------                                                ³*/
+/*³  The following [enclosed] code is sample code created by IBM Corporation.³*/
+/*³  This sample code is not part of any standard IBM product and is provided³*/
+/*³  to you solely for the purpose of assisting you in the development of    ³*/
+/*³  your applications.  The code is provided "AS IS", without warranty of   ³*/
+/*³  any kind.  IBM shall not be liable for any damages arising out of your  ³*/
+/*³  use of the sample code, even if they have been advised of the           ³*/
+/*³  possibility of such damages.                                            ³*/
+/*³                                                                          ³*/
+/*³ For details on what this program does etc., please see the PMSPY.C file. ³*/
+/*³                                                                          ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ PMSPYNLS.RC                                                              ³*/
+/*³                                                                          ³*/
+/*³ NLS Specific Resource File for PMSPY.DLL                                 ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+#define  INCL_WIN        /* For PM calls and typedefs */
+
+#include <os2.h>         /* pull in os2 includes */
+
+#include "pmspyrc.h"     /* PMSPY RC  file  defs                              */
+#include "pmspyipf.h"    /* PMSPY IPF panel defs                              */
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ standard HELP button specification                                       ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+#define buttonHELP  BS_PUSHBUTTON | BS_HELP | BS_NOPOINTERFOCUS | WS_TABSTOP | WS_VISIBLE
+
+#define HELPBUTTON(resID,x,y,cx,cy) \
+PUSHBUTTON "Help", resID, x, y, cx, cy, BS_HELP | BS_NOPOINTERFOCUS | NOT WS_TABSTOP
+
+/*****************************************************************************
+** define TEXT AREA with work break enabled
+*****************************************************************************/
+#define TEXTAREA(mri,x,y,cX,cY) LTEXT mri, -1, x,y, cX,cY, DT_WORDBREAK
+
+/*****************************************************************************
+** define Drop-down list definer
+*****************************************************************************/
+#define DROPDOWNLIST(id,x,y,cX,cY) \
+ CONTROL "", id, x, y, cX, cY,     \
+         WC_COMBOBOX,              \
+         CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ NLS enabled STRINGs                                                      ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+STRINGTABLE
+{
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ Titles                                                                   ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_TITLE                    ,"PM Spy"
+ IDS_HELP_TITLE_MAIN          ,"PM Spy Help"
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ ForMaT strings                                                           ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_FMT_LEVEL                ,"This version of PMSPY is not compatible with its support DLL!\15\15Expected PMSPYHK version: %u\15\15Actual PMSPYHK version: %u"
+
+ IDS_FMT_PTR_QUEUE            ,"PM Spy - %s (Hwnd: %lX Hmq: %lX)"
+ IDS_FMT_SPY_QUEUE            ,"PM Spy - Queue %lX"
+ IDS_FMT_SPY_WINDOW           ,"PM Spy - Window %lX"
+ IDS_FMT_SPY_OBJECT           ,"PM Spy - Object %lX"
+ IDS_FMT_SPY_QUEUE_SYSTEM     ,"PM Spy - System Queue"
+
+ IDS_FMT_STANDARD             ,"%-32.32s %8.8lX %8.8lX %s %8.8lX"
+ IDS_FMT_UNKNOWN_MSG          ,"WM_???? (%4.4X)"
+ IDS_FMT_USER_MSG             ,"WM_USER (%4.4X)"
+
+ IDS_FMT_TITLE                ,"%s - Agent %u"
+ IDS_FMT_AGENT                ,"Agent%d"
+
+ IDS_FMT_FILTER_ITEM          ,"%-32.32s %4.4X %s%s%s"
+
+ IDS_FMT_EXISTING_COLOR       ,"Use current color"
+
+ IDS_MSG_INCLUDE              ,"Include "    /* trailing blank req'd on these */
+ IDS_MSG_EXCLUDE              ,"Exclude "
+ IDS_MSG_FREEZE               ,"Freeze "
+ IDS_MSG_THAW                 ,"Thaw "
+
+ IDS_MSG_POSTED               ,"P"
+ IDS_MSG_SENT                 ,"S"
+
+ IDS_FMT_GRP_INCLUDED         ,"%-32.32s Include"
+ IDS_FMT_GRP_EXCLUDED         ,"%-32.32s Exclude"
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ Profile strings                                                          ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_PRO_DELIM                ," "
+ IDS_PRO_HEADER               ,"/*=== Profile generated by PMSPY Version %d.%2.2d =============================*/%s"
+
+ IDS_PRO_WINPOS_HEADER        ,"%s/*--- WindowPosition ------------------------------------------------------*/%s"
+ IDS_PRO_WINPOS_FMT           ,"%-10s %4d%s"
+
+ IDS_PRO_SETTINGS_HEADER      ,"%s/*--- Settings ------------------------------------------------------------*/%s"
+ IDS_PRO_SETTINGS_FMT         ,"%-10s %s%s"
+ IDS_PRO_FONT_FMT             ,"%-10s %s%s%s%s"
+
+ IDS_PRO_COLOR_HEADER         ,"%s/*--- Colors --------------------------------------------------------------*/%s"
+ IDS_PRO_COLOR_FMT            ,"%-10s %u %s%s"
+
+ IDS_PRO_DEFINE_HEADER        ,"%s/*--- Message Definitions -------------------------------------------------*/%s"
+ IDS_PRO_DEFINE_FMT           ,"%-10s %-40s %#4.4X%s"
+ IDS_PRO_DEFINE_FMT_COLOR     ,"%-10s %-40s %#4.4X %u%s"
+ IDS_PRO_GROUP_FMT            ,"%s%-10s %-40s %u%s"
+
+ IDS_PRO_FIL_HEADER           ,"%s/*--- Message Filters -----------------------------------------------------*/%s"
+ IDS_PRO_FILTER_FMT           ,"%-10s %s%s"
+
+ IDS_PRO_TRIGGER_HEADER       ,"%s/*--- Trigger Messages ----------------------------------------------------*/%s"
+ IDS_PRO_TRIGGER_FMT          ,"%-10s %-40s %s"
+
+ IDS_PRO_END                  ,"%s/*=== End of Profile ======================================================*/%s"
+
+ IDS_PRO_KW_X                 ,"X"
+ IDS_PRO_KW_Y                 ,"Y"
+ IDS_PRO_KW_CX                ,"CX"
+ IDS_PRO_KW_CY                ,"CY"
+
+ IDS_PRO_KW_SPYON             ,"SPYON"
+ IDS_PRO_KW_WINDOW            ,"WINDOW"
+ IDS_PRO_KW_QUEUE             ,"QUEUE"
+ IDS_PRO_KW_LIST              ,"LIST"
+ IDS_PRO_KW_THAW              ,"THAW"
+ IDS_PRO_KW_FREEZE            ,"FREEZE"
+ IDS_PRO_KW_FONT              ,"FONT"
+
+ IDS_PRO_KW_COLOR             ,"COLOR"
+ IDS_PRO_KW_DEFINE            ,"DEFINE"
+ IDS_PRO_KW_EXCLUDE           ,"EXCLUDE"
+ IDS_PRO_KW_GROUP             ,"GROUP"
+ IDS_PRO_KW_INCLUDE           ,"INCLUDE"
+
+ IDS_PRO_KW_COMMENT1          ,"/*"
+ IDS_PRO_KW_COMMENT2          ,"*"
+
+ IDS_PRO_KW_TRIGGER           ,"TRIGGER"
+
+ IDS_PRO_VALUE_ALL            ,"ALL"
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ Command line parameters                                                  ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_PARM_PROFILE             ,"/PRO="
+ IDS_PARM_APPEND              ,"/APP="
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ File IO messages                                                         ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_PROFILE_OPEN             ,"Open PMSPY Profile"
+ IDS_PROFILE_SAVE             ,"Save PMSPY Profile"
+ IDS_LOGFILE_OPEN             ,"Open PMSPY Log File"
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ Status messages                                                          ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_STAT_CLOSE               ,"<<< PMSPY closed >>>"
+ IDS_STAT_DESELECTED          ,"<<< window deselected >>>"
+
+ IDS_STAT_LIST_ON             ,"<<< list thawed >>>"
+ IDS_STAT_LIST_OFF            ,"<<< list frozen >>>"
+
+ IDS_STAT_LOG_ON              ,"<<< log file started >>>"
+ IDS_STAT_LOG_OFF             ,"<<< log file stopped >>>"
+
+ IDS_STAT_TRIGGERED_FREEZE    ,"<<< list frozen by trigger >>>"
+ IDS_STAT_TRIGGERED_THAW      ,"<<< list thawed by trigger >>>"
+
+ IDS_STAT_SNAPSHOT_ON         ,"------- beginning of snapshot -------"
+ IDS_STAT_SNAPSHOT_OFF        ,"------- ending of snapshot ----------"
+
+ /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+ /*³ Error messages                                                           ³*/
+ /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ IDS_MSG_TOO_MANY_SPIES       ,"Another PMSPY instance can't be started at this time!\15\15There are already %u instances active."
+ IDS_MSG_ALLOCATE             ,
+"Unable to allocate memory...\15\15Requested: %lu bytes\15\15# Allocates: %lu\15\15Bytes Allocated: %lu bytes\15\15# Frees: %lu"
+ IDS_MSG_FREE
+"Unable to free memory...\15\15Pointer: %p\15\15# Allocates: %lu\15\15Bytes Allocated: %lu bytes\15\15# Frees: %lu"
+ IDS_MSG_PROFILE_EXISTS       ,"The profile %s already exists.\15\15Do you want to replace it?"
+ IDS_MSG_LOG_EXISTS           ,"The log file %s already exists.\15\15Do you want to replace it?"
+ IDS_MSG_IPF_INIT_1           ,"WinCreateHelpInstance error\15\15hwndFrame: %p (%u)\15\15RC: %lx\15\15HLP: %s"
+ IDS_MSG_IPF_INIT_2           ,"WinAssociateHelpInstance error\15\15hwndIpf: %p\15\15RC: %lx"
+ IDS_MSG_IPF_ERROR_1          ,"An error was detected processing a help panel.\15\15msg: 0x%X\15\15mp1: %p\15\15mp2: %p\15\15Error: %p"
+ IDS_MSG_SYSTEM_Q_VERIFY      ,"Spying on the PM system queue can greatly affect the system and applications.\15\15Are you sure you want to select it?"
+
+}
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+ICON ID_MAINWND  PRELOAD  pmspy.ico
+
+MENU ID_MAINWND
+
+BEGIN
+
+  SUBMENU    "~File",                   ID_AB_FILE
+  BEGIN
+    SUBMENU  "~Message profile",        ID_F_PROFILE
+    {
+    MENUITEM "~Open, replace current...",
+                                        ID_F_OPENPROFILE,MIS_TEXT
+    MENUITEM "Open, ~append to current...",
+                                        ID_F_APPENDPROFILE,MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Save current...",        ID_F_SAVEPROFILE,MIS_TEXT
+    }
+
+    SUBMENU  "~Default message profile",ID_F_DEFAULT
+    {
+    MENUITEM "~Open, replace current...",
+                                        ID_F_OPENDEFAULT,MIS_TEXT
+    MENUITEM "Open, ~append to current...",
+                                        ID_F_APPENDDEFAULT,MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Browse...",              ID_O_BROWSEDEFAULT,MIS_TEXT
+    }
+
+    MENUITEM SEPARATOR
+    SUBMENU  "~Log file",               ID_F_LOG
+    {
+    MENUITEM "~Open...",                ID_F_OPENLOG,          MIS_TEXT
+    MENUITEM "Open with list ~snapshot...",
+                                        ID_F_OPENLOG_SNAPSHOT, MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Close",                  ID_F_CLOSELOG,         MIS_TEXT
+    }
+
+    MENUITEM SEPARATOR
+    MENUITEM "E~xit\tF3",               ID_F_EXIT,MIS_TEXT
+  END
+
+  SUBMENU    "~Spyon",                  ID_AB_SPYON
+  BEGIN
+    MENUITEM "Select ~desktop window",  ID_SELECT,         MIS_TEXT
+    MENUITEM "Select any ~window...",   ID_SELECT_OBJECT,  MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "Select system ~queue",    ID_SELECT_SYSTEM_Q,MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Deselect current",       ID_DESELECT,       MIS_TEXT
+  END
+
+  SUBMENU    "Spy~what",                ID_AB_SPYWHAT
+  BEGIN
+    MENUITEM "Spy on ~window",          IDD_WND,         MIS_TEXT
+    MENUITEM "Spy on ~queue",           IDD_QUE,         MIS_TEXT
+  END
+
+  SUBMENU    "~Options",                ID_AB_OPTIONS
+  BEGIN
+    SUBMENU  "~Spy list",               ID_O_LIST
+    {
+    MENUITEM "~Clear\tCtrl+Del",        ID_O_CLEAR,      MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Freeze\tCtrl+Ins",       ID_O_FREEZE,     MIS_TEXT
+    MENUITEM "~Thaw\tIns",              ID_O_THAW,       MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Auto scroll?",           ID_O_SCROLL,     MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Font...",                ID_O_FONT,       MIS_TEXT
+    }
+
+    SUBMENU  "~Log file",               ID_O_LOG
+    {
+    MENUITEM "~Freeze",                 ID_O_STOPLOG,    MIS_TEXT
+    MENUITEM "~Thaw",                   ID_O_STARTLOG,   MIS_TEXT
+    }
+
+    MENUITEM "~Add note...\tCtrl+n",    ID_O_NOTES,      MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "Save ~options",           ID_O_SAVEOPTS,   MIS_TEXT
+
+  END
+
+  SUBMENU    "~Filter",                 ID_AB_FILTER
+  BEGIN
+    MENUITEM "By ~group...",            ID_F_GROUP,      MIS_TEXT
+    MENUITEM "By ~message...",          ID_F_SELECTIVE,  MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~Include all messages",   ID_F_INCLUDE,    MIS_TEXT
+    MENUITEM "~Exclude all messages",   ID_F_EXCLUDE,    MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "Include ~undefined messages?",
+                                        ID_F_INC_UNDEFINED,MIS_TEXT
+    MENUITEM "Include undefined ~WM_USER?",
+                                        ID_F_INC_WM_USER  ,MIS_TEXT
+  END
+
+  SUBMENU    "~Help",                   ID_AB_HELP
+  BEGIN
+    MENUITEM "~Help for help...",       ID_H_HELP,       MIS_TEXT
+    MENUITEM "~Extended help...",       SC_HELPEXTENDED, MIS_SYSCOMMAND
+    MENUITEM "~Keys help...",           SC_HELPKEYS,     MIS_SYSCOMMAND
+    MENUITEM "Help ~index...",          SC_HELPINDEX,    MIS_SYSCOMMAND
+
+    MENUITEM SEPARATOR
+    MENUITEM "~Product information",    ID_H_ABOUT,      MIS_TEXT
+  END
+
+END
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ Main Window Accelerator Table                                            ³*/
+/*³ - Define fast-path keys to selected functions                            ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+ACCELTABLE ID_MAINWND
+
+BEGIN
+    VK_F3,         ID_F_EXIT,    VIRTUALKEY
+
+    VK_DELETE,     ID_O_CLEAR,   VIRTUALKEY,  CONTROL
+    VK_INSERT,     ID_O_THAW,    VIRTUALKEY
+    VK_INSERT,     ID_O_FREEZE,  VIRTUALKEY,  CONTROL
+
+   "n"            ,ID_O_NOTES,   CONTROL
+   "N"            ,ID_O_NOTES,   CONTROL
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+#undef  cX
+#undef  cY
+
+#define cX 300
+#define cY 200
+
+DLGTEMPLATE IDD_FILTER LOADONCALL DISCARDABLE
+
+BEGIN
+ DIALOG         "PM Spy - Message Filtering",
+                             IDD_FILTER,           0,       0,     cX, cY - 40,
+                             WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                             FCF_NOBYTEALIGN | FCF_TITLEBAR | FCF_DLGBORDER | FCF_SYSMENU
+ BEGIN
+  TEXTAREA(     "Select messages then apply a filtering attribute.  Press 'Done' when all attributes applied.",
+                                                   4, cY - 60, cX - 8,     20)
+
+  LISTBOX                    IDD_FILTER,           4,      20, cX -68,    110,
+                             WS_TABSTOP | LS_MULTIPLESEL | LS_EXTENDEDSEL
+
+  DROPDOWNLIST(              ID_LB_COLORS,         4,      80, cX -68,     60)
+
+/* button group at side of dialog */
+  PUSHBUTTON    "~Include",  ID_PB_F_INCLUDE,    244,     114,     48,     12,
+                             WS_GROUP | WS_TABSTOP
+  PUSHBUTTON    "~Exclude",  ID_PB_F_EXCLUDE,    244,     100,     48,     12,
+                             NOT WS_TABSTOP
+
+  PUSHBUTTON    "~Freeze",  ,ID_PB_F_FREEZE    , 244,      80,     48,     12,
+                             NOT WS_TABSTOP
+  PUSHBUTTON    "~Thaw",     ID_PB_F_THAW    ,   244,      66,     48,     12,
+                             NOT WS_TABSTOP
+  PUSHBUTTON    "~No trigger",
+                             ID_PB_F_NO_TRIGGER, 244,      52,     48,     12,
+                             NOT WS_TABSTOP
+
+  PUSHBUTTON    "~Reset",    ID_PB_F_RESET,      244,      32,     48,     12,
+                             NOT WS_TABSTOP
+
+  PUSHBUTTON    "Delete",    ID_PB_F_DELETE,     244,      12,     48,     12,
+                             NOT WS_TABSTOP
+
+/* button group at bottom of dialog */
+  DEFPUSHBUTTON "~Done",      DID_CANCEL,           4,       4,     44,     12,
+                             WS_GROUP | WS_TABSTOP
+  HELPBUTTON(                ID_PB_F_HELP,       48+4,       4,     44,     12)
+ END
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+#undef  cX
+#undef  cY
+
+#define cX 300
+#define cY 180
+
+DLGTEMPLATE ID_GRP_DLG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+ DIALOG "PM Spy - Group Filtering",
+         ID_GRP_DLG,                                  0,       0,     cX, cY - 40,
+         FS_NOBYTEALIGN | FS_DLGBORDER | FS_MOUSEALIGN |
+         WS_VISIBLE | WS_SAVEBITS, FCF_TITLEBAR | FCF_SYSMENU
+ BEGIN
+  TEXTAREA(     "Select groups then apply a filtering attribute.  Press 'Done' when all attributes applied.",
+                                                      4, cY - 60, cX - 8, 20)
+
+  LISTBOX                    ID_GRP_LB_GROUPS,        4,      20, cX -54, 80,
+                             WS_TABSTOP | LS_MULTIPLESEL | LS_EXTENDEDSEL
+
+  DROPDOWNLIST(              ID_LB_COLORS,            4,      60, cX -54, 60)
+
+/* buttons on side of dialog */
+  PUSHBUTTON    "~Include",  ID_GRP_PB_INCLUDE,     252,      88,     44, 12,
+                             WS_GROUP
+  PUSHBUTTON    "~Exclude",  ID_GRP_PB_EXCLUDE,     252,      72,     44, 12,
+                             NOT WS_TABSTOP
+  PUSHBUTTON    "Delete",    ID_GRP_PB_DELETE,      252,      56,     44, 12,
+                             NOT WS_TABSTOP
+
+/* buttons at bottom of dialog */
+  DEFPUSHBUTTON "Done",      DID_CANCEL,              4,       4,     44, 12,
+                             WS_GROUP
+  HELPBUTTON(                ID_GRP_PB_HELP,         52,       4,     44, 12)
+ END
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+DLGTEMPLATE IDD_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+
+BEGIN
+
+ DIALOG  "PM Spy - Product Information",
+                                                  IDD_ABOUT,  0,  0, 280,100,
+         FS_NOBYTEALIGN | FS_DLGBORDER |
+         WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS,
+         FCF_TITLEBAR | FCF_SYSMENU
+
+ BEGIN
+                                                          /*  X   Y   cX  cY
+                                                          **--- ---  ---  -- */
+  CTEXT   "PM Spy for OS/2 2.x",                         -1, 40, 84, 200, 10
+           PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_RED
+
+  CTEXT   "Version 1.1",                                 -1, 40, 72, 200, 10
+
+  CTEXT   __DATE__,                                      -1, 40, 60, 200, 10
+
+  CONTROL "",                                 IDD_ABOUTICON,  4, 60,  32, 32,
+          WC_STATIC, SS_TEXT | WS_VISIBLE
+
+#ifdef OS2TOOLS
+  CTEXT   "Written by Jrg von K„nel and Steve Diering", -1,  2, 40, 276, 10
+#endif
+
+  CTEXT   "(C) Copyright IBM Corp. 1988, 1993",          -1,  2, 20, 276, 10
+           PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLUE
+
+  DEFPUSHBUTTON "~OK",                               DID_OK,124,  4,  32, 12
+ END
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+#define cxDlgOW 340
+#define cyDlgOW 140
+
+DLGTEMPLATE ID_OW_DLG LOADONCALL DISCARDABLE
+
+BEGIN
+  DIALOG "PM Spy - Window Selection",
+          ID_OW_DLG,
+          0, 0, cxDlgOW, cyDlgOW,
+          WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS,
+          FCF_NOBYTEALIGN | FCF_TITLEBAR | FCF_DLGBORDER | FCF_SYSMENU
+
+  BEGIN
+    CTEXT         "Select a window then a Spy action.",
+                  -1,                             4, cyDlgOW - 24, cxDlgOW - 8, 15
+
+    LTEXT         "Windows: %u",
+                  ID_OW_ST_WINDOWS,               4, cyDlgOW - 34, cxDlgOW - 8, 15
+
+    LISTBOX       ID_OW_LB_WINDOWS,               4, 35, cxDlgOW - 8, cyDlgOW - 64,
+
+    AUTOCHECKBOX  "DESKTOP windows",
+                  ID_OW_CB_DESKTOP,               4, 20,100, 15
+
+    AUTOCHECKBOX  "OBJECT windows",
+                  ID_OW_CB_OBJECT,            104+8, 20,100, 15
+
+    DEFPUSHBUTTON "Spy ~HWND",
+                  ID_OW_PB_SPY_HWND,              4,  4, 50, 15, WS_GROUP
+
+    PUSHBUTTON    "Spy HM~Q",
+                  ID_OW_PB_SPY_HMQ,            54+4,  4, 50, 15, NOT WS_TABSTOP
+
+    PUSHBUTTON    "~Refresh",
+                  ID_OW_PB_REFRESH,           108+4,  4, 50, 15, NOT WS_TABSTOP
+
+    PUSHBUTTON    "Cancel",
+                  DID_CANCEL,                 162+4,  4, 50, 15, NOT WS_TABSTOP
+
+    HELPBUTTON(   ID_OW_PB_HELP,              216+4,  4, 50, 15)
+  END
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+#define cxDlgMD 244
+#define cyDlgMD 100
+
+DLGTEMPLATE DLG_MD LOADONCALL DISCARDABLE
+
+BEGIN
+  DIALOG "PM Spy - %s",
+          DLG_MD,
+                                                  0,   0, cxDlgMD cyDlgMD,
+          WS_VISIBLE      | WS_CLIPSIBLINGS | WS_SAVEBITS,
+          FCF_NOBYTEALIGN | FCF_TITLEBAR    | FCF_DLGBORDER | FCF_SYSMENU
+
+  BEGIN
+    LTEXT         "Msg:",
+                  -1,                             4,  82,  74, 12
+    LTEXT         "<Msg>",
+                  DLG_MD_ST_MSG,                 40,  82, 196, 12
+
+    LTEXT         "MP1:",
+                  -1,                             4,  64,  74, 12
+    LTEXT         "<MP1>",
+                  DLG_MD_ST_MP1,                 40,  64, 196, 12
+    DROPDOWNLIST( DLG_MD_DD_MP1,                 40,  26, 196, 40)
+
+    LTEXT         "MP2:",
+                  -1,                             4,  40,  74, 12
+    LTEXT         "<MP2>",
+                  DLG_MD_ST_MP2,                 40,  40, 196, 12
+    DROPDOWNLIST( DLG_MD_DD_MP2,                 40,   2, 196, 40)
+
+    LTEXT         "Seen:",
+                  -1,                             4,  16,  74, 12
+    LTEXT         "Ever=%lu, Since reset=%lu",
+                  DLG_MD_ST_SEEN,                40,  16, 196, 12
+
+    DEFPUSHBUTTON "~Done",
+                  DID_OK,                         4,   4,  44, 12, WS_GROUP
+    HELPBUTTON(   DLG_MD_PB_HELP,              48+4,   4,  44, 12)
+  END
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+DLGTEMPLATE DLG_NOTES LOADONCALL MOVEABLE DISCARDABLE
+
+BEGIN
+ DIALOG  "PM Spy - Add Note",
+         DLG_NOTES,
+                                                             0, 0, 260, 50,
+         FS_NOBYTEALIGN | FS_DLGBORDER    |
+         WS_VISIBLE     | WS_CLIPSIBLINGS | WS_SAVEBITS,
+         FCF_TITLEBAR   | FCF_SYSMENU
+
+ BEGIN
+                                                         /*  X   Y  cX cY
+                                                            -- --- --- -- */
+  CTEXT         "Enter a note to add to the list/log."
+                                     ,-1,                    4, 35,250,10
+
+  ENTRYFIELD    ""                   ,DLG_NOTES_EF_TEXT,     4, 20,250,10,
+                                      ES_AUTOSCROLL | ES_MARGIN
+
+  DEFPUSHBUTTON "~OK"                ,DID_OK,                4,  2, 50,12
+     PUSHBUTTON "Cancel"             ,DID_CANCEL,           64,  2, 50,12
+     HELPBUTTON(                      DLG_NOTES_PB_HELP,   128,  2, 50,12)
+ END
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+DLGTEMPLATE DLG_FONT LOADONCALL MOVEABLE DISCARDABLE
+
+BEGIN
+
+ DIALOG  "PM Spy - Select Font",
+         DLG_FONT,
+                                                              0, 0, 260,100,
+         FS_NOBYTEALIGN | FS_DLGBORDER    |
+         WS_VISIBLE     | WS_CLIPSIBLINGS | WS_SAVEBITS,
+         FCF_TITLEBAR   | FCF_SYSMENU
+
+ BEGIN
+                                                          /*  X   Y  cX cY
+                                                             -- --- --- -- */
+  CTEXT         "Select a font from the list."
+                                         ,-1,                 4, 85,250,10
+
+  LISTBOX                                ,DLG_FONT_LB,        4, 20,250,60
+
+  DEFPUSHBUTTON "~OK"                    ,DID_OK,             4,  2, 50,12
+     PUSHBUTTON "Cancel"                 ,DID_CANCEL,        64,  2, 50,12
+     HELPBUTTON(                          DLG_FONT_PB_HELP, 128,  2, 50,12)
+ END
+END
+

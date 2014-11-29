@@ -1,0 +1,43 @@
+
+ loadicon
+
+ Start     Length     Name                   Class
+ 0001:0000 00DF6H     LOADICON_TEXT          CODE
+ 0001:0DF6 01AC8H     _TEXT                  CODE
+ 0001:28BE 000BAH     FILEDLG_TEXT           CODE
+ 0001:2978 00000H     C_ETEXT                ENDCODE
+ 0002:0000 00ECAH     FAR_BSS                FAR_BSS
+ 0003:0000 00042H     NULL                   BEGDATA
+ 0003:0042 008F5H     _DATA                  DATA
+ 0003:0938 0000EH     CDATA                  DATA
+ 0003:0946 00000H     XIFB                   DATA
+ 0003:0946 00000H     XIF                    DATA
+ 0003:0946 00000H     XIFE                   DATA
+ 0003:0946 00000H     XIB                    DATA
+ 0003:0946 00000H     XI                     DATA
+ 0003:0946 00000H     XIE                    DATA
+ 0003:0946 00000H     XPB                    DATA
+ 0003:0946 00004H     XP                     DATA
+ 0003:094A 00000H     XPE                    DATA
+ 0003:094A 00000H     XCB                    DATA
+ 0003:094A 00000H     XC                     DATA
+ 0003:094A 00000H     XCE                    DATA
+ 0003:094A 00000H     XCFB                   DATA
+ 0003:094A 00000H     XCF                    DATA
+ 0003:094A 00000H     XCFE                   DATA
+ 0003:094A 00024H     CONST                  CONST
+ 0003:096E 00008H     HDR                    MSG
+ 0003:0976 000FAH     MSG                    MSG
+ 0003:0A70 00002H     PAD                    MSG
+ 0003:0A72 00001H     EPAD                   MSG
+ 0003:0A74 00194H     _BSS                   BSS
+ 0003:0C08 00000H     XOB                    BSS
+ 0003:0C08 00000H     XO                     BSS
+ 0003:0C08 00000H     XOE                    BSS
+ 0003:0C10 00000H     c_common               BSS
+ 0003:0C10 01000H     STACK                  STACK
+
+ Origin   Group
+ 0003:0   DGROUP
+
+Program entry point at 0001:0E06

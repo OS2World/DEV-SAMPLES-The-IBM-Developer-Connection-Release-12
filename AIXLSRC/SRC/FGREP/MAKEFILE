@@ -1,0 +1,58 @@
+CFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /I\unixlike\rel31\src\include
+# CFLAGS  = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\rel31\src\include
+LFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+# LFLAGS  =        /ALIGN:32 /EXEPACK /M /NOI
+
+
+B = \unixlike\rel31\bin
+F = \unixlike\rel31\util\fmf
+G = \unixlike\rel31\util\getopt
+GU= \unixlike\rel31\util\greputil
+M = \unixlike\rel31\util\myerror
+MF = \unixlike\rel31\mapfiles
+MP= \unixlike\rel31\util\makepath
+P = \unixlike\rel31\util\getopt
+S = \unixlike\rel31\src
+SL =\unixlike\rel31\util\sleep
+#Z = \unixlike\rel31\src\more
+
+ATOBJS   = $F\fmf+$M\myerror
+ATDOBJS   = $F\fmfn+$M\myerron
+COMPOBJS = $S\compress\compress.obj+$S\compress\comprutl.obj
+DFOBJS   = $S\df\df+$G\getopt
+DUOBJS   = $S\du\du+$G\getopt
+#FGREPOBJ = $S\fgrep\fgrep+$F\fmfn+$G\getoptn+$M\myerron
+FGREPOBJ = $S\fgrep\fgrep+$F\fmf+$G\getopt+$M\myerror
+FINDOBJS = $S\find\find+$F\fmf+$M\myerror+$(GU)\greputil
+GREPOBJS = $S\grep\grep+$(GU)\greputil+$F\fmf+$M\myerror
+HEADOBJS = $S\head\head+$F\fmf+$M\myerror
+RMOBJS   = $S\rm\rm+$M\myerror+$G\getopt
+SEDOBJS =  $S\sed\sed+$S\sed\sedparse+$S\sed\sedapply+$S\sed\sedtable+$F\fmf+$M\myerror+$(GU)\greputil
+SLEEPOBJ = $S\sleep\sleepexe+$(SL)\sleep
+SPLITOBJ = $S\split\split+$S\compress\comprutl
+TAILOBJS = $S\tail\tail+$F\fmf+$M\myerror+$(SL)\sleep
+TEEOBJS  = $S\tee\tee+$F\fmf+$M\myerror
+TIMEXOBJ = $S\timex\timex+$G\getopt+$M\myerror
+TOUCHOBJ = $S\touch\touch+$F\fmf+$G\getopt+$M\myerror
+TROBJ    = $S\tr\tr+$G\getopt
+UNIQOBJS = $S\uniq\uniq+$(MP)\makepath+$M\myerror
+WCOBJS   = $S\wc\wc+$F\fmf+$G\getopt+$M\myerror
+WHICHOBJ = $S\which\which+$F\fmf+$M\myerror
+
+
+$B\fgrep.exe    :  $F\fmf.obj $S\fgrep\fgrep.obj $G\getopt.obj $M\myerror.obj \
+                           $S\fgrep\fgrep.def
+         \toolkt20\os2bin\link386 $(LFLAGS) $(FGREPOBJ),$B\fgrep.exe,NUL,,$S\fgrep\fgrep.def;
+
+$S\fgrep\fgrep.obj       :  $S\fgrep\fgrep.c $F\fmf.h
+         icc $(CFLAGS) /I$F /Fo$S\fgrep\fgrep.obj $S\fgrep\fgrep.c
+
+$F\fmf.obj               :  $F\fmf.c $F\fmf.h
+         icc $(CFLAGS) /Fo$F\fmf.obj $F\fmf.c
+
+$G\getopt.obj            : $G\getopt.c
+         icc $(CFLAGS) /Fo$G\getopt.obj $G\getopt.c
+
+$M\myerror.obj           : $M\myerror.c
+         icc $(CFLAGS) /Fo$M\myerror.obj $M\myerror.c
+

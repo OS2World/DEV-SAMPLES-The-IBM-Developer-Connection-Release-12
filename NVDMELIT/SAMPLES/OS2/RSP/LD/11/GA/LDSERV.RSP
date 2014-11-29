@@ -1,0 +1,96 @@
+
+
+;*****************************************************************************
+;*****                 File Name: LD_SVR.RSP                             *****
+;*****************************************************************************
+;*****
+;***** This file contains instructions and a sample response file for the
+;***** IBM LAN Distance Connection Server.
+;*****
+;*****
+;***** This file will allow your users to install the IBM LAN Distance
+;***** Connection Server with one step.
+;*****
+;***** Here are the steps:
+;*****  1) Place the diskette images of the LAN Distance Connection Server
+;*****     onto your LAN Server by typing the following command at the
+;*****     OS/2 command prompt:
+;*****
+;*****       a:LDIMAGE /T:x:\yyyyyyyy
+;*****
+;*****          where:
+;*****            a:LDIMAGE -- is the command from a drive (typically the A:
+;*****                          drive where the LAN Distance diskette #1 is
+;*****                          located) to start process.
+;*****            /T: --------- is the Switch for installing the disk images.
+;*****            x:\yyyyyyyy - is the location on the LAN Server (drive
+;*****                          and path) where the disk images will be
+;*****                          accessed by the LDIMAGE program.
+;*****
+;*****      You will then be prompted for the LAN Distance diskettes for
+;*****      Drive A.
+;*****
+;*****
+;*****   2) Create the Response File using the template below.  Place the
+;*****      Response file in any subdirectory.
+;*****
+;*****
+;*****   3) The user would then type the command:
+;*****
+;*****          x:\yyyyyyyy\INSTALL /R:n:\path\LD_SVR.RSP
+;*****
+;*****          where:
+;*****            x:\yyyyyyyy - is the path to the LAN Distance
+;*****                            diskette image #1.
+;*****            INSTALL ----- is the command to start the Response
+;*****                            file installation.
+;*****             /R: -------- is the Switch for starting the
+;*****                          Response File Installation process.
+;*****                          (Without this value, the process becomes
+;*****                           a re-directed installation over the LAN.)
+;*****             n:\path ---- is the path to the Response file
+;*****             LD_SVR.RSP-- is the name of the Response file.
+;*****                          (This can be any file name you wish.)
+;*****
+;*****        No message is displayed while the response file installation
+;*****        progresses.  This type of installation takes several minutes.
+;*****        No other activity can occur for this workstation while this
+;*****        installation is progressing.  During the installation process
+;*****        the focus will be at the OS/2 Workplace, however, once the
+;*****        installation process completes, focus will return to the command
+;*****        prompt from which the initial command was entered.
+;*****
+;*****        Please shut-down and re-start the workstation for the updates
+;*****        to take effect.
+;*****
+;*****        For more information regarding the use and syntax of re-directed
+;*****        installations and response file installation, please refer to
+;*****        the LAN Distance System Guide.
+;*****
+;*****
+;*****
+;*****
+;*****   Below is a sample response file for a LAN Distance Connection Server
+;****************************************************************************
+;****************************************************************************
+;
+Target = D:\
+; Target = C:\
+;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+; Note:   This value is not required.  A default will be supplied that will
+;         use the boot drive if this value is not specified on the command
+;         line.  This drive must be local to the user's workstation.
+;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+;
+
+WorkStationType = SERVER
+;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+; Note:   This value is optional for the LAN Distance Connection Server.
+;         The WorkStationType parameter is ignored when the installation is
+;         for the Connection Server.  However, in order to avoid possible
+;         confusion with the LAN Distance Remote workstation response file
+;         installation, you may wish to include this value in the LAN Distance
+;         Connection Server response file installation.
+;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+

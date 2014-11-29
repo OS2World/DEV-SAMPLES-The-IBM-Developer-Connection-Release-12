@@ -1,0 +1,198 @@
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³                                                                          ³*/
+/*³ PROGRAM NAME: PMSPY                                                      ³*/
+/*³ -------------                                                            ³*/
+/*³  A PM program that is used to look at or 'spy' on the message queue of   ³*/
+/*³  other PM applications windows.                                          ³*/
+/*³                                                                          ³*/
+/*³ COPYRIGHT:                                                               ³*/
+/*³ ----------                                                               ³*/
+/*³  Copyright (C) International Business Machines Corp., 1992               ³*/
+/*³                                                                          ³*/
+/*³ DISCLAIMER OF WARRANTIES:                                                ³*/
+/*³ -------------------------                                                ³*/
+/*³  The following [enclosed] code is sample code created by IBM Corporation.³*/
+/*³  This sample code is not part of any standard IBM product and is provided³*/
+/*³  to you solely for the purpose of assisting you in the development of    ³*/
+/*³  your applications.  The code is provided "AS IS", without warranty of   ³*/
+/*³  any kind.  IBM shall not be liable for any damages arising out of your  ³*/
+/*³  use of the sample code, even if they have been advised of the           ³*/
+/*³  possibility of such damages.                                            ³*/
+/*³                                                                          ³*/
+/*³ For details on what this program does etc., please see the PMSPY.C file. ³*/
+/*³                                                                          ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ PMSPY.RC                                                                 ³*/
+/*³                                                                          ³*/
+/*³ Non-NLS specific resource file for PMSPY.EXE                             ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+
+#define  INCL_WIN        /* For PM calls and typedefs */
+
+#include <os2.h>         /* pull in os2 includes */
+
+#include "pmspyrc.h"     /* PMSPY RC  file  defs */
+#include "pmspyipf.h"    /* PMSPY IPF panel defs */
+
+ICON       ID_MAINWND       PRELOAD         pmspy.ico
+
+POINTER    ID_SPY_POINTER   PRELOAD         pmspy.ptr
+
+RESOURCE   IDT_HELP         IDT_DEFAULTS    pmspydef.pro
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ Non-NLS enabled STRINGs....internal controls for PMSPY code!             ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+STRINGTABLE
+{
+ CTL_MAX_MESSAGES             ,"400"  /* Max # messages in list */
+
+ CTL_MAX_DELETEITEM           ,"20"   /* # messages to delete when list full */
+                                      /* Note: using 5% MAX_MESSAGES */
+
+ CTL_MAX_PM_Q_SIZE            ,"400"  /*** # elements in PM Queue ***/
+}
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ HELP table help macros                                                   ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+#define helpMSG(idMSG)              HELPITEM    idMSG, IPF_EMPTY_SUBTABLE, idMSG
+
+#define helpFLD(idFLD)              HELPSUBITEM idFLD, idFLD
+#define helpFLDShared(idFLD,idHLP)  HELPSUBITEM idFLD, idHLP
+
+#define helpBTN(idBTN,idPANEL)      HELPSUBITEM idBTN, idPANEL
+
+#define helpAB(idAB)                HELPSUBITEM idAB,  idAB
+#define helpPD(idPD)                HELPSUBITEM idPD,  idPD
+#define helpPDAlt(idPD,idPANEL)     HELPSUBITEM idPD,  idPANEL
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ Help tables                                                              ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+HELPTABLE ID_AB_HELP
+BEGIN
+  /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+  /*³ Frame Window                                                             ³*/
+  /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+  HELPITEM ID_MAINWND       ,ID_MAINWND          ,  PID_EXTHELP
+
+  /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+  /*³ Dialogs                                                                  ³*/
+  /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+  HELPITEM IDD_FILTER       ,IPF_EMPTY_SUBTABLE  , IDD_FILTER
+  HELPITEM ID_GRP_DLG       ,IPF_EMPTY_SUBTABLE  , ID_GRP_DLG
+  HELPITEM IDD_ABOUT        ,IPF_EMPTY_SUBTABLE  , PID_EXTHELP
+  HELPITEM DLG_NOTES        ,IPF_EMPTY_SUBTABLE  , DLG_NOTES
+  HELPITEM ID_OW_DLG        ,IPF_EMPTY_SUBTABLE  , ID_OW_DLG
+  HELPITEM DLG_FONT         ,IPF_EMPTY_SUBTABLE  , DLG_FONT
+  HELPITEM DLG_MD           ,IPF_EMPTY_SUBTABLE  , DLG_MD
+
+  /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+  /*³ Messages                                                                 ³*/
+  /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+  helpMSG(IDS_MSG_IPF_INIT_1)
+  helpMSG(IDS_MSG_IPF_INIT_2)
+  helpMSG(IDS_MSG_IPF_ERROR_1)
+
+  helpMSG(IDS_MSG_LOG_EXISTS)
+  helpMSG(IDS_MSG_PROFILE_EXISTS)
+
+  helpMSG(IDS_FMT_LEVEL)
+  helpMSG(IDS_MSG_TOO_MANY_SPIES)
+
+  helpMSG(IDS_MSG_SYSTEM_Q_VERIFY)
+
+END
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ HELP Sub-Table for "children" of the main PMSPY Frame                    ³*/
+/*³                                                                          ³*/
+/*³ - action bar and pulldowns                                               ³*/
+/*³ - "spy" listbox                                                          ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+HELPSUBTABLE ID_MAINWND
+BEGIN
+
+  helpAB(ID_AB_FILE)
+
+    helpPD(ID_F_LOG)
+    helpPD(ID_F_OPENLOG)
+    helpPD(ID_F_OPENLOG_SNAPSHOT)
+    helpPD(ID_F_CLOSELOG)
+    helpPD(ID_F_PROFILE)
+    helpPD(ID_F_OPENPROFILE)
+    helpPD(ID_F_APPENDPROFILE)
+    helpPD(ID_F_SAVEPROFILE)
+    helpPD(ID_F_DEFAULT)
+    helpPD(ID_F_OPENDEFAULT)
+    helpPD(ID_F_APPENDDEFAULT)
+    helpPD(ID_F_EXIT)
+
+  helpAB(ID_AB_SPYON)
+
+    helpPD(ID_SELECT)
+    helpPD(ID_DESELECT)
+    helpPD(ID_SELECT_OBJECT)
+    helpPD(ID_SELECT_SYSTEM_Q)
+
+  helpAB(ID_AB_SPYWHAT)
+
+    helpPD(IDD_WND)
+    helpPD(IDD_QUE)
+
+  helpAB(ID_AB_OPTIONS)
+
+    helpPD(ID_O_LIST)
+    helpPD(ID_O_CLEAR)
+    helpPD(ID_O_FREEZE)
+    helpPD(ID_O_THAW)
+    helpPD(ID_O_SCROLL)
+    helpPD(ID_O_LOG)
+    helpPD(ID_O_STARTLOG)
+    helpPD(ID_O_STOPLOG)
+    helpPD(ID_O_BROWSEDEFAULT)
+    helpPD(ID_O_NOTES)
+    helpPD(ID_O_SAVEOPTS)
+    helpPD(ID_O_FONT)
+
+  helpAB(ID_AB_FILTER)
+
+    helpPD(ID_F_INCLUDE)
+    helpPD(ID_F_EXCLUDE)
+    helpPD(ID_F_SELECTIVE)
+    helpPD(ID_F_GROUP)
+    helpPD(ID_F_ONLY_UNDEFINED)
+    helpPD(ID_F_INC_WM_USER)
+    helpPD(ID_F_INC_UNDEFINED)
+
+  helpAB(ID_AB_HELP)
+
+    helpPD(ID_H_HELP)
+    helpPD(ID_H_ABOUT)
+    helpPDAlt(SC_HELPEXTENDED,ID_H_EXTENDED)
+    helpPDAlt(SC_HELPKEYS,    ID_H_KEYS)
+    helpPDAlt(SC_HELPINDEX,   ID_H_INDEX)
+
+  /*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+  /*³ SPY List                                                                 ³*/
+  /*³                                                                          ³*/
+  /*³ Note: placed here because it is serviced by the Client Area's window     ³*/
+  /*³       procedure - PMSPYWIN                                               ³*/
+  /*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+  HELPSUBITEM ID_SPYLIST            ,PID_SPYLIST
+END
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ Empty HELP Sub-Table used for message boxes and dialogs                  ³*/
+/*³                                                                          ³*/
+/*³ - when a HELPSUBITEM is not found for the MBID, the 'extended help'      ³*/
+/*³   value of the HELPITEM is used to produce related help                  ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+HELPSUBTABLE IPF_EMPTY_SUBTABLE
+BEGIN
+
+END
+

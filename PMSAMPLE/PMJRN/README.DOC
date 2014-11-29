@@ -1,0 +1,14 @@
+PMJRNDLL.DLL must be in one of your LIBPATH directories
+Take a look at your CONFIG.SYS file to find which are these directories
+
+LIBPATH=C:\;C:\CMLIB;C:\OS2\INSTALL;C:\OS2\DLL;
+
+If you modify the program then use the MJ command to build
+the pmjrn program but check in the .mak files
+that the directories for your C compiler are the good ones
+
+Enter PMJRN to start the journalling application
+
+Good Luck
+Marc Fiammante internet marc_fiammante@vnet.ibm.com
+

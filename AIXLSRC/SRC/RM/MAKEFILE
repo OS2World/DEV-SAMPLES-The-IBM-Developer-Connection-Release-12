@@ -1,0 +1,46 @@
+#UNIXLIKE Development makefile
+# Each program includes (or will soon) a file from \unixlike\src\include
+# Make sure this path is part of the INCLUDE environment variable
+# 05.03.93: modified for IBM C-SET/2 make
+
+# NOTE:  the more program is not being compiled for 32 bit, nor is ps
+
+CDFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /I\unixlike\src\include
+CFLAGS  = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+CMFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm+ /Q+ /i\unixlike\src\include
+COFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+LDFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+LFLAGS  =        /ALIGN:32 /EXEPACK /M /NOI
+
+CTODAY = $(COFLAGS)
+LTODAY = $(LFLAGS)
+LINKER = link386
+
+B = \unixlike\bin
+F = \unixlike\util\fmf
+G = \unixlike\util\getopt
+GU= \unixlike\util\greputil
+M = \unixlike\util\myerror
+MF = \unixlike\mapfiles
+MP= \unixlike\util\makepath
+P = \unixlike\util\getopt
+S = \unixlike\src
+SL =\unixlike\util\sleep
+#Z = \unixlike\src\more
+
+RMOBJS   = $S\rm\rm+$M\myerror+$G\getopt
+
+$B\rm.exe       :  $S\rm\rm.obj $M\myerror.obj $S\rm\rm.def $G\getopt.obj
+         $(LINKER) $(LTODAY) $(RMOBJS),$B\rm.exe,NUL,,$S\rm\rm.def;
+
+
+$S\rm\rm.obj             :  $S\rm\rm.c $S\rm\rm.h
+         icc $(CTODAY) /I$S\rm /Fo$S\rm\rm.obj $S\rm\rm.c
+
+$G\getopt.obj            : $G\getopt.c
+         icc $(CTODAY) /Fo$G\getopt.obj $G\getopt.c
+
+$M\myerror.obj           : $M\myerror.c
+         icc $(CTODAY) /Fo$M\myerror.obj $M\myerror.c
+
+

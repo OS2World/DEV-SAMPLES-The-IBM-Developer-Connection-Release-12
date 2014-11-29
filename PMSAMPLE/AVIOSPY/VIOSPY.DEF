@@ -1,0 +1,21 @@
+LIBRARY VIOSPY
+
+DESCRIPTION 'OS/2 Presentation Manager Vio Global register by FIAMMANT @ LGEVM2'
+
+PROTMODE
+
+CODE PRELOAD
+
+DATA PRELOAD
+STACKSIZE   4096        ; recommend 4k as minimum stacksize
+HEAPSIZE    4096       ; recommend 4k as minimum heapsize
+
+
+EXPORTS
+ VIOSERVICE=_VIOSERVICE
+ SESSIONS
+ SESSION
+ XCURSOR
+ YCURSOR
+ AVIOHMQ
+

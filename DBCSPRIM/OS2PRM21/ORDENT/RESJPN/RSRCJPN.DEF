@@ -1,0 +1,9 @@
+;-----------------------------------
+; rsrcjpn.def module definition file
+;-----------------------------------
+
+LIBRARY      RSRCJPN
+
+DESCRIPTION  'DBCS OS/2 Sample Program, Order Entry Resources for Japanese'
+
+

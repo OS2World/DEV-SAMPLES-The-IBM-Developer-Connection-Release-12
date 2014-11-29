@@ -1,0 +1,22 @@
+Arg window self
+
+/* Get item value  Entry Field */
+ServerName = VpGetItemValue(window,1000)
+IF ServerName = "" THEN Do
+	response=VpMessageBox(window,'Message','You must provide a Server name')
+	Call VpItem window, 1000, 'FOCUS'
+	Return
+	End
+WaitPtr = VpLoadPicture('SYSICON',3)
+CALL VpWindow window,'SETPOINTER',WaitPtr
+NetUseDrive = VpGetItemValue(window,1006)
+BootSrvDrive = VpGetItemValue(window,1007)
+FlagS = VpIsSelected(window,1009)
+IF FlagS = 1 THEN StopServer = "Y"
+	ELSE StopServer = "N"
+FlagL = VpIsSelected(window,1010)
+IF FlagL = 1 THEN SaveLogonScripts = "Y"
+	ELSE SaveLogonScripts = "N"
+Call migrate ServerName NetUseDrive BootSrvDrive StopServer SaveLogonScripts
+StdPtr = VpLoadPicture('SYSICON',1)
+CALL VpWindow window,'SETPOINTER',StdPtr

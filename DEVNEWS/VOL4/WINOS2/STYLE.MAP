@@ -1,0 +1,359 @@
+
+ STYLE
+
+ Start         Length     Name                   Class
+ 0001:00000000 000009968H CODE32                 CODE 32-bit
+ 0001:00009968 000000030H _MSGSEG32              CODE 32-bit
+ 0002:00000000 000000B10H DATA32                 DATA 32-bit
+ 0002:00000B10 000000000H CTOR_DTOR1             DATA 32-bit
+ 0002:00000B10 000000000H CTOR_DTOR2             DATA 32-bit
+ 0002:00000B10 000000000H CTOR_DTOR3             DATA 32-bit
+ 0002:00000B10 000000160H CONST32                CONST 32-bit
+ 0002:00000C70 00000000CH EDC1                   EDC_CLASS 32-bit
+ 0002:00000C7C 0000002ACH EDC2                   EDC_CLASS 32-bit
+ 0002:00000F28 000000004H EDC3                   EDC_CLASS 32-bit
+ 0002:00000F2C 000000000H BSS32                  BSS 32-bit
+ 0002:00000F2C 000000388H c_common               BSS 32-bit
+ 0002:000012C0 000006000H STACK32                STACK 32-bit
+
+ Origin   Group
+ 0000:0   FLAT
+ 0002:0   DGROUP
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  WinQueryWindowULong  (PMWIN.843)
+ 0000:00000000  Imp  WinSetWindowPos      (PMWIN.875)
+ 0000:00000000  Imp  DosOpen              (DOSCALLS.273)
+ 0000:00000000  Imp  DosCreateThread      (DOSCALLS.311)
+ 0000:00000000  Imp  WinDefFileDlgProc    (PMCTLS.5)
+ 0000:00000000  Imp  WinDefWindowProc     (PMWIN.911)
+ 0000:00000000  Imp  WinQueryWindowUShort (PMWIN.844)
+ 0000:00000000  Imp  WinOpenClipbrd       (PMWIN.793)
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0000:00000000  Imp  WinCreateHelpInstance (HELPMGR.51)
+ 0000:00000000  Imp  WinLoadMessage       (PMWIN.779)
+ 0000:00000000  Imp  WinDispatchMsg       (PMWIN.912)
+ 0000:00000000  Imp  DosClose             (DOSCALLS.257)
+ 0000:00000000  Imp  WinSetDlgItemText    (PMWIN.859)
+ 0000:00000000  Imp  WinWindowFromID      (PMWIN.899)
+ 0000:00000000  Imp  DosSetExceptionHandler (DOSCALLS.354)
+ 0000:00000000  Imp  WinGetPS             (PMWIN.757)
+ 0000:00000000  Imp  WinQueryClipbrdFmtInfo (PMWIN.807)
+ 0000:00000000  Imp  WinQueryPresParam    (PMWIN.939)
+ 0000:00000000  Imp  WinGetScreenPS       (PMWIN.759)
+ 0000:00000000  Imp  DosSetSignalExceptionFocus (DOSCALLS.378)
+ 0000:00000000  Imp  DosCreateMutexSem    (DOSCALLS.331)
+ 0000:00000000  Imp  WinQueryDlgItemText  (PMWIN.815)
+ 0000:00000000  Imp  WinDestroyHelpInstance (HELPMGR.52)
+ 0000:00000000  Imp  WinGetMsg            (PMWIN.915)
+ 0000:00000000  Imp  DosQuerySysInfo      (DOSCALLS.348)
+ 0000:00000000  Imp  DosBeep              (DOSCALLS.286)
+ 0000:00000000  Imp  WinDlgBox            (PMWIN.923)
+ 0000:00000000  Imp  DosCloseEventSem     (DOSCALLS.326)
+ 0000:00000000  Imp  WinLoadMenu          (PMWIN.778)
+ 0000:00000000  Imp  WinCloseClipbrd      (PMWIN.707)
+ 0000:00000000  Imp  WinSendDlgItemMsg    (PMWIN.903)
+ 0000:00000000  Imp  GpiQueryFontMetrics  (PMGPI.453)
+ 0000:00000000  Imp  WinFillRect          (PMWIN.743)
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  WinAlarm             (PMWIN.701)
+ 0000:00000000  Imp  DOSREQUESTMUTEXSEM   (DOSCALLS.334)
+ 0000:00000000  Imp  DOSPOSTEVENTSEM      (DOSCALLS.328)
+ 0000:00000000  Imp  WinEndPaint          (PMWIN.738)
+ 0000:00000000  Imp  WinSetFocus          (PMWIN.860)
+ 0000:00000000  Imp  WinInvalidateRect    (PMWIN.765)
+ 0000:00000000  Imp  WinReleasePS         (PMWIN.848)
+ 0000:00000000  Imp  DosQueryFileInfo     (DOSCALLS.279)
+ 0000:00000000  Imp  WinRegisterClass     (PMWIN.926)
+ 0000:00000000  Imp  WinDestroyWindow     (PMWIN.728)
+ 0000:00000000  Imp  WinPostMsg           (PMWIN.919)
+ 0000:00000000  Imp  DOS32IQUERYMESSAGECP (MSG.8)
+ 0000:00000000  Imp  WinIsWindow          (PMWIN.772)
+ 0000:00000000  Imp  WinSetPresParam      (PMWIN.938)
+ 0000:00000000  Imp  WinFontDlg           (PMCTLS.2)
+ 0000:00000000  Imp  WinQueryWindowRect   (PMWIN.840)
+ 0000:00000000  Imp  WinTerminate         (PMWIN.888)
+ 0000:00000000  Imp  WinQueryPointerPos   (PMWIN.823)
+ 0000:00000000  Imp  DevQueryCaps         (PMGPI.606)
+ 0000:00000000  Imp  WinQueryWindowText   (PMWIN.841)
+ 0000:00000000  Imp  DosCreateEventSem    (DOSCALLS.324)
+ 0000:00000000  Imp  WinSetWindowText     (PMWIN.877)
+ 0000:00000000  Imp  DosOpenVDD           (DOSCALLS.308)
+ 0000:00000000  Imp  DOSWAITEVENTSEM      (DOSCALLS.329)
+ 0000:00000000  Imp  DosExitList          (DOSCALLS.296)
+ 0000:00000000  Imp  WinMapWindowPoints   (PMWIN.788)
+ 0000:00000000  Imp  DOSRELEASEMUTEXSEM   (DOSCALLS.335)
+ 0000:00000000  Imp  WinPopupMenu         (PMWIN.937)
+ 0000:00000000  Imp  WinBeginPaint        (PMWIN.703)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  WinLoadPointer       (PMWIN.780)
+ 0000:00000000  Imp  DOSRESETEVENTSEM     (DOSCALLS.327)
+ 0000:00000000  Imp  WinLoadString        (PMWIN.781)
+ 0000:00000000  Imp  WinAssociateHelpInstance (HELPMGR.54)
+ 0000:00000000  Imp  WinCreateStdWindow   (PMWIN.908)
+ 0000:00000000  Imp  WinDefDlgProc        (PMWIN.910)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  WinMessageBox        (PMWIN.789)
+ 0000:00000000  Imp  WinSendMsg           (PMWIN.920)
+ 0000:00000000  Imp  GpiSetCharSet        (PMGPI.513)
+ 0000:00000000  Imp  WinCreateMsgQueue    (PMWIN.716)
+ 0000:00000000  Imp  WinFileDlg           (PMCTLS.4)
+ 0000:00000000  Imp  WinDismissDlg        (PMWIN.729)
+ 0000:00000000  Imp  DosGetInfoBlocks     (DOSCALLS.312)
+ 0000:00000000  Imp  WinInitialize        (PMWIN.763)
+ 0000:00000000  Imp  WinCreateWindow      (PMWIN.909)
+ 0000:00000000  Imp  WinQueryFocus        (PMWIN.817)
+ 0000:00000000  Imp  DosSetFilePtr        (DOSCALLS.256)
+ 0000:00000000  Imp  GpiQueryFonts        (PMGPI.586)
+ 0000:00000000  Imp  WinDestroyMsgQueue   (PMWIN.726)
+ 0000:00000000  Imp  DosQueryDBCSEnv      (NLS.6)
+ 0000:00000000  Imp  WinRemovePresParam   (PMWIN.940)
+ 0000:00000000  Imp  DosRead              (DOSCALLS.281)
+ 0000:00000000  Imp  DOS32TRUEGETMESSAGE  (MSG.6)
+ 0000:00000000  Imp  GpiCreateLogFont     (PMGPI.368)
+ 0000:00000000  Imp  GpiQueryDevice       (PMGPI.444)
+ 0000:00000000  Imp  DosQueryHType        (DOSCALLS.224)
+ 0000:00000000  Imp  DosRequestVDD        (DOSCALLS.309)
+ 0000:00000000  Imp  DosCloseMutexSem     (DOSCALLS.333)
+ 0000:00000000  Imp  GpiDeleteSetId       (PMGPI.378)
+ 0000:00000000  Imp  DosRaiseException    (DOSCALLS.356)
+ 0000:00000000  Imp  WinQueryTaskTitle    (PMSHAPI.128)
+ 0001:00000000       main
+ 0001:000001D0       MainWndProc
+ 0001:00000298       MessageBox
+ 0001:00000374       MainCommand
+ 0001:00000548       ProcessCmdLine
+ 0001:000005E4       UserWndProc
+ 0001:000006AC       UserCommand
+ 0001:000008D0       InitMenu
+ 0001:00000C3C       EnableMenuItem
+ 0001:00000C98       ShowDemoDlg
+ 0001:00000D04       ShowDemoMsgBox
+ 0001:00000F74       SetForegroundColor
+ 0001:00000FF0       SetBackgroundColor
+ 0001:0000106C       SetFont
+ 0001:000013C8       ConvertVectorFontSize
+ 0001:00001474       DisPlayInComingMessage
+ 0001:00001530       Init
+ 0001:00001644       InitMainWindow
+ 0001:0000171C       ExitProc
+ 0001:0000177C       MainPaint
+ 0001:000017B8       ProdInfoDlgProc
+ 0001:00001828       DemoDlgProc
+ 0001:00001DCC       LoadListBox
+ 0001:00001E98       PresParamDemoDlgProc
+ 0001:00001F80       InitPresParamDemoDlg
+ 0001:00002570       UpdatePresParamDemoDlg
+ 0001:00002A28       ShowDlgHelp
+ 0001:000030FC       InitializeValueSet
+ 0001:000031E4       InitializeSlider
+ 0001:00003324       InitializeSpinButton
+ 0001:000033F4       InitializeNoteBook
+ 0001:0000369C       InitializeContainer
+ 0001:0000392C       SetSysMenu
+ 0001:00003A18       FileNew
+ 0001:00003B18       FileOpen
+ 0001:00003EC0       FileSave
+ 0001:00003F40       FileSaveAs
+ 0001:00004018       WriteFileToDisk
+ 0001:0000412C       GetFileName
+ 0001:000042DC       UpdateTitleText
+ 0001:000043C0       OpenSaveFilterDlgProc
+ 0001:00004438       EditUndo
+ 0001:0000451C       EditCut
+ 0001:00004540       EditCopy
+ 0001:00004564       EditPaste
+ 0001:00004588       EditClear
+ 0001:000045AC       InitHelp
+ 0001:0000472C       HelpUsingHelp
+ 0001:00004774       HelpGeneral
+ 0001:000047BC       HelpKeys
+ 0001:00004804       HelpIndex
+ 0001:0000484C       HelpProdInfo
+ 0001:00004874       DisplayHelpPanel
+ 0001:000048C8       DestroyHelpInstance
+ 0001:000048E8       OpenVirtQueue
+ 0001:00004948       WriteVirtQueue
+ 0001:000049D8       ReadVirtQueue
+ 0001:00004A5C       ProcessMessageData
+ 0001:00004AB8       StartReadThread
+ 0001:00004AF0       CloseVirtQueue
+ 0001:00004B2C       __RunExitList
+ 0001:00004BEC       _CrtGetLocalData
+ 0001:00004E60       _CrtInitThread
+ 0001:00004EA4       _beginthread
+ 0001:00004F18       _endthread
+ 0001:000050B8       _itoa
+ 0001:0000515C       atol
+ 0001:00005230       sprintf
+ 0001:00005248       _ltoa
+ 0001:000052EC       strcat
+ 0001:00005330       strcmp
+ 0001:0000535C       strcpy
+ 0001:00005398       strlen
+ 0001:000053BC       memset
+ 0001:000053F8       memcpy
+ 0001:00005428       _test_handle
+ 0001:00005478       _CRT_init
+ 0001:00005808       _setuparg
+ 0001:00005A00       __sctordtorInit
+ 0001:00005A08       __sctordtorTerm
+ 0001:00005A10       _CRT_term
+ 0001:00005C00       _split_chunk
+ 0001:00005CF8       __malloc
+ 0001:00005F64       malloc
+ 0001:00006010       __free
+ 0001:00006074       free
+ 0001:00006104       calloc
+ 0001:000061E0       exit
+ 0001:000062C0       _EXE_Exception
+ 0001:00006304       _recreate_exception
+ 0001:00006468       _Lib_excpt
+ 0001:000065D4       __Exception
+ 0001:000069E0       _exception_dllinit
+ 0001:00006A10       _exception_procinit
+ 0001:00006A44       _get_eib
+ 0001:00006AA0       _mig_eib_store
+ 0001:00006AB0       __Saved_return_address
+ 0001:00006AC0       __Async_exception_flag
+ 0001:00006ADC       _critlib_except
+ 0001:00006C24       _fpreset
+ 0001:00006C34       _Exception
+ 0001:00006C4C       _Test_and_reset
+ 0001:00006C58       _callback_opt_sys
+ 0001:00006C64       _Regen_exception
+ 0001:00006C70       _get_seglim
+ 0001:00006CAC       _RequestSem
+ 0001:00006D3C       _ReleaseSem
+ 0001:00006D58       __threadid
+ 0001:00006D84       _freeCtype
+ 0001:00006DA0       _init_ctype
+ 0001:00006E90       _sprintfieee
+ 0001:00006ECC       _sprintf_ansi
+ 0001:00006EF8       _sprintf
+ 0001:00006F7C       _internal_err
+ 0001:00006FD0       _freeThreadStorage
+ 0001:00007074       _matherr
+ 0001:00007088       _setupenv
+ 0001:00007168       __wctordtorInit
+ 0001:0000716C       __wctordtorTerm
+ 0001:00007254       _heapmin_int
+ 0001:00007444       _heapmin
+ 0001:000074F0       _terminate
+ 0001:00007510       _w_Terminate_and_dump
+ 0001:0000758C       _fcloseall_weak
+ 0001:000075A0       _freeLocale_weak
+ 0001:000075A4       _init_ctype_weak
+ 0001:000075A8       _freeCtype_weak
+ 0001:000075AC       _FreeFCB
+ 0001:00007688       _CreateSem
+ 0001:000076F4       _CloseSem
+ 0001:00007748       __random_seed
+ 0001:00007758       __version
+ 0001:00007764       __strtok_pos
+ 0001:00007774       __tempname_ptr
+ 0001:00007784       __perror_msg_ptr
+ 0001:00007794       __internal_buf_ptr
+ 0001:000077A4       __lcvt_buf_ptr
+ 0001:000077B4       __cvt_buf_ptr
+ 0001:000077C4       __broken_time_ptr
+ 0001:000077D4       __flags
+ 0001:000077E4       __strerror_msg_ptr
+ 0001:000077F4       __dttm_ptr
+ 0001:00007804       __doserrno
+ 0001:00007814       _errno
+ 0001:00007824       __cppstore
+ 0001:00007840       _PrintErrMsg
+ 0001:00007894       _MesgServ
+ 0001:00007A98       strspn
+ 0001:0000801C       __dofmto
+ 0001:00008AD4       fflush
+ 0001:00008C30       getenv
+ 0001:00008DC4       _ilog2
+ 0001:00008DCC       _w_raise
+ 0001:00008DD4       _bit_test_set
+ 0001:00008DE8       _Math_Exception_Def
+ 0001:00008DFC       _edcGetMessage
+ 0001:00008E20       _wfloatfmt
+ 0001:00008E48       _wcputs
+ 0001:00008E5C       wctomb
+ 0001:00008F30       _bufprint
+ 0001:00009020       _Flush
+ 0001:000091D8       _set_crt_msg_handle
+ 0001:0000920C       wcstombs
+ 0001:00009374       _fillb
+ 0001:000095BC       _flushb
+ 0001:000098D4       _uwrite
+ 0001:00009918       _wuwriteMem
+ 0001:0000991C       _wreadbSyncMem
+ 0001:00009920       _wfsetposMem
+ 0001:00009928       _wSeekMem
+ 0001:00009930       _wfgetposMem
+ 0001:00009944       _wrewindMem
+ 0001:00009948       _wtellMem
+ 0001:0000995C       _wRemoveMem
+ 0001:00009960       _wOpenMemory
+ 0001:00009968       sig32
+ 0001:0000997A       Dos32GetMessage
+ 0001:0000997A       DOS32GETMESSAGE
+ 0001:0000997A       DOSGETMESSAGE
+ 0001:0000997A       DosGetMessage
+ 0002:00000000       fUseDeviceDriver
+ 0002:00000010       lClrForeground
+ 0002:00000014       lClrBackground
+ 0002:00000018       lClrDefaultForeground
+ 0002:0000001C       lClrDefaultBackground
+ 0002:000003A0       szFullPath
+ 0002:000004F0       _exeentry
+ 0002:000004F4       _argc
+ 0002:000004F8       _argv
+ 0002:000005D0       stdin
+ 0002:000005D4       stdout
+ 0002:000005D8       stderr
+ 0002:000005DC       _PGLOBAL_PTR
+ 0002:000005E0       _daylight
+ 0002:000005E4       _timezone
+ 0002:000005E8       _osmode
+ 0002:000005EC       __decimal_point
+ 0002:000005F0       __char_set_type
+ 0002:000008D0       _matherr_ptr
+ 0002:00000990       _ctable
+ 0002:00000A94       _ctypeModule
+ 0002:00000B00       _crt_msg_handle
+ 0002:00000C70       _firsteib
+ 0002:00000F28       _lasteib
+ 0002:00000F2C       _edata
+ 0002:00000F2C       _have_freed
+ 0002:00000F30       HandleToVDD
+ 0002:00000F34       fHelpEnabled
+ 0002:00000F38       _pBucketArr
+ 0002:00000F78       _edcinit_fin
+ 0002:00000F7C       _memory_sem
+ 0002:00000F88       @BSSEDCINIT.C
+ 0002:00000F98       MessageBuffer
+ 0002:00000FAC       hwndMainFrame
+ 0002:00000FB0       _tmemory_sem
+ 0002:00000FBC       @BSSPRTEMSG.C
+ 0002:00000FC0       @BSSSTY_DLG.C
+ 0002:00001190       @BSSN_EXCEPT.C
+ 0002:0000119C       hab
+ 0002:000011A0       @BSSSTY_HELP.C
+ 0002:000011CC       @BSSSTY_USER.C
+ 0002:000011D8       hmq
+ 0002:000011DC       __c_local_ctype
+ 0002:000011E0       _ctype
+ 0002:000011E4       hdcMain
+ 0002:000011E8       hwndMLE
+ 0002:000011EC       hwndMain
+ 0002:000011F0       _tzname
+ 0002:000011F8       _environ
+ 0002:000011FC       _osmajor
+ 0002:00001200       szAppName
+ 0002:0000123C       _osminor
+ 0002:00001240       _locale_initialized
+ 0002:00001244       _TerminateAndDumpSem
+ 0002:00001250       szUntitled
+ 0002:000012C0       _end
+
+Program entry point at 0001:00004B54

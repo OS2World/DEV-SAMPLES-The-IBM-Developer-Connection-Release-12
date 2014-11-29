@@ -1,0 +1,61 @@
+ja_jp.ibm-942
+000001/デスク（大，灰）/Desk(L,Grey)/78000
+000002/デスク（大，白）/Desk(L,White)/78000
+000003/デスク（中，灰）/Desk(M,Grey)/65000
+000004/デスク（中，白）/Desk(M,White)/65000
+000005/デスク（小，灰）/Desk(S,Grey)/59000
+000006/デスク（小，白）/Desk(S,White)/59000
+000007/チェアー（黒）/Chair(Black)/46000
+000008/チェアー（灰）/Chair(Grey)/46000
+000009/チェアー（白）/Chair(White)/46000
+000010/ワゴン（白）/Drawers(White)/30000
+000011/ワゴン（灰）/Drawers(Grey)/30000
+000012/卓上本棚（白）/Book shelf(Desk-top,White)/16000
+000013/卓上本棚（灰）/Book shelf(Desk-top,Grey)/16000
+000014/キャビネット（大，灰）/Cabinet(L,Grey)/90000
+000015/キャビネット（大，白）/Cabinet(L,White)/90000
+000016/キャビネット（中，灰）/Cabinet(M,Grey)/78000
+000017/キャビネット（中，白）/Cabinet(M,White)/78000
+000018/キャビネット（小，灰）/Cabinet(S,Grey)/59000
+000019/キャビネット（小，白）/Cabinet(S,White)/59000
+000020/可動キャビネット（大，灰）/Mobile cabinet (L, Grey)/82000
+000021/可動キャビネット（大，白）/Mobile cabinet (L, White)/82000
+000022/可動キャビネット（中，灰）/Mobile cabinet (M, Grey)/75000
+000023/可動キャビネット（中，白）/Mobile cabinet (M, White)/75000
+000024/可動キャビネット（小，灰）/Mobile cabinet (S, Grey)/68000
+000025/可動キャビネット（小，白）/Mobile cabinet (S, White)/68000
+000026/ファイル・トレー（Ａ４）/File tray (A4)/15000
+000027/ファイル・トレー（Ｂ４）/File tray (B4)/15000
+000028/ファイル・トレー（Ａ５）/File tray (A5)/15000
+000029/ファイル・トレー（Ｂ５）/File tray (B4)/15000
+000030/パンフレット入れ（H150,白）/Brochure case (h150, White)/58000
+000031/パンフレット入れ（H150,灰）/Brochure case (h150, Grey)/58000
+000032/パンフレット入れ（H150,透明）/Brochure case (h150, Transparent)/58000
+000033/パンフレット入れ（H100,白）/Brochure case (h100, White)/46000
+000034/パンフレット入れ（H100,灰）/Brochure case (h100, Grey)/46000
+000035/パンフレット入れ（H100,透明）/Brochure case (h100, Transparent)/46000
+000036/パンフレット入れ（H50,白）/Brochure case (h50, White)/35000
+000037/パンフレット入れ（H50,灰）/Brochure case (h50, Grey)/35000
+000038/パンフレット入れ（H50,透明）/Brochure case (h50, Transparent)/35000
+000039/レター・ケース（大，白）/1etter case (L, White)/10000
+000040/レター・ケース（大，灰）/1etter case (L, Grey)/10000
+000041/レター・ケース（大，透明）/1etter case (L, Transparent)/10000
+000042/レター・ケース（中，白）/1etter case (M, White)/8000
+000043/レター・ケース（中，灰）/1etter case (M, Grey)/8000
+000044/レター・ケース（中，透明）/1etter case (M, Transparent)/8000
+000045/レター・ケース（小，白）/1etter case (S, White)/6500
+000046/レター・ケース（小，灰）/1etter case (S, Grey)/6500
+000047/レター・ケース（小，透明）/1etter case (S, Transparent)/6500
+000048/本棚（大，白）/Book shelf (L, White)/140000
+000049/本棚（大，灰）/Book shelf (L, Grey)/140000
+000050/本棚（大，ブラウン）/Book shelf (L, Brown)/140000
+000051/本棚（中，白）/Book shelf (M, White)/113000
+000052/本棚（中，灰）/Book shelf (M, Grey)/113000
+000053/本棚（中，ブラウン）/Book shelf (M, Brown)/123000
+000054/本棚（小，白）/Book shelf (S, White)/98000
+000055/本棚（小，灰）/Book shelf (S, Grey)/98000
+000056/本棚（小，ブラウン）/Book shelf (S, Brown)/98000
+000057/ロッカー（大，白）/Locker (White)/143000
+000058/ロッカー（大，灰）/Locker (Grey)/143000
+000059/ロッカー（大，ブラウン）/Locker (Brown)/143000
+000060/ロッカー（大，シルバー）/Locker (Silver)/143000

@@ -1,0 +1,6 @@
+DBUpdateType=1
+*REM DBBackupSystem=N
+DBUpdateConfigSys=Y
+DBInstallEngine=Y
+DBReplace=Y
+

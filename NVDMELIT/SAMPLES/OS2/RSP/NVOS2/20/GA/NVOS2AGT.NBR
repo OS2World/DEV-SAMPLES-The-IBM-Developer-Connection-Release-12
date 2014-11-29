@@ -1,0 +1,23 @@
+**************************
+* TARGET DIRECTORY *
+**************************
+FILE = C:\ANV2
+********************************
+* COMPONENTS TO INSTALL *
+********************************
+COMP = AGENT FOR OS/2
+CFGUPDATE = AUTO
+DELETEBACKUP = NO
+OVERWRITE = YES
+SAVEBACKUP = NO
+*****************************************************
+* TRANSPORT USED TO COMMUNICATE WITH    *
+* MANAGING SYSTEM (ANYNET,IP,IPX,NETBIOS) *
+*****************************************************
+NETVIEW_AGENT_TRANSPORT=NETBIOS
+******************************
+* SUBAGENTS TO INSTALL *
+******************************
+NETVIEW_LAN_SERVER_AGENT=NO
+NETVIEW_LAN_REQUESTER_AGENT=YES
+

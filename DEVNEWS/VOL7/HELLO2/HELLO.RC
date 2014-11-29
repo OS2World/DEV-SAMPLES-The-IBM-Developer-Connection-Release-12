@@ -1,0 +1,5 @@
+#include <os2.h>
+#include "hello.h"
+
+BITMAP  IDB_BMP1      hello.bmp  
+

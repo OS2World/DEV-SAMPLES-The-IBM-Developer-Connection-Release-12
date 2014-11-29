@@ -1,0 +1,26 @@
+
+August 24, 1989 - Version 1.0
+July   20, 1994 - Version 2.0 Compiled for OS/2 V2.x and C-Set compiler
+
+This program allows you to record and playback user interactions PM passes
+to windows through message queues.  The menu items allow you to
+position a particular window and record or playback.
+
+If you pointed a window it will be positionned before any recording
+or playback. This ensures all interactions concerning this window to
+be played back correctly, the recording storing absolute desktop coordinates.
+
+You should always Stop the record or playback using 'StopRecordOrPlay'
+before exiting the application even when playing back.
+
+This application tries to respect the original timing between messages. But
+in some cases due to PM overhead it can appear slower than the original
+recording.
+
+If you are recording interactions on windows which contain asynchronous
+thread managed child windows, some of the system response could appear in
+a different order from the original recording.
+Eg: Positioning a frame window recorded after some interaction on a child
+window was made could occur before the child window interaction response
+ends.
+

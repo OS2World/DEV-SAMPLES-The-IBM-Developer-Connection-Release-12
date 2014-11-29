@@ -1,0 +1,11 @@
+;       IBM Confidential
+;
+; Copyright (c) IBM Corp. 1994
+; All rights reserved
+NAME    simpinst
+DESCRIPTION 'SimplePart Install Sample Application'
+PROTMODE
+DATA    MOVEABLE MULTIPLE
+CODE    MOVEABLE
+HEAPSIZE   1024
+STACKSIZE  8192

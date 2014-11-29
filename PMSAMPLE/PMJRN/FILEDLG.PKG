@@ -1,0 +1,25 @@
+
+* :nick.FILEDLG            :disk.OS2TOOLS             
+* :title.Filefind Dialog for Open / Save of PM applications                     
+* :version.0.09                     :date.89/06/06   :ops.OS/2 1.1 PM           
+* :oname.Juerg von Kaenel           :onode.ZURLVM1   :ouser.JVK                 
+* :aname.Juerg von Kaenel           :anode.ZURLVM1   :auser.JVK                 
+* :support.A    :doc.doc file       :lang.C          :source.Y                  
+* :hw.EGA, VGA, 8514                :sw.Presentation Manager                    
+* :kwd.FILE DIALOG PM                                                           
+* :abs.FILEDLG is a Presentation Manager dialog box for easy                    
+* selection of files to open/save them. It features a filename                  
+* entryfield, a drive, a subdirectory and a file listbox.                       
+* It is written as a DLL and is callable through a library.                     
+* :lic.By placing material on this conference, I agree to grant                 
+* IBM a non-exclusive, royalty-free license for the material                    
+* as set forth in the LICENSE AGREEMNT file on this conference.                 
+************************************************************************        
+* The news file for this package                                                
+      FILEDLG  NEWS     * 0.09 news about this package                          
+* The documentation                                                             
+      FILEDLG  DOC      * 0.03 thats all there is                               
+* The programs                                                                  
+      FILEDLG  RAMBIN   * 0.09 all source files                                 
+      FILEDLG  DLLBIN   * 0.09 the dynamic link libray                          
+

@@ -1,0 +1,1776 @@
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     1
+                                      * * * * *   P R O L O G   * * * * *
+
+ Compiler . . . . . . . . . . . . : 10G2996/10G3293 IBM C Set/2 V1.0
+ Command options:
+    Program name. . . . . . . . . : H:\GETTEXT\GREHOOK.C
+    Assemble name . . . . . . . . : GREHOOK.asm
+    Object name . . . . . . . . . : GREHOOK.obj
+    Listing name. . . . . . . . . : GREHOOK.lst
+    Compiler options. . . . . . . : /C+  /Fa+ /Fc- /Fd- /Fl- /Fm- /Fo+ /Gd- /Ge- /Gf- /Gh- /Gm- /Gn- /Gp- /Gr- /Gs- /Gt- /Gw- 
+                                  : /J+  /Ka- /Kb- /Kc- /Ke- /Kf- /Kg- /Ki- /Ko- /Kp- /Kr- /Kt- /Kx- /L-  /La- /Le- /Lf- /Li- 
+                                  : /Lj- /Ls- /Lx+ /O-  /P-  /Pc- /Pd- /Q-  /Sd- /Sh- /Sn- /Sr- /Ss+ /Ti- /Xi- 
+                                  : /Mp  /Re  /Sm  /Sp1  /G3  /W3  /H255  /Lp66  /Sg-  /Sq-  /N  
+                                  : /I  
+                                  : /Lt 
+                                  : /Lu 
+                                  : /B  
+                                  : /V  
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     2
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+APIRET              29-2:48         typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+APIRET16            29-2:49         typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+APIRET32            29-2:50         typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+AVAILDATA           29-4:1800       typedef                                                                                       
+                                    Type =  structure _AVAILDATA
+
+Attr                101-0:101       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    112-0:112, 114-0:114, 120-0:120, 122-0:122, 134-0:134, 151-0:151, 168-0:168, 185-0:185,
+                                    202-0:202 
+
+Attr                319-0:319       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    322-0:322 
+
+BOOL                29-2:128        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+BOOL16              29-2:131        typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+BYTE                29-2:91         typedef                                                                                       
+                                    Type =  unsigned character 
+
+CHARRECT            247-0:247       typedef                                                                                       
+                                    Type =  structure _CHARRECT
+
+CHARSTR             253-0:253       typedef                                                                                       
+                                    Type =  structure _CHARSTR
+
+CMDMSG              29-11:932       typedef                                                                                       
+                                    Type =  structure _COMMANDMSG
+
+COLOR               29-2:263        typedef                                                                                       
+                                    Type =  signed long integer 
+
+CONTEXTRECORD       29-7:283        typedef                                                                                       
+                                    Type =  structure _CONTEXT
+
+COUNTRYCODE         29-4:1341       typedef                                                                                       
+                                    Type =  structure _COUNTRYCODE
+
+COUNTRYINFO         29-4:1360       typedef                                                                                       
+                                    Type =  structure _COUNTRYINFO
+
+Cell                328-0:328       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+                                    331-0:331, 331-0:331, 331-0:331, 332-0:332 
+
+CellSize            328-0:328       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+                                    329-0:329, 331-0:331, 331-0:331 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     3
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+CheckSpying         274-0:274       Class = external definition, not prototyped                                                   
+                                    Type =  _Optlink function returning unsigned long integer 
+                                    376-0:376, 383-0:383, 390-0:390, 456-0:456 
+
+DATETIME            29-4:1200       typedef                                                                                       
+                                    Type =  structure _DATETIME
+
+DENA1               29-4:985        typedef                                                                                       
+                                    Type =  structure _DENA1
+
+DENA2               29-4:988        typedef                                                                                       
+                                    Type =  structure _FEA2
+
+DEVOPENSTRUC        29-2:337        typedef                                                                                       
+                                    Type =  structure _DEVOPENSTRUC
+
+DRIVDATA            29-2:304        typedef                                                                                       
+                                    Type =  structure _DRIVDATA
+
+Data                299-0:299       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    301-0:301, 303-0:303, 304-0:304, 305-0:305, 313-0:313 
+
+Data                324-0:324       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    326-0:326, 332-0:332, 335-0:335, 336-0:336, 344-0:344 
+
+DosAllocMem         29-4:1006       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    301-0:301, 326-0:326 
+
+DosCloseEventSem    29-4:1122       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    310-0:310, 341-0:341, 479-0:479 
+
+DosCreateEventSem   29-4:1114       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    470-0:470 
+
+DosFreeMem          29-4:1010       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    313-0:313, 344-0:344 
+
+DosGetInfoBlocks    29-4:119        Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    287-0:287 
+
+DosOpenEventSem     29-4:1119       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    308-0:308, 339-0:339 
+
+DosPostEventSem     29-4:1127       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    309-0:309, 340-0:340 
+
+DosQueryMem         29-4:1032       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    112-0:112, 120-0:120, 134-0:134, 151-0:151, 168-0:168, 185-0:185, 202-0:202, 322-0:322 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     4
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+DosSleep            29-4:150        Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    146-0:146, 163-0:163, 180-0:180, 197-0:197, 214-0:214, 219-0:219, 222-0:222 
+
+DosWaitEventSem     29-4:1129       Class = external reference,                                                                   
+                                    Type =  _System function returning unsigned long integer 
+                                    477-0:477 
+
+EAOP                29-4:635        typedef                                                                                       
+                                    Type =  structure _EAOP
+
+EAOP2               29-4:682        typedef                                                                                       
+                                    Type =  structure _EAOP2
+
+EASIZEBUF           29-4:364        typedef                                                                                       
+                                    Type =  structure _EASIZEBUF
+
+ERR                 29-7:328        typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning unsigned long integer 
+
+ERRORID             29-2:188        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+EXCEPTIONREGISTRATIONRECORD                                                                                                       
+                    29-7:336        typedef                                                                                       
+                                    Type =  structure _EXCEPTIONREGISTRATIONRECORD
+
+EXCEPTIONREPORTRECORD                                                                                                             
+                    29-7:310        typedef                                                                                       
+                                    Type =  structure _EXCEPTIONREPORTRECORD
+
+FATTRS              29-2:394        typedef                                                                                       
+                                    Type =  structure _FATTRS
+
+FDATE               29-4:461        typedef                                                                                       
+                                    Type =  structure _FDATE
+
+FEA                 29-4:617        typedef                                                                                       
+                                    Type =  structure _FEA
+
+FEA2                29-4:649        typedef                                                                                       
+                                    Type =  structure _FEA2
+
+FEA2LIST            29-4:659        typedef                                                                                       
+                                    Type =  structure _FEA2LIST
+
+FEALIST             29-4:627        typedef                                                                                       
+                                    Type =  structure _FEALIST
+
+FILE                30-18:47        typedef                                                                                       
+                                    Type =  structure __file
+
+FILEFINDBUF         29-4:537        typedef                                                                                       
+                                    Type =  structure _FILEFINDBUF
+
+FILEFINDBUF2        29-4:558        typedef                                                                                       
+                                    Type =  structure _FILEFINDBUF2
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     5
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+FILEFINDBUF3        29-4:575        typedef                                                                                       
+                                    Type =  structure _FILEFINDBUF3
+
+FILEFINDBUF4        29-4:593        typedef                                                                                       
+                                    Type =  structure _FILEFINDBUF4
+
+FILELOCK            29-4:500        typedef                                                                                       
+                                    Type =  structure _FILELOCK
+
+FILESTATUS          29-4:747        typedef                                                                                       
+                                    Type =  structure _FILESTATUS
+
+FILESTATUS2         29-4:762        typedef                                                                                       
+                                    Type =  structure _FILESTATUS2
+
+FILESTATUS3         29-4:776        typedef                                                                                       
+                                    Type =  structure _FILESTATUS3
+
+FILESTATUS4         29-4:791        typedef                                                                                       
+                                    Type =  structure _FILESTATUS4
+
+FIXED               29-13:122       typedef                                                                                       
+                                    Type =  signed long integer 
+
+FIXED114            29-13:132       typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+FIXED88             29-13:126       typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+FNEXITLIST          29-4:163        typedef                                                                                       
+                                    Type =  _System function returning void 
+
+FNTHREAD            29-4:106        typedef                                                                                       
+                                    Type =  _System function returning void 
+
+FNWP                29-11:222       typedef                                                                                       
+                                    Type =  _System function returning 
+                                             pointer to void 
+
+FONTMETRICS         29-2:517        typedef                                                                                       
+                                    Type =  structure _FONTMETRICS
+
+FPREG               29-7:216        typedef                                                                                       
+                                    Type =  structure _fpreg
+
+FRAMECDATA          29-11:2381      typedef                                                                                       
+                                    Type =  structure _FRAMECDATA
+
+FSALLOCATE          29-4:802        typedef                                                                                       
+                                    Type =  structure _FSALLOCATE
+
+FSINFO              29-4:487        typedef                                                                                       
+                                    Type =  structure _FSINFO
+
+FSQBUFFER           29-4:390        typedef                                                                                       
+                                    Type =  structure _FSQBUFFER
+
+FSQBUFFER2          29-4:403        typedef                                                                                       
+                                    Type =  structure _FSQBUFFER2
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     6
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+FTIME               29-4:443        typedef                                                                                       
+                                    Type =  structure _FTIME
+
+Fct                 353-0:353       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    368-0:368, 372-0:372, 399-0:399, 400-0:400 
+
+Fct                 407-0:407       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    418-0:418, 430-0:430, 431-0:431 
+
+Fct                 438-0:438       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    451-0:451, 455-0:455, 462-0:462, 463-0:463 
+
+GEA                 29-4:602        typedef                                                                                       
+                                    Type =  structure _GEA
+
+GEA2                29-4:667        typedef                                                                                       
+                                    Type =  structure _GEA2
+
+GEA2LIST            29-4:674        typedef                                                                                       
+                                    Type =  structure _GEA2LIST
+
+GEALIST             29-4:609        typedef                                                                                       
+                                    Type =  structure _GEALIST
+
+GRE32ENTRY          64-0:64         typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning unsigned long integer 
+
+GreEntries          66-0:66         Class = external definition, Length = 1024,                                                   
+                                    Type =  array[256] of 
+                                             pointer to 
+                                               _System function returning unsigned long integer 
+                                    124-0:124, 124-0:124, 129-0:129, 138-0:138, 155-0:155, 172-0:172, 189-0:189, 206-0:206,
+                                    400-0:400, 431-0:431, 463-0:463 
+
+HAB                 29-2:240        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HACCEL              29-11:2989      typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HAPP                29-12:59        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HBITMAP             29-2:254        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HDC                 29-2:248        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HDIR                29-4:805        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HEV                 29-4:508        typedef                                                                                       
+                                    Type =  unsigned long integer 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     7
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+HFILE               29-4:503        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HINI                29-12:63        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HKBD                29-8:94         typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+HLIB                29-11:3923      typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HMF                 29-2:257        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HMODULE             29-2:218        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HMOU                29-8:887        typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+HMQ                 29-2:525        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HMTX                29-4:1109       typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HMUX                29-4:1111       typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HOBJECT             29-15:47        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HPAL                29-2:260        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HPIPE               29-4:1793       typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HPOINTER            29-11:3282      typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HPROGRAM            29-12:57        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HPS                 29-2:245        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HQUEUE              29-4:1439       typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HRGN                29-2:251        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HSEM                29-2:233        typedef                                                                                       
+                                    Type =  pointer to void 
+
+HSWITCH             29-12:274       typedef                                                                                       
+                                    Type =  unsigned long integer 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     8
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+HTIMER              29-4:1217       typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HVDD                29-4:2027       typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HVIO                29-8:375        typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+HWND                29-2:522        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+HookedGre32Entry10  79-0:79         Class = external definition,                                                                  
+                                    Type =  _System function returning unsigned long integer 
+
+HookedGre32Entry5   77-0:77         Class = external definition,                                                                  
+                                    Type =  _System function returning unsigned long integer 
+
+HookedGre32Entry8   78-0:78         Class = external definition,                                                                  
+                                    Type =  _System function returning unsigned long integer 
+
+HookedPid           267-0:267       Class = external definition, Length = 4,                                                      
+                                    Type =  unsigned long integer 
+
+ICONINFO            29-15:156       typedef                                                                                       
+                                    Type =  structure _ICONINFO
+
+ICONPOS             29-15:144       typedef                                                                                       
+                                    Type =  structure _ICONPOS
+
+InData              298-0:298       Class = parameter, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    304-0:304 
+
+Index               102-0:102       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+                                    133-0:133, 134-0:134, 137-0:137, 137-0:137, 138-0:138, 138-0:138, 140-0:140, 142-0:142,
+                                    142-0:142, 145-0:145, 145-0:145, 150-0:150, 151-0:151, 154-0:154, 154-0:154, 155-0:155,
+                                    155-0:155, 157-0:157, 159-0:159, 159-0:159, 162-0:162, 162-0:162, 167-0:167, 168-0:168,
+                                    171-0:171, 171-0:171, 172-0:172, 172-0:172, 174-0:174, 176-0:176, 176-0:176, 179-0:179,
+                                    179-0:179, 184-0:184, 185-0:185, 188-0:188, 188-0:188, 189-0:189, 189-0:189, 191-0:191,
+                                    193-0:193, 193-0:193, 196-0:196, 196-0:196, 201-0:201, 202-0:202, 205-0:205, 205-0:205,
+                                    206-0:206, 206-0:206, 208-0:208, 210-0:210, 210-0:210, 213-0:213, 213-0:213 
+
+Index               354-0:354       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+                                    399-0:399, 400-0:400 
+
+Index               408-0:408       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+                                    430-0:430, 431-0:431 
+
+Index               439-0:439       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+                                    462-0:462, 463-0:463 
+
+KBDHWID             29-8:237        typedef                                                                                       
+                                    Type =  structure _KBDHWID
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page     9
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+KBDINFO             29-8:199        typedef                                                                                       
+                                    Type =  structure _KBDINFO
+
+KBDKEYINFO          29-8:133        typedef                                                                                       
+                                    Type =  structure _KBDKEYINFO
+
+KBDTRANS            29-8:269        typedef                                                                                       
+                                    Type =  structure _KBDTRANS
+
+LHANDLE             29-2:65         typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+MOUEVENTINFO        29-8:987        typedef                                                                                       
+                                    Type =  structure _MOUEVENTINFO
+
+MOUQUEINFO          29-8:999        typedef                                                                                       
+                                    Type =  structure _MOUQUEINFO
+
+MPARAM              29-11:164       typedef                                                                                       
+                                    Type =  pointer to void 
+
+MQINFO              29-11:948       typedef                                                                                       
+                                    Type =  structure _MQINFO
+
+MRESULT             29-11:166       typedef                                                                                       
+                                    Type =  pointer to void 
+
+NOPTRRECT           29-8:1047       typedef                                                                                       
+                                    Type =  structure _NOPTRRECT
+
+NPBYTE              29-2:106        typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+NPCH                29-2:97         typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+NPFN                29-2:102        typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning signed integer 
+
+NPPOINTL            29-2:272        typedef                                                                                       
+                                    Type =  pointer to structure _POINTL
+
+NPRECTL             29-2:289        typedef                                                                                       
+                                    Type =  pointer to structure _RECTL
+
+NPSZ                29-2:94         typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+OBJCLASS            29-15:74        typedef                                                                                       
+                                    Type =  structure _OBJCLASS
+
+OBJECTIMAGE         29-15:65        typedef                                                                                       
+                                    Type =  structure _OBJECTIMAGE
+
+OS2_PM_DRV_ENABLE   95-0:95         Class = external definition,                                                                  
+                                    Type =  _System function returning signed long integer 
+
+Offset              328-0:328       Class = automatic, Length = 2,                                                                
+                                    Type =  unsigned short integer 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    10
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+                                    330-0:330, 332-0:332, 333-0:333 
+
+PAGEINFO            29-15:134       typedef                                                                                       
+                                    Type =  structure _PAGEINFO
+
+PANOSE              29-2:461        typedef                                                                                       
+                                    Type =  structure _PANOSE
+
+PAVAILDATA          29-4:1801       typedef                                                                                       
+                                    Type =  pointer to structure _AVAILDATA
+
+PBOOL               29-2:129        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PBOOL16             29-2:132        typedef                                                                                       
+                                    Type =  _Seg16 pointer to unsigned short integer 
+
+PBYTE               29-2:105        typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+PCH                 29-2:96         typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+PCHAR               29-2:108        typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+PCHAR16             29-2:89         typedef                                                                                       
+                                    Type =  _Seg16 pointer to unsigned character 
+
+PCMDMSG             29-11:933       typedef                                                                                       
+                                    Type =  pointer to structure _COMMANDMSG
+
+PCOLOR              29-2:264        typedef                                                                                       
+                                    Type =  pointer to signed long integer 
+
+PCONTEXTRECORD      29-7:284        typedef                                                                                       
+                                    Type =  pointer to structure _CONTEXT
+
+PCOUNTRYCODE        29-4:1342       typedef                                                                                       
+                                    Type =  pointer to structure _COUNTRYCODE
+
+PCOUNTRYINFO        29-4:1360       typedef                                                                                       
+                                    Type =  pointer to structure _COUNTRYINFO
+
+PDATETIME           29-4:1201       typedef                                                                                       
+                                    Type =  pointer to structure _DATETIME
+
+PDENA1              29-4:986        typedef                                                                                       
+                                    Type =  pointer to structure _DENA1
+
+PDENA2              29-4:989        typedef                                                                                       
+                                    Type =  pointer to structure _FEA2
+
+PDEVOPENDATA        29-2:309        typedef                                                                                       
+                                    Type =  pointer to 
+                                             pointer to unsigned character 
+
+PDEVOPENSTRUC       29-2:338        typedef                                                                                       
+                                    Type =  pointer to structure _DEVOPENSTRUC
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    11
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PDRIVDATA           29-2:305        typedef                                                                                       
+                                    Type =  pointer to structure _DRIVDATA
+
+PEAOP               29-4:636        typedef                                                                                       
+                                    Type =  pointer to structure _EAOP
+
+PEAOP2              29-4:683        typedef                                                                                       
+                                    Type =  pointer to structure _EAOP2
+
+PEASIZEBUF          29-4:365        typedef                                                                                       
+                                    Type =  pointer to structure _EASIZEBUF
+
+PERRORID            29-2:189        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PEXCEPTIONREGISTRATIONRECORD                                                                                                      
+                    29-7:337        typedef                                                                                       
+                                    Type =  pointer to structure _EXCEPTIONREGISTRATIONRECORD
+
+PEXCEPTIONREPORTRECORD                                                                                                            
+                    29-7:311        typedef                                                                                       
+                                    Type =  pointer to structure _EXCEPTIONREPORTRECORD
+
+PFATTRS             29-2:395        typedef                                                                                       
+                                    Type =  pointer to structure _FATTRS
+
+PFDATE              29-4:462        typedef                                                                                       
+                                    Type =  pointer to structure _FDATE
+
+PFEA                29-4:618        typedef                                                                                       
+                                    Type =  pointer to structure _FEA
+
+PFEA2               29-4:650        typedef                                                                                       
+                                    Type =  pointer to structure _FEA2
+
+PFEA2LIST           29-4:660        typedef                                                                                       
+                                    Type =  pointer to structure _FEA2LIST
+
+PFEALIST            29-4:628        typedef                                                                                       
+                                    Type =  pointer to structure _FEALIST
+
+PFILEFINDBUF        29-4:539        typedef                                                                                       
+                                    Type =  pointer to structure _FILEFINDBUF
+
+PFILEFINDBUF2       29-4:559        typedef                                                                                       
+                                    Type =  pointer to structure _FILEFINDBUF2
+
+PFILEFINDBUF3       29-4:576        typedef                                                                                       
+                                    Type =  pointer to structure _FILEFINDBUF3
+
+PFILEFINDBUF4       29-4:594        typedef                                                                                       
+                                    Type =  pointer to structure _FILEFINDBUF4
+
+PFILELOCK           29-4:501        typedef                                                                                       
+                                    Type =  pointer to structure _FILELOCK
+
+PFILESTATUS         29-4:748        typedef                                                                                       
+                                    Type =  pointer to structure _FILESTATUS
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    12
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PFILESTATUS2        29-4:763        typedef                                                                                       
+                                    Type =  pointer to structure _FILESTATUS2
+
+PFILESTATUS3        29-4:777        typedef                                                                                       
+                                    Type =  pointer to structure _FILESTATUS3
+
+PFILESTATUS4        29-4:792        typedef                                                                                       
+                                    Type =  pointer to structure _FILESTATUS4
+
+PFIXED              29-13:123       typedef                                                                                       
+                                    Type =  pointer to signed long integer 
+
+PFN                 29-2:100        typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning signed integer 
+
+PFNEXITLIST         29-4:164        typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning void 
+
+PFNTHREAD           29-4:107        typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning void 
+
+PFNWP               29-11:223       typedef                                                                                       
+                                    Type =  pointer to 
+                                             _System function returning 
+                                               pointer to void 
+
+PFONTMETRICS        29-2:518        typedef                                                                                       
+                                    Type =  pointer to structure _FONTMETRICS
+
+PFPREG              29-7:216        typedef                                                                                       
+                                    Type =  pointer to structure _fpreg
+
+PFRAMECDATA         29-11:2382      typedef                                                                                       
+                                    Type =  pointer to structure _FRAMECDATA
+
+PFSALLOCATE         29-4:803        typedef                                                                                       
+                                    Type =  pointer to structure _FSALLOCATE
+
+PFSINFO             29-4:488        typedef                                                                                       
+                                    Type =  pointer to structure _FSINFO
+
+PFSQBUFFER          29-4:391        typedef                                                                                       
+                                    Type =  pointer to structure _FSQBUFFER
+
+PFSQBUFFER2         29-4:404        typedef                                                                                       
+                                    Type =  pointer to structure _FSQBUFFER2
+
+PFTIME              29-4:444        typedef                                                                                       
+                                    Type =  pointer to structure _FTIME
+
+PGEA                29-4:603        typedef                                                                                       
+                                    Type =  pointer to structure _GEA
+
+PGEA2               29-4:668        typedef                                                                                       
+                                    Type =  pointer to structure _GEA2
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    13
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PGEA2LIST           29-4:675        typedef                                                                                       
+                                    Type =  pointer to structure _GEA2LIST
+
+PGEALIST            29-4:610        typedef                                                                                       
+                                    Type =  pointer to structure _GEALIST
+
+PHAB                29-2:241        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHBITMAP            29-2:255        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHDC                29-2:249        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHDIR               29-4:806        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHEV                29-4:509        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHFILE              29-4:504        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHINI               29-12:64        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHKBD               29-8:95         typedef                                                                                       
+                                    Type =  pointer to unsigned short integer 
+
+PHLIB               29-11:3924      typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHMF                29-2:258        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHMODULE            29-2:226        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHMOU               29-8:888        typedef                                                                                       
+                                    Type =  pointer to unsigned short integer 
+
+PHMQ                29-2:526        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHMTX               29-4:1110       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHMUX               29-4:1112       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHPAL               29-2:261        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHPIPE              29-4:1794       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHPROGRAM           29-12:58        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    14
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PHPS                29-2:246        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHQUEUE             29-4:1440       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHRGN               29-2:252        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHSEM               29-2:234        typedef                                                                                       
+                                    Type =  pointer to 
+                                             pointer to void 
+
+PHSWITCH            29-12:275       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHTIMER             29-4:1218       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHVDD               29-4:2028       typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PHVIO               29-8:376        typedef                                                                                       
+                                    Type =  pointer to unsigned short integer 
+
+PHWND               29-2:523        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PIB                 29-5:73         typedef                                                                                       
+                                    Type =  structure pib_s
+
+PICONINFO           29-15:157       typedef                                                                                       
+                                    Type =  pointer to structure _ICONINFO
+
+PICONPOS            29-15:145       typedef                                                                                       
+                                    Type =  pointer to structure _ICONPOS
+
+PID                 29-2:219        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+PINT                29-2:113        typedef                                                                                       
+                                    Type =  pointer to signed integer 
+
+PIPEINFO            29-4:1811       typedef                                                                                       
+                                    Type =  structure _PIPEINFO
+
+PIPESEMSTATE        29-4:1821       typedef                                                                                       
+                                    Type =  structure _PIPESEMSTATE
+
+PKBDHWID            29-8:238        typedef                                                                                       
+                                    Type =  pointer to structure _KBDHWID
+
+PKBDINFO            29-8:200        typedef                                                                                       
+                                    Type =  pointer to structure _KBDINFO
+
+PKBDKEYINFO         29-8:134        typedef                                                                                       
+                                    Type =  pointer to structure _KBDKEYINFO
+
+PKBDTRANS           29-8:270        typedef                                                                                       
+                                    Type =  pointer to structure _KBDTRANS
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    15
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PLONG               29-2:110        typedef                                                                                       
+                                    Type =  pointer to signed long integer 
+
+PMOUEVENTINFO       29-8:988        typedef                                                                                       
+                                    Type =  pointer to structure _MOUEVENTINFO
+
+PMOUQUEINFO         29-8:1000       typedef                                                                                       
+                                    Type =  pointer to structure _MOUQUEINFO
+
+PMPARAM             29-11:165       typedef                                                                                       
+                                    Type =  pointer to 
+                                             pointer to void 
+
+PMQINFO             29-11:949       typedef                                                                                       
+                                    Type =  pointer to structure _MQINFO
+
+PMRESULT            29-11:167       typedef                                                                                       
+                                    Type =  pointer to 
+                                             pointer to void 
+
+PNOPTRRECT          29-8:1048       typedef                                                                                       
+                                    Type =  pointer to structure _NOPTRRECT
+
+POBJCLASS           29-15:75        typedef                                                                                       
+                                    Type =  pointer to structure _OBJCLASS
+
+POBJECTIMAGE        29-15:66        typedef                                                                                       
+                                    Type =  pointer to structure _OBJECTIMAGE
+
+POINTL              29-2:270        typedef                                                                                       
+                                    Type =  structure _POINTL
+
+POINTS              29-2:278        typedef                                                                                       
+                                    Type =  structure _POINTS
+
+PPAGEINFO           29-15:135       typedef                                                                                       
+                                    Type =  pointer to structure _PAGEINFO
+
+PPIB                29-5:74         typedef                                                                                       
+                                    Type =  pointer to structure pib_s
+
+PPID                29-2:227        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PPIPEINFO           29-4:1812       typedef                                                                                       
+                                    Type =  pointer to structure _PIPEINFO
+
+PPIPESEMSTATE       29-4:1822       typedef                                                                                       
+                                    Type =  pointer to structure _PIPESEMSTATE
+
+PPOINTL             29-2:271        typedef                                                                                       
+                                    Type =  pointer to structure _POINTL
+
+PPOINTS             29-2:279        typedef                                                                                       
+                                    Type =  pointer to structure _POINTS
+
+PPRFPROFILE         29-12:81        typedef                                                                                       
+                                    Type =  pointer to structure _PRFPROFILE
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    16
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PPRINTDEST          29-2:353        typedef                                                                                       
+                                    Type =  pointer to structure _PRINTDEST
+
+PPTRLOC             29-8:928        typedef                                                                                       
+                                    Type =  pointer to structure _PTRLOC
+
+PPTRSHAPE           29-8:944        typedef                                                                                       
+                                    Type =  pointer to structure _PTRSHAPE
+
+PPVOID              29-2:125        typedef                                                                                       
+                                    Type =  pointer to 
+                                             pointer to void 
+
+PQMSG               29-11:829       typedef                                                                                       
+                                    Type =  pointer to structure _QMSG
+
+PQVERSDATA          29-11:380       typedef                                                                                       
+                                    Type =  pointer to structure _QVERSDATA
+
+PQWORD              29-2:146        typedef                                                                                       
+                                    Type =  pointer to structure _QWORD
+
+PRECTL              29-2:288        typedef                                                                                       
+                                    Type =  pointer to structure _RECTL
+
+PREQUESTDATA        29-4:1446       typedef                                                                                       
+                                    Type =  pointer to structure _REQUESTDATA
+
+PRESULTCODES        29-4:139        typedef                                                                                       
+                                    Type =  pointer to structure _RESULTCODES
+
+PRFPROFILE          29-12:80        typedef                                                                                       
+                                    Type =  structure _PRFPROFILE
+
+PRINTDEST           29-2:352        typedef                                                                                       
+                                    Type =  structure _PRINTDEST
+
+PRXSTRING           41-24:58        typedef                                                                                       
+                                    Type =  pointer to structure _RXSTRING
+
+PRXSYSEXIT          41-24:70        typedef                                                                                       
+                                    Type =  pointer to structure _RXSYSEXIT
+
+PSCALEFACT          29-8:1027       typedef                                                                                       
+                                    Type =  pointer to structure _SCALEFACT
+
+PSEL                29-2:151        typedef                                                                                       
+                                    Type =  pointer to unsigned short integer 
+
+PSEMRECORD          29-4:1095       typedef                                                                                       
+                                    Type =  pointer to structure _PSEMRECORD
+
+PSHORT              29-2:109        typedef                                                                                       
+                                    Type =  pointer to signed short integer 
+
+PSHVBLOCK           41-24:163       typedef                                                                                       
+                                    Type =  pointer to structure _SHVBLOCK
+
+PSIZEL              29-13:147       typedef                                                                                       
+                                    Type =  pointer to structure _SIZEL
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    17
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PSPOOLATTACH        29-4:411        typedef                                                                                       
+                                    Type =  pointer to structure _SPOOLATTACH
+
+PSTARTDATA          29-4:1633       typedef                                                                                       
+                                    Type =  pointer to structure _STARTDATA
+
+PSTATUSDATA         29-4:1674       typedef                                                                                       
+                                    Type =  pointer to structure _STATUSDATA
+
+PSTR8               29-2:292        typedef                                                                                       
+                                    Type =  pointer to 
+                                             array[8] of unsigned character 
+
+PSTRINGINBUF        29-8:150        typedef                                                                                       
+                                    Type =  pointer to structure _STRINGINBUF
+
+PSWCNTRL            29-12:293       typedef                                                                                       
+                                    Type =  pointer to structure _SWCNTRL
+
+PSWP                29-11:497       typedef                                                                                       
+                                    Type =  pointer to structure _SWP
+
+PSZ                 29-2:93         typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+PTABLES             74-0:74         typedef                                                                                       
+                                    Type =  pointer to structure _TABLES
+
+PTHRESHOLD          29-8:1075       typedef                                                                                       
+                                    Type =  pointer to structure _THRESHOLD
+
+PTIB                29-5:53         typedef                                                                                       
+                                    Type =  pointer to structure tib_s
+
+PTIB2               29-5:38         typedef                                                                                       
+                                    Type =  pointer to structure tib2_s
+
+PTID                29-2:228        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PTRLOC              29-8:927        typedef                                                                                       
+                                    Type =  structure _PTRLOC
+
+PTRSHAPE            29-8:943        typedef                                                                                       
+                                    Type =  structure _PTRSHAPE
+
+PUCHAR              29-2:116        typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+PUCHAR16            29-2:88         typedef                                                                                       
+                                    Type =  _Seg16 pointer to unsigned character 
+
+PUINT               29-2:121        typedef                                                                                       
+                                    Type =  pointer to unsigned integer 
+
+PULONG              29-2:118        typedef                                                                                       
+                                    Type =  pointer to unsigned long integer 
+
+PUSHORT             29-2:117        typedef                                                                                       
+                                    Type =  pointer to unsigned short integer 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    18
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+PVIOCOLORREG        29-8:805        typedef                                                                                       
+                                    Type =  pointer to structure _VIOCOLORREG
+
+PVIOCONFIGINFO      29-8:732        typedef                                                                                       
+                                    Type =  pointer to structure _VIOCONFIGINFO
+
+PVIOCURSORINFO      29-8:458        typedef                                                                                       
+                                    Type =  pointer to structure _VIOCURSORINFO
+
+PVIOFONTINFO        29-8:753        typedef                                                                                       
+                                    Type =  pointer to structure _VIOFONTINFO
+
+PVIOINTENSITY       29-8:795        typedef                                                                                       
+                                    Type =  pointer to structure _VIOINTENSITY
+
+PVIOMODEINFO        29-8:494        typedef                                                                                       
+                                    Type =  pointer to structure _VIOMODEINFO
+
+PVIOOVERSCAN        29-8:787        typedef                                                                                       
+                                    Type =  pointer to structure _VIOOVERSCAN
+
+PVIOPALSTATE        29-8:779        typedef                                                                                       
+                                    Type =  pointer to structure _VIOPALSTATE
+
+PVIOPHYSBUF         29-8:514        typedef                                                                                       
+                                    Type =  pointer to structure _VIOPHYSBUF
+
+PVIOSETTARGET       29-8:821        typedef                                                                                       
+                                    Type =  pointer to structure _VIOSETTARGET
+
+PVIOSETULINELOC     29-8:813        typedef                                                                                       
+                                    Type =  pointer to structure _VIOSETULINELOC
+
+PVOID               29-2:124        typedef                                                                                       
+                                    Type =  pointer to void 
+
+PVOID16             29-2:126        typedef                                                                                       
+                                    Type =  _Seg16 pointer to void 
+
+PVOLUMELABEL        29-4:480        typedef                                                                                       
+                                    Type =  pointer to structure _VOLUMELABEL
+
+Param1              96-0:96         Class = parameter, Length = 4,                                                                
+                                    Type =  pointer to 
+                                             pointer to void 
+
+Param2              97-0:97         Class = parameter, Length = 4,                                                                
+                                    Type =  pointer to structure _TABLES
+                                    112-0:112, 114-0:114, 120-0:120, 122-0:122, 129-0:129, 134-0:134, 137-0:137, 140-0:140,
+                                    142-0:142, 145-0:145, 151-0:151, 154-0:154, 157-0:157, 159-0:159, 162-0:162, 168-0:168,
+                                    171-0:171, 174-0:174, 176-0:176, 179-0:179, 185-0:185, 188-0:188, 191-0:191, 193-0:193,
+                                    196-0:196, 202-0:202, 205-0:205, 208-0:208, 210-0:210, 213-0:213 
+
+PmGpiMatch          298-0:298       Class = external definition,                                                                  
+                                    Type =  _Optlink function returning void 
+                                    377-0:377, 457-0:457 
+
+QMSG                29-11:828       typedef                                                                                       
+                                    Type =  structure _QMSG
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    19
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+QVERSDATA           29-11:379       typedef                                                                                       
+                                    Type =  structure _QVERSDATA
+
+QWORD               29-2:145        typedef                                                                                       
+                                    Type =  structure _QWORD
+
+RECTL               29-2:287        typedef                                                                                       
+                                    Type =  structure _RECTL
+
+REQUESTDATA         29-4:1445       typedef                                                                                       
+                                    Type =  structure _REQUESTDATA
+
+RESULTCODES         29-4:138        typedef                                                                                       
+                                    Type =  structure _RESULTCODES
+
+RXSTRING            41-24:56        typedef                                                                                       
+                                    Type =  structure _RXSTRING
+
+RXSYSEXIT           41-24:68        typedef                                                                                       
+                                    Type =  structure _RXSYSEXIT
+
+SCALEFACT           29-8:1026       typedef                                                                                       
+                                    Type =  structure _SCALEFACT
+
+SEL                 29-2:150        typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+SEMRECORD           29-4:1094       typedef                                                                                       
+                                    Type =  structure _PSEMRECORD
+
+SGID                29-2:223        typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+SHANDLE             29-2:64         typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+SHVBLOCK            41-24:161       typedef                                                                                       
+                                    Type =  structure _SHVBLOCK
+
+SIZEL               29-13:146       typedef                                                                                       
+                                    Type =  structure _SIZEL
+
+SPOOLATTACH         29-4:410        typedef                                                                                       
+                                    Type =  structure _SPOOLATTACH
+
+STARTDATA           29-4:1632       typedef                                                                                       
+                                    Type =  structure _STARTDATA
+
+STATUSDATA          29-4:1673       typedef                                                                                       
+                                    Type =  structure _STATUSDATA
+
+STR8                29-2:291        typedef                                                                                       
+                                    Type =  array[8] of unsigned character 
+
+STRINGINBUF         29-8:149        typedef                                                                                       
+                                    Type =  structure _STRINGINBUF
+
+SWCNTRL             29-12:291       typedef                                                                                       
+                                    Type =  structure _SWCNTRL
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    20
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+SWP                 29-11:496       typedef                                                                                       
+                                    Type =  structure _SWP
+
+Size                100-0:100       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    111-0:111, 112-0:112, 114-0:114, 118-0:118, 119-0:119, 120-0:120, 122-0:122, 124-0:124,
+                                    124-0:124, 124-0:124, 126-0:126, 129-0:129, 130-0:130, 134-0:134, 151-0:151, 168-0:168,
+                                    185-0:185, 202-0:202, 218-0:218 
+
+Size                298-0:298       Class = parameter, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    301-0:301, 303-0:303, 304-0:304 
+
+Size                318-0:318       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    321-0:321, 322-0:322, 325-0:325, 326-0:326, 335-0:335 
+
+SpiedPid            259-0:259       Class = external definition, Length = 4,                                                      
+                                    Type =  unsigned long integer 
+                                    283-0:283, 289-0:289, 475-0:475 
+
+String              465-0:465       Class = parameter, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    468-0:468 
+
+Subfunc             95-0:95         Class = parameter, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    106-0:106, 109-0:109 
+
+TABLES              73-0:73         typedef                                                                                       
+                                    Type =  structure _TABLES
+
+THRESHOLD           29-8:1074       typedef                                                                                       
+                                    Type =  structure _THRESHOLD
+
+TIB                 29-5:52         typedef                                                                                       
+                                    Type =  structure tib_s
+
+TIB2                29-5:37         typedef                                                                                       
+                                    Type =  structure tib2_s
+
+TID                 29-2:220        typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+UCHAR               29-2:80         typedef                                                                                       
+                                    Type =  unsigned character 
+
+UINT                29-2:85         typedef                                                                                       
+                                    Type =  unsigned integer 
+
+ULONG               29-2:82         typedef                                                                                       
+                                    Type =  unsigned long integer 
+
+USHORT              29-2:81         typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+VIOCOLORREG         29-8:804        typedef                                                                                       
+                                    Type =  structure _VIOCOLORREG
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    21
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+VIOCONFIGINFO       29-8:730        typedef                                                                                       
+                                    Type =  structure _VIOCONFIGINFO
+
+VIOCURSORINFO       29-8:456        typedef                                                                                       
+                                    Type =  structure _VIOCURSORINFO
+
+VIOFONTINFO         29-8:752        typedef                                                                                       
+                                    Type =  structure _VIOFONTINFO
+
+VIOINTENSITY        29-8:794        typedef                                                                                       
+                                    Type =  structure _VIOINTENSITY
+
+VIOMODEINFO         29-8:493        typedef                                                                                       
+                                    Type =  structure _VIOMODEINFO
+
+VIOOVERSCAN         29-8:786        typedef                                                                                       
+                                    Type =  structure _VIOOVERSCAN
+
+VIOPALSTATE         29-8:778        typedef                                                                                       
+                                    Type =  structure _VIOPALSTATE
+
+VIOPHYSBUF          29-8:512        typedef                                                                                       
+                                    Type =  structure _VIOPHYSBUF
+
+VIOSETTARGET        29-8:820        typedef                                                                                       
+                                    Type =  structure _VIOSETTARGET
+
+VIOSETULINELOC      29-8:812        typedef                                                                                       
+                                    Type =  structure _VIOSETULINELOC
+
+VOLUMELABEL         29-4:479        typedef                                                                                       
+                                    Type =  structure _VOLUMELABEL
+
+VioMatch            316-0:316       Class = external definition,                                                                  
+                                    Type =  _Optlink function returning void 
+                                    384-0:384, 391-0:391 
+
+VioPs               240-0:240       typedef                                                                                       
+                                    Type =  structure _VioPS
+
+WaitForString       256-0:256       Class = external definition,                                                                  
+                                    Type =  _System function returning unsigned long integer 
+
+WaitString          261-0:261       Class = external definition, Length = 256,                                                    
+                                    Type =  array[256] of unsigned character 
+                                    305-0:305, 336-0:336, 468-0:468, 469-0:469 
+
+Waiting             258-0:258       Class = external definition, Length = 4,                                                      
+                                    Type =  unsigned long integer 
+                                    280-0:280, 306-0:306, 337-0:337, 474-0:474, 478-0:478 
+
+WinPid              465-0:465       Class = parameter, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    475-0:475 
+
+_AVAILDATA          29-4:1796       Class = tag, Type = structure                                                                 
+
+_CHARRECT           242-0:242       Class = tag, Type = structure                                                                 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    22
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+_CHARSTR            249-0:249       Class = tag, Type = structure                                                                 
+
+_COMMANDMSG         29-11:926       Class = tag, Type = structure                                                                 
+
+_CONTEXT            29-7:219        Class = tag, Type = structure                                                                 
+                                    29-7:283, 29-7:284 
+
+_COUNTRYCODE        29-4:1337       Class = tag, Type = structure                                                                 
+
+_COUNTRYINFO        29-4:1344       Class = tag, Type = structure                                                                 
+
+_DATETIME           29-4:1189       Class = tag, Type = structure                                                                 
+
+_DENA1              29-4:979        Class = tag, Type = structure                                                                 
+
+_DEVOPENSTRUC       29-2:326        Class = tag, Type = structure                                                                 
+
+_DRIVDATA           29-2:298        Class = tag, Type = structure                                                                 
+
+_EAOP               29-4:630        Class = tag, Type = structure                                                                 
+
+_EAOP2              29-4:677        Class = tag, Type = structure                                                                 
+
+_EASIZEBUF          29-4:360        Class = tag, Type = structure                                                                 
+
+_ERR                29-7:323        typedef                                                                                       
+                                    Type =  _System function returning unsigned long integer 
+
+_EXCEPTIONREGISTRATIONRECORD                                                                                                      
+                    29-7:321        Class = tag, Type = structure                                                                 
+                                    29-7:321, 29-7:324, 29-7:332, 29-7:336, 29-7:337 
+
+_EXCEPTIONREPORTRECORD                                                                                                            
+                    29-7:299        Class = tag, Type = structure                                                                 
+                                    29-7:303, 29-7:310, 29-7:311 
+
+_FATTRS             29-2:382        Class = tag, Type = structure                                                                 
+
+_FDATE              29-4:456        Class = tag, Type = structure                                                                 
+
+_FEA                29-4:612        Class = tag, Type = structure                                                                 
+
+_FEA2               29-4:642        Class = tag, Type = structure                                                                 
+
+_FEA2LIST           29-4:655        Class = tag, Type = structure                                                                 
+
+_FEALIST            29-4:623        Class = tag, Type = structure                                                                 
+
+_FILEFINDBUF        29-4:524        Class = tag, Type = structure                                                                 
+
+_FILEFINDBUF2       29-4:544        Class = tag, Type = structure                                                                 
+
+_FILEFINDBUF3       29-4:561        Class = tag, Type = structure                                                                 
+
+_FILEFINDBUF4       29-4:578        Class = tag, Type = structure                                                                 
+
+_FILELOCK           29-4:496        Class = tag, Type = structure                                                                 
+
+_FILESTATUS         29-4:736        Class = tag, Type = structure                                                                 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    23
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+_FILESTATUS2        29-4:750        Class = tag, Type = structure                                                                 
+
+_FILESTATUS3        29-4:765        Class = tag, Type = structure                                                                 
+
+_FILESTATUS4        29-4:779        Class = tag, Type = structure                                                                 
+
+_FONTMETRICS        29-2:463        Class = tag, Type = structure                                                                 
+
+_FRAMECDATA         29-11:2375      Class = tag, Type = structure                                                                 
+
+_FSALLOCATE         29-4:795        Class = tag, Type = structure                                                                 
+
+_FSINFO             29-4:482        Class = tag, Type = structure                                                                 
+
+_FSQBUFFER          29-4:381        Class = tag, Type = structure                                                                 
+
+_FSQBUFFER2         29-4:394        Class = tag, Type = structure                                                                 
+
+_FTIME              29-4:438        Class = tag, Type = structure                                                                 
+
+_GEA                29-4:598        Class = tag, Type = structure                                                                 
+
+_GEA2               29-4:662        Class = tag, Type = structure                                                                 
+
+_GEA2LIST           29-4:670        Class = tag, Type = structure                                                                 
+
+_GEALIST            29-4:605        Class = tag, Type = structure                                                                 
+
+_GRE32ENTRY         63-0:63         typedef                                                                                       
+                                    Type =  _System function returning unsigned long integer 
+
+_ICONINFO           29-15:147       Class = tag, Type = structure                                                                 
+
+_ICONPOS            29-15:140       Class = tag, Type = structure                                                                 
+
+_KBDHWID            29-8:231        Class = tag, Type = structure                                                                 
+
+_KBDINFO            29-8:192        Class = tag, Type = structure                                                                 
+
+_KBDKEYINFO         29-8:125        Class = tag, Type = structure                                                                 
+
+_KBDTRANS           29-8:257        Class = tag, Type = structure                                                                 
+
+_MOUEVENTINFO       29-8:981        Class = tag, Type = structure                                                                 
+
+_MOUQUEINFO         29-8:995        Class = tag, Type = structure                                                                 
+
+_MQINFO             29-11:941       Class = tag, Type = structure                                                                 
+
+_NOPTRRECT          29-8:1041       Class = tag, Type = structure                                                                 
+
+_NPFN               29-2:101        typedef                                                                                       
+                                    Type =  _System function returning signed integer 
+
+_OBJCLASS           29-15:69        Class = tag, Type = structure                                                                 
+                                    29-15:71 
+
+_OBJECTIMAGE        29-15:62        Class = tag, Type = structure                                                                 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    24
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+_OPERATIONS         30-18:30        Class = tag, Length = 4,                                                                      
+                                    Type =  enum 
+                                    30-18:45 
+
+_PAGEINFO           29-15:116       Class = tag, Type = structure                                                                 
+
+_PANOSE             29-2:447        Class = tag, Type = structure                                                                 
+
+_PFN                29-2:99         typedef                                                                                       
+                                    Type =  _System function returning signed integer 
+
+_PIPEINFO           29-4:1803       Class = tag, Type = structure                                                                 
+
+_PIPESEMSTATE       29-4:1814       Class = tag, Type = structure                                                                 
+
+_POINTL             29-2:266        Class = tag, Type = structure                                                                 
+
+_POINTS             29-2:274        Class = tag, Type = structure                                                                 
+
+_PRFPROFILE         29-12:74        Class = tag, Type = structure                                                                 
+
+_PRINTDEST          29-2:343        Class = tag, Type = structure                                                                 
+
+_PSEMRECORD         29-4:1090       Class = tag, Type = structure                                                                 
+
+_PTRLOC             29-8:923        Class = tag, Type = structure                                                                 
+
+_PTRSHAPE           29-8:936        Class = tag, Type = structure                                                                 
+
+_QMSG               29-11:819       Class = tag, Type = structure                                                                 
+
+_QVERSDATA          29-11:375       Class = tag, Type = structure                                                                 
+
+_QWORD              29-2:141        Class = tag, Type = structure                                                                 
+
+_RECTL              29-2:281        Class = tag, Type = structure                                                                 
+
+_REQUESTDATA        29-4:1441       Class = tag, Type = structure                                                                 
+
+_RESULTCODES        29-4:134        Class = tag, Type = structure                                                                 
+
+_RXSTRING           41-24:53        Class = tag, Type = structure                                                                 
+
+_RXSYSEXIT          41-24:65        Class = tag, Type = structure                                                                 
+
+_SCALEFACT          29-8:1022       Class = tag, Type = structure                                                                 
+
+_SHVBLOCK           41-24:153       Class = tag, Type = structure                                                                 
+                                    41-24:154 
+
+_SIZEL              29-13:142       Class = tag, Type = structure                                                                 
+
+_SPOOLATTACH        29-4:406        Class = tag, Type = structure                                                                 
+
+_STARTDATA          29-4:1609       Class = tag, Type = structure                                                                 
+
+_STATUSDATA         29-4:1668       Class = tag, Type = structure                                                                 
+
+_STRINGINBUF        29-8:145        Class = tag, Type = structure                                                                 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    25
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+_SWCNTRL            29-12:280       Class = tag, Type = structure                                                                 
+
+_SWP                29-11:485       Class = tag, Type = structure                                                                 
+
+_TABLES             70-0:70         Class = tag, Type = structure                                                                 
+
+_THRESHOLD          29-8:1067       Class = tag, Type = structure                                                                 
+
+_VIOCOLORREG        29-8:797        Class = tag, Type = structure                                                                 
+
+_VIOCONFIGINFO      29-8:716        Class = tag, Type = structure                                                                 
+
+_VIOCURSORINFO      29-8:450        Class = tag, Type = structure                                                                 
+
+_VIOFONTINFO        29-8:744        Class = tag, Type = structure                                                                 
+
+_VIOINTENSITY       29-8:789        Class = tag, Type = structure                                                                 
+
+_VIOMODEINFO        29-8:477        Class = tag, Type = structure                                                                 
+
+_VIOOVERSCAN        29-8:781        Class = tag, Type = structure                                                                 
+
+_VIOPALSTATE        29-8:772        Class = tag, Type = structure                                                                 
+
+_VIOPHYSBUF         29-8:507        Class = tag, Type = structure                                                                 
+
+_VIOSETTARGET       29-8:815        Class = tag, Type = structure                                                                 
+
+_VIOSETULINELOC     29-8:807        Class = tag, Type = structure                                                                 
+
+_VOLUMELABEL        29-4:475        Class = tag, Type = structure                                                                 
+
+_VioPS              233-0:233       Class = tag, Type = structure                                                                 
+
+__file              30-18:36        Class = tag, Type = structure                                                                 
+
+__fpos_t            30-18:50        Class = tag, Type = structure                                                                 
+
+__memcpy            33-21:80        Class = external reference,                                                                   
+                                    Type =  function returning 
+                                             pointer to void 
+                                    129-0:129, 304-0:304 
+
+__onexit_t          32-20:199       typedef                                                                                       
+                                    Type =  _Optlink function returning signed integer 
+
+__strncpy           33-21:45        Class = external reference,                                                                   
+                                    Type =  function returning 
+                                             pointer to unsigned character 
+                                    468-0:468 
+
+__va_list           30-18:79        typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+
+_div_t              32-20:35        Class = tag, Type = structure                                                                 
+
+_fpreg              29-7:211        Class = tag, Type = structure                                                                 
+
+_ldiv_t             32-20:41        Class = tag, Type = structure                                                                 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    26
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+_printfieee         30-18:200       Class = external reference,                                                                   
+                                    Type =  _Optlink function returning signed integer 
+                                    108-0:108, 109-0:109, 114-0:114, 122-0:122, 126-0:126, 137-0:137, 138-0:138, 142-0:142,
+                                    145-0:145, 154-0:154, 155-0:155, 159-0:159, 162-0:162, 171-0:171, 172-0:172, 176-0:176,
+                                    179-0:179, 188-0:188, 189-0:189, 193-0:193, 196-0:196, 205-0:205, 206-0:206, 210-0:210,
+                                    213-0:213, 218-0:218 
+
+args                351-0:351       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    364-0:364, 365-0:365, 366-0:366, 367-0:367, 368-0:368, 369-0:369 
+
+args                405-0:405       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    411-0:411, 412-0:412, 413-0:413, 414-0:414, 415-0:415, 416-0:416, 417-0:417, 418-0:418,
+                                    419-0:419 
+
+args                436-0:436       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to unsigned character 
+                                    442-0:442, 443-0:443, 444-0:444, 445-0:445, 446-0:446, 447-0:447, 448-0:448, 449-0:449,
+                                    450-0:450, 451-0:451, 452-0:452 
+
+b                   352-0:352       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    365-0:365, 377-0:377, 384-0:384, 391-0:391, 400-0:400 
+
+b                   406-0:406       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    412-0:412, 431-0:431 
+
+b                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    443-0:443, 463-0:463 
+
+c                   352-0:352       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    366-0:366, 377-0:377, 400-0:400 
+
+c                   406-0:406       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    413-0:413, 431-0:431 
+
+c                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    444-0:444, 463-0:463 
+
+d                   352-0:352       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    367-0:367, 400-0:400 
+
+d                   406-0:406       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    414-0:414, 431-0:431 
+
+d                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    445-0:445, 463-0:463 
+
+div_t               32-20:39        typedef                                                                                       
+                                    Type =  structure _div_t
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    27
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+e                   406-0:406       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    415-0:415, 431-0:431 
+
+e                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    446-0:446, 457-0:457, 463-0:463 
+
+f                   406-0:406       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    416-0:416, 431-0:431 
+
+f                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    447-0:447, 457-0:457, 463-0:463 
+
+fpos_t              30-18:53        typedef                                                                                       
+                                    Type =  structure __fpos_t
+
+g                   406-0:406       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    417-0:417, 431-0:431 
+
+g                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    448-0:448, 463-0:463 
+
+h                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    449-0:449, 463-0:463 
+
+hDC                 350-0:350       Class = parameter, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    364-0:364, 364-0:364, 400-0:400 
+
+hDC                 404-0:404       Class = parameter, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    411-0:411, 411-0:411, 431-0:431 
+
+hDC                 435-0:435       Class = parameter, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    442-0:442, 442-0:442, 463-0:463 
+
+hWait               264-0:264       Class = external definition, Length = 4,                                                      
+                                    Type =  unsigned long integer 
+                                    307-0:307, 308-0:308, 309-0:309, 310-0:310, 311-0:311, 338-0:338, 339-0:339, 340-0:340,
+                                    341-0:341, 342-0:342, 467-0:467, 470-0:470, 477-0:477, 479-0:479, 480-0:480 
+
+i                   437-0:437       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    450-0:450, 463-0:463 
+
+ldiv_t              32-20:45        typedef                                                                                       
+                                    Type =  structure _ldiv_t
+
+onexit_t            32-20:200       typedef                                                                                       
+                                    Type =  pointer to 
+                                             _Optlink function returning signed integer 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    28
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+pVio                316-0:316       Class = parameter, Length = 4,                                                                
+                                    Type =  pointer to structure _VioPS
+                                    320-0:320, 322-0:322, 325-0:325, 325-0:325, 329-0:329, 331-0:331, 331-0:331, 332-0:332 
+
+pib_s               29-5:61         Class = tag, Type = structure                                                                 
+                                    29-5:72, 29-5:73, 29-5:74 
+
+pib_t               29-5:72         typedef                                                                                       
+                                    Type =  structure pib_s
+
+ppib                277-0:277       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to structure pib_s
+                                    287-0:287, 289-0:289 
+
+ptib                276-0:276       Class = automatic, Length = 4,                                                                
+                                    Type =  pointer to structure tib_s
+                                    287-0:287 
+
+rc                  99-0:99         Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    112-0:112, 114-0:114, 118-0:118, 120-0:120, 122-0:122, 134-0:134, 135-0:135, 151-0:151,
+                                    152-0:152, 168-0:168, 169-0:169, 185-0:185, 186-0:186, 202-0:202, 203-0:203 
+
+rc                  275-0:275       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    287-0:287, 288-0:288 
+
+rc                  300-0:300       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    301-0:301, 302-0:302 
+
+rc                  317-0:317       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    322-0:322, 323-0:323, 326-0:326, 327-0:327 
+
+rc                  466-0:466       Class = automatic, Length = 4,                                                                
+                                    Type =  unsigned long integer 
+                                    470-0:470, 471-0:471, 472-0:472, 477-0:477, 481-0:481 
+
+size_t              30-18:27        typedef                                                                                       
+                                    Type =  unsigned integer 
+
+strstr              33-21:61        Class = external reference,                                                                   
+                                    Type =  _Optlink function returning 
+                                             pointer to unsigned character 
+                                    305-0:305, 336-0:336 
+
+tib2_s              29-5:28         Class = tag, Type = structure                                                                 
+                                    29-5:37, 29-5:38 
+
+tib_s               29-5:40         Class = tag, Type = structure                                                                 
+                                    29-5:51, 29-5:52, 29-5:53 
+
+tib_t               29-5:51         typedef                                                                                       
+                                    Type =  structure tib_s
+
+va_list             31-19:25        typedef                                                                                       
+                                    Type =  pointer to unsigned character 
+H:\GETTEXT\GREHOOK.C                                                                           06/25/93 12:55:05     Page    29
+                                * * * * *   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+IDENTIFIER          DEFINITION      ATTRIBUTES
+                                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+
+wchar_t             32-20:32        typedef                                                                                       
+                                    Type =  unsigned short integer 
+
+                         * * * * *   E N D   O F   C R O S S   R E F E R E N C E   L I S T I N G   * * * * *
+
+                             * * * * *   E N D   O F   C O M P I L A T I O N   * * * * *

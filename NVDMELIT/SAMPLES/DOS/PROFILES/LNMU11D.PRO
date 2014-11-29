@@ -1,0 +1,42 @@
+TargetDir = C:\
+
+Section Catalog
+Begin
+      ObjectType=SOFTWARE
+      GlobalName=IBM.LMU.DOS.REF.1.1
+      Description = 'LMU 1.1 DOS Installation via DISKCAMERA'
+End
+
+Section FileSpecList
+Begin
+LNMUTMP\LMUDOS.MOD
+LNMUTMP\SYSLEVEL.LMU
+LNMUTMP\LMUCUSTW.EXE
+LNMUTMP\QDOSVPD.COM
+LNMUTMP\ADAPTERS.TBL
+LNMUTMP\USERVPD.SMP
+LNMUTMP\CVT_VPD.EXE
+LNMUTMP\LMUDOSHB.COM
+LNMUTMP\AUEDOSAL.COM
+LNMUTMP\DOSVIRGA.COM
+LNMUTMP\DRWATCHD.COM
+
+End
+
+Section Install
+Begin
+      Program = NVDMUPD.EXE
+      Parms = $(TargetDir)LNMUTMP\LMUDOS.MOD /T:$(TargetDir)
+ End
+
+
+
+
+
+
+
+
+
+
+
+

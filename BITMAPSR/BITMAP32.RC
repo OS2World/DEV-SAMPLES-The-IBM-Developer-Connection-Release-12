@@ -1,0 +1,128 @@
+#include <os2.h>
+#include "bitmaprc.h"
+
+POINTER ID_WINDOW bitmap.ico
+
+MENU    ID_WINDOW
+BEGIN
+  SUBMENU "~File", ID_FILE_MENU
+  BEGIN
+    MENUITEM "~Load a bitmap...\tAlt+l",                     ID_LOADFILE,         MIS_TEXT
+    MENUITEM "~Save a bitmap...\tAlt+s",                     ID_SAVEFILE,         MIS_TEXT
+    MENUITEM "Save a RLE bitmap...",                         ID_SAVERLEFILE,      MIS_TEXT
+    MENUITEM "~Load a .SLD file for a slide show...\tAlt+a", ID_LOADSLD,          MIS_TEXT
+    MENUITEM SEPARATOR
+    MENUITEM "~About Bitmap...",                             ID_ABOUT
+  END
+  SUBMENU "~Drawing",                                        ID_DRAW_MENU
+  BEGIN
+    MENUITEM "~Keep scaled bitmap in memory\tAlt+k",         ID_SCALE_WHILE_DRAW, MIA_CHECKED,  MIA_CHECKED
+    MENUITEM "~Clear bitmap\tAlt+c",                         ID_CLEAR_BITMAP
+    MENUITEM "Use palette ~management\tAlt+m",               ID_PALETTE_MANAGEMENT
+    MENUITEM "Maintain bitmap p~roportions\tAlt+b",          ID_KEEP_PROPORTION
+    MENUITEM "No ~frame elements\tAlt+f",                    ID_FRAME_EMPTY
+  END
+  SUBMENU "~Slide",                                          ID_SLIDE_MENU
+  BEGIN
+    MENUITEM "~Restart slide show\tAlt+r",                   ID_RESTART,          MIA_DISABLED, MIA_DISABLED
+    MENUITEM "~Pause slide show\tAlt+p",                     ID_PAUSE,            MIA_DISABLED, MIA_DISABLED
+    MENUITEM "~Terminate slide show\tSpace bar",             ID_TERMINATE,        MIA_DISABLED, MIA_DISABLED
+    MENUITEM "Go ~forward\tRight arrow or button #2 dblclk", ID_FORWARD,          MIA_DISABLED, MIA_DISABLED
+    MENUITEM "Go ~backward\tLeft arrow or button #1 dblclk", ID_REVERSE,          MIA_DISABLED, MIA_DISABLED
+  END
+  SUBMENU "E~xit", ID_EXIT_MENU
+  BEGIN
+    MENUITEM "Exit Program\tF3",                             ID_EXIT,             MIS_TEXT
+    MENUITEM "~Resume Program",                              ID_RESUME,           MIS_TEXT
+  END
+  MENUITEM "F1=Help",                                        ID_HELP,             MIS_HELP | MIS_BUTTONSEPARATOR
+END
+
+ACCELTABLE ID_WINDOW PRELOAD
+BEGIN
+  "a",      ID_LOADSLD,            CHAR,  ALT
+  "b",      ID_KEEP_PROPORTION,    CHAR,  ALT
+  "c",      ID_CLEAR_BITMAP,       CHAR,  ALT
+  "f",      ID_FRAME_EMPTY,        CHAR,  ALT
+  "k",      ID_SCALE_WHILE_DRAW,   CHAR,  ALT
+  "l",      ID_LOADFILE,           CHAR,  ALT
+  "m",      ID_PALETTE_MANAGEMENT, CHAR,  ALT
+  "p",      ID_PAUSE,              CHAR,  ALT
+  "r",      ID_RESTART,            CHAR,  ALT
+  "s",      ID_SAVEFILE,           CHAR,  ALT
+  VK_SPACE, ID_TERMINATE,                 VIRTUALKEY
+  VK_RIGHT, ID_FORWARD,                   VIRTUALKEY
+  VK_LEFT,  ID_REVERSE,                   VIRTUALKEY
+  VK_F3,    ID_EXIT,                      VIRTUALKEY
+END
+
+MESSAGETABLE LOADONCALL
+BEGIN
+  LBF_COULDNT_OPEN_FILE_RC,        "Error opening file!"
+  LBF_INVALID_BMP_FILE_RC,         "File specified is not a valid bitmap file!"
+  LBF_ERROR_CREATING_BMP_RC,       "Could not create bitmap resources!"
+  LBF_ERROR_ALLOC_MEM_RC,          "Could not allocate memory to load bitmap file!"
+  LBF_UNKNOWN_BITCOUNT_VALUE_RC,   "Unknown bitcount value specified in bitmap header!"
+  NO_SLIDE_THREAD_RC,              "Could not create thread for reading in slide file!"
+  SBF_UNKNOWN_FORMAT_RC,           "Unknown bitmap format requested!"
+  SBF_FORMAT_NO_WRITE              "Bitmap format not suuported for write!"
+  SBF_ERROR_GETTING_BITMAP_INFO    "Error obtaining bitmap information!"
+  SBF_FORMAT_MISMATCH              "Requested format does not match bitmap format!"
+  SBF_NO_MEMORY                    "Unable to obtain memory for bitmap bits!"
+  SBF_NO_COLOR_TABLE               "Unable to obtain bitmap color table!"
+  SBF_ERROR_GETBITS                "Error attempting to get bitmap bits!"
+  SBF_ERROR_WRITE_FORMAT           "Error formatting bitmap for writing!"
+  SBF_ERROR_OPEN_FILE              "Error opening file for bitmap write!"
+END
+
+DLGTEMPLATE HELPBOX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Bitmap Help Facility", HELPBOX, -50, -70, 320, 236,
+           WS_VISIBLE, FCF_TITLEBAR | FCF_DLGBORDER | FCF_SYSMENU
+    BEGIN
+        CONTROL "Ok", DID_OK,                                                                   6,   3, 32, 10,   WC_BUTTON, BS_DEFAULT | WS_TABSTOP | WS_GROUP | WS_VISIBLE
+        CONTROL "The Bitmap program can display either individual .BMP files",    -1,           6, 220, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "or give a slide show.  Use a .SLD format file for a slide show.", -1,          6, 212, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "See EXAMPLE.SLD on OS2TOOLS for the format of a .SLD file." -1,                6, 204, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "The Bitmap program also accepts a number of startup parameters.", -1,          6, 196, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+
+        CONTROL "usage is:      [path]BITMAP <filename> <option1> <option2> <optionN>", -1,     6, 180, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+
+        CONTROL "Options and filespec may be in any order.", -1,                                6, 164, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "Characters may be in any case.", -1,                                           6, 156, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "All options must be proceeded by a slash ('/').", -1,                          6, 148, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "All options must be separated by a blank space.", -1,                          6, 140, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+
+        CONTROL "Valid options are:", -1,                                                       6, 124, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+
+        CONTROL "/S=[""filename"" refers to a slide show (.SLD) file]", -1,                     6, 100, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "/Z[oom window at startup]", -1,                                                6,  92, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "/I[conize window at startup]", -1,                                             6,  84, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "/X:nn [specify initial X coordinate]", -1,                                     6,  76, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "/Y:nn [specify initial Y coordinate]", -1,                                     6,  68, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "/W:nn [specify initial window width]", -1,                                     6,  60, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "/H:nn [specify initial window height]", -1,                                    6,  52, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "    If only some coordinate values are supplied, shell postion values", -1,    6,  44, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "    will be used for the remainder.  When /I or /Z is specified,", -1,         6,  36, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "    /W and /H will be ignored, and /X and /Y will refer to the X and Y", -1,   6,  28, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+        CONTROL "    coordinates of the zoomed or iconized window.", -1,                        6,  20, 314, 8,   WC_STATIC, SS_TEXT | DT_LEFT | DT_BOTTOM | WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE ABOUTBOX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "", ABOUTBOX, 22, 17, 187, 115,
+           WS_VISIBLE, FCF_BORDER
+    BEGIN
+        CONTROL "Keith Bernstein's", -1,                  6, 98, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "(THABOSS @ BETVTVM1)", -1,               6, 87, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "Modified by Marc L. Cohen", -1,          6, 76, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "(MLCOHEN @ BCRVMPC1)", -1,               6, 65, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "Bitmap File Displayer", -1,              6, 47, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "Version 09/01/91", -1,                   6, 33, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "DEVELOPERS CONNECTION", -1,          6, 19, 178, 8,    WC_STATIC, SS_TEXT | DT_CENTER | DT_BOTTOM | WS_VISIBLE
+        CONTROL "Ok", DID_OK,                             6,  3, 32, 10,    WC_BUTTON, BS_DEFAULT | WS_TABSTOP | WS_GROUP | WS_VISIBLE
+        CONTROL ID_WINDOW, -1,                            6, 59, 16, 26,    WC_STATIC, SS_ICON | WS_VISIBLE
+    END
+END
+

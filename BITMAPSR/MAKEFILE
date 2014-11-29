@@ -1,0 +1,75 @@
+# ****************************************************************************
+# *                                                                          *
+# *                                                                          *
+# *                 Copyright (c) IBM Corporation  1987, 1990                *
+# *                           All Rights Reserved                            *
+# *                                                                          *
+# ****************************************************************************
+
+#===================================================================
+#
+#   Program Starter Application Make file
+#
+#===================================================================
+#
+# Default compilation macros
+#
+
+.SUFFIXES: .exe .asm .def .lnk .lib .obj .lst .c
+
+#       Macros
+
+COPTS= /Mp /Ti- /Sa /Gm+ /Gs- /W3 /Kb /Se /Sm -Gd- -DDEBUG
+COPTS= /Mp /Ti+ /Sa /Gm+ /Gs- /W3 /Kb /Se /Sm -Gd-
+COPTS= /Mp /Ti- /Sa /Gm+ /Gs- /W3 /Kb /Se /Sm -Gd-
+CC=icc /C /Q $(COPTS)
+CINC= -I..\..\ibmh -I..\..\ibmc\include -I..
+
+MRI=MRI
+MRIPATH=..\..\$(MRI)\lockup
+
+CompileEXEWndProcs = $(CC)  
+MasmDLL            = masm
+
+#       Linker macros
+#
+# use /PACKCODE /noe /NOD /map               for Link386.exe (32-bit)
+# use /align:16 /EXEPACK /noe /NOD /map      for Link.exe    (16-bit)
+
+LN=link386
+LINK=link386
+LFLAGS= /MAP /PACKCODE /PMTYPE:PM /NOI
+LFLAGS= /MAP /PACKCODE /PMTYPE:PM /NOI /ST:65000 /CODEVIEW
+LFLAGS= /MAP /PACKCODE /PMTYPE:PM /NOI /ST:65000
+LRESP = makerle,makerle,makerle,$(LIBS),
+
+#       Rules for generating object files
+
+.c.obj:
+        $(CompileEXEWndProcs) $(CINC) $*.c
+
+#       List of object files required
+
+#       Rules for building .exe go here
+default: bitmap32.exe
+
+bitmap32.exe: bitmap32.res bitmap32.obj makefile
+     $(LINK) $(LFLAGS) $*,$*,$*,gbm,;
+     rc bitmap32.res
+     mapsym $*.map
+
+depend:
+        copy makefile makefile.old
+        sed "/^# Dependencies follow/,$$d" makefile.old > makefile
+        echo # Dependencies follow >> makefile
+        includes $(CINC) *.c >> makefile
+        echo # IF YOU PUT STUFF HERE IT WILL GET BLASTED >> makefile
+        echo # see depend: above >> makefile
+
+# DO NOT DELETE THE FOLLOWING LINE
+# Dependencies follow 
+bitmap32.obj bitmap32.lst: bitmap32.c bitmap.h bitmaprc.h
+
+# IF YOU PUT STUFF HERE IT WILL GET BLASTED 
+# see depend: above 
+

@@ -1,0 +1,818 @@
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-1
+
+
+				;*  IDSS_Asm_Opts: -ML -N -P                   
+				                       * 
+				;*                                             
+				                       * 
+				;*---------------------------------------------
+				-----------------------* 
+				;*  First lines must be MASM Assembler options.
+				                       * 
+				;*---------------------------------------------
+				-----------------------* 
+				;*  There is no Option forced by ASMOS2 IDSS pr
+				ocess.                 * 
+				;*                                             
+				                       * 
+				;*  IBM MASM/2 default options are:            
+				                       * 
+				;*                                             
+				                       * 
+				;*     -B32  Buffer size is 32K bytes          
+				                       * 
+				;*     -MU   Lowercase are converted to Upperca
+				se                     * 
+				;*     -S    Leave the source segments in their
+				 specified order       * 
+				;*                                             
+				                       * 
+				;*---------------------------------------------
+				-----------------------* 
+				;*           G set printer to condensed mode,
+				 Double printing       * 
+				;*                                             
+				                       * 
+				             .LIST 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-2
+Description - Source file requirements                      
+
+				             PAGE 
+				COMMENT      | 
+				******************************************************************************* 
+				*            AUTHOR:        P.Guillon - D/0768 CER IBM La Gaude               * 
+				*                                                                             * 
+				*            ENVIRONMENT:   PCAT, PS/2   OS/2 1.1 or higher                   * 
+				*                                                                             * 
+				*            FUNCTION:      Provides Support to Reboot OS/2                   * 
+				*                                                                             * 
+				*      This Bimodal Character Device Driver accepts the following commands:   * 
+				*                                                                             * 
+				*          - INIT      Initialize Device                                      * 
+				*          - OPEN      Open Device                                            * 
+				*          - CLOSE     Close Device                                           * 
+				*          - DEINSTALL Deinstall Device                                       * 
+				*                                                                             * 
+				*          - READ, WRITE, IOCTL  Category X'80' Function X'40'                * 
+				*                                                                             * 
+				*      The READ, WRITE and IOCTL functions call Reboot Vector in Kernel       * 
+				*      and do not usually return.                                             * 
+				*                                                                             * 
+				*      This companion program of WATCHDOG can be invoked by any appli-        * 
+				*      cation running in DOS or OS/2 mode:                                    * 
+				*                                                                             * 
+				*          - WATCHDOG use DosOpen to make sure that SERVBOOT.SYS  is          * 
+				*            installed, then DosDevIOCtl to reboot.                           * 
+				*                                                                             * 
+				*          - The command "echo > sreboot$" will reboot OS/2.                  * 
+				*                                                                             * 
+				*      The design of this little Device Driver was done with in mind the      * 
+				*      IDSS PS/2 La Gaude OS/2 servers.                                       * 
+				*-----------------------------------------------------------------------------* 
+				*      What you need to Assemble this Program:                                * 
+				*                                                                             * 
+				*           Required Files:                                                   * 
+				*                                                                             * 
+				*                SERVBOOT.ASM  - Source code for this C Program.              * 
+				*                SERVBOOT.DEF  - definition file used during LINK.            * 
+				*                SERVBOOT.MAK  - Make file                                    * 
+				*                                                                             * 
+				*           Required toolkit includes:                                        * 
+				*                                                                             * 
+				*                SYSMAC.INC - This is a master include file which includes    * 
+				*                             the two components of the Macro Assembler       * 
+				*                             function call macro interface, DOSCALLS.INC     * 
+				*                             and SUBCALLS.INC.                               * 
+				*                                                                             * 
+				*              DOSCALLS.INC - This include file contains a macro for each     * 
+				*                             DOS function call.                              * 
+				*                                                                             * 
+				*              SUBCALLS.INC - This include file contains a macro for each     * 
+				*                             Kbd, Mou, and Vio function call.                * 
+				*                                                                             * 
+				*                 ERROR.INC - This include file contains EQUates associating  * 
+				*                             error return codes from the system function     * 
+				*                             calls with their symbolic names.                * 
+				******************************************************************************* 
+				             | 
+				             Page$   <History, ASM directives, Includes and Macros> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-3
+History, ASM directives, Includes and Macros                
+
+				COMMENT      | 
+				******************************************************************************* 
+				*            Change History:                                                  * 
+				*                                                                             * 
+				*                - 09/28/90 Initial Release Version 1.00                      * 
+				*                                                                             * 
+				******************************************************************************* 
+				             | 
+				             .286c                     ;  Recognize and assemble 80286 
+				                                          ;/ instructions 
+				             ENDIF 
+				; 
+				;----------- MISCELLANEOUS MACROS 
+				; 
+				Ver$         MACRO 
+				             DB      "1.00"            ;  Current Version 
+				             ENDM 
+				 
+				Page$        MACRO   subtitle 
+				             ;; Macro to insert subttl and page eject directives 
+				             ;; into the listings. 
+				             SUBTTL  subtitle 
+				             PAGE 
+				             ENDM 
+				 
+				DevName$     MACRO 
+				             ;; Device name for DOSOPEN (must be 8 characters) 
+				             DB      "SREBOOT$"        ;  Device name for DOSOPEN 
+				             ENDM 
+				 
+				DeviceHelp$  MACRO   function 
+				             ;; Macro to call the DevHlp router. 
+				             ;; USES: DL 
+				             MOV     DL,function 
+				             CALL    Dev_Hlp_Addr      ;  Call DevHlp router 
+				                                          ;/ Carry is set if DevHlp failed 
+				             ENDM 
+				 
+				GetVector$   MACRO   varnum,erraddr 
+				             ;; Macro to obtain kernel vectors via the GetDOSVar DevHlp 
+				             ;; and set ES:BX to point to this vector. 
+				             ;; USES: AX, BX, ES, DL 
+				                                       ;  AL = Index of desired vector 
+				             MOV     AL,varnum 
+				             DeviceHelp$ GetDOSVar     ;  Call DevHlp router 
+				                                          ;  AX:BX = Far POINTER to vector 
+				                                          ;  Carry set = error, jump to 
+				                                          ;/ |/ caller supplied address: 
+				             JC      erraddr 
+				                                       ;  Else (no error), 
+				             MOV     ES,AX                ;/ ES = segment of entry point 
+				             ENDM 
+				 
+				             Page$   <Equates> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-4
+Equates                                                     
+
+				 
+				;*---------------------------------* 
+				;            DevHlp commands used  * 
+				;*---------------------------------* 
+				; 
+ = 0024				GetDOSVar    EQU     24h               ;  36 - Get ptr to DOS variable 
+				 
+				;*---------------------------------* 
+				;            GetDOSVar indices     * 
+				;*---------------------------------* 
+				; 
+ = 0005				VectorReboot EQU     5                 ;   5 - Jump to, to reboot 
+				 
+				;*---------------------------------------------------* 
+				;*           Device Driver request packet constants. * 
+				;*---------------------------------------------------* 
+				; 
+ =				ReqPktReg    EQU     ES:[BX]           ;  Request Packet Registers 
+ = 0012				PktMax       EQU     18                ;  Somewhat arbitrary maximum 
+				                                          ;/ size of request packet 
+				; 
+				;----------- Request packet status ... 
+				; 
+ = 0100				Done            EQU  0100h 
+ = 8000				Error           EQU  8000h 
+ = 000C				General_Failure EQU  000Ch 
+ = 0003				Unknown_Command EQU  0003h 
+				 
+				; 
+				;----------- SERVBOOT Device Driver specific 
+				; 
+ = 0080				ServBoot_Cat    EQU  80h               ;  SERVBOOT Device Driver category 
+ = 0040				ServBoot_Func   EQU  40h               ;  SERVBOOT IOCTL function 
+				 
+				 
+				;*----------------------------------* 
+				;*           Miscellaneous Equates  * 
+				;*----------------------------------* 
+				; 
+ = 0D0A				CRLF         EQU     0D0Ah             ;  For DosWrites during Init 
+ = 0001				StdOut       EQU     1                    ;/ 
+ = 0001				YES          EQU     1                 ;  For error msg processing 
+ = 0000				NO           EQU     0                    ;/ 
+				 
+				             Page$   <Data Structures> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-5
+Data Structures                                             
+
+				;*----------------------------------------------------------* 
+				;*           Structure of a device driver request packet    * 
+				;*----------------------------------------------------------* 
+				Packet       STRUC 
+ 0000  ??			PktLen       DB      ?                 ;  Length in bytes of packet 
+ 0001  ??			PktUnit      DB      ?                 ;  Subunit number of block device 
+ 0002  ??			PktCmd       DB      ?                 ;  Command code 
+ 0003  ????			PktStatus    DW      ?                 ;  Status word 
+ 0005  ????????			PktDOSLink   DD      ?                 ;  Reserved 
+ 0009  ????????			PktDevLink   DD      ?                 ;  Device multiple-request link 
+ 000D  0012[			PktData      DB      PktMax DUP(?)     ;  Device specific data area. 
+	    ??			
+			 ]	
+				
+ 001F				Packet       ENDS 
+				 
+				;*----------------------------------------------------------* 
+				;*           Equates for initialization packet data         * 
+				;*----------------------------------------------------------* 
+				InitPkt      STRUC 
+ 0000  000D[			ip_basepkt   DB      PktData DUP (?)   ;  Request header (IGNORE) 
+	    ??			
+			 ]	
+				
+ 000D  ??			ip_data1     DB      ?                 ;  IN  = Nothing 
+				                                       ;  OUT = Number of block devices 
+				                                       ;        or units (UNUSED) 
+ 000E  ????????			ip_pointer1  DD      ?                 ;  IN  = Pointer to DevHlp entry 
+				                                       ;        point 
+				                                       ;  OUT = (+0) Offset to end of 
+				                                       ;        code segment, 
+				                                       ;        (+2) offset to end of 
+				                                       ;        data segment 
+ 0012  ????????			ip_pointer2  DD      ?                 ;  IN  = Points to Init arguments 
+				                                       ;        (currently UNUSED) 
+				                                       ;  OUT = Points to BPB array for 
+				                                       ;        block devices (UNUSED) 
+ 0016  ??			ip_data2     DB      ?                 ;  IN  = Drive number of first 
+				                                       ;        block device unit 
+				                                       ;        (UNUSED) 
+				                                       ;  OUT = Nothing 
+ 0017				InitPkt      ENDS 
+				 
+				;*----------------------------------------------------------* 
+				;*           Request Packet for Generic IOCtls.             * 
+				;*----------------------------------------------------------* 
+				IOCtlPkt     STRUC                     ;  Generic IOCtl request packet 
+ 0000  000D[			             DB      PktData DUP (?)   ;  Request header (IGNORE) 
+	    ??			
+			 ]	
+				
+ 000D  ??			giocategory  DB      ?                 ;  Function category 
+ 000E  ??			giofunction  DB      ?                 ;  Function code 
+ 000F  ????????			gioparapack  DD      ?                 ;  Parameter Buffer address  (UNUSED) 
+ 0013  ????????			giodatapack  DD      ?                 ;  Data Buffer address (UNUSED) 
+ 0017  ????			giosfn       DW      ?                 ;  System File Number  (UNUSED) 
+ 0019				IOCtlPkt     ENDS 
+				             Page$   <Data declarations> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-6
+Data declarations                                           
+
+				COMMENT      | 
+				*-*-*-*-*-*-*-*-*-*-*-*-*- B E G I N G   D A T A -*-*-*-*-*-*-*-*-*-*-*-*-* 
+				*                                                                         * 
+				*            SERVBOOT Data Segment    (Must be declared public)           * 
+				*                                                                         * 
+				              | 
+ 0000				DEVDDATA      SEGMENT WORD PUBLIC 'DATA' 
+				 
+				;*--------------------------------------------------------------------* 
+				;*           Device header for the SREBOOT$ Device Driver             * 
+				;*                                                                    * 
+				;*           NOTE: This must be first in dd's first data segment.     * 
+				;*--------------------------------------------------------------------* 
+				; 
+				             ENDIF 
+				 
+ = 0000				Dev_Header   EQU     $ 
+ 0000  FF FF FF FF		             DD      -1                      ;Ptr to next device hdr  = NONE 
+ 0004  9880			             DW      1001100010000000B       ;Device attributes: 
+				             ;       |||||||||||||||| 
+				             ;       |||||||||||||||+-- Bit  0 = Std IN                =  NO 
+				             ;       ||||||||||||||+--- Bit  1 = Std OUT               =  NO 
+				             ;       |||||||||||||+---- Bit  2 = Null Device           =  NO 
+				             ;       ||||||||||||+----- Bit  3 = Clock Device          =  NO 
+				             ;       |||||||||||+------ Bit  4 = Reserved              =   0 
+				             ;       ||||||||||+------- Bit  5 = Reserved              =   0 
+				             ;       |||||||||+-------- Bit  6 = Reserved              =   0 
+				             ;       ||||||+++--------- Bits 7:9 = Func. level= OS/2 DD= 001 
+				             ;       |||||+------------ Bit 10 = Reserved              =   0 
+				             ;       ||||+------------- Bit 11 = Open/Close/Rem. Media = YES 
+				             ;       |||+-------------- Bit 12 = Support shared device 
+				             ;       |||                         access checking       = YES 
+				             ;       ||+--------------- Bit 13 = Output until busy     =  NO 
+				             ;       |+---------------- Bit 14 = Uses IDC              =  NO 
+				             ;       +----------------- Bit 15 = DD type         = CHARACTER 
+				             ; 
+ 0006  0000 R			             DW      DEVDCODE:Strategy       ;  Strategy routine offset 
+ 0008  FFFF			             DW      -1                      ;  Interrupt entry offset (UNUSED) 
+				             DevName$                        ;  Device name (see prologue) 
+ 000A  53 52 45 42 4F 4F 54   1	             DB      "SREBOOT$"        ;  Device name for DOSOPEN
+ 0012  0004[			             DW      4 DUP (0)               ;  Reserved words 
+	    0000		
+			 ]	
+				
+				                                             ; 
+				                                             ;  END device header 
+				 
+				;*-------------------------------------* 
+				;*           Misc. variables...        * 
+				;*-------------------------------------* 
+				 
+				             ENDIF 
+				 
+ 001A  ????????			Dev_Hlp_Addr DD      ?                 ;  DevHlp router address 
+				 
+ 001E  0000			GenFailFlag  DW      NO                ;  For IOCTl subroutine error indication 
+				 
+				             Page$   <Data declarations - Request packet command call table> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-7
+Data declarations - Request packet command call table       
+
+				 
+				;*----------------------------------------------------------------------------* 
+				;*           Cmd_Table is a call table used to call a particular subroutine   * 
+				;*           depending on the command code field within the request packet.   * 
+				;*                                                                            * 
+				;*           The table of offsets must be stored in the data segment.         * 
+				;*----------------------------------------------------------------------------* 
+				 
+				             ENDIF 
+				 
+ = 0020				Cmd_Table    EQU     $                       ;Call table for dd command codes 
+				                                             ;  (Command numbers in decimal) 
+ 0020  0079 R			             DW      Init                    ;   0 - Initialization 
+ 0022  0053 R			             DW      UnkCmd                  ;   1 - Media Check 
+ 0024  0053 R			             DW      UnkCmd                  ;   2 - Build BPB 
+ 0026  0053 R			             DW      UnkCmd                  ;   3 - RESERVED 
+ 0028  004F R			             DW      Read                    ;   4 - Read 
+ 002A  0053 R			             DW      UnkCmd                  ;   5 - Nondestructive Read 
+ 002C  0053 R			             DW      UnkCmd                  ;   6 - Input Status 
+ 002E  0053 R			             DW      UnkCmd                  ;   7 - Input Flush 
+ 0030  004F R			             DW      Write                   ;   8 - Write 
+ 0032  0053 R			             DW      UnkCmd                  ;   9 - Write with verify 
+ 0034  0053 R			             DW      UnkCmd                  ;  10 - Output Status 
+ 0036  0053 R			             DW      UnkCmd                  ;  11 - Output Flush 
+ 0038  0053 R			             DW      UnkCmd                  ;  12 - RESERVED 
+ 003A  0031 R			             DW      Open                    ;  13 - Device Open 
+ 003C  0031 R			             DW      Close                   ;  14 - Device Close 
+ 003E  0053 R			             DW      UnkCmd                  ;  15 - Port access 
+ 0040  0032 R			             DW      GenIOCtl                ;  16 - Generic IOCtl command 
+ 0042  0053 R			             DW      UnkCmd                  ;  17 - Reset media 
+ 0044  0053 R			             DW      UnkCmd                  ;  18 - Get Logical Drive Map! 
+ 0046  0053 R			             DW      UnkCmd                  ;  19 - Set Logical Drive Map! 
+ 0048  0031 R			             DW      DeInstall               ;  20 - DeInstall request 
+				                                             ; 
+ = 0014				Cmd_Max      EQU     ($-Cmd_Table)/2 - 1     ;  Number of entries in CmdTable 
+				                                             ; 
+				                                             ;  Values above 20 get UnkCmd : 
+				                                             ;  21 - Port Access 
+				                                             ;  22 - Partitionable Fixed Disks! 
+				                                             ;  23 - Get fixed disk/unit map! 
+				                                             ;  24:27 - RESERVED 
+				 
+ = 004A				End_Of_Data  EQU     $                 ; Used during initialization. 
+				 
+				; HEY !!!!!! 
+				; HEY !!!!!! Any data to be retained past initialization MUST be placed before 
+				; HEY !!!!!! End_Of_Data above...! 
+				; HEY !!!!!! 
+				 
+				             Page$   <Data declarations - Init. data> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-8
+Data declarations - Init. data                              
+
+				 
+				;*------------------------------------------------------------* 
+				;*           These data will go away after initialization     * 
+				;*------------------------------------------------------------* 
+				 
+ 004A  0D0A			Install_Msg  DW      CRLF 
+ 004C  53 65 72 76 42 6F 6F	             DB      "ServBoot Device Driver: SERVBOOT.SYS, " 
+       74 20 44 65 76 69 63	
+       65 20 44 72 69 76 65	
+       72 3A 20 53 45 52 56	
+       42 4F 4F 54 2E 53 59	
+       53 2C 20			
+ 0072  56 65 72 73 69 6F 6E	             DB      "Version " 
+       20			
+				             Ver$ 
+ 007A  31 2E 30 30            1	             DB      "1.00"            ;  Current Version
+ 007E  0D0A			             DW      CRLF 
+ 0080  49 42 4D 20 49 6E 74	             DB      "IBM Internal Use Only         Author: Pete Guillon" 
+       65 72 6E 61 6C 20 55	
+       73 65 20 4F 6E 6C 79	
+       20 20 20 20 20 20 20	
+       20 20 41 75 74 68 6F	
+       72 3A 20 50 65 74 65	
+       20 47 75 69 6C 6C 6F	
+       6E			
+ 00B2  0D0A			             DW      CRLF 
+ 00B4  49 6E 69 74 69 61 6C	             DB      "Initialization Complete" 
+       69 7A 61 74 69 6F 6E	
+       20 43 6F 6D 70 6C 65	
+       74 65			
+ 00CB  0D0A			             DW      CRLF 
+ 00CD  0D0A			             DW      CRLF 
+				 
+ = 0085				Inst_Msg_Len EQU     $ - Install_Msg 
+				 
+ 00CF  0000			Bwrite       DW      0                 ;  Required for DosWrite 
+				 
+				 
+ 00D1				DEVDDATA     ENDS 
+				 
+				COMMENT      | 
+				*                                                                         * 
+				*            SERVBOOT Data Segment ends                                   * 
+				*                                                                         * 
+				*-*-*-*-*-*-*-*-*-*-*-*-*- E N D I N G   D A T A -*-*-*-*-*-*-*-*-*-*-*-*-* 
+				             | 
+				             Page$   <Strategy Routine> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-9
+Strategy Routine                                            
+
+				 
+				COMMENT      | 
+				*-*-*-*-*-*-*-*-*-*-*-*-*- B E G I N G   C O D E -*-*-*-*-*-*-*-*-*-*-*-*-* 
+				*                                                                         * 
+				*            Begin SERVBOOT Code Segment    (Must be declared public)     * 
+				*                                                                         * 
+				             | 
+ 0000				DEVDCODE     SEGMENT WORD PUBLIC 'CODE' 
+				 
+				             ASSUME CS:DEVDCODE,DS:DEVDDATA 
+				COMMENT      | 
+				*-------------------------------------------------------------------------* 
+				*            Far Procedure STRATEGY gets the request  packet  and based   * 
+				*            on its command code branches to the appropriate subroutine.  * 
+				*            Upon return from the subroutine, the request is  signalled   * 
+				*            serviced with or without error.                              * 
+				*                                                                         * 
+				*            Uses: AX, DI                                                 * 
+				*-------------------------------------------------------------------------* 
+				             | 
+				             ENDIF 
+				 
+ 0000				Strategy     PROC    FAR 
+				 
+ 0000  26: 8A 47 02		             MOV     AL,ReqPktReg.PktCmd    ;  AL = Req. packet command code 
+ 0004  3C 14			             CMP     AL,Cmd_Max             ;  Is command beyond table? 
+ 0006  77 1F			             JA      Unsupported            ;  Yes, go indicate bad command 
+				 
+				                                            ;  Else (command within table) 
+ 0008  06			             PUSH    ES                        ;  Save request packet pointers. 
+ 0009  53			             PUSH    BX                        ;  |/ 
+ 000A  98			             CBW                               ;  AX = Command 
+ 000B  D1 E0			             SHL     AX,1                      ;  AX = Index into CmdTable 
+ 000D  8B F8			             MOV     DI,AX                     ;  DI = CmdTable Index 
+ 000F  C7 06 001E R 0000	             MOV     GenFailFlag,NO            ;  Subroutine error indicator=0 
+ 0015  FF 95 0020 R		             CALL    WORD PTR Cmd_Table[DI]    ;  Call appropriate function 
+				                                               ;  |  (Subroutines may set 
+				                                               ;/ |/ various error statuses) 
+				 
+ 0019  5B			             POP     BX                     ;  Restore request packet ptrs. 
+ 001A  07			             POP     ES                     ;/ 
+				 
+ 001B  83 3E 001E R 01		             CMP     GenFailFlag,YES        ;  Subroutine error occurred? 
+ 0020  75 08			             JNE     Fin                    ;  No, skip General Failure call 
+				 
+				                                            ;  Else (Error occurred in subr), 
+ 0022  E8 005A R		             CALL    GenFail                ;  Request packet status = General 
+				                                            ;/ failure. 
+ 0025  EB 03			             JMP     SHORT Fin 
+				 
+ 0027  E8 0053 R		Unsupported: CALL    UnkCmd                 ;  Indicate Unknown command 
+				 
+ 002A  26: 81 4F 03 0100	Fin:         OR      ReqPktReg.PktStatus,Done 
+ 0030  CB			             RET 
+				 
+				Strategy     ENDP                            ;  End ServBoot strategy routine 
+				 
+				             Page$   <Open, Close, Deinstall (non)processing> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-10
+Open, Close, Deinstall (non)processing                      
+
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Command was device OPEN, no processing required.            * 
+				*------------------------------------------------------------------------* 
+				             | 
+				             ENDIF 
+				 
+ 0031				Open         PROC    NEAR 
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Command was device CLOSE, no processing required.           * 
+				*------------------------------------------------------------------------* 
+				             | 
+				             ENDIF 
+				 
+ 0031				Close        LABEL   NEAR 
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Command was device DEINSTALL, no processing required.       * 
+				*------------------------------------------------------------------------* 
+				             | 
+				             ENDIF 
+				 
+ 0031				DeInstall    LABEL   NEAR 
+				 
+ 0031  C3			             RET                       ;  No processing, just return. 
+				 
+				Open         ENDP                      ;  End No processing routines 
+				 
+				             Page$   <Generic IOCtl processing> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-11
+Generic IOCtl processing                                    
+
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Generic IOCtl routine.                                      * 
+				*                                                                        * 
+				*            This routine validates the desired ServBoot IOCtl function, * 
+				*            and calls the appropriate subroutine to handle it:          * 
+				*                                                                        * 
+				*                 IOCTL Category X'80' Funtion X'40' Reboot OS/2         * 
+				*                                                                        * 
+				*            IN:                                                         * 
+				*                                                                        * 
+				*                  GenFailFlag = 0                                       * 
+				*                  ReqPktReg = ES:BX = Request packet address            * 
+				*                                                                        * 
+				*------------------------------------------------------------------------* 
+				             | 
+				 
+				             ENDIF 
+				 
+ 0032				GenIOCtl     PROC    NEAR 
+				                                            ;  Category = Our device driver? 
+ 0032  26: 80 7F 0D 80		             CMP     ReqPktReg.giocategory,ServBoot_Cat 
+ 0037  75 0C			             JNE     GIOunknown             ;  Category != ServBoot Category 
+				 
+				                                            ; Test if ServBoot function number 
+ 0039  26: 80 7F 0E 40		             CMP     ReqPktReg.giofunction,ServBoot_Func 
+ 003E  75 05			             JNE     GIOunknown             ;/  Function != ServBoot Function 
+				 
+ 0040  E8 0061 R		             CALL    Reboot                 ;  Boot OS/2 - Should NOT return 
+ 0043  EB 09			             JMP     SHORT GIOend           ;  Cosmetics: skip error stuff 
+				 
+ 0045  E8 0053 R		GIOunknown:  CALL    UnkCmd                 ;  Indicate unknown function 
+ 0048  C7 06 001E R 0001	             MOV     GenFailFlag,YES        ;  Turn subroutine error flag on 
+				 
+ 004E  C3			GIOend:      RET 
+				 
+				GenIOCtl     ENDP 
+				             Page$   <Read, Write processing> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-12
+Read, Write processing                                      
+
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            READ/WRITE routine.                                         * 
+				*                                                                        * 
+				*            This routine Reboot OS/2                                    * 
+				*                                                                        * 
+				*            IN:                                                         * 
+				*                                                                        * 
+				*                  GenFailFlag = 0                                       * 
+				*                  ReqPktReg = ES:BX = Request packet address            * 
+				*                                                                        * 
+				*------------------------------------------------------------------------* 
+				 
+				 
+				*------------------------------------------------------------------------* 
+				*            Command was Read, Reboot OS/2                               * 
+				*------------------------------------------------------------------------* 
+				             | 
+				 
+				             ENDIF 
+				 
+ 004F				Read         PROC    NEAR 
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Command was Write, Reboot OS/2                              * 
+				*------------------------------------------------------------------------* 
+				             | 
+				 
+				             ENDIF 
+				 
+ 004F				Write        LABEL   NEAR 
+				 
+ 004F  E8 0061 R		             CALL    Reboot                 ;  Boot OS/2 - Should NOT return 
+				 
+ 0052  C3			             RET                            ;  Cosmetics: return stuff 
+				 
+				Read         ENDP 
+				 
+				 
+				             Page$   <Device driver request packet status routines> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-13
+Device driver request packet status routines                
+
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Mark device driver request packet status with unknown       * 
+				*            command error.                                              * 
+				*                                                                        * 
+				*            IN:                                                         * 
+				*                  ReqPktReg = ES:BX = Request packet address            * 
+				*                                                                        * 
+				*------------------------------------------------------------------------* 
+				             | 
+				 
+				             ENDIF 
+				 
+ 0053				UnkCmd       PROC    NEAR 
+				 
+ 0053  26: 81 4F 03 8003	             OR      ReqPktReg.PktStatus,Error + Unknown_Command 
+ 0059  C3			             RET 
+				 
+				UnkCmd       ENDP 
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Mark device driver request packet status with General       * 
+				*            Failure error.                                              * 
+				*                                                                        * 
+				*            IN:                                                         * 
+				*                  ReqPktReg = ES:BX = Request packet address            * 
+				*                                                                        * 
+				*------------------------------------------------------------------------* 
+				             | 
+				 
+				             ENDIF 
+				 
+ 005A				GenFail      PROC    NEAR 
+				 
+ 005A  26: 81 4F 03 800C	             OR      ReqPktReg.PktStatus,Error + General_Failure 
+ 0060  C3			             RET 
+				 
+				GenFail      ENDP 
+				 
+				             Page$   <IOCtl 40h, Read, Write  - Reboot routine> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-14
+IOCtl 40h, Read, Write  - Reboot routine                    
+
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------* 
+				*            Reboot:  Call saved reboot vector in kernel.                * 
+				*                                                                        * 
+				*            NOTE: The call to the reboot vector should NOT return.      * 
+				*                                                                        * 
+				*------------------------------------------------------------------------* 
+				             | 
+				 
+				             ENDIF 
+				 
+ 0061				Reboot       PROC    NEAR 
+				 
+				                                            ;  ES:BX = reboot vector: 
+				             GetVector$ VectorReboot,Rfail 
+ 0061  B0 05                  1	             MOV     AL,VectorReboot
+ 0063  B2 24                  2	             MOV     DL,GetDOSVar
+ 0065  FF 1E 001A R           2	             CALL    Dev_Hlp_Addr      ;  Call DevHlp router
+ 0069  72 07                  1	             JC      Rfail
+ 006B  8E C0                  1	             MOV     ES,AX                ;/ ES = segment of entry point
+				 
+ 006D  26: FF 1F		             CALL    DWORD PTR ES:[BX]      ;  Call Reboot routine 
+				                                            ;  NOTE: should NOT return 
+				 
+ 0070  EB 06			             JMP     SHORT Rend             ;  Cosmetics: skip error stuff 
+				 
+ 0072  C7 06 001E R 0001	Rfail:       MOV     GenFailFlag,YES        ;  GetVector$ failed, 
+				                                            ;/ Set flag to indicate so 
+				 
+ 0078  C3			Rend:        RET 
+				 
+				Reboot       ENDP 
+				 
+ = 0079				End_Of_Code  EQU     $                      ;  Any code after here is thrown 
+				                                            ;  away after initialization 
+				 
+				; HEY !!!!!! 
+				; HEY !!!!!! Any Code to be retained past initialization MUST be placed before 
+				; HEY !!!!!! End_Of_Code above...! 
+				; HEY !!!!!! 
+				 
+				             Page$   <End of Code, Init processing> 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-15
+End of Code, Init processing                                
+
+				 
+				COMMENT      | 
+				*------------------------------------------------------------------------------* 
+				*            Initialization procedure is placed at the end of the code         * 
+				*            so it can go away once initialization has been done.              * 
+				*                                                                              * 
+				*            ServBoot initialization consists of:                              * 
+				*                                                                              * 
+				*             * Saving the DevHlp address from the request packet              * 
+				*             * Setting EndOfCode and EndOfData offsets in the request packet  * 
+				*                                                                              * 
+				*            IN:                                                               * 
+				*                  ES:BX = Request Packet (Reference InitPkt structure for     * 
+				*                          a description of appropriate fields).               * 
+				*                                                                              * 
+				*------------------------------------------------------------------------------* 
+				             | 
+				 
+ 0079				Init         PROC    NEAR 
+				 
+				             ENDIF 
+				; 
+				;----------- Get first word of DevHlp entry point and store into our data segment: 
+				; 
+ 0079  26: 8B 47 0E		             MOV     AX,WORD PTR ReqPktReg.ip_pointer1 
+ 007D  A3 001A R		             MOV     WORD PTR Dev_Hlp_Addr,AX 
+				; 
+				;----------- Get second word of DevHlp entry point and store into our data segment: 
+				; 
+ 0080  26: 8B 47 10		             MOV     AX,WORD PTR ReqPktReg.ip_pointer1+2 
+ 0084  A3 001C R		             MOV     WORD PTR Dev_Hlp_Addr+2,AX 
+				; 
+				;----------- Save the pointers to the request packet: 
+				; 
+ 0087  06			             PUSH    ES 
+ 0088  53			             PUSH    BX 
+				; 
+				;----------- Send ServBoot Device Driver installation message to user: 
+				; 
+				             @DosWrite StdOut,Install_Msg,Inst_Msg_Len,Bwrite 
+ 0089  B8 0001                2			  mov	  ax,StdOut
+ 008C  50                     2			  push	  ax
+ 008D  B8 ---- R              2			  mov	  ax,SEG Install_Msg
+ 0090  50                     2			  push	  ax
+ 0091  8D 06 004A R           2			  lea	  ax,Install_Msg
+ 0095  50                     2			  push	  ax
+ 0096  B8 0085                2			  mov	  ax,Inst_Msg_Len
+ 0099  50                     2			  push	  ax
+ 009A  B8 ---- R              2			  mov	  ax,SEG Bwrite
+ 009D  50                     2			  push	  ax
+ 009E  8D 06 00CF R           2			  lea	  ax,Bwrite
+ 00A2  50                     2			  push	  ax
+ 00A3  9A 0000 ---- E         1			   call    far ptr DOSWRITE
+				 
+IBM Macro Assembler/2 Version 1.00                          10/3/90 19:35:12
+SERVBOOT.SYS 1.0 - OS/2 Character Device Driver             Page     1-16
+End of Code, Init processing                                
+
+				             PAGE 
+				 
+				; 
+				;----------- Place the addresses of the end of code segment and the 
+				;            end of the data segment into the request header 
+				; 
+ 00A8  5B			             POP     BX                     ;  Restore request packet addr. 
+ 00A9  07			             POP     ES 
+				 
+ 00AA  8D 06 0079 R		             LEA     AX,End_Of_Code         ;  AX = end of code segment offset 
+				                                            ;  Store it into request packet 
+ 00AE  26: 89 47 0E		             MOV     WORD PTR ReqPktReg.ip_pointer1,AX 
+				 
+ 00B2  8D 06 004A R		             LEA     AX,End_Of_Data         ;  AX = end of data segment offset 
+				                                            ;  Store it into request packet: 
+ 00B6  26: 89 47 10		             MOV     WORD PTR ReqPktReg.ip_pointer1+2,AX 
+				 
+ 00BA  C3			             RET 
+				 
+				Init         ENDP 
+				 
+ 00BB				DEVDCODE     ENDS 
+				 
+				COMMENT      | 
+				*                                                                         * 
+				*            Ending SERVBOOT Code Segment                                 * 
+				*                                                                         * 
+				*-*-*-*-*-*-*-*-*-*-*-*-*- E N D I N G   C O D E -*-*-*-*-*-*-*-*-*-*-*-*-* 
+				             | 
+				             END 
+
+    719 Source  Lines
+    782 Total   Lines
+    511 Symbols
+
+  45330 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

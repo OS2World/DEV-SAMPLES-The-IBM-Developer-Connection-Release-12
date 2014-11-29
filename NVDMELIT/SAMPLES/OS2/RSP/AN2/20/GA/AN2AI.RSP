@@ -1,0 +1,15 @@
+FILE = C:\CMLIB
+CFGUPDATE = AUTO
+OVERWRITE = YES
+SAVEBACKUP = YES
+DELETEBACKUP = YES
+IGNOREPREREQERRORS=YES
+SnaipSNANetname=SNA.IBM.COM
+SnaipCriticalWS=NO
+SnaipMPTNWKPort=397
+SnaipTCPWaitMins=15
+SnaipConwaitSecs=30
+SnaipConretrySecs=300
+SnaipUnackedSecs=30
+SnaipUnsentSecs=3
+SnaipInactTimer=90

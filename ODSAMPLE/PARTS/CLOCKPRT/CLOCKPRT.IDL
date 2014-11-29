@@ -1,0 +1,157 @@
+#ifdef __PRIVATE__
+//#
+//#     File:           ClockPrt.idl
+//#
+//#     Contains:       IDL description of Clock Part
+//#
+//#     Written by:     Joe Ochipinti
+//#
+//#     Copyright:      (c) 1994 by IBM Corp., all rights reserved.
+//#
+//#     Change History (most recent first):
+//#       140645 10/18/95  jso      Change frame shape when pres changes.
+//#       123251 8/08/95   jso      Added new methods to support digital and
+//#                                 analog presentations
+//#       120017 4/22/95   ced      Code clean-up (remove unneccessary methods &
+//#                                 overrides.
+//#       117472 4/01/95   ced      Add FacetRemoved override & add
+//#                                 invalidShape param to DisplayClock
+//#       <2>   11/05/94   ced      Modifications required because root facet
+//#                                 external transform now scales from OpenDoc
+//#                                 72 dpi coordinate space to device coordinate
+//#                                 space.  Changes are labed with (CED - 110594).
+//#
+//#              <1>      9/28/94       jso             first checked in
+//#
+//#     To Do:
+//#
+#else
+//#     Copyright:      (c) 1993-1994 by IBM Corp., all rights reserved.
+#endif
+
+
+#ifndef _CLOCKPRT_
+#define _CLOCKPRT_
+
+#ifndef _SIMPLPRT_
+#include <SimplPrt.idl>
+#endif
+
+interface Clock;
+interface M_ClockPart;
+interface ODSettingsExtension;
+
+// flag marking changes/additions for transparency
+#define ACWSTUFF
+
+// #ifdef __PRIVATE__
+//=====================================================================================
+// Implementation Types
+//=====================================================================================
+
+  enum DrawType
+  {
+     drawClock,
+     drawTimer
+  };
+
+#if 0
+   typedef long HPS;
+   typedef long HDC;
+
+  typedef somToken ODxOrderedCollection;
+#endif
+
+// #endif // __PRIVATE__
+
+
+interface ClockPart : SimplePart
+{
+
+// #ifdef __PRIVATE__
+        void DisplayClock(in ODFacet facet, in DrawType whatToDraw, in ODShape invalidShape);
+        void Resize(in ODFrame frame, in ODFacet facet); // (CED - 110594)
+// #endif
+
+#ifdef __SOMIDL__
+        implementation
+        {
+                functionprefix = ClockPart;
+                metaclass     = M_ClockPart;
+                majorversion = 1;
+                minorversion = 0;
+
+        releaseorder:
+
+         DisplayClock,
+         Resize;
+
+      override:
+#ifdef ACWSTUFF
+        ContainingPartPropertiesUpdated,
+#endif
+        FrameShapeChanged,
+        FacetAdded,
+        GeometryChanged,
+        Draw,
+        CloneInto,
+        Externalize,
+        HandleEvent,
+        DisplayFrameAdded,
+        DisplayFrameRemoved,
+        DisplayFrameClosed,
+        DisplayFrameConnected,
+        AllocFramePartInfo,
+        HasExtension,
+        AcquireExtension,
+        ReleaseExtension,
+        PresentationChanged,
+        InitPart,
+        InitPartFromStorage,
+        somUninit;
+
+//    #ifdef __PRIVATE__
+                passthru C_xh = ""
+                        "class ODFrame ;"
+                        "class ODTransform ;"
+                        ;
+                passthru C_xh_after = ""
+                        "class ClockPartInfoRec : public PartInfoRec {"
+                        "public:"
+                        "   ClockPartInfoRec::ClockPartInfoRec() : PartInfoRec() { clock=0; }"
+                        "   Clock* clock;"
+                        "};"
+                        "enum DrawType { drawClock, drawTimer };";
+                passthru C_xih = "class ODxOrderedCollection;";
+
+//    #endif
+
+         ODSettingsExtension        fNotebook;
+         ODPart                     fPartWrapper;
+         char *                     fMode;
+#ifdef ACWSTUFF
+         ODBoolean                  fTransparent;
+#endif
+        };
+#endif
+};
+
+interface M_ClockPart : M_SimplePart
+{
+
+#ifdef __SOMIDL__
+  implementation
+  {
+    functionprefix = M_ClockPart;
+    override:
+      clsGetODPartHandlerName,
+      clsGetODPartHandlerDisplayName,
+      clsGetODPartKinds;
+  };
+
+#endif
+};
+
+#endif  // _ClOCKPRT_
+
+

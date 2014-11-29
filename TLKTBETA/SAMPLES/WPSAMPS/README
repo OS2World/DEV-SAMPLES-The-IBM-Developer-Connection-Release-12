@@ -1,0 +1,55 @@
+******************************************************************************
+
+*                 OS/2* 2.1 Workplace Shell* .IDL files BETA                 *
+
+*           (C) Copyright IBM Corp. 1993 All Rights Reserved                 *
+
+*                    IBM is a registered trademark of the                    *
+
+*                International Business Machines Corporation                 *
+
+*  U.S. Government Users Restricted Rights - Use, duplication or disclosure  *
+
+*           restricted by GSA ADP Schedule Contract with IBM Corp.           *
+
+******************************************************************************
+
+
+  This README document contains information that describes how the
+  Beta .IDL files for the Workplace Shell are to be used.
+
+  These files are pre-release versions and are provided on an as-is basis
+  for evaluation and demonstration.  They are not intended for use with
+  production code.
+
+  The files included in this beta have been provided for evaluation by
+  developers who have the SOMobjects Toolkit* and want to write their
+  Workplace Shell subclasses using the Interface Definition Language
+  (IDL) described in the SOMobjects Toolkit.
+
+
+The following classes demonstrate the following:
+
+DRAGEXAM and DRAGFOLD: together, these two classes illustrate how
+to create a class (DRAGEXAM) whose objects can only be dropped on
+objects of class DRAGFOLD.
+
+MYFOLDER: this separate class demonstrates how to manipulate an object's
+USEITEM list so that you have control over, for example, what open views
+of an object are to be closed on demand.
+
+This class also behaves such that upon first opening a MYFOLDER folder,
+any subfolders that may reside in the folder are deleted.  This may be
+useful if you wanted to have a folder delete certain of its contents upon
+the first open after a boot.
+
+MAKEFILE - builds each class into a separate DLL.  You will have to edit the
+           makefile to customize it to your development environment.
+
+INSTALL.CMD - copies the DLLs and SYMs to C:\OS2\DLL, and creates an instance
+              of each of the three classes on the desktop.  Edit this file
+              if your boot drive is not C:
+
+
+
+

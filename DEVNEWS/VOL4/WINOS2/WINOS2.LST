@@ -1,0 +1,56 @@
+WINOS2.C                                                                                       06/04/94 16:28:06     Page     1
+                                      * * * * *   P R O L O G   * * * * *
+
+ Compiler . . . . . . . . . . . . : IBM C/C++ Tools V2.0
+ Command options:
+    Compiler mode . . . . . . . . : C
+    Program name. . . . . . . . . : WINOS2.C
+    Assemble name . . . . . . . . : "winos2.asm"
+    Object name . . . . . . . . . : "winos2.obj"
+    Listing name. . . . . . . . . : winos2.lst
+    Compiler options. . . . . . . : /C+  /Fa+ /Fc- /Fd- /Fi- /Fl- /Fm- /Fo+ /Fw- /Gd- /Ge+ /Gf- /Gh- /Gi- /Gm- /Gn- /Gr+ /Gs-
+                                  : /Gt- /Gu- /Gv- /Gw- /J+  /L-  /La- /Lb- /Le- /Lf- /Li- /Lj- /Ls+ /Lx- /Ly- /O-  /Ol- /Om-
+                                  : /Op+ /Os- /P-  /Pc- /Pd- /Pe- /Q-  /Sd- /Sh- /Si- /Sm- /Sn- /Sr- /Ss- /Sv- /Ti- /Tm- /Tx-
+                                  : /Xi-
+                                  : /Wcls- /Wcmp- /Wcnd- /Wcns- /Wcnv- /Wcpy- /Wdcl- /Weff- /Wenu- /Wext- /Wgen- /Wgnr- /Wgot-
+                                  : /Wini- /Wlan- /Wobs- /Word- /Wpar- /Wpor- /Wppc- /Wppt- /Wpro- /Wrea- /Wret- /Wtrd- /Wtru-
+                                  : /Wund- /Wuni- /Wuse- /Wvft-
+                                  : /Mp  /Rn  /Se  /Sp4  /G3  /W3  /H255  /Lp66  /Sg-  /Sq-  /N  /Oi0  /Su-  /Tl10 
+                                  : /I  
+                                  : /Lt 
+                                  : /Lu 
+                                  : /B  
+                                  : /V  
+WINOS2.C                                                                                       06/04/94 16:28:06     Page     2
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+*=WARNING=========>     EDC0463 Option /Zi is not valid.                                                                 
+    1       |extern short OS2Test(void);                                                                       |      1           
+    2       |                                                                                                  |      2           
+    3       |                                                                                                  |      3           
+    4       |main()                                                                                            |      4           
+    5       |{                                                                                                 |      5           
+    6       |                                                                                                  |      6           
+    7     1 |     OS2Test();                                                                                   |      7           
+    8       |                                                                                                  |      8           
+    9       |}                                                                                                 |      9           
+                                    * * * * *   E N D   O F   S O U R C E   * * * * *
+WINOS2.C                                                                                       06/04/94 16:28:06     Page     3
+                             * * * * *   M E S S A G E   S U M M A R Y   * * * * *
+
+        Total            Informational(00)          Warning(10)          Error(30)            Severe Error(40)
+
+          1                    0                        1                   0                        0
+
+                        * * * * *   E N D   O F   M E S S A G E   S U M M A R Y   * * * * *
+WINOS2.C                                                                                       06/04/94 16:28:06     Page     4
+                                   * * * * *   M E S S A G E S   * * * * *
+MSG ID      SEV     TEXT
+                    <SEQNBR>-<FILE NO>:<FILE LINE NO>
+EDC0463     10      Option is not valid.                                                                                         
+                     ( 0-0:0 )
+                             * * * * *   E N D   O F   M E S S A G E S   * * * * *
+
+                             * * * * *   E N D   O F   C O M P I L A T I O N   * * * * *

@@ -1,0 +1,24 @@
+NEWS FILE                   FILEDLG PACKAGE                                     
+                            ===============                                     
+                                                                                
+Owner: J. von Kaenel (JVK at ZURLVM1)                                           
+                                                                                
+                                                                                
+History:                                                                        
+--------                                                                        
+                                                                                
+Version 0.09   Jun  6 1989   fixed return code bug for files in the             
+                             root directory                                     
+Version 0.08   Mai 23 1989   included search for subdirectories with            
+                             extensions                                         
+                             added the FILEDLG DLLBIN file separately           
+                             to the package so that others may                  
+                             reference in their packages                        
+Version 0.07   Mai 17 1989   corrected existance test for files (now            
+                             correctly returns 1 if the file doesn't            
+                             exist                                              
+                             made the window mouse aligned to minimize          
+                             mouse movment.                                     
+Version 0.05   Apr  5 1989   sort subdir and file listboxes                     
+Version 0.04   Mar 14 1989   fixed a bug in the existance test of files         
+Version 0.03   Mar  9 1989   release of package on pctools                      

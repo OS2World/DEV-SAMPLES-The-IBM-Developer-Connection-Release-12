@@ -1,0 +1,32 @@
+//*************************************************************************
+//*                                                                       *
+//*  IBM NetView DM/2 Ver. 2  INI File                                    *
+//*                                                                       *
+//*************************************************************************
+FileserviceDir     = C:\IBMNVDM2\FSDATA
+SharedDirA         = I:\
+SharedDirB         = C:\CID
+MaxRequests        = 8
+MaxClients         = 50
+MaxShrFiles        = 5000
+AdapterNum         = 0
+AgentTimeOut       = -1
+FPNetworkID        = USIBMNH
+FPLUName           = TCPA01
+RemoteActivation   = YES
+RemoteProcInvoc    = YES
+RemoteCM           = YES
+RemoteSend         = REPLACE
+PollingInterval    = 0
+UnsolicitedReports = YES
+MessageLogFile     = C:\IBMNVDM2\MESSAGE.DAT
+ErrorLogFile       = C:\IBMNVDM2\ERROR.DAT
+LogOption          = NVDM
+TransformAlgor     = SCB
+TransformParam     = " "
+TimeZone           = 0
+RemoteRetrieve     = ALL
+RemoteDelete       = ALL
+RebootDelay        = 2
+AutomaticPurgeReport    = YES
+

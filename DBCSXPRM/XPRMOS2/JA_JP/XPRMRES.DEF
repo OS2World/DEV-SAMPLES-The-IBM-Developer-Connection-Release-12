@@ -1,0 +1,8 @@
+;------------------------------------
+; xprmres.def module definition file
+;------------------------------------
+
+LIBRARY      XPRMRESJ
+
+DESCRIPTION  'DBCS OS/2 XPG4 Primer Japanese Resource File'
+

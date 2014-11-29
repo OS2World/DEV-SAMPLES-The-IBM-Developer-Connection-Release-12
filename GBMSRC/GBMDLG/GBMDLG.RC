@@ -1,0 +1,62 @@
+/*
+
+gbmdlg.rc - GBM Dialogs
+
+File Dialog taken from 1.3 Toolkit.
+Controls moved around and added for GBM's usage.
+
+*/
+
+#include "os2.h"
+#include "gbmdlgrc.h"
+
+/*...vgbmdlgrc\46\h:0:*/
+
+DLGTEMPLATE RID_GBM_FILEDLG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "",
+                RID_GBM_FILEDLG, 1, 1, 278, 150, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_SYSMENU | FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        CONTROL "Bitmap filename:", DID_FILENAME_TXT, 5, 135, 265, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE | WS_GROUP
+        CONTROL "", DID_FILENAME_ED, 5, 125, 265, 8, WC_ENTRYFIELD,
+                ES_AUTOSCROLL | ES_LEFT | ES_MARGIN | WS_TABSTOP | WS_VISIBLE
+
+        CONTROL "Optional bitmap format specific options:", DID_GBM_OPTIONS_TXT, 5, 115, 265, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE | WS_GROUP
+        CONTROL "", DID_GBM_OPTIONS_ED, 5, 105, 265, 8, WC_ENTRYFIELD,
+                ES_AUTOSCROLL | ES_LEFT | ES_MARGIN | WS_TABSTOP | WS_VISIBLE
+
+        CONTROL "Bitmap filetype filter:", DID_FILTER_TXT, 5, 93, 88, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE | WS_GROUP
+        CONTROL "", DID_FILTER_CB, 4, 40, 160, 53, WC_COMBOBOX,
+                CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+        CONTROL "Drive:", DID_DRIVE_TXT, 167, 93, 50, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE | WS_GROUP
+        CONTROL "", DID_DRIVE_CB, 166, 40, 107, 53, WC_COMBOBOX,
+                CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+
+        CONTROL "File:", DID_FILES_TXT, 5, 71, 32, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE | WS_GROUP
+        CONTROL "", DID_FILES_LB, 4, 22, 132, 51, WC_LISTBOX,
+                LS_HORZSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        CONTROL "Directory:", DID_DIRECTORY_TXT, 142, 71, 51, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE | WS_GROUP
+        CONTROL "", DID_DIRECTORY_LB, 141, 22, 132, 51, WC_LISTBOX,
+                LS_OWNERDRAW | LS_HORZSCROLL | WS_TABSTOP | WS_VISIBLE
+
+        CONTROL "~OK", DID_OK_PB, 6, 4, 50, 14, WC_BUTTON, BS_DEFAULT |
+                BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP
+        CONTROL "Cancel", DID_CANCEL_PB, 60, 4, 50, 14, WC_BUTTON,
+                BS_PUSHBUTTON | WS_VISIBLE
+        CONTROL "~Apply", DID_APPLY_PB, 114, 4, 50, 14, WC_BUTTON,
+                BS_PUSHBUTTON | WS_VISIBLE
+        CONTROL "Help", DID_HELP_PB, 222, 4, 50, 14, WC_BUTTON,
+                BS_PUSHBUTTON | WS_VISIBLE | BS_HELP |
+                BS_NOPOINTERFOCUS
+    END
+END

@@ -1,0 +1,25 @@
+/*********** kbdstat C Program Resource Script File (.RC)        **************/
+#include <os2.h>
+#include "kbdstat.h"
+ICON       ID_KBDSTAT PRELOAD kbdstat.ico
+
+ACCELTABLE ID_KBDSTAT PRELOAD
+BEGIN
+  VK_F3, ID_EXIT, VIRTUALKEY
+END
+
+MENU       ID_MENU PRELOAD
+BEGIN
+  MENUITEM "E~xit \tF3",        ID_EXIT , MIS_TEXT
+  SUBMENU "~Options", ID_OPTIONS
+  BEGIN
+      MENUITEM "~StateTable",        ID_STATE    , MIS_TEXT
+      MENUITEM "~PlayBack",          ID_PLAY     , MIS_TEXT
+  END
+
+END
+
+
+rcinclude kbdstat.dlg
+/*********** kbdstat C Program Resource Script File (.RC)        **************/
+

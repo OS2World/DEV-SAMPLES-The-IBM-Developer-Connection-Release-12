@@ -1,0 +1,9 @@
+[AUTOEXEC.BAT]
+InsertToken(SET,DB2PATH,LEFT)
+$(TargetDir)SQLDOSSD
+InsertToken(SET,LIB,LEFT)
+$(TargetDir)SQLDOSSD\LIB
+InsertToken(SET,INCLUDE,LEFT)
+$(TargetDir)SQLDOSSD\INCLUDE
+InsertToken(PATH,,RIGHT)
+$(TargetDir)SQLDOSSD\BIN

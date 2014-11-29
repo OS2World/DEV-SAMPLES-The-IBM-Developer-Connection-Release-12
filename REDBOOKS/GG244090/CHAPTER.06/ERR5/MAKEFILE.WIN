@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err5" sample application.
+#
+
+all: err5.h  err5_cli.exe err5_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err5_cli.c err5_mgr.c err5_srv.c
+COBJECTS        = err5_cli.obj err5c.obj
+SOBJECTS        = err5_mgr.obj err5_srv.obj err5s.obj
+
+err5.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err5_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err5_cli.exe
+
+err5_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err5_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err5.h
+        -del err5c.c
+        -del err5s.c
+

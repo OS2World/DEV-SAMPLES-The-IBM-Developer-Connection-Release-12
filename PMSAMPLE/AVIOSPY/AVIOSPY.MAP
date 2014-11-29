@@ -1,0 +1,49 @@
+
+ mousplay
+
+ Start     Length     Name                   Class
+ 0001:0000 00684H     AVIOSPY_TEXT           CODE
+ 0001:0684 023BFH     _TEXT                  CODE
+ 0001:2A44 00000H     C_ETEXT                ENDCODE
+ 0002:0000 00834H     LOCKS                  LOCKSEG
+ 0003:0000 00000H     FAR_HDR                FAR_MSG
+ 0003:0000 00000H     FAR_MSG                FAR_MSG
+ 0003:0000 00000H     FAR_PAD                FAR_MSG
+ 0003:0000 00000H     FAR_EPAD               FAR_MSG
+ 0003:0000 002B2H     FAR_BSS                FAR_BSS
+ 0004:0000 00042H     NULL                   BEGDATA
+ 0004:0042 019CEH     _DATA                  DATA
+ 0004:1A10 0000EH     CDATA                  DATA
+ 0004:1A1E 00000H     XIFB                   DATA
+ 0004:1A1E 00000H     XIF                    DATA
+ 0004:1A1E 00000H     XIFE                   DATA
+ 0004:1A1E 00000H     XIB                    DATA
+ 0004:1A1E 00000H     XI                     DATA
+ 0004:1A1E 00000H     XIE                    DATA
+ 0004:1A1E 00000H     XPB                    DATA
+ 0004:1A1E 00004H     XP                     DATA
+ 0004:1A22 00000H     XPE                    DATA
+ 0004:1A22 00000H     XCB                    DATA
+ 0004:1A22 00000H     XC                     DATA
+ 0004:1A22 00000H     XCE                    DATA
+ 0004:1A22 00000H     XCFB                   DATA
+ 0004:1A22 00000H     XCF                    DATA
+ 0004:1A22 00000H     XCFE                   DATA
+ 0004:1A22 00020H     CONST                  CONST
+ 0004:1A42 00008H     HDR                    MSG
+ 0004:1A4A 0011BH     MSG                    MSG
+ 0004:1B65 00013H     PAD                    MSG
+ 0004:1B78 00001H     EPAD                   MSG
+ 0004:1B7A 00194H     _BSS                   BSS
+ 0004:1D0E 00000H     XOB                    BSS
+ 0004:1D0E 00000H     XO                     BSS
+ 0004:1D0E 00000H     XOE                    BSS
+ 0004:1D10 00000H     c_common               BSS
+ 0004:1D10 01000H     STACK                  STACK
+
+ Origin   Group
+ 0004:0   DGROUP
+ 0002:0   LOCKGRP
+ 0003:0   FMGROUP
+
+Program entry point at 0001:0920

@@ -1,0 +1,41 @@
+/*********** AVIOSAMP C Sample Program Resource Script File (.RC) *************/
+/*                                                                            */
+/*                                                                            */
+/******************************************************************************/
+
+
+#define  INCL_PM
+#include <os2.h>
+#include "gviospy.h"
+
+MENU ID_WINDOW  PRELOAD
+BEGIN
+    MENUITEM    "E~xit..."               ,  ID_EXITPROG
+END
+
+ICON    ID_WINDOW agviospy.ico
+ICON    ID_SESSION0  fsico.ico
+ICON    ID_SESSION1  fsico.ico
+ICON    ID_SESSION2  fsico.ico
+ICON    ID_SESSION3  fsico.ico
+ICON    ID_SESSION4  fsico.ico
+ICON    ID_SESSION5  fsico.ico
+ICON    ID_SESSION6  fsico.ico
+ICON    ID_SESSION7  fsico.ico
+ICON    ID_SESSION8  fsico.ico
+ICON    ID_SESSION9  fsico.ico
+ICON    ID_SESSION10 fsico.ico
+ICON    ID_SESSION11 fsico.ico
+ICON    ID_SESSION12 fsico.ico
+ICON    ID_SESSION13 fsico.ico
+ICON    ID_SESSION14 fsico.ico
+ICON    ID_SESSION15 fsico.ico
+
+ACCELTABLE ID_WINDOW
+BEGIN
+   "x",   ID_EXITPROG   , CHAR        ,        ALT
+   "X",   ID_EXITPROG   , CHAR        ,        ALT
+END
+
+
+

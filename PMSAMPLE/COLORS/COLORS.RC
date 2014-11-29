@@ -1,0 +1,19 @@
+/*********** COLORS C Program Resource Script File (.RC)        **************/
+#include <os2.h>
+#include "colors.h"
+ICON       ID_COLORS PRELOAD colors.ico
+
+ACCELTABLE ID_COLORS PRELOAD
+BEGIN
+  VK_F3, ID_EXIT, VIRTUALKEY
+END
+
+MENU       ID_MENU PRELOAD
+BEGIN
+  MENUITEM "E~xit \tF3",        ID_EXIT , MIS_TEXT
+END
+
+
+rcinclude colors.dlg
+/*********** COLORS C Program Resource Script File (.RC)        **************/
+

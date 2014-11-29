@@ -1,0 +1,15 @@
+[
+   uuid(007704C0-B395-1C1F-B717-10005AA85812),
+   version(1.0)
+]
+interface MyError
+
+{
+   const char *ENTRY_NAME = "/.:/Servers/MyError";
+
+   void divide(
+      [ in ]  long left,
+      [ in ]  long right,
+      [ out ] long *result,
+      [ out ] error_status_t *st );
+}

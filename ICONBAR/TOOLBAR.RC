@@ -1,0 +1,62 @@
+/* ********************************************************************** */
+/*                                                                        */
+/*    toolbar.rc                                                          */
+/*                                                                        */
+/*                                                                        */
+/* ********************************************************************** */
+
+#include <os2.h>
+#include "toolbar.h"
+
+
+ICON ID_MAIN_WIN   toolbar.ico
+
+/* ====================================================================== */
+/*  Define regular menu bar                                               */
+/* ====================================================================== */
+MENU MID_MENUBAR   
+BEGIN   
+    SUBMENU  "Menu1",  MID_MENU1, MIS_TEXT 
+    BEGIN
+        MENUITEM "SubMenu1",  MID_SUB11, MIS_TEXT
+    END
+    SUBMENU    "Menu2", MID_MENU2, MIS_TEXT
+    BEGIN
+        MENUITEM     "SubMenu1",         MID_SUB21, MIS_TEXT
+        MENUITEM     "SubMenu2",         MID_SUB22, MIS_TEXT
+    END
+    SUBMENU    "Menu3", MID_MENU3, MIS_TEXT
+    BEGIN
+        MENUITEM     "SubMenu1",         MID_SUB31, MIS_TEXT
+        MENUITEM     "SubMenu2",         MID_SUB32, MIS_TEXT
+        MENUITEM     "SubMenu3",         MID_SUB33, MIS_TEXT, MIA_DISABLED
+    END
+END
+
+/* ====================================================================== */
+/*  Define "ToolBar" menu                                                 */
+/* ====================================================================== */
+BITMAP    201    tb1.bmp        /* MID_TB_1  */
+BITMAP    202    tb2.bmp        /* MID_TB_2  */
+BITMAP    203    tb3.bmp        /* MID_TB_3  */
+BITMAP    204    tb4.bmp        /* MID_TB_4  */
+BITMAP    205    tb5.bmp        /* MID_TB_5  */
+BITMAP    206    tb6.bmp        /* MID_TB_6  */
+BITMAP    207    tb7.bmp        /* MID_TB_7  */
+BITMAP    208    tb8.bmp        /* MID_TB_8  */
+BITMAP    209    tb9.bmp        /* MID_TB_9  */
+BITMAP    210    tb10.bmp       /* MID_TB_10 */
+
+MENU  MID_TOOLBAR 
+BEGIN
+   MENUITEM  "#201",  MID_TB_1,  MIS_BITMAP
+   MENUITEM  "#202",  MID_TB_2,  MIS_BITMAP
+   MENUITEM  "#203",  MID_TB_3,  MIS_BITMAP
+   MENUITEM  "#204",  MID_TB_4,  MIS_BITMAP
+   MENUITEM  "#205",  MID_TB_5,  MIS_BITMAP
+   MENUITEM  "#206",  MID_TB_6,  MIS_BITMAP
+   MENUITEM  "#207",  MID_TB_7,  MIS_BITMAP
+   MENUITEM  "#208",  MID_TB_8,  MIS_BITMAP
+   MENUITEM  "#209",  MID_TB_9,  MIS_BITMAP
+   MENUITEM  "#210",  MID_TB_10, MIS_BITMAP
+END

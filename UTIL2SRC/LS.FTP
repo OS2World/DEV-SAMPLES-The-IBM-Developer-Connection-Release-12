@@ -1,0 +1,12 @@
+user beyoder
+cd beyoder.191
+ascii
+put ls.doc                   ls.doc
+put pattern.doc              pattern.doc
+binary
+put ls.exe                   ls.exebin
+put ..\utildos\ls.exe        ls.exedbin
+close
+quit
+
+

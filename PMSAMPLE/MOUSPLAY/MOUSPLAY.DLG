@@ -1,0 +1,43 @@
+DLGINCLUDE 1 "RAFAEL.H"
+
+DLGTEMPLATE DLG_PLAY LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "PlayBack Example", DLG_PLAY, 56, -55, 159, 163, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS,
+                FCF_SYSMENU | FCF_TITLEBAR | FCF_NOBYTEALIGN
+    BEGIN
+        CONTROL "Enter X Y mouse coordinates in", ID_NULL, 6, 151, 129, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "fields below and press OK.", ID_NULL, 6, 141, 136, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "The program will then start  ", ID_NULL, 6, 127, 118, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "a mouse playback and click ", ID_NULL, 6, 117, 118, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "on the given position ", ID_NULL, 6, 107, 118, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "X coordinate :", ID_NULL, 20, 92, 70, 10, WC_STATIC, SS_TEXT |
+                DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "Y coordinate :", ID_NULL, 19, 79, 70, 8, WC_STATIC, SS_TEXT |
+                DT_LEFT | DT_TOP | WS_VISIBLE
+        CONTROL "", EF_X, 91, 94, 32, 8, WC_ENTRYFIELD, ES_LEFT | ES_AUTOSCROLL |
+                ES_MARGIN | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "", EF_Y, 91, 79, 32, 8, WC_ENTRYFIELD, ES_LEFT | ES_AUTOSCROLL |
+                ES_MARGIN | WS_TABSTOP | WS_VISIBLE
+        CONTROL "OK", DID_OK, 6, 4, 38, 12, WC_BUTTON, BS_PUSHBUTTON |
+                BS_DEFAULT | WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Cancel", DID_CANCEL, 61, 4, 38, 12, WC_BUTTON, BS_PUSHBUTTON |
+                WS_VISIBLE
+        CONTROL "Enter characters to be simulated ", 256, 9, 64, 144, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+        CONTROL "at target position after mouse", 263, 10, 54, 143, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+        CONTROL "Enter characters to be simulated ", 264, 10, 44, 143, 8,
+                WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+        CONTROL "click has occured :", 262, 10, 44, 143, 8, WC_STATIC,
+                SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+        CONTROL "", ID_CHARPLAY, 12, 30, 131, 8, WC_ENTRYFIELD, ES_LEFT |
+                ES_MARGIN | WS_TABSTOP | WS_VISIBLE
+    END
+END
+

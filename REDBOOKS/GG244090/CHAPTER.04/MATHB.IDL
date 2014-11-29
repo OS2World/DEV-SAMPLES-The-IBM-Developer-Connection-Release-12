@@ -1,0 +1,14 @@
+[
+uuid(006048DE-29B4-1BF1-B996-10005A4F5444),
+version(1.0)
+]
+interface mathb
+{
+   const short MAX_VALUES = 12;
+   typedef long value_array_t[ MAX_VALUES ];
+   void add (
+      [ in ] value_array_t value_a,
+      [ in ] long num_values,
+      [ out ] long *sum
+   );
+}

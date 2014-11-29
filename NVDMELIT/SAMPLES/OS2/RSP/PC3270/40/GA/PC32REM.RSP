@@ -1,0 +1,16 @@
+*=====================================================================*
+*      Start of installation function                                 *
+*=====================================================================*
+NOP=0
+TargetPath=C:\PC3270
+SourcePath=
+ReMove=2
+Reinstall=
+ReConfigure=
+Quiet=
+SelectFile=
+Administrator=
+Network=
+ServerPath=
+Folder=
+

@@ -1,0 +1,50 @@
+*=====================================================================*
+*      5250 include file for CIDA076                                  *
+*=====================================================================*
+Session=(
+         WSName=5250.ws
+         IconName=5250 session
+        )
+Communication=(
+         WSName=5250.ws
+         AutoConnect=Y
+         Link=slan
+         Session=5250
+        )
+5250=(
+      ScreenSize=24x80
+      SessionType=Display
+      HostCodePage=037-U
+      WorkStationID=
+      PartnerLU=USIBMNR.CP400A
+      LocalLU=USIBMNR.CIDA076
+      StatusICON=Hide
+      AutoLogon=N
+      UserProfile=
+      MsgQueue=QSYSOPR
+      MsgLibrary=*LIBL
+      HostFont=
+      HostPrintTransform=N
+      ASCII899=N
+      ManufacturerType=*IBM3812
+      PaperSource1=*NONE
+      PaperSource2=*NONE
+      EnvelopType=*NONE
+      WsObject=QWPDEFAULT
+      WsLibrary=*LIBL
+      WSName=5250.ws
+     )
+
+SLAN5250=(
+          Adapter=0
+          GatewayAddress=700000000503
+          DestinationSAP=04
+          TransmitFrameSize=265
+          CPName=USIBMNR.CIDA076
+          SourceSAP=0C
+          ReceiveBufferCount=12
+          Linkstations=1
+          WSName=5250.ws
+          ReceiveBufferSize=265
+         )
+

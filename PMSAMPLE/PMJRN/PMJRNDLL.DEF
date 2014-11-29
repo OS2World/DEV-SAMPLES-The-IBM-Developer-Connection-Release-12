@@ -1,0 +1,28 @@
+LIBRARY PMJRNDLL INITINSTANCE TERMINSTANCE
+
+DESCRIPTION 'OS/2 Presentation Manager Record Playback by FIAMMANT @ LGEVM2'
+
+PROTMODE
+
+CODE PRELOAD
+
+DATA MULTIPLE NONSHARED
+
+SEGMENTS
+    GLOBDATA CLASS 'DATA' SHARED
+
+
+EXPORTS
+SubclassWindowProc    @1
+SpyInstalled          @2
+SpyDllVersion         @3
+SpyJrnRecordHookProc  @4
+SpyJrnPlayHookProc    @5
+RecordOnQueue         @6
+PlayOnQueue           @7
+SpyWndHandle          @8
+SpySubclassProcaddr   @9
+SpyHabHandle          @10
+SharedMsg             @11
+TargetWindow          @12
+

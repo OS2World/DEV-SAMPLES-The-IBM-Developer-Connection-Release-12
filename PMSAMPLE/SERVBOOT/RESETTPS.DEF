@@ -1,0 +1,14 @@
+;
+;-*-*-*-*- Module Definition File for the program RESETTPS  -*-*-*-*-
+;
+
+NAME RESETTPS WINDOWCOMPAT   ; Specifies RESETTPS as a Windown Compatible
+
+DESCRIPTION 'OS/2 Server - Reset Watchdog Timeout Counter'
+
+STUB    'OS2STUB.EXE'
+
+HEAPSIZE    1024
+STACKSIZE   4096
+
+PROTMODE

@@ -1,0 +1,26 @@
+;------------------------------------------------------------------------;
+; This is a response file for the LAN Station Manager product.  It       ;
+; consists of a list of keyword = value lines.  The values can be        ;
+; edited and updated with appropriate data.  For a more detailed         ;
+; explanation of the value, see the LAN Station Manager User's Guide.    ;
+; There are 2 main keywords in the response file - Install and Config.   ;
+; The value associated with each keyword indicates which component to    ;
+; install or to configure.                                               ;
+; The file is divided into 3 groups:                                     ;
+;     Install - information on what LSM components to install            ;
+;     LSMMIB  - user-entered configuration information for the LSM MIB   ;
+;     HLMKrnl - information for configuring the HLM Kernel               ;
+;------------------------------------------------------------------------;
+
+
+;------------------------------------------------------------------------;
+; This group of data indicates which components of LSM to install        ;
+;------------------------------------------------------------------------;
+
+                        ; install the HLM Kernel
+Install = HLMKrnl
+                        ; install the LSM MIB application
+Install = LSMMIB
+
+
+

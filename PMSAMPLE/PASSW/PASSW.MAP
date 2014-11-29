@@ -1,0 +1,365 @@
+
+
+ PASSW
+
+ Start     Length     Name                   Class
+ 0001:0000 000B8H     IOPLSEG                CODE
+ 0002:0000 00696H     PASSW_TEXT             CODE
+ 0003:0000 01A4CH     _TEXT                  CODE
+ 0004:0000 00000H     C_ETEXT                ENDCODE
+ 0004:0000 002C0H     FAR_BSS                FAR_BSS
+ 0005:0000 00042H     NULL                   BEGDATA
+ 0005:0042 00820H     _DATA                  DATA
+ 0005:0862 0000EH     CDATA                  DATA
+ 0005:0870 00000H     XIFB                   DATA
+ 0005:0870 00000H     XIF                    DATA
+ 0005:0870 00000H     XIFE                   DATA
+ 0005:0870 00000H     XIB                    DATA
+ 0005:0870 00000H     XI                     DATA
+ 0005:0870 00000H     XIE                    DATA
+ 0005:0870 00000H     XPB                    DATA
+ 0005:0870 00004H     XP                     DATA
+ 0005:0874 00000H     XPE                    DATA
+ 0005:0874 00000H     XCB                    DATA
+ 0005:0874 00000H     XC                     DATA
+ 0005:0874 00000H     XCE                    DATA
+ 0005:0874 00000H     XCFB                   DATA
+ 0005:0874 00000H     XCF                    DATA
+ 0005:0874 00000H     XCFE                   DATA
+ 0005:0874 00012H     CONST                  CONST
+ 0005:0886 00008H     HDR                    MSG
+ 0005:088E 000FAH     MSG                    MSG
+ 0005:0988 00002H     PAD                    MSG
+ 0005:098A 00001H     EPAD                   MSG
+ 0005:098C 00194H     _BSS                   BSS
+ 0005:0B20 00000H     XOB                    BSS
+ 0005:0B20 00000H     XO                     BSS
+ 0005:0B20 00000H     XOE                    BSS
+ 0005:0B20 00000H     c_common               BSS
+ 0005:0B20 04000H     STACK                  STACK
+ 0006:0000 01D87H     $$TYPES                DEBTYP
+ 0007:0000 00206H     $$SYMBOLS              DEBSYM
+ 0008:0000 00001H      SRCLINES              DEBSRC
+
+ Origin   Group
+ 0005:0   DGROUP
+
+  Address         Publics by Name
+
+ 0004:02B8       APASSW
+ 0005:0080       CXB
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  DOSCHGFILEPTR        (DOSCALLS.58)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSGETDBCSEV         (NLS.4)
+ 0000:0000  Imp  DOSGETMACHINEMODE    (DOSCALLS.49)
+ 0000:0000  Imp  DOSGETVERSION        (DOSCALLS.92)
+ 0000:0000  Imp  DOSQHANDTYPE         (DOSCALLS.77)
+ 0000:0000  Imp  DOSREALLOCSEG        (DOSCALLS.38)
+ 0000:0000  Imp  DOSSETVEC            (DOSCALLS.89)
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+ 0000:0000  Imp  GPICHARSTRINGAT      (PMGPI.181)
+ 0000:0000  Imp  GPILINE              (PMGPI.129)
+ 0000:0000  Imp  GPIMOVE              (PMGPI.128)
+ 0000:0000  Imp  GPISETBACKCOLOR      (PMGPI.110)
+ 0000:0000  Imp  GPISETBACKMIX        (PMGPI.114)
+ 0000:0000  Imp  GPISETCOLOR          (PMGPI.108)
+ 0004:0264       HAB
+ 0004:0054       HWNDCLIENT
+ 0004:0058       HWNDFRAME
+ 0004:0000       HWNDSTATIC
+ 0002:021A       MYWINDOWPROC
+ 0004:005C       PASSW
+ 0005:0092       PASSWL
+ 0005:06C4       STKHQQ
+ 0005:0086       SZB
+ 0004:0004       SZSTRING
+ 0000:0000  Imp  WINBEGINPAINT        (PMWIN.45)
+ 0000:0000  Imp  WINCREATEMSGQUEUE    (PMWIN.58)
+ 0000:0000  Imp  WINCREATESTDWINDOW   (PMWIN.140)
+ 0000:0000  Imp  WINCREATEWINDOW      (PMWIN.6)
+ 0000:0000  Imp  WINDEFWINDOWPROC     (PMWIN.178)
+ 0000:0000  Imp  WINDESTROYMSGQUEUE   (PMWIN.59)
+ 0000:0000  Imp  WINDESTROYWINDOW     (PMWIN.7)
+ 0000:0000  Imp  WINDISPATCHMSG       (PMWIN.68)
+ 0000:0000  Imp  WINENDPAINT          (PMWIN.46)
+ 0000:0000  Imp  WINFILLRECT          (PMWIN.173)
+ 0000:0000  Imp  WINGETMSG            (PMWIN.65)
+ 0000:0000  Imp  WININITIALIZE        (PMWIN.246)
+ 0000:0000  Imp  WININVALIDATEREGION  (PMWIN.48)
+ 0000:0000  Imp  WINPOSTMSG           (PMWIN.69)
+ 0000:0000  Imp  WINREGISTERCLASS     (PMWIN.3)
+ 0000:0000  Imp  WINSETWINDOWPOS      (PMWIN.8)
+ 0000:0000  Imp  WINSETWINDOWTEXT     (PMWIN.16)
+ 0000:0000  Imp  WINTERMINATE         (PMWIN.247)
+ 0004:0268       WMSG
+ 0005:007A       XB
+ 0001:00A2       _ActivatePassword
+ 0003:1906       _brkctl
+ 0005:098C       _edata
+ 0005:0B20       _end
+ 0005:0681       _environ
+ 0005:0648       _errno
+ 0003:0212       _exit
+ 0003:19BC       _fflush
+ 0003:1706       _flushall
+ 0003:15D2       _free
+ 0003:1502       _isatty
+ 0001:0028       _LoadPassword
+ 0003:12FE       _lseek
+ 0002:0000       _main
+ 0003:15E7       _malloc
+ 0003:0102       _sprintf
+ 0003:15BE       _stackavail
+ 0003:14E0       _strlen
+ 0001:007C       _TestPassword
+ 0003:14F8       _ultoa
+ 0001:0000       _waitread
+ 0003:133C       _write
+ 0005:06C0       __aaltstkovr
+ 0005:0526       __abrkp
+ 0005:0126       __abrktb
+ 0005:0526       __abrktbe
+ 0005:0528       __acfinfo
+ 0005:011C       __acmdln
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0005:068C       __adbgmsg
+ 0000:D6D6  Abs  __aDBused
+ 0005:011E       __aenvseg
+ 0005:0124       __aexit_rtn
+ 0003:17A5       __amalloc
+ 0003:18E4       __amallocbrk
+ 0005:085E       __amblksiz
+ 0003:1888       __amexpand
+ 0003:18C2       __amlink
+ 0003:007E       __amsg_exit
+ 0005:0042       __anullsize
+ 0005:0858       __aseg1
+ 0005:084E       __asegds
+ 0005:0536       __aseghi
+ 0005:0538       __aseglo
+ 0005:085A       __asegn
+ 0005:085C       __asegr
+ 0005:0120       __asizds
+ 0005:084A       __asizeC
+ 0005:084B       __asizeD
+ 0003:0010       __astart
+ 0005:0122       __atopsp
+ 0004:0064       __bufin
+ 0005:0832       __cfltcvt_tab
+ 0005:084C       __cflush
+ 0005:0689       __child
+ 0003:11E4       __chkstk
+ 0003:0188       __cinit
+ 0003:0074       __cintDIV
+ 0003:16A2       __cltoasub
+ 0003:0262       __ctermsub
+ 0005:053E       __ctype
+ 0005:053E       __ctype_
+ 0003:16AF       __cxtoa
+ 0005:064F       __doserrno
+ 0005:064E       __dosmode
+ 0003:1581       __dosret
+ 0003:1572       __dosretf
+ 0005:064C       __dosvermajor
+ 0005:064D       __dosverminor
+ 0003:0229       __exit
+ 0005:0640       __fac
+ 0003:15D2       __ffree
+ 0003:0284       __FF_MSGBANNER
+ 0003:039A       __flsbuf
+ 0003:15E7       __fmalloc
+ 0005:0864       __fpinit
+ 0003:11DE       __fptrap
+ 0003:1270       __getbuf
+ 0005:06C6       __iob
+ 0005:07B6       __iob2
+ 0005:082E       __lastiob
+ 0005:0651       __nfile
+ 0003:174A       __nfree
+ 0003:175C       __nmalloc
+ 0003:0334       __NMSG_TEXT
+ 0003:0364       __NMSG_WRITE
+ 0003:1208       __nullcheck
+ 0005:064F       __oserr
+ 0005:0653       __osfile
+ 0005:064C       __osmajor
+ 0005:064D       __osminor
+ 0005:064E       __osmode
+ 0005:064C       __osversion
+ 0003:0522       __output
+ 0005:0685       __pgmptr
+ 0005:0667       __pipe
+ 0003:0FDC       __setargv
+ 0003:02A8       __setenvp
+ 0005:0848       __sigintoff
+ 0005:0846       __sigintseg
+ 0003:122E       __stdalloc
+ 0005:064A       __umaskval
+ 0005:053C       ___aDBrterr
+ 0005:053A       ___aDBswpflg
+ 0005:067B       ___argc
+ 0005:067D       ___argv
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  WINPOSTMSG           (PMWIN.69)
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+ 0000:0000  Imp  WINTERMINATE         (PMWIN.247)
+ 0000:0000  Imp  WINCREATEMSGQUEUE    (PMWIN.58)
+ 0000:0000  Imp  GPIMOVE              (PMGPI.128)
+ 0000:0000  Imp  DOSCHGFILEPTR        (DOSCALLS.58)
+ 0000:0000  Imp  DOSGETVERSION        (DOSCALLS.92)
+ 0000:0000  Imp  WINCREATEWINDOW      (PMWIN.6)
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  GPISETBACKCOLOR      (PMGPI.110)
+ 0000:0000  Imp  DOSSETVEC            (DOSCALLS.89)
+ 0000:0000  Imp  WINSETWINDOWPOS      (PMWIN.8)
+ 0000:0000  Imp  WINENDPAINT          (PMWIN.46)
+ 0000:0000  Imp  GPILINE              (PMGPI.129)
+ 0000:0000  Imp  DOSGETMACHINEMODE    (DOSCALLS.49)
+ 0000:0000  Imp  GPISETBACKMIX        (PMGPI.114)
+ 0000:0000  Imp  WINGETMSG            (PMWIN.65)
+ 0000:0000  Imp  WINDESTROYWINDOW     (PMWIN.7)
+ 0000:0000  Imp  WININITIALIZE        (PMWIN.246)
+ 0000:0000  Imp  WINBEGINPAINT        (PMWIN.45)
+ 0000:0000  Imp  WINSETWINDOWTEXT     (PMWIN.16)
+ 0000:0000  Imp  GPISETCOLOR          (PMGPI.108)
+ 0000:0000  Imp  DOSQHANDTYPE         (DOSCALLS.77)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSGETDBCSEV         (NLS.4)
+ 0000:0000  Imp  WINFILLRECT          (PMWIN.173)
+ 0000:0000  Imp  DOSREALLOCSEG        (DOSCALLS.38)
+ 0000:0000  Imp  WINREGISTERCLASS     (PMWIN.3)
+ 0000:0000  Imp  GPICHARSTRINGAT      (PMGPI.181)
+ 0000:0000  Imp  WINCREATESTDWINDOW   (PMWIN.140)
+ 0000:0000  Imp  WINDEFWINDOWPROC     (PMWIN.178)
+ 0000:0000  Imp  WINDISPATCHMSG       (PMWIN.68)
+ 0000:0000  Imp  WINDESTROYMSGQUEUE   (PMWIN.59)
+ 0000:0000  Imp  WININVALIDATEREGION  (PMWIN.48)
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0001:0000       _waitread
+ 0001:0028       _LoadPassword
+ 0001:007C       _TestPassword
+ 0001:00A2       _ActivatePassword
+ 0002:0000       _main
+ 0002:021A       MYWINDOWPROC
+ 0003:0010       __astart
+ 0003:0074       __cintDIV
+ 0003:007E       __amsg_exit
+ 0003:0102       _sprintf
+ 0003:0188       __cinit
+ 0003:0212       _exit
+ 0003:0229       __exit
+ 0003:0262       __ctermsub
+ 0003:0284       __FF_MSGBANNER
+ 0003:02A8       __setenvp
+ 0003:0334       __NMSG_TEXT
+ 0003:0364       __NMSG_WRITE
+ 0003:039A       __flsbuf
+ 0003:0522       __output
+ 0003:0FDC       __setargv
+ 0003:11DE       __fptrap
+ 0003:11E4       __chkstk
+ 0003:1208       __nullcheck
+ 0003:122E       __stdalloc
+ 0003:1270       __getbuf
+ 0003:12FE       _lseek
+ 0003:133C       _write
+ 0003:14E0       _strlen
+ 0003:14F8       _ultoa
+ 0003:1502       _isatty
+ 0003:1572       __dosretf
+ 0003:1581       __dosret
+ 0003:15BE       _stackavail
+ 0003:15D2       __ffree
+ 0003:15D2       _free
+ 0003:15E7       _malloc
+ 0003:15E7       __fmalloc
+ 0003:16A2       __cltoasub
+ 0003:16AF       __cxtoa
+ 0003:1706       _flushall
+ 0003:174A       __nfree
+ 0003:175C       __nmalloc
+ 0003:17A5       __amalloc
+ 0003:1888       __amexpand
+ 0003:18C2       __amlink
+ 0003:18E4       __amallocbrk
+ 0003:1906       _brkctl
+ 0003:19BC       _fflush
+ 0004:0000       HWNDSTATIC
+ 0004:0004       SZSTRING
+ 0004:0054       HWNDCLIENT
+ 0004:0058       HWNDFRAME
+ 0004:005C       PASSW
+ 0004:0064       __bufin
+ 0004:0264       HAB
+ 0004:0268       WMSG
+ 0004:02B8       APASSW
+ 0005:0042       __anullsize
+ 0005:007A       XB
+ 0005:0080       CXB
+ 0005:0086       SZB
+ 0005:0092       PASSWL
+ 0005:011C       __acmdln
+ 0005:011E       __aenvseg
+ 0005:0120       __asizds
+ 0005:0122       __atopsp
+ 0005:0124       __aexit_rtn
+ 0005:0126       __abrktb
+ 0005:0526       __abrkp
+ 0005:0526       __abrktbe
+ 0005:0528       __acfinfo
+ 0005:0536       __aseghi
+ 0005:0538       __aseglo
+ 0005:053A       ___aDBswpflg
+ 0005:053C       ___aDBrterr
+ 0005:053E       __ctype_
+ 0005:053E       __ctype
+ 0005:0640       __fac
+ 0005:0648       _errno
+ 0005:064A       __umaskval
+ 0005:064C       __osversion
+ 0005:064C       __dosvermajor
+ 0005:064C       __osmajor
+ 0005:064D       __osminor
+ 0005:064D       __dosverminor
+ 0005:064E       __osmode
+ 0005:064E       __dosmode
+ 0005:064F       __doserrno
+ 0005:064F       __oserr
+ 0005:0651       __nfile
+ 0005:0653       __osfile
+ 0005:0667       __pipe
+ 0005:067B       ___argc
+ 0005:067D       ___argv
+ 0005:0681       _environ
+ 0005:0685       __pgmptr
+ 0005:0689       __child
+ 0005:068C       __adbgmsg
+ 0005:06C0       __aaltstkovr
+ 0005:06C4       STKHQQ
+ 0005:06C6       __iob
+ 0005:07B6       __iob2
+ 0005:082E       __lastiob
+ 0005:0832       __cfltcvt_tab
+ 0005:0846       __sigintseg
+ 0005:0848       __sigintoff
+ 0005:084A       __asizeC
+ 0005:084B       __asizeD
+ 0005:084C       __cflush
+ 0005:084E       __asegds
+ 0005:0858       __aseg1
+ 0005:085A       __asegn
+ 0005:085C       __asegr
+ 0005:085E       __amblksiz
+ 0005:0864       __fpinit
+ 0005:098C       _edata
+ 0005:0B20       _end
+
+Program entry point at 0003:0010

@@ -1,0 +1,6 @@
+ABSTRACT
+
+MShell is a mini PM shell for OS/2 2.X that uses the RUNWORKPLACE
+architecture of the Workplace Shell. MShell is basically a
+program launcher; configure programs by editing a plain-text INI.
+

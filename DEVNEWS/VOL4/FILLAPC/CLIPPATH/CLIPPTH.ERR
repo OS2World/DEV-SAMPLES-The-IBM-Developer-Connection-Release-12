@@ -1,0 +1,39 @@
+Building : makefile
+
+[1;44m[F:\KRL\CODE\CLIPPATH 14:42:07.45]
+==>nmake /nologo /e /f makefile   2>&1 
+	icc /O /Kb /Mp /C /Sm /Ss clippth.c
+IBM C/C++ Tools Version 2.0
+(C) Copyright IBM Corp. 1991, 1993.
+- Licensed Materials - Program Property of IBM - All Rights Reserved.
+Standard Class Library Version 3.0
+(C) Copyright Unix System Laboratories, Inc. 1991.
+- Licensed Materials - Program Property of USL - All Rights Reserved.
+US Government Users Restricted Rights - Use, duplication or disclosure
+restricted by GSA ADP Schedule Contract with IBM Corp.
+
+CLIPPTH.C(104:1) : warning EDC0833: Implicit return statement encountered.
+	link386 @clippth.lnk
+
+Operating System/2 Linear Executable Linker
+Version 2.01.005 Mar 16 1993
+Copyright (C) IBM Corporation 1988-1993.
+Copyright (C) Microsoft Corp. 1988-1993.
+ All rights reserved.
+
+Object Modules [.obj]: clippth 
+Run File [clippth.exe]: clippth /MAP
+List File [clippth.map]: clippth
+Libraries [.lib]: os2386
+Definitions File [nul.def]: clippth.def
+	mapsym clippth
+
+Operating System/2 Symbol File Generator
+Version 2.10.000 Feb 02 1993
+Copyright (C) IBM Corporation 1988-1991.
+Copyright (C) Microsoft Corp. 1988-1991.
+All rights reserved.
+
+
+Program entry point at 0001:02b8
+ 

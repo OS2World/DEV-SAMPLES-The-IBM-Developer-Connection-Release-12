@@ -1,0 +1,53 @@
+#UNIXLIKE Development makefile
+# Each program includes (or will soon) a file from \unixlike\rel31\src\include
+# Make sure this path is part of the INCLUDE environment variable
+# 05.03.93: modified for IBM C-SET/2 make
+
+# NOTE:  the more program is not being compiled for 32 bit, nor is ps
+
+CDFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /I\unixlike\rel31\src\include
+CFLAGS  = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\rel31\src\include
+CMFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm+ /Q+ /i\unixlike\rel31\src\include
+COFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\rel31\src\include
+LDFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+LFLAGS  =        /ALIGN:32 /EXEPACK /M /NOI
+
+LINKER = link386
+
+# MS C6.0: CFLAGS = -c -AL -G2s -W3 -I\unixlike\rel31\src\include
+# MS C6.0: CDFLAGS = -c -AL -G2s -W3 -I\unixlike\rel31\src\include -Zi -Od
+# MS C6.0: COFLAGS = -c -AL -G2s -W3 -Ozax -Gr -I\unixlike\rel31\src\include
+# MS C6.0: LFLAGS =
+# MS C6.0: LDFLAGS = /CO
+
+B = \unixlike\rel31\bin
+F = \unixlike\rel31\util\fmf
+G = \unixlike\rel31\util\getopt
+GU= \unixlike\rel31\util\greputil
+M = \unixlike\rel31\util\myerror
+MF = \unixlike\rel31\mapfiles
+MP= \unixlike\rel31\util\makepath
+P = \unixlike\rel31\util\getopt
+S = \unixlike\rel31\src
+SL =\unixlike\rel31\util\sleep
+#Z = \unixlike\rel31\src\more
+
+TOUCHOBJ = $S\touch\touch+$F\fmf+$G\getopt+$M\myerror
+
+$B\touch.exe    :  $F\fmf.obj $S\touch\touch.obj $G\getopt.obj $M\myerror.obj \
+            $S\touch\touch.def
+         $(LINKER) $(LDFLAGS) $(TOUCHOBJ),$B\touch.exe,NUL,,$S\touch\touch.def;
+
+$S\touch\touch.obj       :  $S\touch\touch.c $F\fmf.h
+         icc $(CDFLAGS) /I$F /Fo$S\touch\touch.obj $S\touch\touch.c
+
+$F\fmf.obj               :  $F\fmf.c $F\fmf.h
+         icc $(CDFLAGS) /Fo$F\fmf.obj $F\fmf.c
+
+$G\getopt.obj            : $G\getopt.c
+         icc $(CDFLAGS) /Fo$G\getopt.obj $G\getopt.c
+
+$M\myerror.obj           : $M\myerror.c
+         icc $(CDFLAGS) /Fo$M\myerror.obj $M\myerror.c
+
+

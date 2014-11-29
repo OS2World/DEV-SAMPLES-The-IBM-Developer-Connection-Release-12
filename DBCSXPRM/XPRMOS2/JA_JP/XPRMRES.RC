@@ -1,0 +1,106 @@
+/***************************************************************************/
+/* XPRMRES.RC    XPG4 Primer for OS/2 WARP - V1.0       11/15/95           */
+/*               Menus and String definitions for Japanese.                */
+/***************************************************************************/
+#define INCL_WINSTDSPIN
+#define INCL_WIN
+#define INCL_NLS
+#include <os2.h>                       /* System Include File              */
+#include "xprmres.h"                   /* Application Include File         */
+
+BITMAP BID_MAIN  PRELOAD os2logo.bmp
+
+MENU  WID_MAIN PRELOAD
+ BEGIN
+    SUBMENU "オーダー(\036O\037ｵ)",MID_ORDER, MIS_SUBMENU |  MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "新規(\036N\037ｼ)...",MID_NEWORDER,  MIS_TEXT , 0
+        MENUITEM "照会(\036Q\037ﾖ)...",MID_FIND,  MIS_TEXT , 0
+     END
+    SUBMENU "顧客情報(\036C\037ｺ)",MID_CUST, MIS_SUBMENU |  MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "登録(\036R\037ﾄ)...",MID_NEWCUST,  MIS_TEXT , 0
+        MENUITEM "検索(\036F\037ｹ)...",MID_FINDCUST,  MIS_TEXT , 0
+     END
+    SUBMENU "ヘルプ(\036H\037ﾍ)...",MID_HELP, MIS_SUBMENU |  MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "索引(\036I\037ｻ)", MID_HELPINDEX,  MIS_TEXT , 0
+        MENUITEM "キーのヘルプ(\036K\037ｷ)", MID_HELPKEYS,     MIS_TEXT , 0
+        MENUITEM "ヘルプの使用法(\036U\037ﾕ)", MID_HELPFORHELP,  MIS_TEXT , 0
+        MENUITEM SEPARATOR
+        MENUITEM "製品について(\036A\037ﾂ)", MID_HELPABOUT, MIS_TEXT
+     END
+ END
+
+MENU  WID_VIEWORDER PRELOAD
+ BEGIN
+    SUBMENU "オプション(\036O\037ｵ)",MID_OPTION, MIS_SUBMENU | MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "フォント(\036F\037ﾌ)",MID_FONT,  MIS_TEXT , 0
+     END
+ END
+
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_HELP_TITLE              "Help for XPG4 Primer"
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_MAIN_TITLE              "オーダー入力プログラム"
+    IDS_INFO_CAPTION            "情報"
+    IDS_WARNING_CAPTION         "警告"
+    IDS_ERROR_CAPTION           "エラー!"
+    IDS_INFO_1                  "データは正しく登録されました。"
+    IDS_WARNING_1               "該当するレコードがありません。"
+    IDS_WARNING_2               "顧客名を選択して下さい。"
+    IDS_WARNING_3               "データが必要です。"
+    IDS_WARNING_4               "データは数字でなくてはなりません。"
+    IDS_WARNING_5               "オーダーできる製品の種類は三つまでです。"
+    IDS_WARNING_6               "デフォルトのフォントが使われます。"
+    IDS_WARNING_7               "Associating help instance failed."
+    IDS_ERROR_1                 "ファイルの入出力エラーが起きました。"
+    IDS_ERROR_2                 "データの整合性が壊れています。"
+    IDS_ERROR_3                 "該当するプロダクトのレコードが見つかりません。"
+    IDS_ERROR_4                 "該当する顧客のレコードが見つかりません。"
+    IDS_ERROR_5                 "メモリーを貰えませんでした。"
+    IDS_ERROR_6                 "論理フォントの作成に失敗しました。"
+    IDS_ERROR_7                 "ヘルプの初期化に失敗しました。"
+    IDS_ERROR_8                 "データの変換に失敗しました。"
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_VO_TITLE         "オーダーの表示"
+    IDS_VO_NEXT          "次レコード"
+    IDS_VO_PREV          "前レコード"
+    IDS_VO_CANCEL        "取消"
+    IDS_VO_DATE          "日時"
+    IDS_VO_CUSTNUM       "顧客番号"
+    IDS_VO_CUSTNAME      "顧客名"
+    IDS_VO_PRODNAME      "製品"
+    IDS_VO_UNITPRICE     "単価"
+    IDS_VO_QTY           "数量"
+    IDS_VO_SUB           "小計"
+    IDS_VO_TOTQTY        "合計"
+    IDS_VO_TOTPRICE      "総計"
+    IDS_VO_PREVIEW       "SBCS ＤＢＣＳ"
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_ABOUT_TITLE      "製品情報"
+    IDS_ABOUT_COPY1      "(C) Copyright IBM Corporation 1995. All Rights reserved."
+    IDS_ABOUT_COPY2      "レジスタード・トレード・マークです。"
+    IDS_ABOUT_COPY3      "OS/2 は International Business Machines Corp. の"
+    IDS_ABOUT_OK         "了解"
+ END
+
+ACCELTABLE WID_MAIN PRELOAD
+ BEGIN
+    VK_F3,  VID_QUITPROG,  VIRTUALKEY
+ END
+
+rcinclude xprmhelp.rc
+rcinclude xprmres.dlg

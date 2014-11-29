@@ -1,0 +1,8 @@
+NAME  Wideline  WINDOWAPI
+
+DESCRIPTION 'Wideline - Geometric widelines'
+
+PROTMODE
+HEAPSIZE    32768
+STACKSIZE   16384
+

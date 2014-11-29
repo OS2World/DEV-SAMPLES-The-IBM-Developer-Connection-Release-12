@@ -1,0 +1,10 @@
+;--------------------------
+NAME    hotk     WINDOWAPI
+DESCRIPTION 'OS/2 Presentation Manager Sample'
+STUB    'OS2STUB.EXE'
+CODE    PRELOAD
+DATA    MULTIPLE
+STACKSIZE 0x4000
+HEAPSIZE    1024
+PROTMODE
+

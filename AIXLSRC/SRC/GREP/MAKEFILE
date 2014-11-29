@@ -1,0 +1,39 @@
+
+CDFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /I\unixlike\src\include
+CFLAGS  = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+CMFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm+ /Q+ /i\unixlike\src\include
+COFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+LDFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+LFLAGS  =        /ALIGN:32 /EXEPACK /M /NOI
+
+B = \unixlike\src\grep
+F = \unixlike\util\fmf
+G = \unixlike\util\getopt
+GU= \unixlike\util\greputil
+M = \unixlike\util\myerror
+MF = \unixlike\mapfiles
+MP= \unixlike\util\makepath
+P = \unixlike\util\getopt
+S = \unixlike\src
+SL =\unixlike\util\sleep
+#Z = \unixlike\src\more
+
+GREPOBJS = $S\grep\grep+$(GU)\greputil+$F\fmf+$M\myerror
+
+$B\grep.exe     :  $F\fmf.obj $S\grep\grep.obj  $M\myerror.obj \
+                              $S\grep\grep.def $(GU)\greputil.obj
+         link386 $(LDFLAGS) $(GREPOBJS),$B\grep.exe,NUL,,$S\grep\grep.def;
+
+$S\grep\grep.obj         :  $S\grep\grep.c $F\fmf.h $S\grep\grep.h $(GU)\greputil.h
+         icc $(CDFLAGS) /I$(GU) /I$F /I$S\grep /Fo$S\grep\grep.obj $S\grep\grep.c
+
+$F\fmf.obj               :  $F\fmf.c $F\fmf.h
+         icc $(CDFLAGS) /Fo$F\fmf.obj $F\fmf.c
+
+$(GU)\greputil.obj       : $(GU)\greputil.c $(GU)\greputil.h
+         icc $(CDFLAGS) /Fo$(GU)\greputil.obj -I$(GU) $(GU)\greputil.c
+
+$M\myerror.obj           : $M\myerror.c
+         icc $(CDFLAGS) /Fo$M\myerror.obj $M\myerror.c
+
+

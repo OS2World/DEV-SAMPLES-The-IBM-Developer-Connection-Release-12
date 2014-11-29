@@ -1,0 +1,16 @@
+;       IBM Confidential
+;
+; Copyright (c) IBM Corp. 1995
+; All rights reserved
+LIBRARY simpldts INITINSTANCE
+DESCRIPTION 'SimpleDTSPart Class Library'
+PROTMODE
+DATA MULTIPLE NONSHARED LOADONCALL
+EXPORTS
+   SimpleDTSPartCClassData
+   SimpleDTSPartClassData
+   SimpleDTSPartNewClass
+   M_SimpleDTSPartCClassData
+   M_SimpleDTSPartClassData
+   M_SimpleDTSPartNewClass
+

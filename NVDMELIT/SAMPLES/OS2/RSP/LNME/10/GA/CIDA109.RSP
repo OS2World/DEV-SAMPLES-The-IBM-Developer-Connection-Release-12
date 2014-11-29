@@ -1,0 +1,158 @@
+**************************************************************************
+*       Example response file for LNME installation                      *
+**************************************************************************
+*
+*       Comment lines have an '*' as 1st printable character
+*
+*       Any lines without definitions will be ignored and the program
+*       will use either the built in defaults or any command line
+*       parameters given to DFIINCID.EXE.
+*
+*       Any responses given will only be read as far as the character
+*       needed to distinguish them uniquely e.g. .....
+*
+*       YES, YO, YELLOW, YN or Y may all be interpreted as a 'yes' !
+*
+*       Keywords are case insensitive. The values are case sensitive
+*       except in the case of YES/NO answers.
+*
+*       Keywords not recognized by DFIINCID.EXE will return an error.
+*
+**************************************************************************
+ 
+ 
+ 
+ 
+ 
+*************************************************************************
+*       Where LAN Network Manager Entry program is to be installed.     *
+*       The directory is always \LNME; you can only specify the drive.  *
+*************************************************************************
+*TARGET_DISK= C:
+ 
+*************************************************************************
+*       Where the LAN Network Manager Entry disk images were            *
+*       copied to by LNMEIMG.CMD.                                       *
+*       If the source path is not specified in the response file,       *
+*       the source path specified on the command line is used.          *
+*       If the source path is not specified on the command line,        *
+*       the LAN Network Manager Entry program uses the default.         *
+*************************************************************************
+*SOURCE_PATH=
+ 
+*************************************************************************
+*       Where the HELP files are to be copied.                          *
+*************************************************************************
+HELP_PATH = C:\OS2\HELP
+ 
+*************************************************************************
+*       The drive to contain the LAN Network Manager Entry database.    *
+*************************************************************************
+DATABASE_DISK = D:
+ 
+*************************************************************************
+*       If an LAN Network Manage Entry database exists,                 *
+*       should it be deleted?                                           *
+*************************************************************************
+REMOVE_EXISTING_DB  =  YES
+ 
+*************************************************************************
+*       Continue installation even if there is not enough space?        *
+*************************************************************************
+CONTINUE_IF_NO_DISK_SPACE  =  YES
+ 
+*************************************************************************
+*       Reboot the workstation automatically after installation?        *
+*       The LAN Network Manager Entry remote installation does          *
+*       not reboot your workstation. It returns the return code 0xFE00  *
+*       to the distribution facility program, which then reboots        *
+*       your workstation.                                               *
+*************************************************************************
+REBOOT_AT_END  =  YES
+ 
+*************************************************************************
+*       The configuration file to be examined for required changes.     *
+*       This is where OS/2 reads its configuration at startup.          *
+*************************************************************************
+CONFIG.SYS  =  C:\CONFIG.SYS
+ 
+*************************************************************************
+*       Copy of the original CONFIG.SYS is placed in this file.         *
+*       Keep a backup of the original CONFIG.SYS in this file           *
+*       for safekeeping.                                                *
+*************************************************************************
+CONFIG.OLD  =  C:\CONFIG.LNM
+ 
+*************************************************************************
+*       The userid and password to log on to Database Manager.          *
+*       The LAN Network Manager Entry remote installation logs          *
+*       on to the database using these parameters.                      *
+*************************************************************************
+DATABASE_USERID  = USERID
+DATABASE_PASSWORD  = PASSWORD
+ 
+*************************************************************************
+*       Name of host connection type - use NONE, OS/2, or NVPC.         *
+*************************************************************************
+HOST_CONNECTION  =  OS/2
+ 
+*************************************************************************
+*       Name of service point.  Only 8 characters allowed.              *
+*************************************************************************
+SERVICE_POINT_NAME  = A01C109
+*************************************************************************
+*       The default adapter.                                            *
+*       Specify primary (or 0) or secondary (or 1).                     *
+*************************************************************************
+ADAPTER_NUMBER  =  PRIMARY
+ 
+*************************************************************************
+*       Whether to authorize tracing when the device starts             *
+*************************************************************************
+TRACE  =  YES
+ 
+*************************************************************************
+*       The next section is commented out, the lines are given as       *
+*       examples of the syntax of each command.                         *
+*************************************************************************
+ 
+*************************************************************************
+*       Copy the following file A to file B (give full                  *
+*       file specifications).  The copy is executed immediately         *
+*       before the next line is read from this response file.           *
+*************************************************************************
+*COPY  =  file_A   file_B
+ 
+*************************************************************************
+*       Include the following file at this point.                       *
+*       Any values in the include file will override any                *
+*       previously defined values in this response file because         *
+*       the FILE.RSP file is included after the response file           *
+*       definitions.                                                    *
+*                                                                       *
+*       If the FILE.RSP file is included at the top of this response    *
+*       file, any duplicate definitions are taken from this response    *
+*       file, not the FILE.RSP file. This applies to keywords that      *
+*       have no values.                                                 *
+*************************************************************************
+*INCLUDE  =  X:\DIR1\FILE.RSP
+ 
+*************************************************************************
+*                                                                       *
+*       Execute the following file after installation is complete.      *
+*       The file will be executed as a process or session of the        *
+*       install.  The LAN Network Manager Entry remote installation     *
+*       will not complete until this command is finished. The return    *
+*       code from this program is ignored, but is displayed in the      *
+*       history log.                                                    *
+*                                                                       *
+*       An example program would be to add LNME to STARTUP.CMD.         *
+*       The USEREXIT may be an .EXE or a .CMD file.                     *
+*       If an extension other than .CMD or .EXE is required,            *
+*       give the full pathname of the file.  If a directory has         *
+*       the same name as the  USEREXIT program, the search of           *
+*       the PATH environment variable may fail.                         *
+*                                                                       *
+*************************************************************************
+*USEREXIT  =  X:\TOOLS\USREXIT.EXE
+

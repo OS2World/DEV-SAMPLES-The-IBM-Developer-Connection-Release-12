@@ -1,0 +1,6 @@
+sty_main.obj sty_user.obj sty_init.obj sty_pnt.obj sty_dlg.obj +         
+sty_file.obj sty_edit.obj sty_help.obj os2thrd.obj          
+style.exe            
+style.map            
+DDE4MBS + os2386            
+style.def            

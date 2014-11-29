@@ -1,0 +1,30 @@
+*********************************************************************
+*           The Developer Connection for LAN Systems                *
+*                                                                   *
+* IBM: NVDM/2: Samples found in NV DM/2 OS/2 and DOS Quick Help     *
+*             Software Installer/2 Catalog File                     *
+*                                                                   *
+*********************************************************************
+CATALOG
+  NAME         = 'IBM: NVDM/2 Quick Helps Sample Code',
+  DESCRIPTION  = 'This package contains sample code for NetView DM/2
+  for OS/2 and DOS.  This installation lets you copy the Sample code
+  onto a workstation.'
+
+* Note:
+* When updating the VRM in the PACKAGEs, remember to update the
+* SERVICELEVEL in the package file to be the same as the VRM value.
+*********************************************************************
+* IBM: NVDM/2: Samples found in Netview DM/2 OS/2 and DOS Quick Helps
+*********************************************************************
+PACKAGE
+  NAME            = 'IBM: NVDM/2 Quick Helps Sample Code',
+  NUMBER          = '000001',
+  VRM             = '000004',
+  FEATURE         = '',
+  PACKAGEFILE     = 'DRIVE: NVDMELIT.PKG',
+  PKGDESCRFILE    = 'DRIVE: NVDMELIT.DSC',
+  SIZE            = '113169',
+  UPDATECONFIGSYS = 'NO'
+
+

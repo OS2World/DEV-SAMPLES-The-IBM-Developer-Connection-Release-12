@@ -1,0 +1,18 @@
+;---------------------------------------------------------------------------
+;
+;  Name     : animate2.def
+;
+;  Purpose  : Linker definition file
+;
+;             Author:  Kelvin R. Lawrence
+;             29th-September
+;
+;---------------------------------------------------------------------------
+
+NAME  animate2  WINDOWAPI
+
+DESCRIPTION 'animate2 - animate2 application'
+
+PROTMODE
+HEAPSIZE    32768
+STACKSIZE   16384

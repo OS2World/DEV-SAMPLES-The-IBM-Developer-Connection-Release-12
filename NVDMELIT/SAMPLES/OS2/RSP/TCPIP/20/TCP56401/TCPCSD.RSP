@@ -1,0 +1,42 @@
+// Default response file for PRODUCT DISK install
+//
+// INSTALL_NAME: Defines a Kit that will be displayed in the selection box
+//               when TCPINST starts.
+//
+INSTALL_NAME = BASEC 5.68 1 3 "Base Kit"  UN56401 Base TCP/IP for OS/2
+INSTALL_NAME = LAMAILC 1.33 3 4 "Base Kit" UN56401 LaMail
+; INSTALL_NAME = BPUBSC 0.39  4 4 "Base Kit" UN56401 Pubs for Base TCP/IP for OS/2
+
+// LINK_NAME: Defines a linked kit. Linked kits are not displayed
+//            for selection. Linked kits are selected when the INSTALL_NAME
+//            kit is selected.
+LINK_NAME = BASEOC  0.66  4 4 "Base Kit" Base only kit
+LINK_NAME = APPSOC  0.05 4 4 "Base Kit"  Apps only kit
+
+// LINK_INFO: Establishes link between kits. Selecting the INSTALL_NAME kit
+//            selects the LINK_NAME kit also.
+//            Place the LINK_INFO statement AFTER the INSTALL_NAME and
+//            LINK_NAME statements.  In this case, the LINK_INFO specifies that
+//            both Base and Applications kits are selected when the Base kit
+//            is selected from the TCPINST menu.
+//            INSTALL_NAME and LINK_NAME statements must precede the
+//            LINK_INFO statement in the response file.
+//
+//          INSTALL_NAME  LINK_NAME
+LINK_INFO = BASEC         BASEOC
+LINK_INFO = BASEC         APPSOC
+
+// DEPENDENCY: Defines a dependency for kit installation. Dependency
+//             are 1) a file, and 2) a selected kit.
+//             INSTALL_NAME and LINK_NAME statements must precede the
+//             DEPENDNCY statement in the response file.
+//
+//           KIT      Installed File    Selected Kit
+DEPENDENCY = BASEOC   syslevel.tcp      BASE
+DEPENDENCY = APPSOC   syslevel.app      APPS
+
+// EXEC:    Kit exit program. Do not modify parameters. TCPINST
+//          substitutes the proper values in the call.
+//     Kit         Exit program  Parameters
+EXEC = BASEOC  call basext        BOOT_DRIVE TARGET_PATH MPTN_INSTALLED NTS2_DIR
+

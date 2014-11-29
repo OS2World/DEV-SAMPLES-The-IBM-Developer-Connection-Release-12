@@ -1,0 +1,18 @@
+;---------------------------------------------------------------------------
+;
+;  Name     : animate1.def
+;
+;  Purpose  : Linker definition file
+;
+;             Author: Kelvin R. Lawrence
+;             29th-September-1996
+;
+;---------------------------------------------------------------------------
+
+NAME  animate1  WINDOWAPI
+
+DESCRIPTION 'animate1 - animate1 application'
+
+PROTMODE
+HEAPSIZE    32768
+STACKSIZE   16384

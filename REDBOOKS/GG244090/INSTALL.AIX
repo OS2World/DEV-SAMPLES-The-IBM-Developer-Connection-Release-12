@@ -1,0 +1,16 @@
+#! /bin/ksh
+echo Installing DCE samples
+for i in `dosdir -l | awk '/\[D\]/ {print tolower ($1) }'`
+do
+  echo $i
+  mkdir ./$i
+  dosdir -l /$i | awk '/\[A\]/ {print tolower($1)}'|xargs -t -i dosread /$i/{} ./$i/{}
+  res=`dosdir -l $i | awk '/\[D\]/ {print tolower($1)}' | xargs -i  echo $i/{}`
+  for j in $res
+  do
+    echo $j
+    mkdir ./$j
+    dosdir -l /$j | awk '/\[A\]/ {print tolower($1)}'|xargs -t -i dosread /$j/{} ./$j/{}
+  done
+done
+echo DCE samples installed

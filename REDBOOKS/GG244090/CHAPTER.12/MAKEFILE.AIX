@@ -1,0 +1,44 @@
+#
+# Makefile for the AIX Version of the Pipes Example.
+#
+
+# interface name
+INTFC    = ft
+
+# command names
+CC       = cc_r
+IDL      = idl
+DEL      = rm -f
+
+# command flags
+CFLAGS   = -I/usr/include/dce
+IDLFLAGS = -no_cpp -I.
+
+# libraries
+LIBS     = -ldce
+
+# object files
+SOBJS    = $(INTFC)_s.o $(INTFC)_m.o $(INTFC)_sstub.o $(INTFC)_saux.o
+COBJS    = $(INTFC)_c.o $(INTFC)_cstub.o
+
+# targets
+all: $(INTFC)_s $(INTFC)_c 
+
+$(INTFC)_s: $(SOBJS)
+	$(CC) $(SOBJS) -o $(INTFC)_s $(LIBS)
+
+$(INTFC)_c: $(COBJS)
+	$(CC) $(COBJS) -o $(INTFC)_c $(LIBS)
+
+$(INTFC).h $(INTFC)_sstub.o $(INTFC)_saux.o $(INTFC)_cstub.o: $(INTFC).idl $(INTFC).acf
+	$(IDL) $(IDLFLAGS) $(INTFC).idl
+
+clean:
+	-$(DEL) core *.o $(INTFC)_?stub.c $(INTFC).h 
+
+# dependencies
+$(INTFC)_m.o: $(INTFC)_m.c $(INTFC).h
+
+$(INTFC)_s.o: $(INTFC)_s.c $(INTFC).h
+
+$(INTFC)_c.o: $(INTFC)_c.c $(INTFC).h

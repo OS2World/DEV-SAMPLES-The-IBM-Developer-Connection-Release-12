@@ -1,0 +1,254 @@
+
+ * ******************************************************************** *
+ * Copyright International Business Machines Corporation 1995, 1996     *
+ * DISCLAIMER OF WARRANTIES.                                            *
+ * The following [enclosed] code is sample code created by IBM          *
+ * Corporation. This sample code is not part of any standard or IBM     *
+ * product and is provided to you solely for the purpose of assisting   *
+ * you in the development of your applications.  The code is provided   *
+ * "AS IS". IBM MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT  *
+ * NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS *
+ * FOR A PARTICULAR PURPOSE, REGARDING THE FUNCTION OR PERFORMANCE OF   *
+ * THIS CODE.  IBM shall not be liable for any damages arising out of   *
+ * your use of the sample code, even if they have been advised of the   *
+ * possibility of such damages.                                         *
+ *                                                                      *
+ * DISTRIBUTION.                                                        *
+ * This sample code can be freely distributed, copied, altered, and     *
+ * incorporated into other software, provided that it bears the above   *
+ * Copyright notice and DISCLAIMER intact.                              *
+ * ******************************************************************** *
+
+
+This diskette accompanies the IBM International Technical Support
+Organization Bulletin (Redbook) "OpenDoc :  An Introduction to Part
+Development" (SG24-4673)
+
+For more information about this redbook, contact:
+
+Bart Jacob
+IBM Corp - Zip 2834
+11400 Burnet Rd.
+Austin, Texas 78758
+
+(512) 838-5471
+IBM T/L 678-5471
+
+Internet: jacobb@vnet.ibm.com
+IBM OfficeVision: JACOBB@AUSVMR
+IBMMAIL USIB3BNP
+
+
+
+                           Abstract
+
+This redbook discusses how to develop software components by using
+OpenDoc technologies in an OS/2 environment.  This redbook is based on
+experiences gained while using pre-release code of the OpenDoc
+Developer's Toolkit.
+
+This redbook focuses on the basics of component development and does
+not address in detail many of the advanced features and extensions of
+OpenDoc.  This redbook is intended to provide the information required
+by developers and technical personnel to understand and evaluate the
+structure and development requirements for OpenDoc components as
+implemented on OS/2.
+
+After reading this redbook, the component developer should be ready to
+prototype OpenDoc parts and be able to understand more advanced
+information presented in the OpenDoc reference documentation.
+
+
+                     Building the Sample Parts
+
+This diskette includes the source code for three sample parts we have
+used for examples in the redbook:
+
+  - KeyPadPart
+  - DisplayPart
+  - ITSOContainerPart
+
+This file will describe the files included on the diskette and
+describe the process of building and registering these three parts.
+
+****IMPORTANT NOTE****
+
+The source files included here are based on the DevCon 8 version
+of the OpenDoc Developers Toolkit.  They will not compile on
+any other level of OpenDoc due to changes in interfaces to
+various classes.  See the documentation with later
+versions of the OpenDoc Developers Toolkit to understand what
+interfaces have changed in the current version of the toolkit.
+Once the OpenDoc toolkit leaves pre-release status, changes to
+interfaces will be much less likely.
+
+Also note, that these parts have been compiled and built using
+the IBM VisualAge C++ compiler.  Though not fully tested, they may
+also successfully built with the IBM C Set++ Version 2.1 compiler.
+
+Diskette Contents
+
+The diskette will consist of the following structure:
+     A:\
+       ³
+       ÃÄ KEYPAD
+       ÃÄ DISPLAY
+       ÃÄ ITSOCNTR
+       ÀÄ BIN
+
+
+Each directory will contain the source files required to build the
+related part.  The BIN. directory contains already built
+DLLs for the three parts.  These were built with all debugging
+options turned off.
+
+MAKEFILE Description
+
+We have used very similar MAKEFILEs for each of the parts.  The
+MAKEFILE utilizes a second file called STDMAKE.INC which includes
+common macros and definitions.
+
+The MAKEFILE assumes the following macros/environment variables are
+set and the associated directory structures exist:
+
+    SOMBASE   -  Directory where SOM Toolkit is installed.
+
+      $(SOMBASE)
+           ³
+           ÃÄ INCLUDE     // SOM Toolkit IDL's and Bindings (.h and/or .xh files)
+           ÀÄ LIB         // SOM Toolkit LIB files used for linking
+
+    ODBASE    -  Directory where OpenDoc Toolkit is Installed
+
+      $(ODBASE)
+           ³
+           ÃÄ IDL         // OpenDoc provided IDL's for OpenDoc classes
+           ÃÄ INCLUDE     // OpendDoc bindings (.h and/or .xh files)
+           ÃÄ OS2H        // Location of new OS2.H file
+           ÃÄ SAMPLES     // OpendDoc Sample Code
+           ³    ÀÄPARTS   // OpenDoc Sample Parts
+           ÀÄ LIB         // OpenDoc LIB files used for linking
+                               (opendoc.lib , os2cmbsi.lib)
+
+    ODSRCBASE   -  Parent directory for directories containing source for
+                   individual parts.
+
+      $(ODSRCBASE)
+           ³
+           ÃÄ xxx         //
+           ÃÄ yyy         // Directories for various parts
+           ÀÄ zzz         //
+
+    MYPARTS    -  Directory where the part DLL's will be written...
+                  this directory must also be specified in the LIBPATH
+
+    VACPP      -  If this environment variable is defined, the the
+                  link syntax and libraries used will be those compatible
+                  with the IBM VisualAge C++ product.  Otherwise, the
+                  link syntax and libraries are those used with IBM C Set++ 2.1.
+
+As an example, the following statements in CONFIG.SYS will fulfill the
+requirements of these MAKEFILEs:
+
+SET ODBASE=D:\OPENDOC
+SET ODSRCBASE=D:\SRC\PARTS
+SET SOMBASE=D:\SOM21
+SET VACPP=1
+
+Once the environment variables are set, you should be able to copy the
+directory structure from the diskette to the ODSRCBASE
+directory and build the parts.
+
+Information specific to each part is covered in the following sections.
+
+KeyPadPart
+
+The KeyPadPart source directory contains the following files:
+
+    KEYPAD.CPP   - KeyPadPart CPP Source
+    KEYPAD.IDL   - KeyPadPart Class IDL
+    KEYPAD.RC    - KeyPadPart PM Resource File
+    KEYPINST.CMD - KeyPadPart Registration Command File
+    KEYSTUFF.H   - Various Definitions Used by KeyPadPart
+    KPNOTEBK.CPP - Properties Notebook CPP Source
+    KPNOTEBK.H   - Header File for Properties Notebook
+    KPNOTEBK.IDL - Class Definition for Properties Notebook Extension
+    KPNOTERC.H   - Properties notebook PM Resource File
+    KPOSA.H      - Header file including OSA definitions
+    MAKEFILE     - Makefile
+    SETFONT.CPP  - Routine to Set Vector Font
+    STDMAKE.INC  - Makefile Include File
+    SUTRACE.CPP  - Routine to Trace Storage Unit
+
+Assuming that the development environment is configured correctly then
+all that is required to compile and link this part is to type 'nmake'.
+
+To register the KeyPadPart the KEYPINST.CMD command file must be run.
+This will result in the KeyPadPart being registered and a template
+added to the OpenDoc templates file.  It is important that the DSOM
+daemon is running before KEYPINST.CMD is executed.
+
+Once registered the KeyPadPart can be embedded within a document and
+used.
+
+DisplayPart
+
+The DisplayPart source directory contains the following files:
+
+    DISPINST.CMD  - DisplayPart Registration Command File
+    DISPPART.CPP  - DisplayPart CPP Source
+    DISPPART.IDL  - DisplayPart Class IDL
+    DSPICLUI.CPP  - DispWindow CPP Source
+    DSPICLUI.HPP  - DispWindow CPP Class Definition
+    MAKEFILE      - Makefile
+    OD2ICLUI.H    - Various Definitions Used by DisplayPart
+    STDMAKE.INC   - Makefile Include File
+
+Assuming that the development environment is configured correctly then all
+that is required to compile and link this part is to type 'nmake'.
+
+To register the DisplayPart the DISPINST.CMD command file must be
+run. This will result in the DisplayPart being registered and a template
+added to the OpenDoc templates file. It is important that the DSOM daemon is
+running before DISPINST.CMD is executed.
+
+Once registered the DisplayPart can be embedded in a document and
+used as a target of a link with the KeyPadPart.
+
+ITSOContainerPart
+
+The ITSOContainerPart source directory contains the following files:
+
+    ICPINST.CMD  - ITSOContainerPart Registration Command File
+    ISWIN.CPP    - ICLUI Sample Window and Dialog Source File
+    ISWIN.HPP    - ICLUI Sample Window and Dialog Header File
+    ITSOCNTR.BMP - ITSOContainerPart Bitmap
+    ITSOCNTR.CPP - ITSOContainerPart CPP Source
+    ITSOCNTR.DLG - ITSOContainerPart About Dialog File
+    ITSOCNTR.ICO - ITSOContainerPart Icon
+    ITSOCNTR.IDL - ITSOContainerPart IDL File
+    ITSOCNTR.RC  - ITSOContainerPart Resource Control File
+    ITSODEFS.H   - ITSOContainerPart Definitions Header File
+    ITSORC.H     - ITSOContainerPart Resource Header File
+    MAKEFILE     - Makefile
+    OD2ICLUI.H   - OpenDoc to ICLUI Header File
+    ORDCOLL.CPP  - Ordered Collection Class File
+    ORDCOLL.HPP  - Ordered Collection Class Header File
+    PARTINFO.CPP - PartInfo Class File
+    PARTINFO.HPP - PartInfo Class Header File
+    STDMAKE.INC  - Make Include File
+    XFRMITER.CPP - Embedded Frames Iterator File
+    XFRMITER.HPP - Embedded Frames Iterator Header File
+
+Assuming that the development environment is configured correctly then all
+that is required to compile and link this part is to type 'nmake'.
+
+To register the ITSOContainerPart the ICPINST.CMD command file must
+be run.  This will result in the ITSOContainerPart being registered
+and a template added to the OpenDoc templates file.  It is important
+that the DSOM daemon is running before ICPINST.CMD is executed.
+
+Once registered the ITSOContainerPart can be used as root part capable of
+embedding other parts or as an embedded part capable of supporting other
+parts.
+

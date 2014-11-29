@@ -1,0 +1,256 @@
+32-BIT MEMORY MANAGEMENT IN OS/2                  MONTE COPELAND
+
+OS/2 memory management has many faces: 32-bit, 16-bit, and real
+mode. This article discusses programming the 32-bit memory model
+of OS/2. It covers memory addressing, allocating, and heap
+management. It covers memory leaks and how to debug them. Sample
+code in C.
+
+
+
+PROCESS ADDRESS SPACE
+
+When a process starts, OS/2 prepares it a virtualized array of
+RAM called the process address space. Within this space, OS/2
+allocates memory for EXE and DLL code and data.
+
+A program accesses this space with a 32-bits-wide address. The
+smallest address is usually 64 KB, which is the base load address
+for EXEs. The largest address is 512 MB, the limit of OS/2
+virtual addresss space. See Figure 1.
+
+-----------------------------------------------------------------
+.em addspace
+-----------------------------------------------------------------
+Figure 1. Diagram of a simple EXE loaded into memory. In this
+example, EXE code and data loaded low. Shared DLL code and data
+loaded high.
+-----------------------------------------------------------------
+
+Private memory resides at low addresses. Only the owning process
+can access this memory.  Private allocations start low and
+increase upwards. On the other hand, shared memory is allocated
+high and works downwards.
+
+OS/2 divides memory into pages, 4 KB in size. Each process has a
+set of page tables which maps its virtual memory to physical RAM.
+Each 4 KB page has attributes including read/write, read-only,
+private, shared, committed, and guard.
+
+
+
+STACK MEMORY
+
+It is a good idea to create threads with at least 32 KB stack;
+OS/2 only uses what it needs to run the thread.
+
+When OS/2 allocates memory for a thread stack, it commits the top
+page and sets the guard attribute on the page below it. If stack
+usage exceeds 4 KB, a guard-page exception occurs. OS/2 handles
+this exception: it commits the guard page and sets the next lower
+page to guard. Using this scheme, OS/2 commits only the pages a
+thread really needs.
+
+A trap can occur using automatic (stack) variables larger than 4
+KB. For example, assume an 8 KB array spans a guard page. If the
+program writes element zero first, the program will trap because
+it skipped guard page processing. Some compilers generate code to
+prevent this trap, but the problem could affect assembly-language
+programs.
+
+
+
+C SET++ COMPILER DATA PRAGMA
+
+DosAllocMem() and DosAllocSharedMem() are not the only ways to
+allocate memory. The compiler, linker, and loader do a great deal
+to allocate memory and initialize it. DLL programmers must decide
+which data belong in shared vs. private memory.
+
+The IBM C Set++ compiler has a data_seg() pragma. This pragma
+takes a single argument, the name of a memory segment defined in
+the module definitions (.DEF) file.
+
+In Sample Code 1, the compiler ensures that the char array
+szBuffer resides in a memory segment named PIECE_1.
+
+-----------------------------------------------------------------
+   #pragma data_seg( PIECE_1 )
+   char szBuffer[ 256 ];
+-----------------------------------------------------------------
+Sample Code 1. The static variable szBuffer will reside in a
+segment named PIECE_1.
+-----------------------------------------------------------------
+
+In the .DEF file, the segment PIECE_1 is a shared segment as
+follows:
+
+-----------------------------------------------------------------
+   SEGMENTS
+       PIECE_1 CLASS 'DATA' SHARED
+       PIECE_2 CLASS 'DATA' NONSHARED
+-----------------------------------------------------------------
+Sample Code 2. Excerpt from a module definitions (.DEF) file that
+makes the PIECE_1 segment a shared memory object.
+-----------------------------------------------------------------
+
+DLL programmers use data_seg() pragmas and .DEF file SEGMENTS
+statements to control which variables are private per process and
+which are shared. Reference data and read-only data usually need
+a single copy in memory, so place these in shared memory.
+
+This technique is not limited to DLLs. Programmers who expect to
+have multiple copies OF THE SAME EXE running simultaneously can
+do this, too. See \SOURCE\DEVNEWS\VOLx\MEM\PRAG.C on Disk 1.
+
+
+
+MANAGING CONTENTION FOR SHARED MEMORY
+
+Whenever multiple processes read and write shared memory, you
+must manage the contention. This is best done with a named
+(therefore shared) mutual exclusion semaphore. Under OS/2,
+anonymous semaphores are not suited for this task. Here's why:
+
+Assume you placed an anonymous semaphore handle onto shared
+memory. The first time your EXE or DLL loads, it will create
+the mutex semaphore. The thread tests the semaphore handle;
+if zero, it calls DosCreateMutexSem(). But this is flawed logic!
+The test for a null semaphore handle IS ITSELF A REFERENCE TO
+SHARED MEMORY and must be protected by a seamphore. This logic
+works most of the time, but can fail in a race condition.
+
+Named mutex semaphores don't have this problem. See
+\SOURCE\DEVNEWS\VOLx\MEM\TESTER.C.
+
+
+
+HEAPS FOR SMALL ALLOCATIONS
+
+The API DosAllocMem() rounds up the allocation size to the
+nearest page boundary. For example, DosAllocMem() rounds up a
+100-byte allocation to 4096 bytes. Thus, DosAllocMem() is not the
+right choice for many small allocations.
+
+Small allocations require a heap. If you are programming in C,
+use the heap manager provided with your compiler: new, delete,
+malloc(), strdup(), free(), etc.
+
+OS/2 has a heap manager in the suballocation APIs,
+DosSubAllocMem() and DosSubFreeMem(). See Sample Code 3.
+
+-----------------------------------------------------------------
+.em subset
+-----------------------------------------------------------------
+Sample Code 3. Code to prepare a suballocated heap. It is a
+sparse heap; OS/2 will commit pages as needed. For best results,
+subset the entire allocation and avoid the "grow" option. See
+\SOURCE\DEVNEWS\VOLx\MEM\HEAP.C on DevCon Disk 1.
+-----------------------------------------------------------------
+
+Programmers often put function wrappers around DosSubAllocMem()
+and DosSubFreeMem() for convenience. The allocation wrapper
+
+  PVOID APIENTRY myalloc( PVOID pvBase, ULONG ulSize );
+
+allocates a little extra space in order to store the heap base
+pointer and the suballocation size. It returns a pointer to the
+suballocated memory. The free wrapper
+
+         PVOID APIENTRY myfree( PVOID pv );
+
+uses pv to retrieve the base pointer and size, then it calls
+DosSubFreeMem(). See \SOURCE\DEVNEWS\VOLx\MEM\HEAP.C on DevCon
+Disk 1 for sample code.
+
+
+
+OUT OF MEMORY
+
+If a process runs out of memory, the problem is usually due to a
+memory leak or disk full condition.
+
+If SWAPPER.DAT grows until it fills the disk, then requests for
+committed, read-write memory have exceeded disk capacity. First,
+point the swapper to a larger disk. If it fails again, there is
+probably a memory leak.
+
+A memory leak is a program error. A program allocates memory and
+fails to free it. A program that leaks memory is like a time
+bombs: it's a matter of time before the program will fail.
+
+The productivity tool OS2MEMU, which comes with Developer
+Connection, reports on memory usage. OS2MEMU helps to detect and
+debug memory leaks. It is located in \PRODTOOL\OS2MEMU
+subdirectory on DevCon disk 2. To install it,
+
+. make a subdirectory to hold OS2MEMU files
+
+. copy OS2MEMU files from the DevCon disk 2
+
+. add OS20MEMU.SYS as a DEVICE= statement in CONFIG.SYS
+
+. reboot
+
+. change directory to OS2MEMU and run OS20MEMU.EXE there
+
+The first panel reports memory usage for the system. To report on
+a certain process, enter the process ID and press enter. The
+program reports on process private memory, process shared memory,
+and operating system shared memory.
+
+To detect a leak, take "snapshots" of memory at regular
+intervals. If the list of memory objects grows and never shrinks,
+there is a leak. Use the virtual addresses and your debugger to
+track it down.
+
+
+
+LOCK-PROOF MEMORY
+
+An OS/2 physical device driver (PDD) will "lock down" memory
+during I/O, so it won't be paged to disk. Some drivers have
+problems locking memory buffers allocated from heaps. The write
+fails and returns result code 5.
+
+The solution is to allocate and commit a memory buffer using
+DosAllocMem(). Use this buffer for passing data to the PDD.
+
+
+
+PAGE TUNING
+
+Page tuning is the act of identifying functions with high
+interaction, then placing those functions near each other in
+memory. This reduces the working set, fewer pages are needed to
+perform a task, resulting in less paging and better performance.
+
+Placing a function in memory requires the help of your compiler.
+The IBM C Set++ compiler supports a pragma called alloc_text().
+In the following example:
+
+      #pragma alloc_text( CODE1, _DLL_InitTerm )
+
+the compiler will place function _DLL_InitTerm() in the CODE1
+code segment. An H file included by all C sources is a good place
+to code alloc_text() pragmas.
+
+Manual page tuning is possible, requiring great familiarity with
+the code. Profiler tools automate the process. They provide
+graphic representations of execution as well as working set page
+counts.
+
+
+
+SEGMENT FREE
+
+Application programs for OS/2 are 32-bit all the way. Programmers
+write OS/2 applications using 32-bit compilers, linkers, and
+tools. The resulting EXEs and DLLs are pure 32-bit modules. At
+run time, they operate in a linear, virtual address space with
+32-bit addresses and stacks.
+
+OS/2 memory management is in the operating system where it
+belongs. So let the kernel worry about RAM cram; your programs
+are segment free.
+

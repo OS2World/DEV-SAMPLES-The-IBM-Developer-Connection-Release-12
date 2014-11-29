@@ -1,0 +1,24 @@
+GBM =		\ak\gbm\gbm
+
+.SUFFIXES:	.c .obj
+
+CFLAGS =	/C+ /W3 /I$(GBM) /G4 /Gd-e+m+ /Q+ /Wpro /O+
+LFLAGS =	/BATCH /NOLOGO /ALIGN:4 /BASE:0x10000 /NOI
+
+.c.obj:
+		icc $(CFLAGS) $*.c
+
+#
+
+gbmvfsa.exe:	gbmvfsa.obj gbmvfsa.def $(GBM)\gbm.lib
+		link386 $(LFLAGS) gbmvfsa.obj,$@, nul, $(GBM)\gbm.lib, gbmvfsa.def
+
+gbmvfsa.obj:	gbmvfsa.c $(GBM)\gbm.h
+
+#
+
+clean:
+		-del *.obj 2> nul
+
+install:
+		copy *.exe d:\gbm

@@ -1,0 +1,180 @@
+
+ pwfolder
+
+ Start         Length     Name                   Class
+ 0001:00000000 0000014F8H CODE32                 CODE 32-bit
+ 0002:00000000 000000060H DDE4_DATA32            DATA 32-bit
+ 0003:00000000 000000980H DATA32                 DATA 32-bit
+ 0003:00000980 000000000H CTOR_DTOR1             DATA 32-bit
+ 0003:00000980 000000000H CTOR_DTOR2             DATA 32-bit
+ 0003:00000980 000000000H CTOR_DTOR3             DATA 32-bit
+ 0003:00000980 000000000H CONST32                CONST 32-bit
+ 0003:00000980 000000000H BSS32                  BSS 32-bit
+ 0003:00000980 000000010H c_common               BSS 32-bit
+
+ Origin   Group
+ 0003:0   DGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0003:00000020 M_PWFolderCClassData    M_PWFolderCClassData
+ 0003:0000001C M_PWFolderClassData     M_PWFolderClassData
+ 0001:00000038 M_PWFolderNewClass      M_PWFolderNewClass
+ 0003:00000014 PWFolderCClassData      PWFolderCClassData
+ 0003:00000004 PWFolderClassData       PWFolderClassData
+ 0001:00000000 PWFolderNewClass        PWFolderNewClass
+
+  Address         Publics by Name
+
+ 0003:00000000       DefaultClassTitle
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  DosFreeModule        (DOSCALLS.322)
+ 0000:00000000  Imp  DosLoadModule        (DOSCALLS.318)
+ 0001:00000C64       free
+ 0003:00000984       hLockedIcon
+ 0003:0000098C       hmodThisClass
+ 0003:00000988       hUnlockedIcon
+ 0001:00000DC4       malloc
+ 0001:00001030       memcpy
+ 0003:00000020       M_PWFolderCClassData
+ 0003:0000001C       M_PWFolderClassData
+ 0001:00000038       M_PWFolderNewClass
+ 0000:00000000  Imp  M_WPFolderNewClass   (PMWP.315)
+ 0000:00000000  Imp  M_WPObjectClassData  (PMWP.323)
+ 0001:00000B40       PasswordDlgProc
+ 0003:00000014       PWFolderCClassData
+ 0003:00000004       PWFolderClassData
+ 0001:00000A20       pwfoldercls_wpclsInitData
+ 0001:000009CC       pwfoldercls_wpclsQueryIcon
+ 0001:00000990       pwfoldercls_wpclsQueryTitle
+ 0001:00000AC0       pwfoldercls_wpclsUnInitData
+ 0001:00000000       PWFolderNewClass
+ 0001:00000164       pwfolder_LockFolder
+ 0001:00000064       pwfolder_QueryInfo
+ 0001:000000E4       pwfolder_SetInfo
+ 0001:00000220       pwfolder_wpInitData
+ 0001:00000358       pwfolder_wpMenuItemSelected
+ 0001:000002B8       pwfolder_wpModifyPopupMenu
+ 0001:00000400       pwfolder_wpOpen
+ 0001:000007EC       pwfolder_wpRestoreState
+ 0001:00000740       pwfolder_wpSaveState
+ 0001:000008D4       pwfolder_wpSetIcon
+ 0001:00000598       pwfolder_wpSetTitle
+ 0001:00000674       pwfolder_wpSetup
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  somDataResolve       (som.47)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0001:00001050       strcmp
+ 0001:0000106C       strcpy
+ 0001:00001098       strlen
+ 0001:000010AC       strstr
+ 0000:00000000  Imp  WinDefDlgProc        (PMWIN.910)
+ 0000:00000000  Imp  WinDestroyPointer    (PMWIN.727)
+ 0000:00000000  Imp  WinDismissDlg        (PMWIN.729)
+ 0000:00000000  Imp  WinDlgBox            (PMWIN.923)
+ 0000:00000000  Imp  WinLoadPointer       (PMWIN.780)
+ 0000:00000000  Imp  WinMessageBox        (PMWIN.789)
+ 0000:00000000  Imp  WinQueryDlgItemText  (PMWIN.815)
+ 0000:00000000  Imp  WinQueryWindowULong  (PMWIN.843)
+ 0000:00000000  Imp  WinSetWindowULong    (PMWIN.878)
+ 0000:00000000  Imp  WPFolderNewClass     (PMWP.15)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0002:00000000       _dllentry
+ 0001:000013C0       _DLL_InitTerm
+ 0003:00000980       _edata
+ 0003:00000990       _end
+ 0001:000013E0       _fpninit
+ 0002:00000010       _have_freed
+ 0001:000013A4       _heapmin
+ 0001:000011D4       _heapmin_int
+ 0001:000013B8       _ilog2
+ 0002:00000014       _pBucketArr
+ 0001:00000CCC       _split_chunk
+ 0003:00000970       __ctdtused
+ 0003:00000980       __ctordtorCurrent
+ 0003:00000980       __ctordtorEnd
+ 0001:00001414       __ctordtorInit
+ 0003:00000980       __ctordtorStart
+ 0001:000013E4       __ctordtorTerm
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  M_WPFolderNewClass   (PMWP.315)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  WPFolderNewClass     (PMWP.15)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  WinQueryWindowULong  (PMWIN.843)
+ 0000:00000000  Imp  WinDismissDlg        (PMWIN.729)
+ 0000:00000000  Imp  somDataResolve       (som.47)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  WinDlgBox            (PMWIN.923)
+ 0000:00000000  Imp  WinQueryDlgItemText  (PMWIN.815)
+ 0000:00000000  Imp  WinDefDlgProc        (PMWIN.910)
+ 0000:00000000  Imp  WinSetWindowULong    (PMWIN.878)
+ 0000:00000000  Imp  M_WPObjectClassData  (PMWP.323)
+ 0000:00000000  Imp  DosLoadModule        (DOSCALLS.318)
+ 0000:00000000  Imp  WinMessageBox        (PMWIN.789)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0000:00000000  Imp  WinLoadPointer       (PMWIN.780)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  DosFreeModule        (DOSCALLS.322)
+ 0000:00000000  Imp  WinDestroyPointer    (PMWIN.727)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0001:00000000       PWFolderNewClass
+ 0001:00000038       M_PWFolderNewClass
+ 0001:00000064       pwfolder_QueryInfo
+ 0001:000000E4       pwfolder_SetInfo
+ 0001:00000164       pwfolder_LockFolder
+ 0001:00000220       pwfolder_wpInitData
+ 0001:000002B8       pwfolder_wpModifyPopupMenu
+ 0001:00000358       pwfolder_wpMenuItemSelected
+ 0001:00000400       pwfolder_wpOpen
+ 0001:00000598       pwfolder_wpSetTitle
+ 0001:00000674       pwfolder_wpSetup
+ 0001:00000740       pwfolder_wpSaveState
+ 0001:000007EC       pwfolder_wpRestoreState
+ 0001:000008D4       pwfolder_wpSetIcon
+ 0001:00000990       pwfoldercls_wpclsQueryTitle
+ 0001:000009CC       pwfoldercls_wpclsQueryIcon
+ 0001:00000A20       pwfoldercls_wpclsInitData
+ 0001:00000AC0       pwfoldercls_wpclsUnInitData
+ 0001:00000B40       PasswordDlgProc
+ 0001:00000C64       free
+ 0001:00000CCC       _split_chunk
+ 0001:00000DC4       malloc
+ 0001:00001030       memcpy
+ 0001:00001050       strcmp
+ 0001:0000106C       strcpy
+ 0001:00001098       strlen
+ 0001:000010AC       strstr
+ 0001:000011D4       _heapmin_int
+ 0001:000013A4       _heapmin
+ 0001:000013B8       _ilog2
+ 0001:000013C0       _DLL_InitTerm
+ 0001:000013E0       _fpninit
+ 0001:000013E4       __ctordtorTerm
+ 0001:00001414       __ctordtorInit
+ 0002:00000000       _dllentry
+ 0002:00000010       _have_freed
+ 0002:00000014       _pBucketArr
+ 0003:00000000       DefaultClassTitle
+ 0003:00000004       PWFolderClassData
+ 0003:00000014       PWFolderCClassData
+ 0003:0000001C       M_PWFolderClassData
+ 0003:00000020       M_PWFolderCClassData
+ 0003:00000970       __ctdtused
+ 0003:00000980       __ctordtorEnd
+ 0003:00000980       __ctordtorCurrent
+ 0003:00000980       _edata
+ 0003:00000980       __ctordtorStart
+ 0003:00000984       hLockedIcon
+ 0003:00000988       hUnlockedIcon
+ 0003:0000098C       hmodThisClass
+ 0003:00000990       _end
+
+Program entry point at 0001:000013C0

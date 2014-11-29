@@ -1,0 +1,50 @@
+PILEOF Sample is a demonstration of the PileOf object class. This
+   object will inherit most of the attributes of the WPFolder class,
+   but it will override some methods to implement a given behavior.
+   A PileOf object should:
+
+    - enable the user to select what type of objects can be part
+      of a given pile.
+    - have a particular "open" behavior when the user double-clicks
+      on a PileOf object icon.
+    - support certain behavior for manipulating entries and for the
+      creation of other piles
+
+    An instance of this class can be created as a Workplace object.
+
+    Note: This is sample code. Not all the PileOf behavior has been
+          included
+---------------------- HOW TO USE ----------------------------------
+
+Change to the directory (cd pileof) where the pileof install.exe resides.
+
+Run
+      INSTALL D:\PILEOF\PILEOF.DLL
+              (where D:\PILEOF should be replaced by drive letter and
+               directory where PILEOF.DLL is in your machine)
+to create the PILOF object on your desktop.
+
+Test program:
+        Go to the Settings for the PileOf object and specify:
+        - should the pile support one or more classes?
+        - what type of objects do you want to put in the pile?
+
+	Drag any object from the templates folder or desktop into
+        the pile. Can you drop it into the pile?. You should be
+        able to drop it into the pile if it is of the type supported
+        by the given PileOf object.
+
+        Create as many piles as you want to for diferent types of objects:
+        data files, programs, bitmaps, icons,...
+
+        It's easy to add persistance (OS/2 remembers your PileOf settings
+        after the system is shut down) by updating the PILEOF.IDL and
+        PILEOF.C by storing the PileOf instance data in the system INIs
+        (see _QueryPileOfInstData). Try it.
+
+Run uninst.exe to remove the INI file entries that were made during the install.
+You should then delete the PILEOF icon by dropping it in the shredder.
+
+Optionally, you can also delete the sample code files that were installed to the
+directory you specified.
+

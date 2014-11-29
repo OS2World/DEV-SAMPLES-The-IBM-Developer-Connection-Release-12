@@ -1,0 +1,30 @@
+        TITLE   int3286.asm
+        .8087
+_TEXT   SEGMENT  WORD PUBLIC 'CODE'
+_TEXT   ENDS
+_DATA   SEGMENT  WORD PUBLIC 'DATA'
+_DATA   ENDS
+CONST   SEGMENT  WORD PUBLIC 'CONST'
+CONST   ENDS
+_BSS    SEGMENT  WORD PUBLIC 'BSS'
+_BSS    ENDS
+DGROUP  GROUP   CONST, _BSS, _DATA
+        ASSUME  CS: _TEXT, DS: DGROUP, SS: DGROUP
+
+_TEXT   SEGMENT
+        ASSUME  CS: _TEXT
+        PUBLIC  _int3
+_int3   PROC FAR
+        int 3
+        ret
+_int3   ENDP
+
+        PUBLIC  INT3
+INT3    PROC FAR
+        int 3
+        ret
+INT3    ENDP
+
+_TEXT   ENDS
+END
+

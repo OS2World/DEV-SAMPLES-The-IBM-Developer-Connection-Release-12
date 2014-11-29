@@ -1,0 +1,62 @@
+#
+# Makefile for the OS/2 Version of the Threads Example.
+#
+
+# interface name
+INTFC    = look
+
+# program names
+CLIENT   = lookup
+PSERV    = phon
+ASERV    = addr
+
+# command names
+CC       = icc
+LD       = link386
+IDL      = idl
+DEL      = del
+
+# command flags
+CMADEFS  = /D_CMA_PROTO_ /D_CMA_NOWRAPPERS_ /DCMA_UNIPROCESSOR
+DEFS     = /DINTEL80x86 /DIBMOS2
+CFLAGS   = /I. /Q+ /Ms $(CMADEFS) $(DEFS)
+LDFLAGS  = /BATCH /E /MAP /NOI /NOL /NOD
+IDLFLAGS = /no_mepv /no_cpp /I.
+
+# libraries
+LIBS     = dceos2.lib dde4mbs.lib os2386.lib
+
+# object files
+POBJS    = $(PSERV)_s.obj $(PSERV)_m.obj $(INTFC)_sstub.obj
+AOBJS    = $(ASERV)_s.obj $(ASERV)_m.obj $(INTFC)_sstub.obj
+COBJS    = $(CLIENT).obj $(INTFC)_cstub.obj
+
+# targets
+all: $(PSERV)_s.exe $(ASERV)_s.exe $(CLIENT).exe
+
+$(PSERV)_s.exe: $(POBJS)
+        $(LD) $(POBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+$(ASERV)_s.exe: $(AOBJS)
+        $(LD) $(AOBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+$(CLIENT).exe: $(COBJS)
+        $(LD) $(COBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+$(INTFC).h $(INTFC)_sstub.c $(INTFC)_cstub.c: $(INTFC).idl $(INTFC).acf
+        $(IDL) $(IDLFLAGS) $(INTFC).idl
+
+clean :
+        -$(DEL) $(INTFC)_?stub.c $(INTFC).h  *.obj *.map
+
+# dependencies
+$(PSERV)_m.obj: $(PSERV)_m.c $(INTFC).h
+
+$(ASERV)_m.obj: $(ASERV)_m.c $(INTFC).h
+
+$(PSERV)_s.obj: $(PSERV)_s.c $(INTFC).h
+
+$(ASERV)_s.obj: $(ASERV)_s.c $(INTFC).h
+
+$(CLIENT).obj: $(CLIENT).c $(INTFC).h
+

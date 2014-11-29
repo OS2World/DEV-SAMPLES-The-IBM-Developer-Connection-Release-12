@@ -1,0 +1,42 @@
+all: ldcewin.lib dceshell.exe dcestest.exe
+
+lib: ldcewin.lib
+
+OPTS   = -nologo G2sw -Zp -W2 -c
+INCS   = -I.
+CFLAGS = $(OPTS) $(INCS)
+LFLAGS = /map /nod /noe /nol
+LLIBS  = llibcew libw
+SLIBS  = slibcew libw
+
+!ifdef DEBUG
+CFLAGS = $(CFLAGS) -Zid -Od
+LFLAGS = $(LFLAGS) /cod /lin
+!endif
+
+dcestest.obj: dcestest.c
+        cl $(CFLAGS) -AL -Aw $*.c
+
+dcestest.exe: dcestest.obj ldcewin.lib
+        link $(LFLAGS) $*.obj,$*.exe,,ldcewin dce $(LLIBS),$*.def
+        rc $*.exe
+
+dceshell.obj: dceshell.c
+        cl $(CFLAGS) -AS $*.c
+
+dceshell.exe: dceshell.obj dceshell.res
+        link $(LFLAGS) $*.obj,$*.exe,,$(SLIBS),$*.def
+        rc -t $*.res $*.exe
+
+dcewin.obj: dcewin.c dcewin.h
+        cl $(CFLAGS) -AL $*.c
+
+ldcewin.lib: dcewin.obj
+    lib ldcewin /nologo -+dcewin.obj;
+    copy ldcewin.lib \windce\lib
+
+clean:
+        -del *.map
+        -del *.sym
+        -del *.obj
+

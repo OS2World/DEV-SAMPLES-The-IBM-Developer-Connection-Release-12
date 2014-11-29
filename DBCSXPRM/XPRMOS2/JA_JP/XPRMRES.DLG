@@ -1,0 +1,143 @@
+/***************************************************************************/
+/* XPRMRES.DLG   XPG4 Primer for OS/2 WARP - V1.0       11/15/95           */
+/*               Dialog definitions for Japanese.                          */
+/***************************************************************************/
+DLGTEMPLATE DID_CUSTINFO LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "顧客情報", DID_CUSTINFO, 62, -58, 185, 161, WS_VISIBLE,
+            FCF_TITLEBAR | FCF_MINBUTTON | FCF_DBE_APPSTAT
+    BEGIN
+        LTEXT           "顧客名", CI_STX_CUSTNAME, 15, 125, 27, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", CI_EF_NAME, 56, 126, 108, 8, ES_MARGIN
+        LTEXT           "住所", CI_STX_CUSTADDR, 15, 106, 20, 10, DT_VCENTER
+        MLE             "", CI_ML_CUSTADDR, 54, 42, 112, 74, MLS_WORDWRAP |
+                        MLS_IGNORETAB
+        LTEXT           "電話番号", CI_STX_CUSTTEL, 15, 24, 31, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", CI_EF_CUSTTEL, 56, 25, 108, 8, ES_MARGIN | ES_SBCS
+        DEFPUSHBUTTON   "了解(\036O\037ﾘ)", DID_OK, 15, 4, 40, 14, WS_GROUP
+        PUSHBUTTON      "取消", DID_CANCEL, 72, 4, 40, 14
+        PUSHBUTTON      "ヘルプ", PID_HELP, 126, 4, 40, 14, BS_HELP
+    END
+END
+
+DLGTEMPLATE DID_CUSTLIST LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "顧客一覧", DID_CUSTLIST, 81, 0, 150, 92, WS_VISIBLE,
+            FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        LISTBOX         LI_CUSTLIST, 20, 29, 114, 56, LS_NOADJUSTPOS
+        DEFPUSHBUTTON   "了解(\036O\037ﾘ)", DID_OK, 6, 6, 40, 14, WS_GROUP
+        PUSHBUTTON      "取消", DID_CANCEL, 56, 6, 40, 14
+        PUSHBUTTON      "ヘルプ", PID_HELP, 105, 6, 40, 14, BS_HELP
+    END
+END
+
+DLGTEMPLATE DID_LOGIN LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "ログイン", DID_LOGIN, 96, 27, 126, 58, WS_VISIBLE, FCF_SYSMENU |
+            FCF_TITLEBAR | FCF_DBE_APPSTAT
+    BEGIN
+        LTEXT           "社員番号を入力して下さい:", LI_STX_EMPNUM, 6, 43,
+                        102, 10, DT_VCENTER
+        ENTRYFIELD      "", LI_EF_EMPNUM, 31, 28, 66, 8, ES_MARGIN |
+                        ES_AUTOTAB | ES_UNREADABLE | ES_SBCS
+        DEFPUSHBUTTON   "了解(\036O\037ﾘ)", DID_OK, 4, 4, 36, 14, WS_GROUP
+        PUSHBUTTON      "取消", DID_CANCEL, 46, 4, 36, 14
+        PUSHBUTTON      "ヘルプ", PID_HELP, 87, 4, 36, 14, BS_HELP
+    END
+END
+
+DLGTEMPLATE DID_ORDERENTRY LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "新規オーダー", DID_ORDERENTRY, 105, -55, 283, 214, WS_VISIBLE,
+            FCF_SYSMENU | FCF_TITLEBAR | FCF_DBE_APPSTAT
+    BEGIN
+        LTEXT           "オーダー番号", OE_STX_ORDERNUM, 5, 197, 50, 9,
+                        DT_VCENTER
+        ENTRYFIELD      "", OE_EF_ORDERNUM, 59, 198, 44, 8, ES_READONLY
+        LTEXT           "日付", OE_STX_ORDERDATE, 110, 197, 18, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", OE_EF_ORDERDATE, 131, 198, 55, 8, ES_READONLY
+        LTEXT           "時刻", OE_STX_ORDERTIME, 197, 197, 17, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", OE_EF_ORDERTIME, 219, 198, 55, 8, ES_READONLY
+        LTEXT           "顧客番号", OE_STX_CUSTNUM, 5, 182, 33, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", OE_EF_CUSTNUM, 59, 183, 44, 8, ES_READONLY
+        LTEXT           "顧客名", OE_STX_CUSTNAME, 110, 182, 28, 10,
+                        DT_VCENTER
+        CONTROL         "", OE_CB_CUSTNAME, 140, 158, 134, 34, WC_COMBOBOX,
+                        CBS_DROPDOWNLIST | WS_TABSTOP | WS_VISIBLE
+        LTEXT           "オーダー", OE_STX_ORDERS, 5, 167, 29, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", OE_EF_ORDER1, 13, 154, 145, 8, ES_READONLY
+        ENTRYFIELD      "", OE_EF_ORDER2, 13, 140, 146, 8, ES_READONLY
+        ENTRYFIELD      "", OE_EF_ORDER3, 13, 126, 145, 8, ES_READONLY
+        LTEXT           "数量", OE_STX_QTY, 172, 167, 19, 10, DT_VCENTER
+        ENTRYFIELD      "", OE_EF_QTY1, 182, 154, 22, 8, ES_RIGHT |
+                        ES_MARGIN | ES_SBCS
+        ENTRYFIELD      "", OE_EF_QTY2, 182, 140, 22, 8, ES_RIGHT |
+                        ES_MARGIN | ES_SBCS
+        ENTRYFIELD      "", OE_EF_QTY3, 182, 125, 22, 8, ES_RIGHT |
+                        ES_MARGIN | ES_SBCS
+        LTEXT           "小計", OE_STX_SUBTOTAL, 219, 168, 30, 10,
+                        DT_VCENTER
+        ENTRYFIELD      "", OE_EF_SUBSUM1, 230, 155, 38, 8, ES_RIGHT |
+                        ES_READONLY | WS_GROUP
+        ENTRYFIELD      "", OE_EF_SUBSUM2, 230, 140, 38, 8, ES_RIGHT |
+                        ES_READONLY
+        ENTRYFIELD      "", OE_EF_SUBSUM3, 230, 126, 38, 8, ES_RIGHT |
+                        ES_READONLY
+        LTEXT           "計", OE_STX_TOTAL, 159, 108, 10, 10, DT_VCENTER
+        ENTRYFIELD      "", OE_EF_TOTAL_QTY, 174, 109, 31, 8, ES_RIGHT |
+                        ES_READONLY
+        ENTRYFIELD      "", OE_EF_SUM, 220, 109, 49, 8, ES_RIGHT |
+                        ES_READONLY
+        LISTBOX         OE_LI_PRODUCTS, 16, 24, 249, 77, LS_MULTIPLESEL |
+                        LS_NOADJUSTPOS
+        DEFPUSHBUTTON   "了解(\036O\037ﾘ)", DID_OK, 116, 6, 40, 14, WS_GROUP
+        PUSHBUTTON      "取消", DID_CANCEL, 172, 6, 40, 14
+        PUSHBUTTON      "ヘルプ", PID_HELP, 226, 6, 40, 14, BS_HELP
+    END
+END
+
+DLGTEMPLATE DID_QRYORDR LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "オーダー情報照会", DID_QRYORDR, 116, -6, 142, 106, WS_VISIBLE,
+            FCF_SYSMENU | FCF_TITLEBAR | FCF_DBE_APPSTAT
+    BEGIN
+        LTEXT           "キーワードを入力して下さい:", QO_STX_KEY, 10, 87,
+                        111, 10, DT_VCENTER
+        ENTRYFIELD      "yymmdd-yymmdd", QO_EF_KEY, 29, 73, 82, 7, ES_MARGIN
+        GROUPBOX        "カテゴリー", QO_GB_CATEGORY, 10, 27, 120, 36
+        AUTORADIOBUTTON "日付による照会", QO_PB_DATE, 20, 43, 100, 10,
+                        WS_GROUP
+        AUTORADIOBUTTON "オーダー番号による照会", QO_PB_NUMBER, 20, 32, 100,
+                        10
+        DEFPUSHBUTTON   "了解(\036O\037ﾘ)", DID_OK, 4, 4, 40, 14, WS_GROUP
+        PUSHBUTTON      "取消", DID_CANCEL, 51, 4, 40, 14
+        PUSHBUTTON      "ヘルプ", PID_HELP, 98, 4, 40, 14, BS_HELP
+    END
+END
+
+DLGTEMPLATE DID_QRYCUST LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "顧客情報照会", DID_QRYCUST, 108, -31, 143, 124, WS_VISIBLE,
+            FCF_SYSMENU | FCF_TITLEBAR | FCF_DBE_APPSTAT
+    BEGIN
+        LTEXT           "キーワードを入力して下さい:", QC_STX_KEY, 17, 107,
+                        111, 10, DT_VCENTER
+        ENTRYFIELD      "", QC_EF_CUSTKEY, 19, 92, 102, 8, ES_MARGIN
+        GROUPBOX        "カテゴリー", QC_GB_CATEGORY, 17, 32, 105, 53
+        AUTORADIOBUTTON "顧客番号による照会", QC_PB_CUSTNUM, 27, 65, 83, 9,
+                        WS_GROUP
+        AUTORADIOBUTTON "顧客名による照会", QC_PB_CUSTNAME, 27, 51, 82, 10
+        AUTORADIOBUTTON "電話番号による照会", QC_PB_TELNUM, 27, 36, 82, 10
+        DEFPUSHBUTTON   "了解(\036O\037ﾘ)", DID_OK, 5, 5, 40, 14, WS_GROUP
+        PUSHBUTTON      "取消", DID_CANCEL, 52, 5, 40, 14
+        PUSHBUTTON      "ヘルプ", PID_HELP, 98, 5, 40, 14, BS_HELP
+    END
+END
+

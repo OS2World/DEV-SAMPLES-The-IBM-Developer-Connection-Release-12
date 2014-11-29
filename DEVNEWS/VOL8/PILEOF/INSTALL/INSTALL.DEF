@@ -1,0 +1,8 @@
+
+NAME install WINDOWCOMPAT
+
+
+STACKSIZE   8192
+HEAPSIZE    1024
+
+

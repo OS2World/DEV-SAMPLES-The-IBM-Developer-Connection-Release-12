@@ -1,0 +1,38 @@
+Start 1
+Start session 0
+Start session 1
+Start session 2
+Start session 3
+Start session 4
+Start session 5
+Start session 6
+Start session 7
+Start session 8
+Start session 9
+Start session 10
+Start session 11
+Start session 12
+Start session 13
+Start session 14
+Start session 15
+Status  = 42
+Shift   = 0020
+Scancode= 50
+char    = E0
+Status  = 42
+Shift   = 0020
+Scancode= 48
+char    = E0
+Status  = 42
+Shift   = 0020
+Scancode= 48
+char    = E0
+Status  = 42
+Shift   = 0020
+Scancode= 3C
+char    = 00
+Status  = 42
+Shift   = 0020
+Scancode= 3C
+char    = 00
+End

@@ -1,0 +1,114 @@
+
+            OS/2 Warp DBCS Application Primer Featuring XPG4
+                                                                12/15/95
+                                                                    DTCO
+
+1. Set up your environment
+
+** If you have installed VAC++ V3 on your system, go to the section 1.2. **
+
+   1.1. Install the locale databases
+
+       0) Start a command prompt.
+
+       1) Download LOCALES ZIPBIN file to your OS/2 as binary.
+
+       2) Type "PKUNZIP2 -d LOCALES.ZIP x:", where 'x' is the
+          desired disk you'd like to install the locale databases.
+
+       3) The following directories are created on your x: disk.
+
+          x:LOCALE
+              |
+              +-- dde4mth.dll  A dll file from VAC++
+              |
+              +-- \en_us  English locales from VAC++
+              |
+              +-- \ja_jp  Japanese locales from VAC++
+
+       4) Copy the dde4mth.dll file to a directory which is included in
+          LIBPATH statement, or x:xprmos2 directory.
+
+   1.2. Set environment variables
+
+       0) Start a command prompt if not yet.
+
+       1) Type "SET LOCPATH".  If it's null or does not address a directory
+          containing VAC++ locales, set "x:LOCALE" as the LOCPATH. As for
+          VAC++ users, it would be "y:\ibmcpp\locale".
+
+       2) Type "SET LANG". If it's null, or do not conform the naming
+          convention of XPG4 locale, you have to change it.
+
+          As for VAC++ users, you can use any locale supported by VAC++.
+          Refer to the "Locale Naming Convention" in the VAC++ Programming
+          Guide for the supported locales.
+
+          As for non-VAC++ users, the package only contains US-English and
+          Japanese locales.  So please specify "en_us".
+
+          The process code page should be either 437 or 850.
+
+       ** If your environment is Japanese... **
+          Specify "ja_jp" as the LANG parameter. If your code page is
+          932, modify the first line of the data files, "CUSTREC.DAT"
+          and "PRODREC.DAT", from "ja_jp.ibm-942" to "ja_jp.ibm-932".
+
+2. Let's start the program!
+
+   After setup your environment, go to the directory x:XPRMOS2 and
+   type "XPRMOS2". Then a small dialog window saying "login dialog"
+   is shown. Type any 6-digits numbers and hit enter.  Then a
+   standard window with OS/2 logo is shown.
+
+   There are three menus available.
+
+   -+- Order -+-- New          Enter a new order.
+    |         |
+    |         +-- Inquire      Query the existing order data.
+    |
+    +- Cust. Info -+-- Regist  Register a new customer.
+    |              |
+    |              +-- Find    Find the existing customer data.
+    |
+    +- Help -+-- Help Index    Index of help items.
+             |
+             +-- Key's help    Key usage.
+             |
+             +-- Using Help    General help for Help facility.
+             |
+             +-- About         Product information.
+
+3. To compile the program
+
+   You'll need the VAC++ to compile the program.  .MAK files for the
+   .EXE and each .DLLs are provided with the source file.
+
+4. In case you've got an error
+
+   1) The program ends without showing a window!
+
+      Check if the current directory is the directory where the XPRMOS2.EXE
+      file exists.  If not, move there.  If so, please check .LOG file which
+      indicates one of data file I/O errors at the start up time.
+
+   2) The program shows English messages though the code page is a Japanese
+      code page.
+
+      Check if the LANG environment variable is "ja_jp" (case insensitive).
+      If it is set correctly, check if the dde4mth.dll file exits in a
+      directory specified in the LIBPATH statement.
+
+   3) Product and customer names are in English though the windows are
+      in Japanese.
+
+      Check the first line of the data files, "CUSTREC.DAT" and
+      "PRODREC.DAT". It is "ja_jp.ibm-xxx" where the last 3 digits
+      number must be the same with the current code pages.
+
+   4) Program abends...
+
+      Please describe your environment and the operation, and send the
+      .DAT files with it to DTCO at YMTVM1.
+
+

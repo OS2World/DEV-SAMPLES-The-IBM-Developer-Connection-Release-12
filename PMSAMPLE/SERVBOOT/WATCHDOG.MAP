@@ -1,0 +1,432 @@
+
+ WATCHDOG
+
+ Start     Length     Name                   Class
+ 0001:0000 03C50H     _TEXT                  CODE
+ 0001:3C50 02580H     EMULATOR_TEXT          CODE
+ 0001:61D0 00000H     C_ETEXT                ENDCODE
+ 0002:0000 00170H     EMULATOR_DATA          FAR_DATA
+ 0003:0000 00042H     NULL                   BEGDATA
+ 0003:0042 00F5AH     _DATA                  DATA
+ 0003:0F9C 00000H     XIB                    DATA
+ 0003:0F9C 00002H     XI                     DATA
+ 0003:0F9E 00000H     XIE                    DATA
+ 0003:0F9E 0000EH     CDATA                  DATA
+ 0003:0FAC 00000H     XIFB                   DATA
+ 0003:0FAC 00000H     XIF                    DATA
+ 0003:0FAC 00000H     XIFE                   DATA
+ 0003:0FAC 00000H     XPB                    DATA
+ 0003:0FAC 00002H     XP                     DATA
+ 0003:0FAE 00000H     XPE                    DATA
+ 0003:0FAE 00000H     XCB                    DATA
+ 0003:0FAE 00000H     XC                     DATA
+ 0003:0FAE 00000H     XCE                    DATA
+ 0003:0FAE 00000H     XCFB                   DATA
+ 0003:0FAE 00000H     XCF                    DATA
+ 0003:0FAE 00000H     XCFE                   DATA
+ 0003:0FAE 00020H     CONST                  CONST
+ 0003:0FCE 00008H     HDR                    MSG
+ 0003:0FD6 001D1H     MSG                    MSG
+ 0003:11A7 00002H     PAD                    MSG
+ 0003:11A9 00001H     EPAD                   MSG
+ 0003:11AA 00068H     _BSS                   BSS
+ 0003:1212 00000H     XOB                    BSS
+ 0003:1212 00000H     XO                     BSS
+ 0003:1212 00000H     XOE                    BSS
+ 0003:1220 00202H     c_common               BSS
+ 0003:1430 02000H     STACK                  STACK
+
+ Origin   Group
+ 0003:0   DGROUP
+
+  Address         Publics by Name
+
+ 0003:0F78       $i8_implicit_exp
+ 0003:0F76       $i8_inpbas
+ 0001:367F       $i8_input
+ 0003:0F77       $i8_input_ws
+ 0001:3364       $i8_output
+ 0001:3C12       $i8_tpwr10
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  DOSALLOCSHRSEG       (DOSCALLS.35)
+ 0000:0000  Imp  DOSBEEP              (DOSCALLS.50)
+ 0000:0000  Imp  DOSCHGFILEPTR        (DOSCALLS.58)
+ 0000:0000  Imp  DOSCLOSESEM          (DOSCALLS.23)
+ 0000:0000  Imp  DOSCREATESEM         (DOSCALLS.24)
+ 0000:0000  Imp  DOSDEVIOCTL          (DOSCALLS.53)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSFREESEG           (DOSCALLS.39)
+ 0000:0000  Imp  DOSGETDBCSEV         (NLS.4)
+ 0000:0000  Imp  DOSGETMACHINEMODE    (DOSCALLS.49)
+ 0000:0000  Imp  DOSGETSHRSEG         (DOSCALLS.36)
+ 0000:0000  Imp  DOSGETVERSION        (DOSCALLS.92)
+ 0000:0000  Imp  DOSOPEN              (DOSCALLS.70)
+ 0000:0000  Imp  DOSOPENSEM           (DOSCALLS.25)
+ 0000:0000  Imp  DOSQHANDTYPE         (DOSCALLS.77)
+ 0000:0000  Imp  DOSREAD              (DOSCALLS.137)
+ 0000:0000  Imp  DOSREALLOCSEG        (DOSCALLS.38)
+ 0000:0000  Imp  DOSSEMCLEAR          (DOSCALLS.141)
+ 0000:0000  Imp  DOSSEMREQUEST        (DOSCALLS.140)
+ 0000:0000  Imp  DOSSETVEC            (DOSCALLS.89)
+ 0000:0000  Imp  DOSSLEEP             (DOSCALLS.32)
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+ 0000:FE32  Abs  FIARQQ
+ 0000:0E32  Abs  FICRQQ
+ 0000:5C32  Abs  FIDRQQ
+ 0000:1632  Abs  FIERQQ
+ 0000:0632  Abs  FISRQQ
+ 0000:A23D  Abs  FIWRQQ
+ 0000:4000  Abs  FJARQQ
+ 0000:C000  Abs  FJCRQQ
+ 0000:8000  Abs  FJSRQQ
+ 0003:0ED4       STKHQQ
+ 0001:2BE4       _atof
+ 0001:35CA       _brkctl
+ 0003:11AA       _edata
+ 0003:1430       _end
+ 0003:0D43       _environ
+ 0003:0D0C       _errno
+ 0001:0B30       _exit
+ 0001:2AA0       _fflush
+ 0001:2DC0       _flushall
+ 0001:2B8C       _free
+ 0001:0350       _get_parms
+ 0001:02DA       _help_msg
+ 0003:1220       _hfDevice_Handle
+ 0001:2CA6       _isatty
+ 0001:0290       _logo_msg
+ 0001:2E62       _lseek
+ 0001:0010       _main
+ 0001:2B9E       _malloc
+ 0001:2CCA       _memmove
+ 0001:2D12       _memset
+ 0001:064A       _Open_ServBoot_Dev_Driver
+ 0001:075E       _Play
+ 0001:089A       _printf
+ 0001:2EA0       _read
+ 0001:06F6       _Re_Boot_OS2
+ 0001:0964       _sscanf
+ 0001:35B8       _stackavail
+ 0001:08D6       _strcat
+ 0001:0916       _strcpy
+ 0001:0948       _strlen
+ 0001:09C4       _strtok
+ 0001:09A2       _strupr
+ 0001:2C9C       _ultoa
+ 0001:2B10       _ungetc
+ 0001:2FDA       _write
+ 0003:0BE8       __abrkp
+ 0003:07E8       __abrktb
+ 0003:0BE8       __abrktbe
+ 0003:0BEA       __acfinfo
+ 0003:07DE       __acmdln
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0003:0D4C       __adbgmsg
+ 0000:D6D6  Abs  __aDBused
+ 0003:07E0       __aenvseg
+ 0003:07E6       __aexit_rtn
+ 0001:315F       __amalloc
+ 0001:329E       __amallocbrk
+ 0003:0F0C       __amblksiz
+ 0001:3242       __amexpand
+ 0001:327C       __amlink
+ 0001:081A       __amsg_exit
+ 0001:3514       __aNlshl
+ 0001:2DA0       __aNNalshl
+ 0003:0042       __anullsize
+ 0003:0F06       __aseg1
+ 0003:0ED8       __asegds
+ 0003:0BF8       __aseghi
+ 0003:0BFA       __aseglo
+ 0003:0F08       __asegn
+ 0003:0F0A       __asegr
+ 0003:07E2       __asizds
+ 0003:0E90       __asizeC
+ 0003:0E91       __asizeD
+ 0001:07BE       __astart
+ 0003:07E4       __atopsp
+ 0003:1222       __bufin
+ 0001:2772       __cfltcvt
+ 0003:0E82       __cfltcvt_tab
+ 0003:0ED6       __cflush
+ 0001:2448       __cftoe
+ 0001:2596       __cftof
+ 0001:26C0       __cftog
+ 0003:0D49       __child
+ 0001:2828       __chkstk
+ 0001:0AA6       __cinit
+ 0001:0810       __cintDIV
+ 0001:32BE       __cltoasub
+ 0001:2374       __cropzeros
+ 0001:0B7E       __ctermsub
+ 0003:0C00       __ctype
+ 0003:0C00       __ctype_
+ 0001:32CA       __cxtoa
+ 0000:0000  Imp  __DOSCREATECSALIAS   (DOSCALLS.43)
+ 0000:0000  Imp  __DOSDEVCONFIG       (DOSCALLS.52)
+ 0003:0D13       __doserrno
+ 0000:0000  Imp  __DOSFREESEG         (DOSCALLS.39)
+ 0000:0000  Imp  __DOSGETMACHINEMODE  (DOSCALLS.49)
+ 0003:0D12       __dosmode
+ 0001:357B       __dosret
+ 0001:356C       __dosretf
+ 0000:0000  Imp  __DOSSETVEC          (DOSCALLS.89)
+ 0003:0D10       __dosvermajor
+ 0003:0D11       __dosverminor
+ 0000:0000  Imp  __DOSWRITE           (DOSCALLS.138)
+ 0001:0B47       __exit
+ 0003:0D04       __fac
+ 0001:23F8       __fassign
+ 0001:0BAE       __FF_MSGBANNER
+ 0001:28A4       __filbuf
+ 0001:2964       __flsbuf
+ 0001:34D0       __fltin
+ 0001:34A9       __fltinf
+ 0001:2D5A       __fltout
+ 0000:9876  Abs  __fltused
+ 0001:231E       __forcdecpt
+ 0001:4475       __fpemulator
+ 0001:3EBE       __FPEXCEPTION87
+ 0003:0FA0       __fpinit
+ 0001:615A       __FPINSTALL87
+ 0001:3C76       __fpmath
+ 0001:27E4       __fpsignal
+ 0002:0166       __fptaskdata
+ 0001:6189       __FPTERMINATE87
+ 0001:2C26       __fptostr
+ 0001:2822       __fptrap
+ 0001:0D54       __ftbuf
+ 0001:0A73       __ftol
+ 0001:2DF2       __getbuf
+ 0001:0DE0       __input
+ 0003:0D50       __iob
+ 0003:0DF0       __iob2
+ 0003:0E68       __lastiob
+ 0003:0D15       __nfile
+ 0001:2B8C       __nfree
+ 0001:2B9E       __nmalloc
+ 0001:0C46       __NMSG_TEXT
+ 0001:0C76       __NMSG_WRITE
+ 0001:2840       __nullcheck
+ 0003:0D13       __oserr
+ 0003:0D17       __osfile
+ 0003:0D10       __osmajor
+ 0003:0D11       __osminor
+ 0003:0D12       __osmode
+ 0003:0D10       __osversion
+ 0001:1806       __output
+ 0003:0D45       __pgmptr
+ 0003:0D2B       __pipe
+ 0001:23CA       __positive
+ 0001:2134       __setargv
+ 0001:0BCE       __setenvp
+ 0003:0E8E       __sigintoff
+ 0003:0E8C       __sigintseg
+ 0001:0CAA       __stbuf
+ 0001:2862       __stdalloc
+ 0003:0E6A       __stdbuf
+ 0003:0D0E       __umaskval
+ 0001:2D40       __wrt2err
+ 0003:0BFE       ___aDBrterr
+ 0003:0BFC       ___aDBswpflg
+ 0003:0D3F       ___argc
+ 0003:0D41       ___argv
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  DOSCHGFILEPTR        (DOSCALLS.58)
+ 0000:0000  Imp  DOSCLOSESEM          (DOSCALLS.23)
+ 0000:0000  Imp  DOSSEMREQUEST        (DOSCALLS.140)
+ 0000:0000  Imp  DOSREAD              (DOSCALLS.137)
+ 0000:0000  Imp  DOSGETMACHINEMODE    (DOSCALLS.49)
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+ 0000:0000  Imp  DOSFREESEG           (DOSCALLS.39)
+ 0000:0000  Imp  DOSOPENSEM           (DOSCALLS.25)
+ 0000:0000  Imp  DOSGETVERSION        (DOSCALLS.92)
+ 0000:0000  Imp  __DOSGETMACHINEMODE  (DOSCALLS.49)
+ 0000:0000  Imp  DOSREALLOCSEG        (DOSCALLS.38)
+ 0000:0000  Imp  DOSSLEEP             (DOSCALLS.32)
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  DOSSETVEC            (DOSCALLS.89)
+ 0000:0000  Imp  DOSSEMCLEAR          (DOSCALLS.141)
+ 0000:0000  Imp  __DOSSETVEC          (DOSCALLS.89)
+ 0000:0000  Imp  __DOSCREATECSALIAS   (DOSCALLS.43)
+ 0000:0000  Imp  DOSOPEN              (DOSCALLS.70)
+ 0000:0000  Imp  __DOSWRITE           (DOSCALLS.138)
+ 0000:0000  Imp  DOSBEEP              (DOSCALLS.50)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSQHANDTYPE         (DOSCALLS.77)
+ 0000:0000  Imp  DOSDEVIOCTL          (DOSCALLS.53)
+ 0000:0000  Imp  DOSGETDBCSEV         (NLS.4)
+ 0000:0000  Imp  DOSGETSHRSEG         (DOSCALLS.36)
+ 0000:0000  Imp  __DOSFREESEG         (DOSCALLS.39)
+ 0000:0000  Imp  __DOSDEVCONFIG       (DOSCALLS.52)
+ 0000:0000  Imp  DOSCREATESEM         (DOSCALLS.24)
+ 0000:0000  Imp  DOSALLOCSHRSEG       (DOSCALLS.35)
+ 0000:0632  Abs  FISRQQ
+ 0000:0E32  Abs  FICRQQ
+ 0000:1632  Abs  FIERQQ
+ 0000:4000  Abs  FJARQQ
+ 0000:5C32  Abs  FIDRQQ
+ 0000:8000  Abs  FJSRQQ
+ 0000:9876  Abs  __fltused
+ 0000:9876  Abs  __acrtused
+ 0000:9876  Abs  __acrtmsg
+ 0000:A23D  Abs  FIWRQQ
+ 0000:C000  Abs  FJCRQQ
+ 0000:D6D6  Abs  __aDBused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0000:FE32  Abs  FIARQQ
+ 0001:0010       _main
+ 0001:0290       _logo_msg
+ 0001:02DA       _help_msg
+ 0001:0350       _get_parms
+ 0001:064A       _Open_ServBoot_Dev_Driver
+ 0001:06F6       _Re_Boot_OS2
+ 0001:075E       _Play
+ 0001:07BE       __astart
+ 0001:0810       __cintDIV
+ 0001:081A       __amsg_exit
+ 0001:089A       _printf
+ 0001:08D6       _strcat
+ 0001:0916       _strcpy
+ 0001:0948       _strlen
+ 0001:0964       _sscanf
+ 0001:09A2       _strupr
+ 0001:09C4       _strtok
+ 0001:0A73       __ftol
+ 0001:0AA6       __cinit
+ 0001:0B30       _exit
+ 0001:0B47       __exit
+ 0001:0B7E       __ctermsub
+ 0001:0BAE       __FF_MSGBANNER
+ 0001:0BCE       __setenvp
+ 0001:0C46       __NMSG_TEXT
+ 0001:0C76       __NMSG_WRITE
+ 0001:0CAA       __stbuf
+ 0001:0D54       __ftbuf
+ 0001:0DE0       __input
+ 0001:1806       __output
+ 0001:2134       __setargv
+ 0001:231E       __forcdecpt
+ 0001:2374       __cropzeros
+ 0001:23CA       __positive
+ 0001:23F8       __fassign
+ 0001:2448       __cftoe
+ 0001:2596       __cftof
+ 0001:26C0       __cftog
+ 0001:2772       __cfltcvt
+ 0001:27E4       __fpsignal
+ 0001:2822       __fptrap
+ 0001:2828       __chkstk
+ 0001:2840       __nullcheck
+ 0001:2862       __stdalloc
+ 0001:28A4       __filbuf
+ 0001:2964       __flsbuf
+ 0001:2AA0       _fflush
+ 0001:2B10       _ungetc
+ 0001:2B8C       _free
+ 0001:2B8C       __nfree
+ 0001:2B9E       _malloc
+ 0001:2B9E       __nmalloc
+ 0001:2BE4       _atof
+ 0001:2C26       __fptostr
+ 0001:2C9C       _ultoa
+ 0001:2CA6       _isatty
+ 0001:2CCA       _memmove
+ 0001:2D12       _memset
+ 0001:2D40       __wrt2err
+ 0001:2D5A       __fltout
+ 0001:2DA0       __aNNalshl
+ 0001:2DC0       _flushall
+ 0001:2DF2       __getbuf
+ 0001:2E62       _lseek
+ 0001:2EA0       _read
+ 0001:2FDA       _write
+ 0001:315F       __amalloc
+ 0001:3242       __amexpand
+ 0001:327C       __amlink
+ 0001:329E       __amallocbrk
+ 0001:32BE       __cltoasub
+ 0001:32CA       __cxtoa
+ 0001:3364       $i8_output
+ 0001:34A9       __fltinf
+ 0001:34D0       __fltin
+ 0001:3514       __aNlshl
+ 0001:356C       __dosretf
+ 0001:357B       __dosret
+ 0001:35B8       _stackavail
+ 0001:35CA       _brkctl
+ 0001:367F       $i8_input
+ 0001:3C12       $i8_tpwr10
+ 0001:3C76       __fpmath
+ 0001:3EBE       __FPEXCEPTION87
+ 0001:4475       __fpemulator
+ 0001:615A       __FPINSTALL87
+ 0001:6189       __FPTERMINATE87
+ 0002:0166       __fptaskdata
+ 0003:0042       __anullsize
+ 0003:07DE       __acmdln
+ 0003:07E0       __aenvseg
+ 0003:07E2       __asizds
+ 0003:07E4       __atopsp
+ 0003:07E6       __aexit_rtn
+ 0003:07E8       __abrktb
+ 0003:0BE8       __abrktbe
+ 0003:0BE8       __abrkp
+ 0003:0BEA       __acfinfo
+ 0003:0BF8       __aseghi
+ 0003:0BFA       __aseglo
+ 0003:0BFC       ___aDBswpflg
+ 0003:0BFE       ___aDBrterr
+ 0003:0C00       __ctype_
+ 0003:0C00       __ctype
+ 0003:0D04       __fac
+ 0003:0D0C       _errno
+ 0003:0D0E       __umaskval
+ 0003:0D10       __osmajor
+ 0003:0D10       __dosvermajor
+ 0003:0D10       __osversion
+ 0003:0D11       __dosverminor
+ 0003:0D11       __osminor
+ 0003:0D12       __osmode
+ 0003:0D12       __dosmode
+ 0003:0D13       __doserrno
+ 0003:0D13       __oserr
+ 0003:0D15       __nfile
+ 0003:0D17       __osfile
+ 0003:0D2B       __pipe
+ 0003:0D3F       ___argc
+ 0003:0D41       ___argv
+ 0003:0D43       _environ
+ 0003:0D45       __pgmptr
+ 0003:0D49       __child
+ 0003:0D4C       __adbgmsg
+ 0003:0D50       __iob
+ 0003:0DF0       __iob2
+ 0003:0E68       __lastiob
+ 0003:0E6A       __stdbuf
+ 0003:0E82       __cfltcvt_tab
+ 0003:0E8C       __sigintseg
+ 0003:0E8E       __sigintoff
+ 0003:0E90       __asizeC
+ 0003:0E91       __asizeD
+ 0003:0ED4       STKHQQ
+ 0003:0ED6       __cflush
+ 0003:0ED8       __asegds
+ 0003:0F06       __aseg1
+ 0003:0F08       __asegn
+ 0003:0F0A       __asegr
+ 0003:0F0C       __amblksiz
+ 0003:0F76       $i8_inpbas
+ 0003:0F77       $i8_input_ws
+ 0003:0F78       $i8_implicit_exp
+ 0003:0FA0       __fpinit
+ 0003:11AA       _edata
+ 0003:1220       _hfDevice_Handle
+ 0003:1222       __bufin
+ 0003:1430       _end
+
+Program entry point at 0001:07BE

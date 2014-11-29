@@ -1,0 +1,3 @@
+Arg window self
+/* Open the form E:\VISPRORX\PROJECTS\Project!1\Extract*/
+value=VpOpenForm(window, 257, 'topic name')

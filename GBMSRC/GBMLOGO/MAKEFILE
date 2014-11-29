@@ -1,0 +1,26 @@
+GBM =		\ak\gbm\gbm
+
+.SUFFIXES:	.c .obj
+
+CFLAGS =	/C+ /W3 /I$(GBM) /G4 /Gd-e+m+ /Q+ /Wpro /Ti+
+LFLAGS =	/BATCH /NOLOGO /ALIGN:4 /BASE:0x10000 /NOI /PMTYPE:VIO /DEBUG /STACK:0x8000
+
+.c.obj:
+		icc $(CFLAGS) $*.c
+
+#
+
+LIBS =		$(GBM)\gbm.lib $(GBM)\gbmtrunc.lib $(GBM)\gbmerr.lib $(GBM)\gbmht.lib
+
+gbmlogo.exe:	gbmlogo.obj $(LIBS)
+		link386 $(LFLAGS) gbmlogo.obj,$@, nul, $(LIBS);
+
+gbmlogo.obj:	gbmlogo.c $(GBM)\gbm.h $(GBM)\gbmtrunc.h $(GBM)\gbmerr.h $(GBM)\gbmht.h
+
+#
+
+clean:
+		-del *.obj 2> nul
+
+install:
+		copy *.exe d:\gbm

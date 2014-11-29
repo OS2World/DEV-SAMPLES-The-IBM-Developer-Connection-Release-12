@@ -1,0 +1,40 @@
+            
+                     File Dialog Package Documentation
+                     =================================
+                              Version 0.03
+                            Juerg von Kaenel
+                             JVK at ZURLVM1
+
+Questions, Suggestion and Comments please to the FILEDLG FORUM on IBMPC
+
+The file FILEDLG RAMBIN consists of the following files:
+
+/* the files for those who don't want to change the source code         */
+FILEDLG  DOC    /* this documentation                                   */
+FILEDLG  H      /* the include file  <== read this file to understand   */
+                /* how this interface can be used from your program     */
+FILEDLG  LIB    /* the library containing the GetFileSelection function */
+FILEDLG  DLL    /* the dynamic link library containing the dialog box   */
+/* the source code                                                      */
+FILEDLG  C      /* source for the GetFileSelection function             */
+FILEDLG  MAK
+FILEDLG  OBJ
+_FILEDLG H
+_FILEDLG C      /* source for the dynamic link library                  */
+_FILEDLG RC
+_FILEDLG L
+_FILEDLG DEF
+_FILEDLG OBJ
+_FILEDLG RES
+/* a small test program for debugging purposes or a quick look           */
+TESTDLL  H
+TESTDLL  C
+TESTDLL  RC
+TESTDLL  ICO
+TESTDLL  DEF
+TESTDLL  L
+TESTDLL  MAK
+TESTDLL  OBJ
+TESTDLL  RES
+TESTDLL  EXE
+

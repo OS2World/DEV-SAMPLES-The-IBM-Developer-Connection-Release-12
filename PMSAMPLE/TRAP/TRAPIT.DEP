@@ -1,0 +1,18 @@
+# IBM Developer's Workframe/2 Make File Creation run at 15:19:21 on 09/29/93
+
+# Make File Creation run in directory:
+#   G:\UNL;
+
+# Assumed INCLUDE environment variable path:
+#   I:\IBMC\INCLUDE;
+#   C:\TOOLKT20\C\OS2H;
+#   C:\TOOLKT20\ASM\OS2INC;
+#   I:\TOOLKT20\C\OS2H;
+#   I:\TOOLKT20\ASM\OS2INC;
+
+
+TRAPIT.OBJ:  TRAPIT.C  \
+#  {$(INCLUDE);}os2.h  \
+   {.;$(INCLUDE);}pmdebug.h  \
+   MAKEUNPM
+

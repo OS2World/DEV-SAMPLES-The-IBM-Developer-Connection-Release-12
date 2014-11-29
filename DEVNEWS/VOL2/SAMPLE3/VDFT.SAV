@@ -1,0 +1,934 @@
+/******************************************************************************/
+/*                                                                            */
+/*                     IBM Sample Virtual Device Driver                       */
+/*                                                                            */
+/*                 Copyright (c) IBM Corporation 1993                         */
+/*                         All Rights Reserved                                */
+/*                                                                            */
+/*   DISCLAIMER OF WARRANTIES.  The following [enclosed] code is              */
+/*   sample code created by IBM Corporation. This sample code is not          */
+/*   part of any standard or IBM product and is provided to you solely        */
+/*   for  the purpose of assisting you in the development of your             */
+/*   applications.  The code is provided "AS IS", without                     */
+/*   warranty of any kind.  IBM shall not be liable for any damages           */
+/*   arising out of your use of the sample code, even if they have been       */
+/*   advised of the possibility of such damages.                              */
+/*                                                                            */
+/******************************************************************************/
+/************************** START OF SPECIFICATIONS ***************************/
+/*                                                                            */
+/*   SOURCE FILE NAME:  VDFT.C                                                */
+/*                                                                            */
+/*   DESCRIPTIVE NAME:  Initialize virtual DFT device driver(VDFT)            */
+/*                                                                            */
+/*   FUNCTION: These routines comprise the Virtual DFT device driver which    */
+/*             supports the 3270 DFT addapter card.                           */
+/*                                                                            */
+/*   NOTES:    These routines work in conjunction with DFT_DDM.ASM ( the      */
+/*             DFT physical device driver.                                    */
+/*                                                                            */
+/*   RESTRICTIONS: None                                                       */
+/*                                                                            */
+/*   ENTRY POINTS:                                                            */
+/*             VDFTInit - Initialize virtual DFT device driver                */
+/*             VDFTPDDProc - VDFT entry point for PDFT                        */
+/*             VDFTDaIn - process first IN instruction to DFT                 */
+/*             VDFTDaOut- process first OUT instruction to DFT                */
+/*             VDFTStIN - process first IN instruction to DFT status register */
+/*             VDFTStOUT- process first OUT instruction to DFT status register*/
+/*             VDFTCreate - processing to be done at VDM create               */
+/*             VDFTTerminate - processing to be done at VDM terminate         */
+/*             VDFT_EOI  - handler for EOI instruction by DOS app             */
+/*             VDFTPDBChange - process PDB change event                       */
+/*             VDFTPDBDestroy - process PDB destroy event                     */
+/*                                                                            */
+/*   EXTERNAL REFERENCES:                                                     */
+/*             VDHInstallUserHook - Install VDM event hook                    */
+/*             VDHOpenPDD         - Get PDD entry point                       */
+/*             VDHOpenVIRQ        - register an IRQ for VDM                   */
+/*             VDHSetIOHookState  - Enable/Disable I/O port                   */
+/*                                  trapping                                  */
+/*             VDHInstallIOHook   - Install I/O port hooks                    */
+/*             VDHRemoveIOHook    - release IO hook                           */
+/*             VDHSetVIRR         - start simulating Interrupts               */
+/*                                  to the VDM                                */
+/*             VDHClearVIRR       - Stop simulating interrupts to             */
+/*                                  the VDM                                   */
+/*             VDHMapPages        - map physical to linear pages              */
+/**************************** END OF SPECIFICATIONS ***************************/
+
+#define INCL_VDH
+#define NULL 0
+
+#include <mvdm.h>                       /* VDH services, etc.        */
+#include <basemid.h>                    /* message numbers           */
+#include <builtin.h>                    /* builtin functions         */
+#include "VDFTP.H"                      /* Local Stuff               */
+// #include "common.h"
+
+/*                                                                   */
+/*                 GLOBAL DATA AREA FOR VDFT                         */
+/*                                                                   */
+
+HIRQ hirq_DFT = 0;                      /* holds handle for EOI hook */
+
+HVDM HVDM_Owner = 0;                    /* hvdm of owner             */
+INT   Status_byte;                      /* Status Register value     */
+
+BOOL  interruptsnotenabled = TRUE;      /* T = interrupts not enabled in DD    */
+BOOL  wait_for_EOI = FALSE;             /* T = EOI not done yet                */
+BOOL  wait_for_status_out = FALSE;      /* T = out to status port not done yet */
+
+#pragma data_seg(CSWAP_DATA)
+
+VDFTPDB PDB_Owner = 0;
+
+FPFNPDD PDFTPDDProc = (FPFNPDD) 0;      /* addr of PDD service rtn  */
+
+struct VDHMapSource_s MapSource = {     /* vdhms                    */
+                     0XCE000,           /* linear address to map    */
+                     0};                /* hvdms_hobj               */
+
+struct VDHMapTarget_s MapTarget = {     /* vdhmt                    */
+                     0XCE000,           /* linear buffer address    */
+                     2,                 /* number of pages          */
+                     0                  /* handle                   */
+                     };
+
+struct ioh_s htable = {
+                       VDFTDaIn,        /* byte input handler  */
+                       VDFTDaOut,       /* byte output handlr  */
+                       NULL,            /* word input handler  */
+                       NULL,            /* word output handlr  */
+                       NULL             /* dword & string I/O  */
+                       };               /* handler             */
+
+struct ioh_s htable_st = {
+                       VDFTStIn,        /* byte input handler  */
+                       VDFTStOut,       /* byte output handlr  */
+                       NULL,            /* word input handler  */
+                       NULL,            /* word output handlr  */
+                       NULL             /* dword & string I/O  */
+                       };               /* handler             */
+
+#pragma data_seg()
+
+#pragma data_seg(SWAPINSTDATA)
+
+HVDM  HVDM_Current;                     /* Current VDM handle  */
+VDFTPDB PDB_Current;                    /* Current PDB         */
+
+#pragma data_seg()
+
+#pragma data_seg(CINIT_DATA)
+
+char szPDDName[]=DFT_NAME;
+
+#pragma data_seg()
+
+#pragma alloc_text(CSWAP_TEXT, VDFTDaIn, VDFTStIn, VDFTDaOut)
+
+BOOL OS2Service(ULONG ulCommand,SGID sgid,ULONG ulCountBuffer);
+/********************** START OF SPECIFICATIONS ***********************/
+/*                                                                    */
+/* SUBROUTINE NAME:  VDFTDaIn                                         */
+/*                                                                    */
+/* DESCRIPTIVE NAME:  DFT Data Port In Instruction Handler            */
+/*                                                                    */
+/* FUNCTION:  The function of this routine is to service the VDM      */
+/*            IN instruction for DFT if the IN to the data port       */
+/*            is the first occurrence of I/O. If it is not the        */
+/*            first occurrence then the hook for this port will       */
+/*            have been disabled. This routine requests I/O direct    */
+/*            mode and if successful does the IN instruction.         */
+/*                                                                    */
+/* NOTES:  VDFTDaIn handles byte instructions only.                   */
+/*                                                                    */
+/* CONTEXT: VDM task time                                             */
+/*                                                                    */
+/* ENTRY POINT:  VDFTDaIn                                             */
+/*    LINKAGE:   CALL NEAR 32                                          */
+/*                                                                    */
+/* INPUT:  (PARAMETERS)  (passed on the stack)                        */
+/*         portaddr -    port address                                 */
+/*         pcrf     -    client register frame pointer                */
+/*                                                                    */
+/* EXIT-NORMAL:  returns byte of data from data port for DFT1         */
+/*                                                                    */
+/* EXIT-ERROR:  NONE                                                  */
+/*                                                                    */
+/* EFFECTS:  NONE                                                     */
+/*                                                                    */
+/* INTERNAL REFERENCES:  RequestDirect                                */
+/*                                                                    */
+/* EXTERNAL REFERENCES:  VDHSetIOHookState - Enable/Disable I/O port  */
+/*                                           trapping                 */
+/*                                                                    */
+/************************ END OF SPECIFICATIONS ***********************/
+BYTE HOOKENTRY VDFTDaIn(ULONG portaddr, PCRF pcrf)
+{
+
+    BYTE dataread=0;                   /* set up byte to return      */
+
+#ifdef DEBUG
+     _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /*- Call to set up direct access mode for the port address      -*/
+    /*- passed in.                                                  -*/
+    /* If current requestor is not current owner, deny access        */
+    /*---------------------------------------------------------------*/
+
+        if (RequestDirect())
+        {
+
+      /*-------------------------------------------------------------*/
+      /* For performance, we want the DOS app to be able to directly */
+      /* access the port from here on.  Therefore, we will unhook    */
+      /* the ports.                                                  */
+      /*-------------------------------------------------------------*/
+
+            VDHSetIOHookState(HVDM_Current,FirstReg,numPorts,&htable,(BOOL)FALSE);
+
+    /*---------------------------------------------------------------*/
+    /*- Now do an IN to satisfy the application that caused         -*/
+    /*-  this routine to be executed.                               -*/
+    /*---------------------------------------------------------------*/
+
+            dataread = __inpb(portaddr);
+        }
+
+        return(dataread);              /* return data read           */
+}
+
+
+/********************** START OF SPECIFICATIONS ***********************/
+/*                                                                    */
+/* SUBROUTINE NAME:  VDFTStIn                                         */
+/*                                                                    */
+/* DESCRIPTIVE NAME:  DFT Status Port In Instruction Handler          */
+/*                                                                    */
+/* FUNCTION:  The function of this routine is to service the VDM      */
+/*            IN instruction for DFT if the IN to the status port     */
+/*            is the first occurrence of I/O. If it is not the        */
+/*            first occurrence then the hook for this port will       */
+/*            have been disabled. This routine requests I/O direct    */
+/*            mode and if successful does the IN instruction.         */
+/*                                                                    */
+/* NOTES:  VDFTStIn handles byte instructions only.                   */
+/*                                                                    */
+/* CONTEXT: VDM task time                                             */
+/*                                                                    */
+/* ENTRY POINT:  VDFTStIn                                             */
+/*    LINKAGE:  CALL NEAR 32                                          */
+/*                                                                    */
+/* INPUT:  (PARAMETERS)  (passed on the stack)                        */
+/*         portaddr -    port address                                 */
+/*         pcrf     -    client register frame pointer                */
+/*                                                                    */
+/* EXIT-NORMAL:  returns byte of data from status port for DFT        */
+/*                                                                    */
+/* EXIT-ERROR:  NONE                                                  */
+/*                                                                    */
+/* EFFECTS:  NONE                                                     */
+/*                                                                    */
+/* INTERNAL REFERENCES:  RequestDirect                                */
+/*                                                                    */
+/* EXTERNAL REFERENCES:  NONE                                         */
+/*                                                                    */
+/************************ END OF SPECIFICATIONS ***********************/
+BYTE HOOKENTRY VDFTStIn( ULONG portaddr, PCRF pcrf )
+{
+    BYTE dataread=0;                   /* set up byte to return      */
+
+#ifdef DEBUG
+     _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /*- Call to set up direct access mode for the port address      -*/
+    /*- passed in.                                                  -*/
+    /* If current requestor is not current owner, deny access        */
+    /*---------------------------------------------------------------*/
+
+        if (RequestDirect())
+        {
+    /*---------------------------------------------------------------*/
+    /*- Now do an IN to satisfy the application that caused         -*/
+    /*-  this routine to be executed.                               -*/
+    /*---------------------------------------------------------------*/
+
+            if (wait_for_status_out)
+                dataread = Status_byte;
+            else
+                dataread = __inpb(portaddr);
+
+        }
+
+        return(dataread);              /* return data read           */
+}
+
+/********************** START OF SPECIFICATIONS ***********************/
+/*                                                                    */
+/* SUBROUTINE NAME:  VDFTDaOut                                        */
+/*                                                                    */
+/* DESCRIPTIVE NAME:  DFT Data Port OUT Instruction Handler           */
+/*                                                                    */
+/* FUNCTION:  The function of this routine is to service the VDM      */
+/*            OUT instruction for DFT if the OUT to the data port     */
+/*            is the first occurrence of I/O. If it is not the        */
+/*            first occurrence then the hook for this port will       */
+/*            have been disabled. This routine requests I/O direct    */
+/*            mode and if successful does the OUT instruction.        */
+/*                                                                    */
+/* NOTES:  VDFTDaOut currently handles byte instructions only.        */
+/*                                                                    */
+/* CONTEXT: VDM task time                                             */
+/*                                                                    */
+/* ENTRY POINT:  VDFTDaOut                                            */
+/*    LINKAGE:  CALL NEAR 32                                          */
+/*                                                                    */
+/* INPUT:  (PARAMETERS)  (passed on the stack)                        */
+/*         chartowrite - data to write                                */
+/*         portaddr    - port address                                 */
+/*         pcrf        - client register frame pointer                */
+/*                                                                    */
+/* EXIT-NORMAL:  NONE                                                 */
+/*                                                                    */
+/* EXIT-ERROR:  NONE                                                  */
+/*                                                                    */
+/* EFFECTS:  NONE                                                     */
+/*                                                                    */
+/* INTERNAL REFERENCES: RequestDirect                                 */
+/*                                                                    */
+/* EXTERNAL REFERENCES:  VDHSetIOHookState - Enable/Disable I/O port  */
+/*                                           trapping                 */
+/*                                                                    */
+/************************ END OF SPECIFICATIONS ***********************/
+VOID HOOKENTRY VDFTDaOut(BYTE chartowrite, ULONG portaddr, PCRF pcrf)
+{
+
+#ifdef DEBUG
+  _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /* Request direct access mode for this VDM.                      */
+    /*---------------------------------------------------------------*/
+
+       if (RequestDirect())
+       {
+
+      /*-------------------------------------------------------------*/
+      /* For performance, we want the DOS app to be able to directly */
+      /* access the port from here on.  Therefore, we will unhook    */
+      /* the port.                                                   */
+      /*-------------------------------------------------------------*/
+
+           VDHSetIOHookState(HVDM_Current,FirstReg,numPorts,&htable,(BOOL)FALSE);
+
+    /*---------------------------------------------------------------*/
+    /* Now do an OUT to satisfy the application that caused this int.*/
+    /*---------------------------------------------------------------*/
+
+           __outpb(portaddr,chartowrite);
+
+       }
+       return;
+
+}
+
+#pragma alloc_text(CSWAP_TEXT, VDFTStOut, VDFTFaultHandler, VDFTCreate)
+
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFTStOut                                             */
+/*                                                                        */
+/*DESCRIPTIVE NAME: DFT Status Port OUT Instruction Handler               */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the VDM OUT      */
+/*            instruction for DFT if the OUT to the status port is the    */
+/*            first I/O.  If it is not the first occurrence, then         */
+/*            the hook for this port will have been disabled.  This       */
+/*            routine requests I/O direct mode and if successful, does    */
+/*            the OUT instruction.                                        */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFTStOut                                                 */
+/*       LINKAGE:   CALL NEAR 32                                          */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*               portaddr    -    port address                            */
+/*               pcrf            -    client register frame pointer       */
+/* EXIT-NORMAL:  return byte of data from status port for DFT             */
+/*                                                                        */
+/* EXIT-ERROR:    NONE                                                    */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES: RequestDirect                                     */
+/*                                                                        */
+/* EXTERNAL REFERENCES:  NONE                                             */
+/*                                                                        */
+/************************ END OF SPECIFICATIONS ***************************/
+VOID HOOKENTRY VDFTStOut(BYTE chartowrite, ULONG portaddr, PCRF pcrf)
+{
+
+#ifdef DEBUG
+   _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /* Request direct access mode for this VDM.                      */
+    /*---------------------------------------------------------------*/
+
+       if (RequestDirect())
+           {
+    /*---------------------------------------------------------------*/
+    /* Do an OUT to satisfy the application.                         */
+    /*---------------------------------------------------------------*/
+           if (wait_for_status_out)
+               wait_for_status_out = FALSE;
+           else
+               __outpb(portaddr,chartowrite);
+
+           DISABLE();
+           if ((interruptsnotenabled) && (wait_for_status_out==wait_for_EOI))
+               EnableInterrupts();
+           ENABLE();
+
+           }
+
+       return;
+
+}
+
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFTFaultHandler                                      */
+/*                                                                        */
+/*DESCRIPTIVE NAME: DFT routine called at page fault       handler entry  */
+/*                  point                                                 */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the page         */
+/*            fault handler entry point.  This routine tries to get       */
+/*            access to the adapter mapped into this VDM.                 */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFTFaultHandler                                          */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*              ULONG pvdm                                                */
+/*                                                                        */
+/* EXIT-NORMAL:                                                           */
+/*                                                                        */
+/* EXIT-ERROR:                                                            */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   NONE                                            */
+/*                                                                        */
+/*************************************************************************/
+
+VOID HOOKENTRY VDFTFaultHandler(PVDM pvdm)
+{
+
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+  RequestDirect();
+
+}
+
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFTCreate                                            */
+/*                                                                        */
+/* DESCRIPTIVE NAME: DFT routine called at VDM creation                   */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the creation of  */
+/*            a new VDM. I/O hooks will be installed for the DFT port.    */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFTCreate                                                */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*          hvdm   - handle of current VDM                                */
+/*                                                                        */
+/* EXIT-NORMAL:                                                           */
+/*                                                                        */
+/* EXIT-ERROR:    NONE                                                    */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   VDHInstallIOHook - Install I/O port hooks       */
+/*                        VDHMapPages - map physical to linear pages      */
+/*                                                                        */
+/**************************************************************************/
+
+BOOL HOOKENTRY VDFTCreate(HVDM hvdm)
+{
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /* Set up per VDM instance data.                                 */
+    /*---------------------------------------------------------------*/
+        HVDM_Current = hvdm;
+
+    /*---------------------------------------------------------------*/
+    /* Set a fault hook handler for adapter space                    */
+    /*---------------------------------------------------------------*/
+        if ( (VDHInstallFaultHook(hvdm,
+                     (PVOID)0XCE000,     /* linear buffer address    */
+                     2,                  /* number of pages          */
+                     VDFTFaultHandler,
+                     FALSE)) == FALSE)
+            return FALSE;
+
+    /*---------------------------------------------------------------*/
+    /* Hook the 3270 DFT status port for IN/OUT instructions.        */
+    /* if the hook is unsuccessful, terminate the VDM.               */
+    /* NOTE: this hook is never disabled.                            */
+    /*---------------------------------------------------------------*/
+
+        if ( VDHInstallIOHook(HVDM_Current,StatusReg,numstat,
+                              &htable_st,VDHIIH_ALWAYS_TRAP) == FALSE)
+            return FALSE;
+
+    /*---------------------------------------------------------------*/
+    /* Hook all 3270 DFT ports for IN/OUT instructions.        */
+    /* if the hook is unsuccessful, terminate the VDM.               */
+    /* NOTE: these hooks are released on gaining direct access.      */
+    /*---------------------------------------------------------------*/
+
+        if (VDHInstallIOHook(HVDM_Current,FirstReg,numPorts,
+                             &htable,0) == FALSE)
+            return FALSE;
+
+        return  TRUE;
+ }
+
+#pragma alloc_text(CSWAP_TEXT, VDFTTerminate, VDFTPDBChange, VDFTPDBDestroy)
+                                                                                           #pragma alloc_text(CSWAP_TEXT, VDFTStOut, VDFTFaultHandler, VDFTCreate)
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFTTerminate                                         */
+/*                                                                        */
+/* DESCRIPTIVE NAME: DFT routine called at VDM termination                */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the VDM          */
+/*            termination.  If the current VDM is the owner of the DFT    */
+/*            port, clear the exclusive flag and saved hvdm of current.   */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFTTerminate                                             */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*          hvdm   - handle of current VDM                                */
+/*                                                                        */
+/* EXIT-NORMAL:                                                           */
+/*                                                                        */
+/* EXIT-ERROR:    NONE                                                    */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   VDHRemoveIOHook - release IO hook               */
+/*                                                                        */
+/**************************************************************************/
+
+BOOL HOOKENTRY VDFTTerminate(HVDM hvdm)
+{
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /* Indicate no owner of the ports.                               */
+    /*---------------------------------------------------------------*/
+
+        if (HVDM_Owner == hvdm)
+        {
+           HVDM_Owner = (HVDM) FALSE;
+           if (! interruptsnotenabled)
+               DisableInterrupts();
+           wait_for_status_out = FALSE;
+           wait_for_EOI = FALSE;
+           Status_byte = 0;
+        }
+
+    /*---------------------------------------------------------------*/
+    /* Undo all IO hooks.                                            */
+    /*---------------------------------------------------------------*/
+
+        VDHRemoveIOHook(HVDM_Current,FirstReg,numPorts,&htable);
+        VDHRemoveIOHook(HVDM_Current,StatusReg,numstat,&htable_st);
+
+    /*---------------------------------------------------------------*/
+    /* Unmap the adapter space in this VDM                           */
+    /*---------------------------------------------------------------*/
+
+        VDHMapPages(&MapSource,&MapTarget,VDHMT_INVALID);
+
+    /*---------------------------------------------------------------*/
+    /* Remove the fault hook handler for adapter space               */
+    /*---------------------------------------------------------------*/
+        VDHRemoveFaultHook(HVDM_Current, (PVOID)0XCE000, 2, VDFTFaultHandler);
+
+        return TRUE;
+
+ }
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFTPDBChange                                         */
+/*                                                                        */
+/* DESCRIPTIVE NAME: DFT routine called to register a PDB change handler  */
+/*                  entry point                                           */
+/*                                                                        */
+/* FUNCTION:  The function of this routine to register a PDB change       */
+/*            handler entry point                                         */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFTPDBChange                                             */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*             HVDM hvdm                                                  */
+/*             VLPTPDB segPDB                                             */
+/*                                                                        */
+/* EXIT-NORMAL:  return TRUE                                              */
+/*                                                                        */
+/* EXIT-ERROR:   return FALSE                                             */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   NONE                                            */
+/*                                                                        */
+/**************************************************************************/
+
+BOOL HOOKENTRY VDFTPDBChange(HVDM hvdm, VDFTPDB segPDB)
+{
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+        PDB_Current = segPDB;
+
+        return  TRUE;
+ }
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFTPDBDestroy                                        */
+/*                                                                        */
+/* DESCRIPTIVE NAME: DFT routine called at PDB destruction  handler entry */
+/*                  point                                                 */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the PDB          */
+/*            destruction handler entry point.  If the PDB has been       */
+/*            destroyed, and the current PDB was the owner of the DFT     */
+/*            port, clear the exclusive use flag and saved PDB address.   */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFTPDBDestroy                                            */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*                                                                        */
+/*             HVDM hvdm                                                  */
+/*             SEG segPDB                                                 */
+/* EXIT-NORMAL:   return TRUE                                             */
+/*                                                                        */
+/* EXIT-ERROR:    return FALSE                                            */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   NONE                                            */
+/*                                                                        */
+/*************************************************************************/
+
+BOOL HOOKENTRY VDFTPDBDestroy(HVDM hvdm, VDFTPDB segPDB)
+{
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /* Indicate no owner of the ports.                               */
+    /*---------------------------------------------------------------*/
+
+        if ((HVDM_Owner == hvdm) && (PDB_Owner == segPDB))
+        {
+           HVDM_Owner = (HVDM) FALSE;
+           PDB_Owner = FALSE;
+           if (! interruptsnotenabled)
+               DisableInterrupts();
+           wait_for_status_out = FALSE;
+           wait_for_EOI = FALSE;
+           Status_byte = 0;
+
+    /*---------------------------------------------------------------*/
+    /* Unmap the adapter space in this VDM                           */
+    /*---------------------------------------------------------------*/
+           VDHMapPages(&MapSource,&MapTarget,VDHMT_INVALID);
+
+        }
+
+        return TRUE;
+}
+
+#pragma alloc_text(CSWAP_TEXT, RequestDirect, VDFT_EOI, EnableInterrupts, DisableInterrupts)
+
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: RequestDirect                                         */
+/*                                                                        */
+/* DESCRIPTIVE NAME: Internal routine which will determine if the         */
+/*                  current requestor is the current owner of the port.   */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the IN/OUT trap. */
+/*            On the first I/O to the port, the current owner of the      */
+/*            port is determined.  If it is not the current requestor,    */
+/*            the current requestor will be denied.  In the case of a     */
+/*            VDM, the VDM will be terminated.                            */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: RequestDirect                                             */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*                                                                        */
+/* EXIT-NORMAL: TRUE  if the current requestor is made the current owner. */
+/*                                                                        */
+/* EXIT-ERROR:  FALSE if the current requestor is denied access.          */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   NONE                                            */
+/*                                                                        */
+/*************************************************************************/
+
+BOOL PRIVENTRY RequestDirect()
+{
+
+int resp_val;
+
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+        if (HVDM_Owner == HVDM_Current)
+           return TRUE;
+
+        if (HVDM_Owner)
+        {
+        // Do the conflict popup
+
+           VDHPopup(
+                  (PSZZ)NULL,
+                  (ULONG)NULL,
+                  (ULONG)MSG_VLPT_DEVICE_BUSY,
+                  (PULONG)SSToDS(&resp_val),
+                  (ULONG)(ABORT|IGNORE),
+                  (PSZ)NULL);
+
+           if (resp_val == ABORT)
+              VDHKillVDM(HVDM_Current);
+
+           return FALSE;
+        }
+
+        // map adapter space into this VDM
+        VDHMapPages(&MapSource,&MapTarget,VDHMT_PHYSICAL);
+
+        HVDM_Owner = HVDM_Current;
+        PDB_Owner = PDB_Current;
+        Status_byte = 0;
+        wait_for_status_out = FALSE;
+        wait_for_EOI = FALSE;
+        EnableInterrupts();
+        return TRUE;
+
+ }
+
+
+/***************************START OF SPECIFICATIONS ***********************/
+/*                                                                        */
+/* SUBROUTINE NAME: VDFT_EOI                                              */
+/*                                                                        */
+/* DESCRIPTIVE NAME: Routine to service the EOI.                          */
+/*                                                                        */
+/*                                                                        */
+/* FUNCTION:  The function of this routine is to service the EOIs         */
+/*            issued by the DOS ISR to the 3270 DFT port.                 */
+/*            Since the PDD issued the EOI before notifying the VDD of    */
+/*            interrupt, we simply ignore the EOI and discontinue         */
+/*            sending the virtual interrupt.                              */
+/*                                                                        */
+/* CONTEXT:  VDM task time                                                */
+/*                                                                        */
+/* ENTRY POINT: VDFT_EOI                                                  */
+/*        LINKAGE:   CALL NEAR 32                                         */
+/*                                                                        */
+/*  INPUT: (PARAMETERS)   (passed on the stack)                           */
+/*          pcrf:  pointer to the client register frame                   */
+/*                                                                        */
+/* EXIT-NORMAL:   NONE                                                    */
+/*                                                                        */
+/* EXIT-ERROR:    NONE                                                    */
+/*                                                                        */
+/* EFFECTS:          NONE                                                 */
+/*                                                                        */
+/* INTERNAL REFERENCES:                                                   */
+/*                                                                        */
+/* EXTERNAL REFERENCES:   VDHClearVIRR - Stop simulating interrupts to    */
+/*                                       the VDM                          */
+/*                                                                        */
+/**************************************************************************/
+
+VOID HOOKENTRY VDFT_EOI(PCRF pcrf)
+{
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+    /*---------------------------------------------------------------*/
+    /* Quit sending the virtual interrupts to the VDM.               */
+    /*---------------------------------------------------------------*/
+        VDHClearVIRR(HVDM_Owner,hirq_DFT);
+
+    /*---------------------------------------------------------------*/
+    /* If EOI = status out,  start interrupts again                  */
+    /*---------------------------------------------------------------*/
+        wait_for_EOI = FALSE;
+        DISABLE();
+        if ((interruptsnotenabled) && (wait_for_EOI==wait_for_status_out))
+           EnableInterrupts();
+        ENABLE();
+
+        return;
+ }
+
+
+BOOL PRIVENTRY EnableInterrupts()
+{
+
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+        interruptsnotenabled = FALSE;
+        PDFTPDDProc (ENABLE_INTS,0,0);
+
+        return TRUE;
+
+ }
+
+
+
+BOOL PRIVENTRY DisableInterrupts()
+{
+
+#ifdef  DEBUG
+           _interrupt(3);
+#endif
+
+        interruptsnotenabled = TRUE;
+        PDFTPDDProc (DISABLE_INTS,0,0);
+
+        return TRUE;
+
+ }
+
+#pragma alloc_text(CINIT_TEXT, Start_Here)
+//#pragma alloc_text(CINIT_TEXT, VDDInit)
+
+/********************** START OF SPECIFICATIONS ***********************/
+/*                                                                    */
+/* SUBROUTINE NAME:  VDFTInit (Start_here)                            */
+/*                                                                    */
+/* DESCRIPTIVE NAME:  Virtual DFT Initialization entry point          */
+/*                                                                    */
+/* FUNCTION:  The function of this routine is to register the VDM     */
+/*            Creation, Termination, PDB Change, and PDB Destroy      */
+/*            handlers. This routine also sets up the VDFT Port       */
+/*            Address table in the global data area.                  */
+/*                                                                    */
+/* NOTES:                                                             */
+/*                                                                    */
+/* CONTEXT: System Initialization                                     */
+/*                                                                    */
+/* ENTRY POINT:  VDFTInit                                             */
+/*    LINKAGE:  CALL NEAR 32                                          */
+/*                                                                    */
+/* INPUT: psz - pointer to configuration strings                      */
+/*                                                                    */
+/* EXIT-NORMAL: returns !0                                            */
+/*                                                                    */
+/* EXIT-ERROR: returns 0                                              */
+/*                                                                    */
+/* EFFECTS: VDFT Port Address table in the global data area.          */
+/*                                                                    */
+/* INTERNAL REFERENCES:  NONE                                         */
+/*                                                                    */
+/* EXTERNAL REFERENCES:  VDHInstallUserHook - Install VDM event hook  */
+/*                       VDHOpenPDD         - Get PDD entry point     */
+/*                       VDHOpenVIRQ        - register an IRQ for VDM */
+/*                       VDHReservePages    - set up some linear      */
+/*                                 space for use as the adapter space */
+/************************ END OF SPECIFICATIONS ***********************/
+
+/* --------------------------------------------------------  */
+/* LFJ : Added #pragma entry() and changed main entry name   */
+/*       because Giverny requires main to be either _OPTLINK */
+/*       or _System linkage                                  */
+/* --------------------------------------------------------- */
+//#pragma entry(VDDInit)
+//BOOL EXPENTRY VDDInit(PSZ psz)
+#pragma entry(Start_Here)
+BOOL EXPENTRY Start_Here(PSZ psz)
+{
+
+ULONG ErrorNumber;                 /* holds error number from getError*/
+#ifdef DEBUG
+   _interrupt(3);
+#endif
+    if(VDHRegisterVDD(VDDNAME,OS2Service,NULL))
+    {
+       return(FALSE);
+    }
+    return TRUE;
+}
+#if 0
+//Incomplete prototype
+BOOL OS2Service(ULONG ulCommand,SGID sgid,ULONG ulCountBuffer)
+{
+
+
+}
+#endif
+

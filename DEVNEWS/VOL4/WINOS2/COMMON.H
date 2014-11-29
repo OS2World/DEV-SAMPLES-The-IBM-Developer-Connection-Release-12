@@ -1,0 +1,50 @@
+
+#define VDDNAME   "VDD.SYS"
+
+/*
+ *the commands that get passed back and forth between the
+ *vdd and the processes
+ */
+
+#define INIT_COMMAND        0
+#define POST_MESSAGE        1
+#define READ_QUEUE          2
+#define TERMINATE_COMMAND   3
+/*
+ *list of command that get send from the WINOS2 process to the
+ *OS2 process
+ */
+#define WINOS2_INIT             0
+#define WINOS2_REGISTERCALLBACK 1
+#define WINOS2_TERMINATE        2
+#define WINOS2_POSTMESSAGE      3
+
+
+/*
+ *message types that are currently supported
+ */
+#define TEXT_MESSAGE        0
+#define BINARY              1
+#define ENCRYPTED           3
+
+#define SIZ_COMMAND_BUF  256
+#define ONCE            while(0)
+
+typedef struct _message
+{
+     SGID  SrcSessionIdentifier;
+     SGID  DstSessionIdentifier;
+     ULONG ulMessageType;
+     ULONG ulMessageSubCommand;
+     ULONG ulBufferSize;
+     PVOID pvMessageData;
+     PVOID pvNextMessage;
+}MESSAGE,*PMESSAGE;
+
+typedef struct _messagelist
+{
+     PMESSAGE  pHeadList;
+     PMESSAGE  pHeadNext;
+}MESSAGELIST,*PMESSAGELIST;
+
+

@@ -1,0 +1,74 @@
+
+
+ GFULLSPY
+
+ Start     Length     Name                   Class
+ 0001:0000 002DCH     GFULLSPY_TEXT          CODE
+ 0002:0000 000F4H     _DATA                  DATA
+ 0002:00F4 00004H     CONST                  CONST
+ 0002:00F8 00000H     _BSS                   BSS
+ 0002:0100 00000H     c_common               BSS
+ 0003:0000 00008H     FAR_BSS                FAR_BSS
+
+ Origin   Group
+ 0002:0   DGROUP
+
+ Address   Export                  Alias
+
+ 0001:0000 VIOSERVICE              _VIOSERVICE
+
+  Address         Publics by Name
+
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  DOSALLOCSHRSEG       (DOSCALLS.35)
+ 0000:0000  Imp  DOSBEEP              (DOSCALLS.50)
+ 0000:0000  Imp  DOSCREATESEM         (DOSCALLS.24)
+ 0000:0000  Imp  DOSCREATETHREAD      (DOSCALLS.145)
+ 0000:0000  Imp  DOSENTERCRITSEC      (DOSCALLS.3)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSEXITCRITSEC       (DOSCALLS.6)
+ 0000:0000  Imp  DOSGETPID            (DOSCALLS.94)
+ 0000:0000  Imp  DOSGETSHRSEG         (DOSCALLS.36)
+ 0000:0000  Imp  DOSOPENSEM           (DOSCALLS.25)
+ 0000:0000  Imp  DOSQCURDIR           (DOSCALLS.71)
+ 0000:0000  Imp  DOSQCURDISK          (DOSCALLS.72)
+ 0000:0000  Imp  DOSSEMCLEAR          (DOSCALLS.141)
+ 0000:0000  Imp  DOSSEMSET            (DOSCALLS.143)
+ 0000:0000  Imp  DOSSEMWAIT           (DOSCALLS.142)
+ 0000:0000  Imp  VIOWRTCHARSTR        (VIOCALLS.13)
+ 0001:0026       _AxDxFunction
+ 0001:0028       _ReadScreen
+ 0003:0006       _SelStack
+ 0001:00DE       _SpyThread
+ 0003:0000       _StackPtr
+ 0003:0004       _ThreadID
+ 0002:0000       _ThreadStarted
+ 0001:0000       _VIOSERVICE
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  DOSGETSHRSEG         (DOSCALLS.36)
+ 0000:0000  Imp  DOSENTERCRITSEC      (DOSCALLS.3)
+ 0000:0000  Imp  DOSGETPID            (DOSCALLS.94)
+ 0000:0000  Imp  VIOWRTCHARSTR        (VIOCALLS.13)
+ 0000:0000  Imp  DOSEXITCRITSEC       (DOSCALLS.6)
+ 0000:0000  Imp  DOSQCURDISK          (DOSCALLS.72)
+ 0000:0000  Imp  DOSBEEP              (DOSCALLS.50)
+ 0000:0000  Imp  DOSQCURDIR           (DOSCALLS.71)
+ 0000:0000  Imp  DOSOPENSEM           (DOSCALLS.25)
+ 0000:0000  Imp  DOSSEMWAIT           (DOSCALLS.142)
+ 0000:0000  Imp  DOSSEMCLEAR          (DOSCALLS.141)
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  DOSSEMSET            (DOSCALLS.143)
+ 0000:0000  Imp  DOSCREATESEM         (DOSCALLS.24)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSALLOCSHRSEG       (DOSCALLS.35)
+ 0000:0000  Imp  DOSCREATETHREAD      (DOSCALLS.145)
+ 0001:0000       _VIOSERVICE
+ 0001:0026       _AxDxFunction
+ 0001:0028       _ReadScreen
+ 0001:00DE       _SpyThread
+ 0002:0000       _ThreadStarted
+ 0003:0000       _StackPtr
+ 0003:0004       _ThreadID
+ 0003:0006       _SelStack

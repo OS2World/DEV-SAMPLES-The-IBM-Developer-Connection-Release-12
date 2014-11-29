@@ -1,0 +1,6 @@
+[AUTOEXEC.BAT]
+InsertToken(SET,DB2PATH,LEFT)
+$(TargetDir)SQLDOSCA
+InsertToken(PATH,,RIGHT)
+$(TargetDir)SQLDOSCA\BIN
+

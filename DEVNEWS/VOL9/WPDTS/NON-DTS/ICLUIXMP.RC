@@ -1,0 +1,18 @@
+#include <os2.h>
+#include "icluixmp.xh"
+#include "icluixmp.h"
+
+MENU ID_MYVIEWMENU
+BEGIN
+   MENUITEM    "~My View",          ID_MYVIEW
+END
+
+MENU ID_METATESTMENU
+BEGIN
+   MENUITEM    "Meta Test",         ID_METATEST
+END
+
+/******************************************************************************/
+/*  Include the dialog template                                               */
+/******************************************************************************/
+rcinclude icluixmp.dlg

@@ -1,0 +1,18 @@
+; This is a sample repsonse file for DOS LAN SERVICES
+
+[dlsmain]
+computername=CIDA055
+configsys=c:
+username=CIDA055
+domainname=Q4IT100
+autoexecbat=c:
+target=c:\dls40
+peer=yes
+redirecter=full
+windowsupport=yes
+gui=yes
+
+[dlsdriver]
+ncbs=30
+sessions=33
+

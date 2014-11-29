@@ -1,0 +1,38 @@
+LIBRARY WHATISD INITINSTANCE TERMINSTANCE
+
+DESCRIPTION 'OS/2 Presentation Manager Sample playback by FIAMMANT @ LGEVM2'
+
+PROTMODE
+
+CODE PRELOAD
+
+DATA MULTIPLE NONSHARED
+
+SEGMENTS
+    GLOBDATA CLASS 'DATA' SHARED
+
+EXPORTS
+ InputHookProc    @1
+ SendMsgHookProc  @2
+ SharedText       @3
+ TargetWindow     @4
+ AvioText         @5
+ UserPtr          @7
+ SegSize          @8
+ CreateStruct     @9
+ Directory        @10
+ xCur             @11
+ yCur             @12
+ SharedText1      @13
+ QUERYTEXT        @14
+ Handle0          @15
+ Handle1          @16
+ Handle2          @17
+ Handle3          @18
+ Journal1         @19
+ Success1         @20
+ Success2         @21
+ Err1             @22
+ Err2             @23
+ Err3             @24
+

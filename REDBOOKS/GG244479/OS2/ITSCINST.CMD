@@ -1,0 +1,13 @@
+md PUBLIC
+md BIN
+md ETC
+md ITSCIR
+md ITSCSVR
+md ITSCSERV
+md SOMDPING
+md SVRMGR
+md ITSCOBJM
+md ITSCKILL
+md STACK
+unpack dsomutil.pak
+

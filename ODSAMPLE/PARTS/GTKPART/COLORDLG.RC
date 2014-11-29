@@ -1,0 +1,34 @@
+
+#include "ColorRc.h"
+
+DLGTEMPLATE ID_RGBDLG LOADONCALL MOVEABLE DISCARDABLE
+{
+  DIALOG  "Color selection", ID_RGBDLG, 73, 22, 185, 117,
+          FS_DLGBORDER |  WS_SAVEBITS | WS_CLIPSIBLINGS, FCF_TITLEBAR
+  {
+    CONTROL      "", IDD_RGB_ARRAY,     5, 19, 121, 93, CLR_ARRAY, WS_GROUP |
+                                                        WS_TABSTOP | WS_VISIBLE
+    RTEXT        "R:", -1,            137, 102, 15, 8
+    LTEXT        "",   IDD_RGB_CLR_R, 156, 102, 24, 8
+    RTEXT        "G:", -1,            137,  92, 15, 8
+    LTEXT        "",   IDD_RGB_CLR_G, 156,  92, 24, 8
+    RTEXT        "B:", -1,            137,  83, 15, 8
+    LTEXT        "",   IDD_RGB_CLR_B, 156,  83, 24, 8
+
+    CONTROL      "",     -1,             137, 48, 42, 32, WC_STATIC,
+                                                      SS_FGNDRECT | WS_VISIBLE
+    LTEXT        "",     IDD_RGB_CURCLR, 138, 49, 40, 30
+
+    PUSHBUTTON   "Edit", IDD_RGB_EDITCLR, 142, 36, 33, 10
+
+    CONTROL      "",     -1, 133, 32, 48, 1, WC_STATIC,
+            SS_FGNDRECT | WS_GROUP | WS_VISIBLE
+
+    PUSHBUTTON   "Palette", IDD_RGB_PALETTE, 135, 20, 44, 10
+
+    PUSHBUTTON   "Ok",     DID_OK,        18,  2, 33, 12, BS_DEFAULT
+    PUSHBUTTON   "Cancel", DID_CANCEL,    71,  2, 37, 12
+    PUSHBUTTON   "Help",   IDD_RGB_HELP, 146,  2, 31, 12, BS_HELP
+  }
+}
+

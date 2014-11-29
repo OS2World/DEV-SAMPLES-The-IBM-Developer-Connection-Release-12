@@ -1,0 +1,46 @@
+#
+# Makefile for the OS/2 Version of the MessageBox example.
+#
+
+# command names
+CC      = icc
+LD      = link386
+IDL     = idl
+DEL     = del
+
+
+# command flags
+CMADEFS  = /D_CMA_PROTO_ /D_CMA_NOWRAPPERS_ /DCMA_UNIPROCESSOR
+DEFS     = /DINTEL80x86 /DIBMOS2
+CFLAGS   =/I. /Q+ /Ms $(CMADEFS) $(DEFS)
+LDFLAGS  =/BATCH /E /MAP /NOI /NOL /NOD
+IDLFLAGS = /no_cpp /I.
+
+# libraries
+LIBS    = dceos2.lib dde4mbs.lib os2386.lib
+
+# object files
+SOBJS    = usecds.obj usecds_sstub.obj
+COBJS    = getcds.obj usecds_cstub.obj
+
+# targets
+all:    usecds.exe getcds.exe
+
+getcds.exe: $(COBJS)
+        $(LD) $(COBJS), $@, $*.map, $(LDFLAGS)  $(LIBS), os2.def
+
+usecds.exe: $(SOBJS)
+        $(LD) $(SOBJS), $@, $*.map, $(LDFLAGS)  $(LIBS), os2.def
+
+usecds.h usecds_cstub.c usecds_sstub.c: usecds.idl usecds.acf
+        $(IDL) $(IDLFLAGS) usecds.idl
+
+clean:
+        -$(DEL)  *.obj *stub.c usecds.h *.map
+
+# dependencies
+getcds.obj: getcds.c usecds.h errchk.h
+
+usecds.obj: usecds.c usecds.h errchk.h
+
+

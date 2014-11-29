@@ -1,0 +1,1189 @@
+**************************************************************
+*                                                            *
+* AdditionalPrinters                                         *
+*                                                            *
+*    Allows additional printers other than the default       *
+*    printer to be installed.                                *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=None                                               *
+*        or                                                  *
+*       m1:n1,m2:n2, ...                                     *
+*                                                            *
+*   Where m1, m2, etc. are port numbers as defined under     *
+*   "PrinterPort" below, and n1, n2, etc. are indices into   *
+*   PRDESC.LST as described for "DefaultPrinter" below.      *
+*                                                            *
+*   Example:                                                 *
+*      AdditionalPrinters=2:150                              *
+*                                                            *
+*   This will put an IBM 2380 PPS II on LPT2:.  The 150      *
+*   specifies the PPS II (it's line 150 in PRDESC.LST)       *
+*   and the "2" specifies LPT2.                              *
+*                                                            *
+*   You can multiple port:printer specifications on this     *
+*   line.  You can also have multiple AdditionalPrinters     *
+*   statements.                                              *
+*                                                            *
+**************************************************************
+
+AdditionalPrinters=0
+
+**************************************************************
+*                                                            *
+* Advance Power Management                                   *
+*                                                            *
+*    Specifies whether or not to install APM.                *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install                                      *
+*       1=Autodetect (DEFAULT)                               *
+*       2=Install                                            *
+*                                                            *
+**************************************************************
+
+APM=1
+
+***************************************************************
+*                                                             *
+* AlternateAdapter                                            *
+*                                                             *
+*    Specifies secondary adapter for two display systems.     *
+*    This should be a lower or equal resolution display since *
+*    the highest resolution display will be primary for PM.   *
+*                                                             *
+*    Valid Parms:                                             *
+*                                                             *
+*       0=None (DEFAULT)                                      *
+*       1=Other than following (DDINSTAL will handle)         *
+*       2=Monochrome/Printer Adapter                          *
+*       3=Color Graphics Adapter                              *
+*       4=Enhanced Graphics Adapter                           *
+*       5=PS/2 Display Adapter                                *
+*       6=Video Graphics Adapter                              *
+*       7=8514/A Adapter                                      *
+*       8=XGA Adapter                                         *
+*       9=SVGA Adapter                                        *
+*                                                             *
+***************************************************************
+
+AlternateAdapter=0
+
+**************************************************************
+*                                                            *
+* BaseFileSystem                                             *
+*                                                            *
+*    Specifies which file system should be used to format    *
+*    the install partition.  This keyword cannot be used     *
+*    in conjunction with the FormatFAT or FormatHPFS         *
+*    keywords.                                               *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       1=HPFS (DEFAULT)                                     *
+*       2=FAT                                                *
+*                                                            *
+**************************************************************
+
+BaseFileSystem=1
+
+**************************************************************
+*                                                            *
+* CDROM                                                      *
+*                                                            *
+*    Specifies which, if any, CD ROM devices you wish to     *
+*    install support for.                                    *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = None                                             *
+*       1 = Autodetect                                       *
+*       2=AztechCDA-268-03I-SE                                *
+*       3=CDTechnology T3301, T3401                           *
+*       4=Chinon525I                                          *
+*       5=Chinon431, 435                                      *
+*       6=Chinon535                                           *
+*       7=CompaqTray Load                                     *
+*       8=CompaqDual Speed                                    *
+*       9=CreativeLabs OmniCD                                 *
+*       10=GoldstarGCD-R520B                                  *
+*       11=Hitachi1650S,1750S,3650                            *
+*       12=Hitachi1950S,3750,6750                             *
+*       13=IBMCD-ROM I                                        *
+*       14=IBMCD-ROM I rev 242                                *
+*       15=IBMCD-ROM II, Enhanced CD-ROM II                   *
+*       16=IBMISA,Panasonic 562,563                           *
+*       17=LionOptics XC-200AI,200EI                          *
+*       18=MitsumiCRMC-LU002S,Tandy CDR-1000                  *
+*       19=MitsumiCRMC-LU005S                                 *
+*       20=MitsumiCRMC-FX001                                  *
+*       21=MitsumiCRMC-FX001D                                 *
+*       22=MitsumiCRMC-FX001DE,FX300,FX400                    *
+*       23=NECIntersect 25,36,37,72,73,74,82,83,84            *
+*       24=NECMultiSpin 4Xe,4xi,3Xi,3Xe,3Xp,38,74-1,84-1      *
+*       25=NEC2vi,260                                         *
+*       26=OpticsStorage 8001 IDE                             *
+*       27=PanasonicCF-41                                     *
+*       28=Panasonic501,LK-MC501S                             *
+*       29=Panasonic521,522,523                               *
+*       30=Panasonic571                                       *
+*       31=PhilipsLMS CM-205,CM-225                           *
+*       32=PhilipsLMS CM-205MS,206,225MS,226                  *
+*       33=PhilipsLMS CM-215                                  *
+*       34=PhilipsLMS CM-207                                  *
+*       35=PioneerDRM-600                                     *
+*       36=PioneerDRM-604X                                    *
+*       37=PlextorDM-3028,DM-5028,4PLEX                       *
+*       38=SanyoCRD-450P                                      *
+*       39=SonyCDU-31A,33A,7305,7405                          *
+*       40=SonyCDU-531,535,6150,6201,6205,6251,7201,7205      *
+*       41=SonyCDU-55D,55E,76E                                *
+*       42=Sony541,561,6211,7211,7811                         *
+*       43=Sony6111                                           *
+*       44=Texel3021,5021                                     *
+*       45=Texel3024,3028,5024,5028                           *
+*       46=ThinkPad 755CD, Teac CD-40E                        *
+*       47=Toshiba3201                                        *
+*       48=Toshiba3301,3401,4101,3501,5201                    *
+*       49=Toshiba5302B                                       *
+*       50=WearnesCDD-120                                     *
+*       51=Non-listedIDE CD-ROM                               *
+*       52=OTHER                                              *
+*                                                            *
+*    NOTE: Autodetection is enabled only when all scsi       *
+*          device drivers are loaded.                        *
+**************************************************************
+
+CDROM=1
+
+
+**************************************************************
+*                                                            *
+* CountryCode                                                *
+*                                                            *
+*    Specifies which country should be installed.  This      *
+*    causes all country information to be installed.         *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       3 digit country code (DEFAULT shipped version)       *
+*                                                            *
+**************************************************************
+
+CountryCode=001
+
+**************************************************************
+*                                                            *
+* CountryKeyboard                                            *
+*                                                            *
+*    Specifies which country keyboard should be installed.   *
+*    This causes all keyboard information to be installed.   *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       2-5 character keyboard code (DEFAULT="US")           *
+*                                                            *
+**************************************************************
+
+CountryKeyboard=US
+
+**************************************************************
+*                                                            *
+* DefaultPrinter                                             *
+*                                                            *
+*    Specifies which default printer to install              *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=None                                               *
+*        or                                                  *
+*                                                            *
+*       Keyvalue=printer driver index (DEFAULT=line # of     *
+*       42XX) in PRDESC.LST shipped on first printer diskette*
+*                                                            *
+*           NOTE: the driver index is the same as the line   *
+*                 number in the ASCII PRDESC.LST file that   *
+*                 the desired printer name appears on        *
+*                                                            *
+**************************************************************
+
+DefaultPrinter=205
+
+**************************************************************
+*                                                            *
+* DiagnosticAids                                             *
+*                                                            *
+*    Specifies whether or not to install certain RAS         *
+*    utilities.                                              *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install (DEFAULT)                            *
+*       1=Install                                            *
+*                                                            *
+**************************************************************
+
+DiagnosticAids=1
+
+**************************************************************
+*                                                            *
+* DisplayAdapter                                             *
+*                                                            *
+*    Specifies which adapter should override the primary     *
+*    adapter detected by the install process                 *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Accept as correct (DEFAULT)                        *
+*       1=Other than following (DDINSTAL will handle)        *
+*       2=Color Graphics Adapter                             *
+*       3=Enhanced Graphics Adapter                          *
+*       4=Video Graphics Adapter                             *
+*       5=8514/A Adapter                                     *
+*       6=XGA Adapter                                        *
+*       7=SVGA Adapter                                       *
+*                                                            *
+**************************************************************
+
+DisplayAdapter=0
+
+**************************************************************
+*                                                            *
+* Documentation                                              *
+*                                                            *
+*    Specifies which documentation should be installed       *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=None                                               *
+*       1=All (DEFAULT)                                      *
+*       2=OS/2 Command Reference                             *
+*       3=OS/2 Tutorial                                      *
+*       4=Rexx Documentation                                 *
+*                                                            *
+**************************************************************
+
+Documentation=1
+
+**************************************************************
+*                                                            *
+* DOSSupport                                                 *
+*                                                            *
+*    Specifies whether or not to install DOS Box.            *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install DOS                                  *
+*       1=Install DOS (DEFAULT)                              *
+*                                                            *
+**************************************************************
+
+DOSSupport=1
+
+**************************************************************
+*                                                            *
+* WIN-OS/2Support                                            *
+*                                                            *
+*    Specifies whether or not to install WIN-OS/2            *
+*    Environment. If do, select WIN-OS/2 groups or           *
+*    other components.  This option is valid only            *
+*    when option 1 (DOSSupport) is selected for              *
+*    the DOSSupport keyvalue.                            *
+*                                                            *
+* Valid Parms:                                               *
+*                                                            *
+*    0=Do NOT install WIN-OS/2                               *
+* ---- Followings INSTALL WIN-OS/2 ----------------------    *
+*    1=All available groups and components (DEFAULT)         *
+*    2=WIN-OS/2 Readme File                                  *
+*    3=WIN-OS/2 Accessories Group                            *
+*    4=WIN-OS/2 Screen Save Utility                          *
+*    5=WIN-OS/2 Sound Utility                                *
+*    6=WIN-OS/2 Main and Startup Group ONLY (Minimum support)*
+*                                                            *
+* Note:                                                      *
+*     * WIN-OS/2 Main Group and StartUp Group will be        *
+*       installed mandatorily when WIN-OS/2 supported        *
+*       ( case 1,2,3,4,5 ).                                  *
+*     * Case 6 is minimum WIN-OS/2 support.                  *
+*                                                            *
+* Example:                                                   *
+*                                                            *
+*    WIN-OS/2Support=3,4                                     *
+*    would install WIN-OS/2 Main Group, StartUp Group and    *
+*    WIN-OS/2 Accessories and Screen Save Utility.           *
+*                                                            *
+**************************************************************
+
+WIN-OS/2Support=1
+
+**************************************************************
+*                                                            *
+* WIN-OS/2Desktop                                            *
+*                                                            *
+*    Specifies what the WIN-OS/2 desktop should look like.   *
+*    This option is valid only when option 1 (WIN-OS/2       *
+*    Support) is selected for the DOSSupport keyvalue.       *
+*    Option 1 should be selected only if Windows** currently *
+*    exists (two related options follow this one).           *
+*    Option 2 should be selected only if WIN-OS/2 has        *
+*    previously been installed.                              *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Install standard WIN-OS/2 desktop (DEFAULT)        *
+*       1=Copy existing Windows** desktop and use as the     *
+*         WIN-OS/2 desktop (two related options follow)      *
+*       2=Preserve WIN-OS/2 desktop currently installed      *
+*                                                            *
+**************************************************************
+
+*WIN-OS/2Desktop=0
+
+**************************************************************
+*                                                            *
+* ExistingWindowsPath                                        *
+*                                                            *
+*    Specifies the path to an existing Windows** system.     *
+*    This option is valid only when option 1 is selected     *
+*    for the WIN-OS/2Desktop keyvalue.                       *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       A string that specifies the path to the existing     *
+*       Windows** system (Example: C:\WINDOWS)               *
+*                                                            *
+**************************************************************
+
+*ExistingWindowsPath=
+
+**************************************************************
+*                                                            *
+* ShareDesktopConfigFiles                                    *
+*                                                            *
+*    Specifies that the desktop configuration files should   *
+*    be shared between an existing Windows** system and the  *
+*    WIN-OS/2 system being installed.  If this option is     *
+*    selected, the Windows** desktop will be updated when    *
+*    changes are made to the WIN-OS/2 desktop.  This         *
+*    option is valid only when option 1 is selected for the  *
+*    WIN-OS/2Desktop keyvalue.                               *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Do not share the Windows** desktop configuration   *
+*         files                                              *
+*       1=Share the Windows** desktop configuration files    *
+*                                                            *
+**************************************************************
+
+*ShareDesktopConfigFiles=1
+
+**************************************************************
+*                                                            *
+* DPMI                                                       *
+*                                                            *
+*    Specifies which DPMI options to install.                *
+*                                                            *
+* Valid Parms:                                               *
+*                                                            *
+*    0=none                                                  *
+*    1=All  (DEFAULT)                                        *
+*    2=Virtual DOS Protect Mode Interface                    *
+*    3=Virtual Expanded Memory Management                    *
+*    4=Virtual Extended Memory Support                       *
+*                                                            *
+**************************************************************
+
+DPMI=1
+
+**************************************************************
+*                                                            *
+* ExitOnError                                                *
+*                                                            *
+*    Specifies if the install program should exit with an    *
+*    error code if an error occurs.  This also determines    *
+*    whether the installation process will exit with a return*
+*    code when it completes rather than the C-A-D panel.     *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = Do not exit when error occurs; display panel     *
+*           (DEFAULT)                                        *
+*       1 = Exit quietly with a return code                  *
+*                                                            *
+**************************************************************
+
+ExitOnError=1
+
+**************************************************************
+*                                                            *
+* Fonts                                                      *
+*                                                            *
+*    Specifies which fonts should be installed               *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = None                                             *
+*       1 = All (DEFAULT)                                    *
+*       2 = Courier              (Bitmap)                    *
+*       3 = Helvetica            (Bitmap)                    *
+*       4 = System Mono-spaced   (Bitmap)                    *
+*       5 = Times Roman          (Bitmap)                    *
+*       6 = Courier              (Outline)                   *
+*       7 = Helvetica            (Outline)                   *
+*       8 = Times New Roman      (Outline)                   *
+*                                                            *
+**************************************************************
+
+Fonts=1
+
+**************************************************************
+*                                                            *
+* FormatFAT                                                  *
+*                                                            *
+*    Specifies which drives to format with FAT file system   *
+*    This keyword cannot be used in conjunction with the     *
+*    BaseFileSystem or FormatPartition keywords.             *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       Drives to format as FAT                              *
+*       (Example: C:,D:,E:                                   *
+*                                                            *
+**************************************************************
+
+* FormatFAT=
+
+**************************************************************
+*                                                            *
+* FormatHPFS                                                 *
+*                                                            *
+*    Specifies which drives to format with HPFS file system  *
+*    This keyword cannot be used in conjunction with the     *
+*    BaseFileSystem or FormatPartition keywords.             *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       Drives to format as HPFS                             *
+*       (Example: C:,D:,E:                                   *
+*                                                            *
+**************************************************************
+
+* FormatHPFS=
+
+**************************************************************
+*                                                            *
+* FormatPartition                                            *
+*                                                            *
+*    Specifies whether or not to format the install          *
+*    partition.  This keyword cannot be used in conjunction  *
+*    with the FormatFAT or FormatHPFS keywords.              *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Do not format (DEFAULT)                            *
+*       1=Format                                             *
+*                                                            *
+**************************************************************
+
+FormatPartition=1
+
+**************************************************************
+*                                                            *
+* Include                                                    *
+*                                                            *
+*    Specifies another response file to process along        *
+*    with the current one.  There may be multiple            *
+*    occurrences of this keyword.  The "included"            *
+*    response file is appended to the end of all             *
+*    response files that have been processed before          *
+*    this one.                                               *
+*                                                            *
+*    eg.                                                     *
+*     File1.RSP                          Processing          *
+*     +------------------------+         ----------          *
+*     | IncludeAtEnd=File2.RSP |         Mouse=1             *
+*     | IncludeAtEnd=File4.RSP |         Mouse=2             *
+*     | Mouse=1                |         Mouse=4             *
+*     +------------------------+         Mouse=3             *
+*     File2.RSP                                              *
+*     +------------------------+                             *
+*     | IncludeAtEnd=File3.RSP |                             *
+*     | Mouse=2                |                             *
+*     +------------------------+                             *
+*     File3.RSP                                              *
+*     +------------------------+                             *
+*     | Mouse=3                |                             *
+*     +------------------------+                             *
+*     File4.RSP                                              *
+*     +------------------------+                             *
+*     | Mouse=4                |                             *
+*     +------------------------+                             *
+*                                                            *
+*    No validity checking is done.                           *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYWORD = valid filename                             *
+*                                                            *
+**************************************************************
+
+* Include=include.rsp
+
+**************************************************************
+*                                                            *
+* IncludeInLine                                              *
+*                                                            *
+*    Specifies another response file to process along        *
+*    with the current one.  There may be multiple            *
+*    occurrences of this keyword.  The "included"            *
+*    response file is processed immediately when the         *
+*    keyword is found.                                       *
+*    No validity checking is done.                           *
+*                                                            *
+*    eg.                                                     *
+*     File1.RSP                          Processing          *
+*     +-------------------------+        ----------          *
+*     | IncludeInLine=File2.RSP |        Mouse=3             *
+*     | IncludeInLine=File4.RSP |        Mouse=2             *
+*     | Mouse=1                 |        Mouse=4             *
+*     +-------------------------+        Mouse=1             *
+*     File2.RSP                                              *
+*     +-------------------------+                            *
+*     | IncludeInLine=File3.RSP |                            *
+*     | Mouse=2                 |                            *
+*     +-------------------------+                            *
+*     File3.RSP                                              *
+*     +-------------------------+                            *
+*     | Mouse=3                 |                            *
+*     +-------------------------+                            *
+*     File4.RSP                                              *
+*     +-------------------------+                            *
+*     | Mouse=4                 |                            *
+*     +-------------------------+                            *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYWORD = valid filename                             *
+*                                                            *
+**************************************************************
+
+* IncludeInLine=inline.rsp
+
+**************************************************************
+*                                                            *
+* MigrateConfigFiles                                         *
+*                                                            *
+*    Specifies whether or not to migrate configuration files *
+*    from a previous release of the operating system.        *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't migrate                                      *
+*       1=Migrate files (DEFAULT)                            *
+*                                                            *
+**************************************************************
+
+MigrateConfigFiles=1
+
+**************************************************************
+*                                                            *
+* MigrateApplications                                        *
+*                                                            *
+*    Specifies whether or not to migrate existing DOS,       *
+*    Windows** and OS/2 applications.  Only those            *
+*    applications listed in the database specified will      *
+*    be migrated.                                            *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       Drives to search, database to use for search         *
+*       (Example: C:D:,C:\OS2\INSTALL\DATABASE.DAT)          *
+*                                                            *
+**************************************************************
+
+*MigrateApplications=
+
+**************************************************************
+*                                                            *
+* MoreBitmaps                                                *
+*                                                            *
+*    Specifies whether or not to install more bitmaps.       *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install More Bitmaps                         *
+*       1=Install More Bitmaps (DEFAULT)                     *
+*                                                            *
+**************************************************************
+
+MoreBitmaps=1
+
+**************************************************************
+*                                                            *
+* Mouse                                                      *
+*                                                            *
+*    Specifies which mouse device driver, if any, to         *
+*    install                                                 *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = No pointing device support                       *
+*       1 = PS/2 Style Pointing Devicee         (DEFAULT)    *
+*       2 = Bus Version                                      *
+*       3 = Serial Version                                   *
+*       4 = InPort Version                                   *
+*       5 = Logitech (tm) 'C' Series Serial Mouse            *
+*       6 = IBM PS/2 Touch Display                           *
+*       7 = Logitech 'M' Series Mouse                        *
+*       8 = PC Mouse Systems (tm) Mouse                      *
+*       9 = Other Pointing Device for Mouse Port             *
+*                                                            *
+**************************************************************
+
+Mouse=1
+
+**************************************************************
+*                                                            *
+* MousePort                                                  *
+*                                                            *
+*    Specifies to which port a serial-type mouse should      *
+*    be attatched (valid for serial or Logitech(tm) mice)    *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = No port necessary (DEFAULT)                      *
+*       1 = COM1                                             *
+*       2 = COM2                                             *
+*       3 = COM3                                             *
+*       4 = COM4                                             *
+*                                                            *
+**************************************************************
+
+MousePort=0
+
+**************************************************************
+*                                                            *
+* OptionalFileSystem                                         *
+*                                                            *
+*    Specifies whether or not to install optional file       *
+*    system(s) i.e. HPFS                                     *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Do Not Install Optional File System(s)             *
+*       1=Install Optional File System (DEFAULT)             *
+*                                                            *
+**************************************************************
+
+OptionalFileSystem=1
+
+**************************************************************
+*                                                            *
+*  OptionalSystemUtilities                                   *
+*                                                            *
+*     Specifies whether or not to install the following      *
+*     system utilities.                                      *
+*                                                            *
+*  Valid Parms:                                              *
+*                                                            *
+*     0=Install none                                         *
+*     1=Install all (DEFAULT)                                *
+*     2=Backup Hard Disk                                     *
+*     3=Change File Attributes                               *
+*     4=Display Directory Tree                               *
+*     5=Manage Partitions                                    *
+*     6=Label Diskettes                                      *
+*     7=Link Object Modules                                  *
+*     8=Picture Utilities                                    *
+*     9=PMREXX                                               *
+*    10=Recover Files                                        *
+*    11=Restore Backed-up Files                              *
+*    12=Sort Filter                                          *
+*    13=Installation Aid                                     *
+*    14=Create Utility Diskettes                             *
+*                                                            *
+* Example:                                                   *
+*          OptionalSystemUtilities=2,9,4                     *
+*          would install Backup, PMREXX and Tree utilities.  *
+*                                                            *
+**************************************************************
+
+OptionalSystemUtilities=1
+
+**************************************************************
+*                                                            *
+* OS2IniData                                                 *
+*                                                            *
+*    Specifies a profile string to be written to the         *
+*    user configuration file OS2.INI.  There may be          *
+*    multiple occurrences of this keyword.                   *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYWORD = /AppName/KeyName/KeyValue/                 *
+*                                                            *
+*           NOTE: Since each of these names can contain      *
+*           imbedded blanks and whitespace, the "slash"      *
+*           character must be used as a delimiter.  There    *
+*           must be three tokens delineated on all sides or  *
+*           this keyword will be ignored.                    *
+*                                                            *
+**************************************************************
+
+OS2IniData=/AppName/KeyName/KeyValue/
+
+**************************************************************
+*                                                            *
+* PCMCIA                                                     *
+*                                                            *
+*    Specifies whether or not to install PCMCIA.             *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install (DEFAULT)                            *
+*       1=Ambra486 SN425C                                     *
+*       2=ASTAscentia 800N                                    *
+*       3=ASTBravo                                            *
+*       4=ASTPowerExec                                        *
+*       5=AustinDSTN                                          *
+*       6=CompaqConcerto                                      *
+*       7=Compuadd425TX                                       *
+*       8=DELLLatitude                                        *
+*       9=DELLLatitude XP                                     *
+*       10=IBMThinkPad 230                                    *
+*       11=IBMThinkPad 350                                    *
+*       12=IBMThinkPad 360                                    *
+*       13=IBMThinkPad 500                                    *
+*       14=IBMThinkPad 510                                    *
+*       15=IBMThinkPad 701                                    *
+*       16=IBMThinkPad 720                                    *
+*       17=IBMThinkPad 750                                    *
+*       18=IBMThinkPad 755 C/CS                               *
+*       19=IBMThinkPad 755 CE/CSE                             *
+*       20=IBMThinkPad 755 CD                                 *
+*       21=IBMPS/2 E                                          *
+*       22=Matsushita                                         *
+*       23=NCRSafari                                          *
+*       24=NECVersa                                           *
+*       25=Panasonic                                          *
+*       26=ToshibaT3600                                       *
+*       27=ToshibaT4500                                       *
+*       28=ToshibaT4600                                       *
+*       29=ToshibaT4700                                       *
+*       30=ToshibaT4800                                       *
+*       31=Zeos                                               *
+*       32=ZenithZ-lite 425L                                  *
+*                                                            *
+**************************************************************
+
+PCMCIA=0
+
+**************************************************************
+*                                                            *
+* PCMCIAOptions                                              *
+*                                                            *
+*    Specifies whether or not to install PCMCIA options.     *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install (DEFAULT)                            *
+*       1=Install all                                        *
+*       2=Modem/FAX services                                 *
+*       3=Hard disk services                                 *
+*       4=FLASH services                                     *
+*                                                            *
+**************************************************************
+
+PCMCIAOptions=0
+
+**************************************************************
+*                                                            *
+* PrimaryCodePage                                            *
+*                                                            *
+*    Specifies whether "national" or "multi-lingual" code    *
+*    page is primary (first active code page before          *
+*    switching).                                             *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       1=National (DEFAULT)                                 *
+*       2=Multilingual                                       *
+*                                                            *
+**************************************************************
+
+PrimaryCodePage=1
+
+**************************************************************
+*                                                            *
+* PrinterPort                                                *
+*                                                            *
+*    Specifies to which printer port the default printer     *
+*    should be attached                                      *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       1=LPT1 (DEFAULT)                                     *
+*       2=LPT2                                               *
+*       3=LPT3                                               *
+*       4=COM1                                               *
+*       5=COM2                                               *
+*       6=COM3                                               *
+*       7=COM4                                               *
+*                                                            *
+**************************************************************
+
+PrinterPort=1
+
+**************************************************************
+*                                                            *
+* ProcessEnvironment                                         *
+*                                                            *
+*    Each of the Keyword/Keyvalue statements specified in    *
+*    this response file may be added to the environment as   *
+*    environment variables.                                  *
+*    This makes it possible for user programs, batch files,  *
+*    etc. (UserExit) to access response file settings.       *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = Do not add keyword/keyvalue statements specified *
+*           in this response file to environment.            *
+*       1 = Add all keyword/keyvalue statements specified    *
+*           in this response file to environment (DEFAULT).  *
+*                                                            *
+**************************************************************
+
+ProcessEnvironment=1
+
+**************************************************************
+*                                                            *
+*  ProgressIndication                                        *
+*                                                            *
+*    Specifies whether or not to display progress indicators *
+*    during the installation.  Disabling this will allow a   *
+*    frontend program to display something else while we do  *
+*    our job in an unattended environment.                   *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = No progress indication                           *
+*       1 = Progress indication (DEFAULT)                    *
+*                                                            *
+**************************************************************
+
+ProgressIndication=1
+
+**************************************************************
+*                                                            *
+* RebootRequired                                             *
+*                                                            *
+*    Specifies if the machine should be automatically        *
+*    warm booted when installation is complete.  This is     *
+*    ignored if the ExtendedInstall response is specified.   *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Ask user to reboot (DEFAULT)                       *
+*       1=Auto-reboot                                        *
+*                                                            *
+**************************************************************
+
+RebootRequired=0
+
+**************************************************************
+*                                                            *
+* SCSI                                                       *
+*                                                            *
+*    Specifies which, if any, CD ROM adapter support you     *
+*    wish to install support for.                            *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = None                                             *
+*       1 = Autodetect                                       *
+*       2=Adaptec1510,1520,1522                               *
+*       3=Adaptec1540,1542                                    *
+*       4=Adaptec1640                                         *
+*       5=Adaptec1740,1742,1744                               *
+*       6=Adaptec2840VL,2842VL,2740,2742,AIC7770              *
+*       7=Adaptec2940,2940W,AIC7870                           *
+*       8=BusLogicBusMaster SCSI Adapters                     *
+*       9=DPTPM2011,PM2012                                    *
+*       10=FutureDomain 845,850,850IBM,860,875,885,TMC 9C50/C *
+*       11=FutureDomain 16xx,1790,1795,MCS600/700,TMC 1800/18 *
+*       12=FutureDomain 7000EX                                *
+*       13=IBMPS/2 SCSI Adapter                               *
+*       14=IBM16-Bit AT Fast SCSI Adapter                     *
+*       15=ProAudioSpectrum 16 with Trantor SCSI              *
+*                                                            *
+**************************************************************
+
+SCSI=1
+
+**************************************************************
+*                                                            *
+* SerialDeviceSupport                                        *
+*                                                            *
+*    Specifies whether or not to install the serial          *
+*    device driver.                                          *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0=Don't install                                      *
+*       1=Install (DEFAULT)                                  *
+*                                                            *
+**************************************************************
+
+SerialDeviceSupport=1
+
+**************************************************************
+*                                                            *
+* SourcePath                                                 *
+*                                                            *
+*    Specifies a single media (no disk switching) that should*
+*    be used as a source drive and directory from which to   *
+*    install.                                                *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYVALUE=drive and optional path (D:\OS2SE20\...)    *
+*                DEFAULT=A:\                                 *
+*                                                            *
+**************************************************************
+
+* SourcePath=D:\os2se20
+
+**************************************************************
+*                                                            *
+* TargetDrive                                                *
+*                                                            *
+*    Specifies the target drive to which OS/2 should be      *
+*    installed.  This drive is assumed to be a valid         *
+*    partition.  If a partition other than C: is specified,  *
+*    it is assumed that MOST support is already installed to *
+*    enable booting an operating system from any partition.  *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYVALUE=d:                                          *
+*                                                            *
+*          where "d:" is a valid partition that OS/2 may be  *
+*          installed to.                                     *
+*                DEFAULT=first acceptable partition          *
+*                                                            *
+**************************************************************
+
+TargetDrive=C:
+
+**************************************************************
+*                                                            *
+* WIN-OS/2TargetDrive                                        *
+*                                                            *
+*    Specifies which valid partition drive to install        *
+*    WIN-OS/2.                                               *
+*                                                            *
+* Valid Parms:  any valid FORMATTED partition.               *
+*                                                            *
+*        C: (DEFAULT)                                        *
+*        D:                                                  *
+*        .                                                   *
+*        .                                                   *
+*                                                            *
+*        Z:                                                  *
+*                                                            *
+* Example:                                                   *
+*                                                            *
+*    WIN-OS/2TargetDrive=D:                                  *
+*    would install WIN-OS/2 to partition D: located in       *
+*    \OS2\MDOS\WINOS2                                        *
+*                                                            *
+**************************************************************
+
+*WIN-OS/2TargetDrive=C:
+
+
+**************************************************************
+*                                                            *
+*  ToolsAndGames                                             *
+*                                                            *
+*     Specifies whether or not to install tools and games    *
+*     such as editors and jigsaw.                            *
+*                                                            *
+*  Valid Parms:                                              *
+*                                                            *
+*     0=Install none                                         *
+*     1=Install all (DEFAULT)                                *
+*     2=Enhanced Editor                                      *
+*     3=Search and Scan Tool                                 *
+*     4=Solitaire - Klondike                                 *
+*     5=Pulse                                                *
+*     6=Chess                                                *
+*     7=Mahjongg Solitaire                                   *
+*                                                            *
+* Example:                                                   *
+*          ToolsAndGames=2,5,6                               *
+*          would install the Enhanced Editor, Pulse and      *
+*          Chess.                                            *
+*                                                            *
+**************************************************************
+
+ToolsAndGames=1
+
+**************************************************************
+*                                                            *
+* ConfigSysLine                                              *
+*                                                            *
+*    Specifies a text line to be appended to CONFIG.SYS.     *
+*    There may be multiple occurrences of this keyword.      *
+*    No validity checking is done.                           *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYWORD = a valid CONFIG.SYS statement               *
+*                                                            *
+**************************************************************
+
+* ConfigSysLine=REM This is a CONFIG.SYS remark line.
+
+**************************************************************
+*                                                            *
+* Copy                                                       *
+*                                                            *
+*    Specifies a source file and destination directory       *
+*    of a file to be copied during install.  Errors are      *
+*    ignored, though they will be logged.  Packed files      *
+*    are acceptable since UNPACK will do the copy.           *
+*    There may be multiple occurrences of this keyword.      *
+*    No validity checking is done.                           *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYWORD= source file destination                     *
+*                                                            *
+*         where source file = valid filename                 *
+*           and destination = valid directory name           *
+*                                                            *
+*         ex: Copy = readme.dat  c:\os2                      *
+*                                                            *
+**************************************************************
+
+* Copy=vga c:\ /n:ini.rc
+
+**************************************************************
+*                                                            *
+*  EarlyUserExit                                             *
+*                                                            *
+*    Specifies the name of a program that Install will       *
+*    DosExec after the target drive is prepared.  Install    *
+*    waits for the program to return.  This keyword may occur*
+*    more than once.  Each will be executed in the order that*
+*    they appear at the end of OS/2 Install.  The only       *
+*    difference between this keyword and the UserExit keyword*
+*    is that this one is executed early in the installation  *
+*    process while the latter is executed at the very end.   *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYVALUE=user exit program name (DEFAULT=none)       *
+*                                                            *
+**************************************************************
+
+* EarlyUserExit=T c:\config.sys
+
+**************************************************************
+*                                                            *
+* ExtendedInstall                                            *
+*                                                            *
+*    Specifies program to be run asynchronously while SE     *
+*    Install DosExits                                        *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYVALUE=full pathname of program                    *
+*       (DEFAULT=none)                                       *
+*                                                            *
+**************************************************************
+
+* ExtendedInstall=PROGRAM.EXE
+
+**************************************************************
+*                                                            *
+*  SeedConfigSysLine                                         *
+*                                                            *
+*    Specifies a text line to be appended to the CONFIG.SYS  *
+*    written to the seed system from which PM Install boots. *
+*    This will allow device drivers (that may be required) to*
+*    become part of that seed system.                        *
+*    There may be multiple occurrences of this keyword.      *
+*    No validity checking is done.                           *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYWORD = a valid CONFIG.SYS statement               *
+*                                                            *
+**************************************************************
+
+* SeedConfigSysLine=REM This is a remark line in the seed CONFIG.SYS.
+
+**************************************************************
+*                                                            *
+* UserExit                                                   *
+*                                                            *
+*    Specifies the name of a program that Install will       *
+*    DosExec before exiting memory.  Install waits for the   *
+*    program to return.  This keyword may occur more than    *
+*    once.  Each will be executed in the order that they     *
+*    appear at the end of OS/2 Install.                      *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       KEYVALUE=user exit program name (DEFAULT=none)       *
+*                                                            *
+**************************************************************
+
+* UserExit=T.EXE C:\OS2\INSTALL\INSTALL.LOG
+
+**************************************************************
+*                                                            *
+* DDInstall                                                  *
+*    Use OS/2 Device Driver Installation to install external *
+*    loadable device drivers. A Device Driver Profile ( a    *
+*    text file with a .DDP file name extension)  must be     *
+*    provided by the device driver author to control the     *
+*    installation of the device driver.                      *
+*                                                            *
+*    Valid Parms:                                            *
+*       DDISrc =  Directory where the .DDP files are.        *
+*       DDIDest = Directory where to copy the device driver  *
+*                 files.                                     *
+*       DDIDDP =  List of .DDP files to install.             *
+*                 (example: file1.DDP,file2.DDP)             *
+*                                                            *
+*                                                            *
+**************************************************************
+
+*DDISrc  = Z:\DDP
+*DDIDest = C:\
+*DDIDDP  = *.DDP
+
+**************************************************************
+*                                                            *
+*  Multimedia Support                                        *
+*                                                            *
+*    Specifies whether or not to install multimedia files    *
+*    during the installation.                                *
+*                                                            *
+*    Valid Parms:                                            *
+*                                                            *
+*       0 = do NOT install multimedia support                *
+*       1 = install multimedia support (DEFAULT)             *
+*                                                            *
+**************************************************************
+
+MultimediaSupport=0
+
+

@@ -1,0 +1,369 @@
+#==============================================================================
+# makefile - For the 'util' directory.
+#
+# (C) Copyright IBM Corporation, 1992.                          Brian E. Yoder
+#
+# 04/03/91 - Created.
+# 07/22/92 - Build using C Set/2 (and the make.exe from IBM C/2 1.1).
+# 09/22/92 - Latest version.
+#==============================================================================
+
+#==============================================================================
+# The default is to make all programs
+#
+# There should be one program listed for every .LNK link response file in
+# this directory.
+#==============================================================================
+
+default: ALL
+
+ALL:           util.lib       \
+               args.exe       \
+               argx.exe       \
+               bmtbl.exe      \
+               ccmt.exe       \
+               ccp.exe        \
+               cdir.exe       \
+               cfdmp.exe      \
+               chmod.exe      \
+               crc.exe        \
+               crcchk.exe     \
+               ftest.exe      \
+               grep.exe       \
+               list2bm.exe    \
+               ls.exe         \
+               pmt.exe        \
+               t2bm.exe
+
+
+#------------------------------------------------------------------------------
+# Common definitions
+#------------------------------------------------------------------------------
+
+UTILH   = util.h
+
+UTILLIB = util.lib
+
+UTILDEF = util.def
+
+#------------------------------------------------------------------------------
+# Compiler and linker options
+#------------------------------------------------------------------------------
+
+CFLAGS = -C+ -Sm -O+ -Ss+ -Q+
+CC     = icc
+
+LFLAGS = /AL:4 /EXEPACK /BASE:0x10000 /MAP /STACK:16000 /NOL
+LINK   = link386
+
+SETARG = c:\ibmc\lib\setargv.obj
+
+#==============================================================================
+# Library: util.lib
+#
+# When adding object modules to the library:
+# 1. Add them to the OBJ_LIB list, and:
+# 2. Add them to the "util.rsp" LIB response file.
+#==============================================================================
+
+OBJ_LIB      = cfaccess.obj   \
+               text2bm.obj    \
+               rxpm.obj       \
+               futil.obj      \
+               makepath.obj   \
+               crcfile.obj    \
+               speclist.obj
+
+util.lib:      $(OBJ_LIB)
+               echo Deleting old .lib file if present...
+               if exist util.lib del util.lib
+               echo Building library...
+               lib @<<
+util.lib
+y
++cfaccess+rxpm+text2bm+futil+makepath+crcfile+speclist
+util.ref
+<<
+
+#==============================================================================
+# args - Test program to display command line arguments
+#==============================================================================
+
+args.exe     : args.obj  util.def
+               $(LINK) $(LFLAFS) @<<
+args
+args.exe
+args.map
+,
+$(UTILDEF);
+<<
+
+#==============================================================================
+# argx - Test program:  Display args with OS's filename expansion
+#==============================================================================
+
+argx.exe     : args.obj  util.def
+               $(LINK) $(LFLAFS) @<<
+args+
+$(SETARG)
+argx.exe
+argx.map
+,
+$(UTILDEF);
+<<
+
+#==============================================================================
+# bmtbm - Build a BookMaster table definition
+#==============================================================================
+
+bmtbl.exe    : bmtbl.obj     \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+bmtbl.obj
+bmtbl.exe
+bmtbl.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# ccmt - C Comment Checking
+#==============================================================================
+
+ccmt.exe     : ccmt.obj   \
+               util.def
+               $(LINK) $(LFLAFS) @<<
+ccmt+
+$(SETARG)
+ccmt.exe
+ccmt.map
+,
+$(UTILDEF);
+<<
+
+#==============================================================================
+# ccp - Conditional Copy
+#==============================================================================
+
+ccp.exe      : ccp.obj       \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+ccp.obj
+ccp.exe
+ccp.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# cdir - Change directory
+#==============================================================================
+
+cdir.exe     : cdir.obj      \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+cdir.obj
+cdir.exe
+cdir.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# cfdmp - Customization file dump (test functions in cfaccess.c)
+#==============================================================================
+
+cfdmp.exe    : cfdmp.obj  cfaccess.obj  util.def
+               $(LINK) $(LFLAFS) @<<
+cfdmp+
+cfaccess
+cfdmp.exe
+cfdmp.map
+,
+$(UTILDEF);
+<<
+
+#==============================================================================
+# chmod - Change file mode
+#==============================================================================
+
+chmod.exe    : chmod.obj     \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+chmod.obj
+chmod.exe
+chmod.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# crc - Calculate CRC for file(s)
+#==============================================================================
+
+crc.exe      : crc.obj       \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+crc.obj
+crc.exe
+crc.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# crcchk - Calculate and check CRC for file(s)
+#==============================================================================
+
+crcchk.exe   : crcchk.obj    \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+crcchk.obj
+crcchk.exe
+crcchk.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# ftest - Test various file functions
+#==============================================================================
+
+ftest.exe    : ftest.obj  rxpm.obj  futil.obj  makepath.obj \
+               speclist.obj  util.def
+               $(LINK) $(LFLAFS) @<<
+ftest+
+rxpm+
+futil+
+makepath+
+speclist
+ftest.exe
+ftest.map
+,
+$(UTILDEF);
+<<
+
+#==============================================================================
+# grep - Get regular expression and print
+#==============================================================================
+
+grep.exe     : grep.obj     \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+grep.obj
+grep.exe
+grep.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# list2bm - Convert list of files to a BookMaster source document
+#==============================================================================
+
+list2bm.exe  : list2bm.obj   \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+list2bm.obj
+list2bm.exe
+list2bm.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# ls - List directory
+#==============================================================================
+
+ls.exe       : ls.obj        \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+ls.obj
+ls.exe
+ls.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# pmt - Pattern matching test, for functions in rxpm.c
+#==============================================================================
+
+pmt.exe      : pmt.obj  rxpm.obj  util.def
+               $(LINK) $(LFLAFS) @<<
+pmt+
+rxpm+
+$(SETARG)
+pmt.exe
+pmt.map
+,
+$(UTILDEF);
+<<
+
+#==============================================================================
+# t2bm - Text to BookMaster conversion
+#==============================================================================
+
+t2bm.exe     : t2bm.obj      \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAFS) @<<
+t2bm.obj
+t2bm.exe
+t2bm.map
+$(UTILLIB)
+$(UTILDEF);
+<<
+
+#==============================================================================
+# Additional object file dependencies
+#==============================================================================
+
+bmtbl.obj    : $(UTILH)  bmtbl.h
+
+ccp.obj      : $(UTILH)
+
+cdir.obj     : $(UTILH)
+
+cfaccess.obj : $(UTILH)
+
+cfdmp.obj    : $(UTILH)
+
+chmod.obj    : $(UTILH)
+
+crc.obj      : $(UTILH)
+
+crcchk.obj   : $(UTILH)
+
+crcfile.obj  : $(UTILH)
+
+ftest.obj    : $(UTILH)
+
+futil.obj    : $(UTILH)
+
+grep.obj     : $(UTILH)
+
+list2bm.obj  : $(UTILH)
+
+ls.obj       : $(UTILH)
+
+makepath.obj : $(UTILH)
+
+pmt.obj      : $(UTILH)
+
+rxpm.obj     : $(UTILH)  regexp.h
+
+speclist.obj : $(UTILH)
+
+t2bm.obj     : $(UTILH)
+
+text2bm.obj  : $(UTILH)

@@ -1,0 +1,29 @@
+*********************************************************************
+*           The Developer Connection for LAN Systems                *
+*                                                                   *
+* IBM: Red Books Sample Code -- Software Installer/2 Catalog File   *
+*                                                                   *
+*********************************************************************
+CATALOG
+  NAME         = 'IBM: Redbooks Sample Code',
+  DESCRIPTION  = 'These packages contain Redbook sample code for several
+ IBM Products.  This installation lets you copy the redbook contents
+ onto a workstation.'
+
+* Note:
+* When updating the VRM in the PACKAGEs, remember to update the
+* SERVICELEVEL in the package file to be the same as the VRM value.
+*********************************************************************
+* IBM: Redbooks Sample Code
+*********************************************************************
+PACKAGE
+  NAME            = 'IBM: Redbooks Sample Code',
+  NUMBER          = 'GG244000',
+  VRM             = '000006',
+  FEATURE         = '',
+  PACKAGEFILE     = 'DRIVE: REDBOOKS.PKG',
+  PKGDESCRFILE    = 'DRIVE: REDBOOKS.DSC',
+  SIZE            = '6155818',
+  UPDATECONFIGSYS = 'NO'
+
+

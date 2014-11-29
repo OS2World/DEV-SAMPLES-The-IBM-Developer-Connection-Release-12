@@ -1,0 +1,110 @@
+#ifdef __PRIVATE__
+//#
+//#     File:           MLEPART.IDL
+//#
+//#     Contains:       IDL description of Clock Part
+//#
+//#     Written by:     Chuck Dumont 
+//#
+//#     Copyright:      (c) 1994 by IBM Corp., all rights reserved.
+//#
+//#     Change History (most recent first):
+//#
+//#     124960  06/16/95  ced   Remove ActivatingWindow, ActivateFrame and
+//#                             FocusLost overrides.
+//#     120017  04/22/95  ced   Remove unused overrides from metaclass
+//#        <1>   9/28/94  ced   first checked in
+//#
+//#     To Do:
+//#
+#else
+//#     Copyright:      (c) 1993-1994 by IBM Corp., all rights reserved.
+#endif
+
+
+#ifndef _MLEPARTT_
+#define _MLEPARTT_
+
+#ifndef _SIMPLPRT_
+#include <SimplPrt.idl>
+#endif
+
+interface M_MLEPart;
+
+#ifdef __PRIVATE__
+//=====================================================================================
+// Implementation Types
+//=====================================================================================
+
+#endif // __PRIVATE__
+
+
+interface MLEPart : SimplePart
+{
+
+        void CommonInitMLEPart();
+        void UpdateFacets(in ODFacet facet);
+
+
+#ifdef __SOMIDL__
+        implementation
+        {
+                functionprefix = MLEPart;
+                metaclass     = M_MLEPart;
+                majorversion = 1;
+                minorversion = 0;
+
+        releaseorder:
+                CommonInitMLEPart,
+                UpdateFacets;
+
+        override:
+                somInit,
+                somUninit,
+                FacetAdded,
+                FacetRemoved,            
+                GeometryChanged,         
+                Externalize,
+                HandleEvent,
+                InitPart,
+                InitPartFromStorage,
+                FocusAcquired,
+                FocusLost,
+                Draw;
+
+        passthru C_xih = "class ODxOrderedCollection;";
+
+        // instance variables
+
+        ODBoolean        fInitialized;
+        ODBoolean        fIgnoreChange;
+        ODSession        fSession;
+        ODTypeToken      fSelectionFocus;
+        ODxOrderedCollection  fFacets;
+        char *           fBuffer;
+
+
+
+        };
+#endif
+};
+
+//};  //# Module MLEPart
+
+interface M_MLEPart : M_ODPart
+{
+
+#ifdef __SOMIDL__
+  implementation
+  {
+    functionprefix = M_MLEPart;
+    override:
+      clsGetODPartHandlerName,
+      clsGetODPartHandlerDisplayName,
+      clsGetODPartKinds;
+  };
+#endif
+};
+#endif  // _MLEPART_
+
+

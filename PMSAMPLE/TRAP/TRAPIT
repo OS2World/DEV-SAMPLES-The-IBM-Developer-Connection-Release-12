@@ -1,0 +1,27 @@
+# IBM Developer's Workframe/2 Make File Creation run at 15:19:21 on 09/29/93
+
+# Make File Creation run in directory:
+#   G:\UNL;
+
+.SUFFIXES:
+
+.SUFFIXES: .c
+
+TRAPIT.EXE:  \
+  TRAPIT.OBJ \
+  MAKEUNPM
+   @REM @<<TRAPIT.@0
+     /PM:PM/MAP +
+     TRAPIT.OBJ
+     TRAPIT.EXE
+     TRAPIT.MAP
+     TRAPITH.LIB
+     TRAPIT.DEF;
+<<
+   LINK386.EXE @TRAPIT.@0
+
+{.}.c.obj:
+   ICC.EXE /C /Gm+ .\$*.c
+
+!include MAKEUNPM.DEP
+

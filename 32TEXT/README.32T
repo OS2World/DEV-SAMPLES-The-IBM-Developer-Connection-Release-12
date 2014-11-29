@@ -1,0 +1,130 @@
+OS/2 32bit Textmode APIs (Vio/Kbd/Mou)  -   Beta
+
+July 12, 1995
+
+OS/2 for PowerPC provides 32 bit interfaces to the textmode functions
+(Vio, Kbd, Mou).  This library provides matching interfaces which
+can be run on OS/2 PC (v2.x and Warp).
+
+These interfaces provide for a common interface to the textmode of
+OS/2 on both the PC and PowerPC.  These interfaces do not provide
+functions not in OS/2 PC.  It gives a 32 bit interface to the existing
+function.
+
+Contents:
+=========
+
+The package contains the following files.  This can be installed on
+any OS/2 2.x system.  The header files overlay header files for the
+existing 16 bit console support and are included using os2.h.  You
+should put them in a different directory, or backup the 16 bit
+versions.
+
+This diskette contains the package in both compressed and expanded
+form.  The compressed version in in text32.zip.
+
+    readme.t32   -  This file
+    bsesub.h     -  Header file describing console APIs
+    pmavio.h     -  Header file for AVIO window procedure
+    vio.doc      -  Documentation of Vio calls
+    kbd.doc      -  Documentation of Kbd calls
+    mou.doc      -  Documentation of Mou calls
+    os2char2.dll -  OS/2 2.x implementation of console APIs
+    os2char2.lib -  Implib for new console APIs
+    sysvals.c    -  AVIO testcase
+    sysvals.mak  -  Makefile for AVIO testcase
+    sysvals.def  -  Def file for AVIO testcase
+    32test.ico   -  Icon for 32 bit textmode
+
+
+Installation:
+============
+
+The header files overlay header files for the existing 16 bit
+console support, and you should put them in a different directory,
+or backup the 16 bit versions.  For these files to be found by
+os2.h, they must be in a directory pointed to by INCLUDE, or the
+-i option of the compiler.
+
+os2char2.dll is a thunk layer to convert the new console APIs to the
+existing 16 bit APIs.  In general, all restrictions of the existing
+console support still exist when using os2char2.
+
+os2char2.lib should be placed in your library directory, and must
+be specified in the compiler or link phases.
+
+os2char2.dll must be placed in your libpath.  This is a separate
+DLL so that the existing DLLs do not need to be modified.
+
+Limitations:
+============
+
+This code is simply a set of "thunks" from the new 32 bit APIs to
+the old 16 bit APIs.  All of the limitations of the old APIs is
+still present, and most of the new function is not available.
+
+* KbdGetConsole will only return keyboard events, not mouse events.
+  The existing OS/2 2.1 methods must be used to get both key and
+  mouse events.
+
+* The unicode functions are implemented for Kbd but do not support
+  DBCS codepages.  The VIO unicode functions are not implemented.
+
+Examples:
+=========
+
+In most cases, the 32 bit textmode APIs are the same as the 16 bit
+OS/2 1.x textmode APIs.  The following general changes have been
+made.  Most of these require changes to the declarations of the
+operands, and not of the API call itself.
+
+1. Most USHORT operands have been changed to ULONG.  This is
+   normally only a problem for return data fields.
+2. All fields have been placed on natural alignment (4 byte
+   boundary for 4 byte fields).  The length of some structures
+   has changed.  This causes problems if a size is hard coded
+   instead of using sizeof.
+3. Several names have been expanded.  For instance VioScrollDn is
+   now VioScrollDown.  There are defines for the old names.
+4. The return code is APIRET which is an unsigned long (it was an
+   unsigned short).
+
+Using 16 bit API:
+    USHORT  row, column, rc;       /* Variables were short */
+    HVIO    hvio;
+    BYTE    cell[2];
+    VIOCONFIGINFO  config;
+
+    hvio = 0;
+    rc = VioGetCurPos (&row, &column, hvio);
+    rc = VioScrollDn (row, 0, row+3, column, 1, &cell, hvio);
+    config.cb = sizeof(VIOCONFIGINFO); /* All config items */
+    rc = VioGetConfig(0, &config, hvio);
+
+Using 32 bit API:
+    ULONG   row, column, rc;           /* Change to ULONG */
+    HVIO    hvio;
+    BYTE    cell[2];
+    VIOCONFIGINFO  config;
+
+    hvio = 0;
+    rc = VioGetCurPos (&row, &column, hvio);
+    rc = VioScrollDown (row, 0, row+3, column, 1, &cell, hvio);
+    config.cb = sizeof(VIOCONFIGINFO); /* Size of structure changed */
+    rc = VioGetConfig(0, &config, hvio);
+
+Shipping the DLL
+================
+
+You may reship os2char2.dll but you may not use the name os2char2.dll.
+Any other name may be used.  This is done to prevent version conflicts
+when this dll is shipped with the system.
+
+Feedback:
+=========
+
+This is a preliminary version of this support, and is available
+"asis".  You can send comments concerning this package to the OS/2
+Developer Forum 2 (OS2DF2) on CompuServe.  This forum is only
+available to OS/2 Developer Connection members.
+

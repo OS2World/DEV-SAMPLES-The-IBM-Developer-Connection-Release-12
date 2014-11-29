@@ -1,0 +1,388 @@
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     1
+                                      * * * * *   P R O L O G   * * * * *
+
+ Compiler . . . . . . . . . . . . : IBM C/C++ Tools V2.0
+ Command options:
+    Compiler mode . . . . . . . . : C
+    Program name. . . . . . . . . : OS2THRD.C
+    Assemble name . . . . . . . . : "os2thrd.asm"
+    Object name . . . . . . . . . : "os2thrd.obj"
+    Listing name. . . . . . . . . : os2thrd.lst
+    Compiler options. . . . . . . : /C+  /Fa+ /Fc- /Fd- /Fi- /Fl- /Fm- /Fo+ /Fw- /Gd- /Ge+ /Gf- /Gh- /Gi- /Gm- /Gn- /Gr+ /Gs-
+                                  : /Gt- /Gu- /Gv- /Gw- /J+  /L-  /La- /Lb- /Le- /Lf- /Li- /Lj- /Ls+ /Lx- /Ly- /O-  /Ol- /Om-
+                                  : /Op+ /Os- /P-  /Pc- /Pd- /Pe- /Q+  /Sd- /Sh- /Si- /Sm- /Sn- /Sr- /Ss+ /Sv- /Ti- /Tm- /Tx-
+                                  : /Xi-
+                                  : /Wcls- /Wcmp- /Wcnd- /Wcns- /Wcnv- /Wcpy- /Wdcl- /Weff- /Wenu- /Wext- /Wgen- /Wgnr- /Wgot-
+                                  : /Wini- /Wlan- /Wobs- /Word- /Wpar- /Wpor- /Wppc- /Wppt- /Wpro- /Wrea- /Wret- /Wtrd- /Wtru-
+                                  : /Wund- /Wuni- /Wuse- /Wvft-
+                                  : /Mp  /Rn  /Se  /Sp1  /G3  /W3  /H255  /Lp66  /Sg-  /Sq-  /N  /Oi0  /Su-  /Tl10 
+                                  : /DM_I386=1  
+                                  : /I  
+                                  : /Lt 
+                                  : /Lu 
+                                  : /B  
+                                  : /V  
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     2
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+    1       |/******************************************************************************/                  |      1           
+    2       |/* The following code fragments were published as part of                     */                  |      2           
+    3       |/* The Developer Connection News  Volume II                                   */                  |      3           
+    4       |/*                                                                            */                  |      4           
+    5       |/* COPYRIGHT:                                                                 */                  |      5           
+    6       |/* ----------                                                                 */                  |      6           
+    7       |/* Copyright (C) International Business Machines Corp., 1993.                 */                  |      7           
+    8       |/*                                                                            */                  |      8           
+    9       |/* DISCLAIMER OF WARRANTIES:                                                  */                  |      9           
+   10       |/* -------------------------                                                  */                  |     10           
+   11       |/* The following [enclosed] code is sample code created by IBM                */                  |     11           
+   12       |/* Corporation.  This sample code is not part of any standard IBM product     */                  |     12           
+   13       |/* and is provided to you solely for the purpose of assisting you in the      */                  |     13           
+   14       |/* development of your applications.  The code is provided "AS IS",           */                  |     14           
+   15       |/* without warranty of any kind.  IBM shall not be liable for any damages     */                  |     15           
+   16       |/* arising out of your use of the sample code, even if they have been         */                  |     16           
+   17       |/* advised of the possibility of such damages.                                */                  |     17           
+   18       |/*                                                                            */                  |     18           
+   19       |/******************************************************************************/                  |     19           
+   20       |                                                                                                  |     20           
+   21       |                                                                                                  |     21           
+   22       |#define INCL_DOSMVDM                                                                              |     22           
+   23       |#define INCL_BASE                                                                                 |     23           
+   24       |#include <os2.h>                                                                                  |     24           
+   25       |#include <stdlib.h>                                                                               |     25           
+   26       |#include <string.h>                                                                               |     26           
+   27       |#include "sty_main.h"                                                                             |     27           
+   28       |#include "sty_xtrn.h"                                                                             |     28           
+   29       |#include "sty_dlg.h"                                                                              |     29           
+   30       |#include "common.h"                                                                               |     30           
+   31       |                                                                                                  |     31           
+   32       |                                                                                                  |     32           
+   33       |/*                                                                                                |     33           
+   34       | *Any data types that are private to this module                                                  |     34           
+   35       | */                                                                                               |     35           
+   36       |                                                                                                  |     36           
+   37       |                                                                                                  |     37           
+   38       |/*                                                                                                |     38           
+   39       | *any data declarations that are private to this module                                           |     39           
+   40       | */                                                                                               |     40           
+   41       |ULONG  HandleToVDD;                                                                               |     41           
+   42       |MESSAGEBUFFER MessageBuffer;                                                                      |     42           
+   43       |                                                                                                  |     43           
+   44       |/****************************************************************************/                    |     44           
+   45       |/*The following code fragments were enclosed due to erros in The Developer  */                    |     45           
+   46       |/*Connection News that we were not able to correct before press time.       */                    |     46           
+   47       |/*The following routines will be expanded and incoporated into the final    */                    |     47           
+   48       |/*release of the source code that will be released in a future release of   */                    |     48           
+   49       |/*The Developer Connection News - David Kenner                              */                    |     49           
+   50       |/****************************************************************************/                    |     50           
+   51       |/****************************************************************************/                    |     51           
+   52       |/*OpenVirtQueue                                                             */                    |     52           
+   53       |/*                                                                          */                    |     53           
+   54       |/*                                                                          */                    |     54           
+   55       |/*A service routine that will allow us to do our initilization with the vdd */                    |     55           
+   56       |/****************************************************************************/                    |     56           
+   57       |APIRET OpenVirtQueue(VOID)                                                                        |     57           
+   58       |{                                                                                                 |     58           
+   59       |     APIRET apiRet;                                                                               |     59           
+   60       |                                                                                                  |     60           
+   61       |     /*                                                                                           |     61           
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     3
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+   62       |      *see if our Vdd is alive and if so get                                                      |     62           
+   63       |      *a handle that we may use later                                                             |     63           
+   64       |      */                                                                                          |     64           
+   65     1 |     if(apiRet = DosOpenVDD(VDDNAME,&HandleToVDD) )                                               |     65           
+   66       |     {                                                                                            |     66           
+   67     2 |          return(apiRet);                                                                         |     67           
+   68       |     }                                                                                            |     68           
+   69       |                                                                                                  |     69           
+   70       |     /*                                                                                           |     70           
+   71       |      *Call into our Vdd so we perform any initialization                                         |     71           
+   72       |      *we need to do at this time.                                                                |     72           
+   73       |      */                                                                                          |     73           
+   74       |     if(apiRet  = DosRequestVDD(HandleToVDD,                                                      |     74           
+   75       |                                0,                                                                |     75           
+   76       |                                INIT_COMMAND,                                                     |     76           
+   77       |                                0,                                                                |     77           
+   78       |                                NULL,                                                             |     78           
+   79       |                                0,                                                                |     79           
+   80     3 |                                NULL) )                                                           |     80           
+   81       |     {                                                                                            |     81           
+   82     4 |          return(apiRet);                                                                         |     82           
+   83       |     }                                                                                            |     83           
+   84     5 |     return(apiRet);                                                                              |     84           
+   85       |}                                                                                                 |     85           
+   86       |/****************************************************************************/                    |     86           
+   87       |/*WriteVirtQueue                                                            */                    |     87           
+   88       |/*                                                                          */                    |     88           
+   89       |/*                                                                          */                    |     89           
+   90       |/*A service routine that will allow us to send our message data to the  vdd */                    |     90           
+   91       |/*                                                                          */                    |     91           
+   92       |/*                                                                          */                    |     92           
+   93       |/*                                                                          */                    |     93           
+   94       |/****************************************************************************/                    |     94           
+   95       |                                                                                                  |     95           
+   96       |APIRET WriteVirtQueue(PVOID pvMessageToSend,                                                      |     96           
+   97       |                      ULONG ulCount,                                                              |     97           
+   98       |                      SGID  SessionId)                                                            |     98           
+   99       |{                                                                                                 |     99           
+  100       |     APIRET apiRet;                                                                               |    100           
+  101       |                                                                                                  |    101           
+  102       |     if(apiRet = DosRequestVDD(HandleToVDD,                                                       |    102           
+  103       |                               SessionId,                                                         |    103           
+  104       |                               POST_MESSAGE,                                                      |    104           
+  105       |                               ulCount,                                                           |    105           
+  106       |                               pvMessageToSend,                                                   |    106           
+  107       |                               0,                                                                 |    107           
+  108     6 |                               NULL) )                                                            |    108           
+  109       |     {                                                                                            |    109           
+  110     7 |          return(apiRet);                                                                         |    110           
+  111       |     }                                                                                            |    111           
+  112     8 |     return(apiRet);                                                                              |    112           
+  113       |}                                                                                                 |    113           
+  114       |                                                                                                  |    114           
+  115       |/****************************************************************************/                    |    115           
+  116       |/*ReadVirtQueue                                                             */                    |    116           
+  117       |/*                                                                          */                    |    117           
+  118       |/*                                                                          */                    |    118           
+  119       |/*This routine is set up as separate thread that will read messages,process */                    |    119           
+  120       |/*them,and then continue to block until additional messages come in.The     */                    |    120           
+  121       |/*block mechansim is accomplished through the semaphore in our VDD          */                    |    121           
+  122       |/*                                                                          */                    |    122           
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     4
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  123       |/*Note:                                                                     */                    |    123           
+  124       |/*There is no error return. All error messages are handled before the       */                    |    124           
+  125       |/*thread terminates                                                         */                    |    125           
+  126       |/*                                                                          */                    |    126           
+  127       |/****************************************************************************/                    |    127           
+  128       |VOID ReadVirtQueue(VOID)                                                                          |    128           
+  129       |{                                                                                                 |    129           
+  130       |     APIRET apiRet;                                                                               |    130           
+  131       |     PVOID  pvMessage;                                                                            |    131           
+  132       |     CHAR   CommandToSend[SIZ_COMMAND_BUF];                                                       |    132           
+  133       |                                                                                                  |    133           
+  134       |                                                                                                  |    134           
+  135       |                                                                                                  |    135           
+  136     9 |     do                                                                                           |    136           
+  137       |     {                                                                                            |    137           
+  138       |          /*                                                                                      |    138           
+  139       |           *block until we get any message                                                        |    139           
+  140       |           *data                                                                                  |    140           
+  141       |           */                                                                                     |    141           
+  142       |          if(apiRet = DosRequestVDD(HandleToVDD,                                                  |    142           
+  143       |                                    0,                                                            |    143           
+  144       |                                    READ_QUEUE,                                                   |    144           
+  145       |                                    strlen(CommandToSend),                                        |    145           
+  146       |                                    CommandToSend,                                                |    146           
+  147       |                                    sizeof(MessageBuffer),                                        |    147           
+  148    10 |                                    &MessageBuffer) )                                             |    148           
+  149       |          {                                                                                       |    149           
+  150    11 |               break;                                                                             |    150           
+  151       |          }                                                                                       |    151           
+  152       |          /*                                                                                      |    152           
+  153       |           *do all of our message processing                                                      |    153           
+  154       |           */                                                                                     |    154           
+  155    12 |           apiRet = ProcessMessageData(MessageBuffer);                                            |    155           
+  156       |                                                                                                  |    156           
+  157    13 |     }while(!apiRet);                                                                             |    157           
+  158       |     /*                                                                                           |    158           
+  159       |      *handle any error that was  encountered                                                     |    159           
+  160       |      *during our polling                                                                         |    160           
+  161       |      */                                                                                          |    161           
+  162       |                                                                                                  |    162           
+  163       |                                                                                                  |    163           
+  164       |     /*                                                                                           |    164           
+  165       |      *do any other clean up we need to do                                                        |    165           
+  166       |      *and get out                                                                                |    166           
+  167       |      */                                                                                          |    167           
+  168       |                                                                                                  |    168           
+  169    14 |     _endthread();                                                                                |    169           
+  170       |}                                                                                                 |    170           
+  171       |                                                                                                  |    171           
+  172       |/****************************************************************************/                    |    172           
+  173       |/*Provide a stub to keep the linker from complaining                        */                    |    173           
+  174       |/*                                                                          */                    |    174           
+  175       |/*                                                                          */                    |    175           
+  176       |/*This is currently just a stub routine                                     */                    |    176           
+  177       |/****************************************************************************/                    |    177           
+  178       |#if 0                                                                                             |    178           
+  179       |INT main(void)                                                                                    |    179           
+  180       |{                                                                                                 |    180           
+  181       |     APIRET apiRet;                                                                               |    181           
+  182       |                                                                                                  |    182           
+  183       |                                                                                                  |    183           
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     5
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  184       |     do                                                                                           |    184           
+  185       |     {                                                                                            |    185           
+  186       |                                                                                                  |    186           
+  187       |          if(OpenVirtQueue() )                                                                    |    187           
+  188       |          {                                                                                       |    188           
+  189       |               break;                                                                             |    189           
+  190       |          }                                                                                       |    190           
+  191       |          /*                                                                                      |    191           
+  192       |           *start off our read thread                                                             |    192           
+  193       |           */                                                                                     |    193           
+  194       |           apiRet = StartReadThread();                                                            |    194           
+  195       |                                                                                                  |    195           
+  196       |     }ONCE;                                                                                       |    196           
+  197       |     return(0);                                                                                   |    197           
+  198       |                                                                                                  |    198           
+  199       |}                                                                                                 |    199           
+  200       |#endif                                                                                            |    200           
+  201       |                                                                                                  |    201           
+  202       |/****************************************************************************/                    |    202           
+  203       |/*Process any message data we get from our vdd                              */                    |    203           
+  204       |/*                                                                          */                    |    204           
+  205       |/*                                                                          */                    |    205           
+  206       |/*This is currently just a stub routine                                     */                    |    206           
+  207       |/****************************************************************************/                    |    207           
+  208       |APIRET ProcessMessageData(MESSAGEBUFFER MessageBuffer)                                            |    208           
+  209       |{                                                                                                 |    209           
+  210       |                                                                                                  |    210           
+  211       |     APIRET apiRet;                                                                               |    211           
+  212       |                                                                                                  |    212           
+  213    15 |     do                                                                                           |    213           
+  214       |     {                                                                                            |    214           
+  215       |                                                                                                  |    215           
+  216       |                                                                                                  |    216           
+  217       |                                                                                                  |    217           
+  218    16 |     }ONCE;                                                                                       |    218           
+  219    17 |     return(apiRet);                                                                              |    219           
+  220       |}                                                                                                 |    220           
+  221       |/****************************************************************\                                |    221           
+  222       | *                                                                                                |    222           
+  223       | *--------------------------------------------------------------                                  |    223           
+  224       | *                                                                                                |    224           
+  225       | *  Name:                                                                                         |    225           
+  226       | *                                                                                                |    226           
+  227       | *  Purpose:                                                                                      |    227           
+  228       | *                                                                                                |    228           
+  229       | *                                                                                                |    229           
+  230       | *                                                                                                |    230           
+  231       | *  Usage:                                                                                        |    231           
+  232       | *                                                                                                |    232           
+  233       | *  Method:                                                                                       |    233           
+  234       | *          -                                                                                     |    234           
+  235       | *                                                                                                |    235           
+  236       | *          -                                                                                     |    236           
+  237       | *          -                                                                                     |    237           
+  238       | *                                                                                                |    238           
+  239       | *          -                                                                                     |    239           
+  240       | *          -                                                                                     |    240           
+  241       | *                                                                                                |    241           
+  242       | *  Returns:                                                                                      |    242           
+  243       | *          1 - if sucessful execution completed                                                  |    243           
+  244       | *          0 - if error                                                                          |    244           
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     6
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+  245       |\****************************************************************/                                |    245           
+  246       |APIRET StartReadThread(VOID)                                                                      |    246           
+  247       |{                                                                                                 |    247           
+  248       |    APIRET ApiRet;                                                                                |    248           
+  249       |                                                                                                  |    249           
+  250       |                                                                                                  |    250           
+  251       |     if( (ApiRet = _beginthread(ReadVirtQueue,                                                    |    251           
+  252       |                          NULL,                                                                   |    252           
+  253       |                          8192,                                                                   |    253           
+  254    18 |                          NULL)) == -1)                                                           |    254           
+  255       |     {                                                                                            |    255           
+  256    19 |          return(TRUE);                                                                           |    256           
+  257       |     }                                                                                            |    257           
+  258       |                                                                                                  |    258           
+  259       |                                                                                                  |    259           
+  260    20 |     return(FALSE);                                                                               |    260           
+  261       |}                                                                                                 |    261           
+  262       |                                                                                                  |    262           
+  263       |/****************************************************************************/                    |    263           
+  264       |/****************************************************************************/                    |    264           
+  265       |/*OpenVirtQueue                                                             */                    |    265           
+  266       |/*                                                                          */                    |    266           
+  267       |/*                                                                          */                    |    267           
+  268       |/*A service routine that will allow us to do our initilization with the vdd */                    |    268           
+  269       |/****************************************************************************/                    |    269           
+  270       |APIRET CloseVirtQueue(VOID)                                                                       |    270           
+  271       |{                                                                                                 |    271           
+  272       |     APIRET apiRet;                                                                               |    272           
+  273       |                                                                                                  |    273           
+  274       |     /*                                                                                           |    274           
+  275       |      *Call into our Vdd so we perform any initialization                                         |    275           
+  276       |      *we need to do at this time.                                                                |    276           
+  277       |      */                                                                                          |    277           
+  278       |     if(apiRet  = DosRequestVDD(HandleToVDD,                                                      |    278           
+  279       |                                0,                                                                |    279           
+  280       |                                TERMINATE_COMMAND,                                                |    280           
+  281       |                                0,                                                                |    281           
+  282       |                                NULL,                                                             |    282           
+  283       |                                0,                                                                |    283           
+  284    21 |                                NULL) )                                                           |    284           
+  285       |     {                                                                                            |    285           
+  286    22 |          return(apiRet);                                                                         |    286           
+  287       |     }                                                                                            |    287           
+  288    23 |     return(apiRet);                                                                              |    288           
+  289       |}                                                                                                 |    289           
+  290       |                                                                                                  |    290           
+  291       |                                                                                                  |    291           
+  292       |                                                                                                  |    292           
+  293       |                                                                                                  |    293           
+  294       |                                                                                                  |    294           
+  295       |                                                                                                  |    295           
+  296       |                                                                                                  |    296           
+  297       |                                                                                                  |    297           
+  298       |                                                                                                  |    298           
+  299       |                                                                                                  |    299           
+                                    * * * * *   E N D   O F   S O U R C E   * * * * *
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     7
+                        * * * * *   I N C L U D E S   * * * * *
+
+INCLUDE FILES  ---  FILE#   NAME
+                      1       F:\TOOLKT21\C\OS2H\OS2.H
+                      2       F:\TOOLKT21\C\OS2H\OS2DEF.H
+                      3       F:\TOOLKT21\C\OS2H\BSE.H
+                      4       F:\TOOLKT21\C\OS2H\BSEDOS.H
+                      5       F:\TOOLKT21\C\OS2H\BSETIB.H
+                      6       F:\TOOLKT21\C\OS2H\BSEMEMF.H
+                      7       F:\TOOLKT21\C\OS2H\BSEXCPT.H
+                      8       F:\TOOLKT21\C\OS2H\BSESUB.H
+                      9       F:\TOOLKT21\C\OS2H\BSEERR.H
+                     10       F:\TOOLKT21\C\OS2H\PM.H
+                     11       F:\TOOLKT21\C\OS2H\PMWIN.H
+                     12       F:\TOOLKT21\C\OS2H\PMSHL.H
+                     13       F:\TOOLKT21\C\OS2H\PMGPI.H
+                     14       F:\TOOLKT21\C\OS2H\PMDEV.H
+                     15       F:\TOOLKT21\C\OS2H\PMWP.H
+                     16       F:\TOOLKT21\C\OS2H\PMERR.H
+                     17       F:\TOOLKT21\C\OS2H\PMSTDDLG.H
+                     18       G:\IBMCPP\INCLUDE\STDLIB.H
+                     19       G:\IBMCPP\INCLUDE\STRING.H
+                     20       G:\IBMCPP\SRC\STY_MAIN.H
+                     21       G:\IBMCPP\SRC\STY_XTRN.H
+                     22       G:\IBMCPP\SRC\STY_DLG.H
+                     23       G:\IBMCPP\SRC\COMMON.H
+
+                        * * * * *   E N D   O F   I N C L U D E S   * * * * *
+OS2THRD.C                                                                                      02/27/94 14:56:07     Page     8
+                             * * * * *   M E S S A G E   S U M M A R Y   * * * * *
+
+        Total            Informational(00)          Warning(10)          Error(30)            Severe Error(40)
+
+          0                    0                        0                   0                        0
+
+                        * * * * *   E N D   O F   M E S S A G E   S U M M A R Y   * * * * *
+
+                             * * * * *   E N D   O F   C O M P I L A T I O N   * * * * *

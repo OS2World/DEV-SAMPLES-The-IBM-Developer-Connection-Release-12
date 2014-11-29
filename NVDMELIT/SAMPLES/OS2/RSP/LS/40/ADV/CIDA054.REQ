@@ -1,0 +1,55 @@
+DELETEIBMLAN = Networks<
+  net2 =
+  net3 = 
+  net4 = 
+  netlb = 
+>
+UPDATEIBMLAN = Networks<
+  net1 = NETBEUI$,*,LM10,*,*,*
+>
+DELETEIBMLAN = Peer<
+  srvnets = NETLB,NET2,NET3,NET4
+>
+UPDATEIBMLAN = Peer<
+  security = Share
+  srvnets = NET1
+>
+DELETEIBMLAN = Requester<
+  wrknets = NETLB,NET2,NET3,NET4
+>
+UPDATEIBMLAN = Requester<
+  Computername = CIDA054
+  Domain = Q4IT100
+  useallmem = Yes
+  wrknets = NET1
+>
+  ConfigApplDumpPath = C:\OS2\SYSTEM
+  ConfigApplMaxDumps = 32
+  ConfigAutoStartFFST = Yes
+  ConfigAutoStartLS = Yes
+  ConfigDisplayMSG = OFF
+  ConfigDosNumber = 0
+  ConfigMsgLogName = C:\OS2\SYSTEM\OS2MLOG.DAT
+  ConfigRouteAlertsTo = IBMLANMANAGER
+  ConfigSourceDrive = None
+  ConfigSystemDumpPath = C:\OS2\SYSTEM
+  ConfigSystemMaxDumps = 32
+  ConfigTargetDrive = C
+  ConfigWsId = CIDA054
+  ConfigWsSerial1 = AA
+  ConfigWsSerial2 = 13ESSGE
+  ConfigWsType1 = 9557
+  ConfigWStype2 = 0B6
+  InstallAPI = INSTALLIFREQUIRED
+  InstallDosLanApi = INSTALLIFREQUIRED
+  InstallFFST = INSTALL
+  InstallInstallProgram = INSTALLIFREQUIRED
+  InstallPeerService = INSTALLIFREQUIRED
+  InstallRemoteFaultTolerance = INSTALLIFREQUIRED
+  InstallRequester = INSTALL
+  InstallUPM = INSTALLIFREQUIRED
+  InstallMSGPopup = INSTALLIFREQUIRED
+  InstallGUI = INSTALL
+  InstallClipBoard = INSTALLIFREQUIRED
+  InstallDesktopIcons = YES
+

@@ -1,0 +1,10 @@
+;=========================================================================;
+; TOOLBAR.DEF module definition file                                      ;
+;=========================================================================;
+
+NAME           ToolBar   WINDOWAPI
+
+DESCRIPTION    'Frame Subclass Demo'
+PROTMODE
+HEAPSIZE       1024
+STACKSIZE      8192

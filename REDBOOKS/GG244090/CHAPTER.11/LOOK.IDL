@@ -1,0 +1,18 @@
+[
+uuid(0000FD2A-6C72-1C17-B922-10005A4F5444),
+version(1.0)
+]
+interface look
+{
+   const short MAX_NAME_LENGTH = 60;
+   const short MAX_DIR_ENTRY_LENGTH = 60;
+   const char *PHON_OBJ_UUID = "007E649A-6CD6-1C17-8B39-10005A4F3057";
+   const char *ADDR_OBJ_UUID = "001B0832-6CAF-1C17-8BFC-10005A4F5444";
+   typedef [ string ] char name_t[ MAX_NAME_LENGTH + 1 ];
+   typedef [ string ] char dir_entry_t[ MAX_DIR_ENTRY_LENGTH + 1 ];
+   void lookup_dir (
+      [ in ] handle_t bh,
+      [ in ] name_t name,
+      [ out ] dir_entry_t dir_entry
+   );
+}

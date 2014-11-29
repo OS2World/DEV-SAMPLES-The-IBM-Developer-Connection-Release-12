@@ -1,0 +1,15 @@
+
+prodev  LABEL   WORD
+        dd      -1                      ; Pointer to next header
+        dw      DEV_CHAR_DEV OR DEVLEV_3 OR DEV_30  ; Attrubute
+        dw      OFFSET  prostrat        ; Pointer to strategy routine
+        dw      0                       ; Pointer to idc routine
+        db      'PROTO$  '              ; Device name
+        dw      ?                       ; Selector of cs segment
+        dw      ?                       ; Selector of ds segment
+        dw      ?                       ; Reserved
+        dw      ?                       ; Reserved
+        dd      DEV_IOCTL2 OR DEV_INITCOMPLETE ; Capabilities bit strip
+
+<<Prototype Device Driver Header>>
+

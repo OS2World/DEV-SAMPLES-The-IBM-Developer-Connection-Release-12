@@ -1,0 +1,16 @@
+Arg window 
+/* Prepare drive list */
+Drv.0=22;Drv.1=E;Drv.2=F;Drv.3=G;Drv.4=H;Drv.5=I
+Drv.6=J;Drv.7=K;Drv.8=L;Drv.9=M;Drv.10=N
+Drv.11=O;Drv.12=P;Drv.13=Q;Drv.14=R;Drv.15=S
+Drv.16=T;Drv.17=U;Drv.18=V;Drv.19=W;Drv.20=X
+Drv.21=Y;Drv.22=Z
+Boot.0=24;Boot.1=C;Boot.2=D;Boot.3=E;Boot.4=F;Boot.5=G
+Boot.6=H;Boot.7=I;Boot.8=J;Boot.9=K;Boot.10=L
+Boot.11=M;Boot.12=N;Boot.13=O;Boot.14=P;Boot.15=Q
+Boot.16=R;Boot.17=S;Boot.18=T;Boot.19=U;Boot.20=V
+Boot.21=W;Boot.22=X;Boot.23=Y;Boot.24=Z
+index = VpAddItem(window, 1006, 'LIST', 'DRV.')
+index = VpAddItem(window, 1007, 'LIST', 'BOOT.')
+Call VpSelect window,1009,1
+Call VpSelect window,1010,1

@@ -1,0 +1,4 @@
+01 ERROR : No Language parameter.
+02 ERROR : Invalid parameter %s .
+03 ERROR : Cannot determin a language for your environment.
+

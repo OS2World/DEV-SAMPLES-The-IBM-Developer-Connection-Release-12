@@ -1,0 +1,46 @@
+#ifdef __PRIVATE__
+//#
+//#     File:           SMPDSPM.IDL
+//#
+//#     Contains:       IDL description of sample dispatch monitor
+//#
+//#     Written by:     Chuck Dumont
+//#
+//#     Copyright:      (c) 1994 by IBM Corp., all rights reserved.
+//#
+//#     Change History (most recent first):
+//#
+//#     112993   5/11/95  ced   first checked in
+//#
+//#     To Do:
+//#
+#else
+//#     Copyright:      (c) 1993-1994 by IBM Corp., all rights reserved.
+#endif
+
+
+#ifndef _SMPDSPM_
+#define _SMPDSPM_
+
+#ifndef _DISPMOD_
+#include <DispMod.idl>
+#endif
+
+interface SampleDispatchMonitor : ODDispatchModule
+{
+
+#ifdef __SOMIDL__
+        implementation
+        {
+                functionprefix = SampleDispatchMonitor__;
+                majorversion = 1;
+                minorversion = 0;
+
+        override:
+                Dispatch;
+        };
+#endif
+};
+
+#endif  // _SMPDSPM_
+

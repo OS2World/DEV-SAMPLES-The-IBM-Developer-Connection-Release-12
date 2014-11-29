@@ -1,0 +1,46 @@
+#
+# Makefile for the AIX Version
+#
+
+# command names
+CC	= cc_r
+IDL	= idl
+RM	= rm -f
+
+# command flags
+CFLAGS	 = -I/usr/include/dce
+IDLFLAGS = -no_cpp -keep all -I.
+
+# libraries
+LIBS	= -ldce
+
+
+# major name of the files
+IF = db
+
+# obj files
+SOBJS	= $(IF)_srv.o $(IF)_manag.o $(IF)_sstub.o
+COBJS	= $(IF)_cli.o $(IF)_acces.o $(IF)_cstub.o
+
+# targets
+all: $(IF)_cli $(IF)_srv
+
+clean:
+	-$(RM) *.o *stub.c $(IF).h 
+
+$(IF)_srv: $(SOBJS)
+	$(CC) $(CFLAGS) $(SOBJS) $(LIBS) -o $@
+
+$(IF)_cli: $(COBJS)
+	$(CC) $(CFLAGS) $(COBJS) $(LIBS) -o $@
+
+$(IF)_sstub.o $(IF)_cstub.o $(IF).h: $(IF).idl $(IF).acf
+	$(IDL) $(IDLFLAGS) $(IF).idl
+
+$(IF)_cli.o: $(IF)_cli.c $(IF).h
+
+$(IF)_srv.o: $(IF)_srv.c $(IF).h
+
+$(IF)_manag.o: $(IF)_manag.c $(IF).h
+
+$(IF)_acces.o: $(IF)_acces.c $(IF).h

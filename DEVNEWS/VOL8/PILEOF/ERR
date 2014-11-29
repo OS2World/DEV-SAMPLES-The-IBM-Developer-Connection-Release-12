@@ -1,0 +1,52 @@
+
+Operating System/2 Program Maintenance Utility
+Version 2.10.000 Sep 23 1994
+Copyright (C) IBM Corporation 1988-1993
+Copyright (C) Microsoft Corp. 1988-1991
+All rights reserved.
+
+	sc -p -v -maddstar -mnoint -S128000 -C128000 -sc pileof.idl
+	sc -p -v -maddstar -mnoint -S128000 -C128000  pileof.idl
+	icc /c /Gd- /Se /Re /ss /Ms /Gm+ /Ge- -If:\TOOLKIT\SOM\INCLUDE;f:\TOOLKIT\H;.;f:\TOOLKIT\INC;G:\IBMCPP\INCLUDE;W:\TCPIP\INCLUDE; -c pileof.c
+	rc -r pileof.rc pileof.res
+Operating System/2  Resource Compiler
+Version 2.02.001 Feb 01 1994
+(C) Copyright IBM Corporation 1988-1993
+(C) Copyright Microsoft Corp. 1985-1993
+All rights reserved.
+
+
+Creating binary resource file pileof.res
+RC:  RCPP -E -D RC_INVOKED -f pileof.rc -ef f:\TOOLKIT\BIN\RCPP.ERR -I f:\TOOLKIT\SOM\INCLUDE -I f:\TOOLKIT\H -I . -I f:\TOOLKIT\INC -I G:\IBMCPP\INCLUDE -I W:\TCPIP\INCLUDE
+
+pileof.rc....
+	LINK386 /noi /map /nol /nod /exepack /packcode /packdata /align:16 pileof.obj dbg.obj,pileof.dll,,OS2386.LIB DDE4MBS.LIB somtk.lib,pileof;
+	rc -p -x pileof.res pileof.dll
+Operating System/2  Resource Compiler
+Version 2.02.001 Feb 01 1994
+(C) Copyright IBM Corporation 1988-1993
+(C) Copyright Microsoft Corp. 1985-1993
+All rights reserved.
+
+
+Reading binary resource file pileof.res
+
+....
+Writing resources to OS/2 v2.0 Linear .EXE file
+Writing 1 DEMAND resource object(s)
+  Writing:  1596 bytes in 1 page(s)
+    100.1 (874 bytes)
+    25857.3 (83 bytes)
+    100.4 (613 bytes)
+    1.11 (17 bytes)
+
+	mapsym pileof.map
+
+Operating System/2 Symbol File Generator
+Version 2.10.000 Sep 23 1994
+Copyright (C) IBM Corporation 1988-1993.
+Copyright (C) Microsoft Corp. 1988-1991.
+All rights reserved.
+
+
+Program entry point at 0001:1a88

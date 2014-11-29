@@ -1,0 +1,50 @@
+#
+# GBMDLG
+#
+# OS/2, 32 bit
+# IBM C-Set++
+#
+# Builds GBMDLG.DLL which is compiled multithreaded
+# Therefore all users should also be multithreaded
+#
+
+GBM =		\ak\gbm\gbm
+
+CFLAGS =	/C+ /I$(GBM) /W3 /DOS2 /G4 /Gd-e-m+ /Wpro /O+ /Q+
+LFLAGS =	/NOI /ALIGN:4 /BATCH /NOLOGO
+
+.SUFFIXES:	.c .obj
+
+.c.obj:
+		icc $(CFLAGS) $*.c
+
+#
+
+all:		gbmdlg.dll gbmdlg.lib gbmdlg.hlp
+
+#
+
+gbmdlg.dll:	gbmdlg.obj $(GBM)\gbm.dll gbmdlg.def gbmdlg.res
+		link386 $(LFLAGS) gbmdlg.obj,$@,nul,$(GBM)\gbm.lib,gbmdlg.def
+		rc gbmdlg.res gbmdlg.dll
+
+gbmdlg.lib:	gbmdlg.def
+		implib /NOI $@ $**
+
+gbmdlg.obj:	gbmdlg.c gbmdlg.h gbmdlgrc.h $(GBM)\gbm.h
+
+gbmdlg.res:	gbmdlg.rc gbmdlgrc.h
+		rc -r gbmdlg.rc
+
+gbmdlg.hlp:	gbmdlg.scr gbmdlgrc.h
+		ipfcprep gbmdlg.scr gbmdlg.ipf
+		ipfc gbmdlg.ipf /country=044 /codepage=437 /language=ENG /X /W3
+
+#
+
+clean:
+		-del *.obj *.res *.ipf 2> nul
+
+install:
+		copy *.dll d:\gbm
+		copy *.hlp d:\gbm

@@ -1,0 +1,6 @@
+/*********** COLORS C Program Resource Script File (.RC)        **************/
+#include <os2.h>
+#include "PMPRT.H"
+rcinclude PMPRT.DLG
+
+

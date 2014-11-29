@@ -1,0 +1,54 @@
+# COMMENT
+# This a sample response file for DCAF CID Installation/Personalization.
+# 
+# This sample was created by the ELITE team by modifying the sample response file that
+# ships with DCAF 1.3.
+# 
+# This response file installs all DCAF components using the defaults.  The only change made
+# to the defaults is the name of the LAN Directory, which was changed to DCFLAN13.
+
+
+#SOURCEDIR = sourcedir
+#TARGETDIR = targetdir
+INSTALL = OS2TGT
+INSTALL = CONTROLLER
+INSTALL = GATEWAY
+INSTALL = LANDIR
+INSTALL = AUTHENTICATOR
+INSTALL = ADMINISTRATOR
+
+#*************************************************************************
+#************** Target OS/2 Personalization Parameters *******************
+#*************************************************************************
+
+OS2TGT = (
+              NBLANDIRNAME = DCFLAN13
+         )
+#*************************************************************************
+#*********End Target OS/2 Personalization Parameters *********************
+#*************************************************************************
+
+#*************************************************************************
+#*************** LAN Directory Personalization Parameters ****************
+#*************************************************************************
+
+LANDIR = (
+               NBLANDIRNAME = DCFLAN13
+         )
+#*************************************************************************
+#*************End LAN Directory Personalization Parameters ***************
+#*************************************************************************
+
+#*************************************************************************
+#*************** Gateway Personalization Parameters **********************
+#*************************************************************************
+
+GATEWAY = (
+                   NBLANDIRNAME = DCFLAN13
+          )
+#*************************************************************************
+#**************End Gateway Personalization Parameters ********************
+#*************************************************************************
+
+
+

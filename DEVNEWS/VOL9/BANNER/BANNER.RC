@@ -1,0 +1,79 @@
+
+/* OS/2 Warp Resource Script File - Created by Universal Resource Editor */
+
+#define INCL_WINSYS
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "banner.h"
+
+DLGTEMPLATE DLG_BANNERSTYLES 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "PMCX Banner Styles", DLG_BANNERSTYLES, 6, 28, 220, 107,
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
+                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    BEGIN
+        CONTROL "Enter text and selection style options.", -1, 5, 95, 118, 8,
+                                            WC_STATIC, SS_TEXT | DT_VCENTER |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "Text:",               -1, 5, 83, 18, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    MLE_TEXT, 25, 60, 190, 32, WC_MLE,
+                                            MLS_BORDER | MLS_HSCROLL |
+                                            MLS_IGNORETAB | MLS_VSCROLL |
+                                            MLS_DISABLEUNDO | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "ID:",                 -1, 5, 50, 18, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IDBX_SYMBOLID, 25, 50, 190, 8, "ID.Box",
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Styles",              -1, 5, 20, 105, 26, WC_STATIC,
+                                            SS_GROUPBOX | WS_VISIBLE
+        CONTROL "~Horizontal",         RB_HORIZONTAL, 8, 30, 44, 8, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | WS_GROUP |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Vertical",           RB_VERTICAL, 8, 22, 38, 8, WC_BUTTON,
+                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Shadow text",        CB_SHADOWTEXT, 55, 30, 50, 8, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | WS_GROUP |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Base styles",         -1, 115, 20, 100, 26, WC_STATIC,
+                                            SS_GROUPBOX | WS_VISIBLE
+        CONTROL "~Visible",            CB_WS_VISIBLE, 118, 30, 38, 8, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | WS_GROUP |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Group",              CB_WS_GROUP, 118, 22, 38, 8, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~Disabled",           CB_WS_DISABLED, 165, 30, 38, 8,
+                                            WC_BUTTON, BS_AUTOCHECKBOX |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "~Tab stop",           CB_WS_TABSTOP, 165, 22, 39, 8, WC_BUTTON,
+                                            BS_AUTOCHECKBOX | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Enter",               DID_OK, 33, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Cancel",              DID_CANCEL, 94, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "Font & color...",     DID_PRESPARAM, 155, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+CODEPAGE 850
+STRINGTABLE MOVEABLE DISCARDABLE
+BEGIN
+    IDS_BNS_HORIZONTAL,                 "BNS_HORIZONTAL"
+    IDS_BNS_SHADOWTEXT,                 "BNS_SHADOWTEXT"
+    IDS_BNS_VERTICAL,                   "BNS_VERTICAL"
+END

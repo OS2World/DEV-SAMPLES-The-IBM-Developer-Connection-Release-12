@@ -1,0 +1,37 @@
+all:
+		(cd gbm     && nmake)
+		(cd gbmv    && nmake)
+		(cd gbmdlg  && nmake)
+		(cd gbmv2   && nmake)
+		(cd gbmvfsa && nmake)
+		(cd gbmlogo && nmake)
+
+clean:
+		(cd gbm     && nmake clean)
+		(cd gbmv    && nmake clean)
+		(cd gbmdlg  && nmake clean)
+		(cd gbmv2   && nmake clean)
+		(cd gbmvfsa && nmake clean)
+		(cd gbmlogo && nmake clean)
+
+install:
+		copy gbm.txt                          d:\gbm
+		copy gbm\*.exe                        d:\gbm
+		copy gbm\*.dll                        d:\gbm
+		copy gbmv\*.exe                       d:\gbm
+		copy gbmdlg\*.dll                     d:\gbm
+		copy gbmdlg\*.hlp                     d:\gbm
+		copy gbmv2\*.exe                      d:\gbm
+		copy gbmv2\*.hlp                      d:\gbm
+		copy gbmvfsa\*.exe                    d:\gbm
+		copy gbmlogo\*.exe                    d:\gbm
+		copy gbmwpobj.cmd                     d:\gbm
+		copy e:\ak\controls\scroll\scroll.dll d:\gbm
+
+package:
+		zip -q -r gbmsrc *
+		zip -q -d gbmsrc *.bak *.obj *.lib *.exe *.dll *.res *.ipf *.hlp *.zip
+		zip -q -j gbmsrc e:\ak\controls\scroll\scroll.h
+		zip -q -j gbmsrc e:\ak\controls\scroll\scroll.lib
+		zip -q -j gbmsrc e:\ak\controls\scroll\scroll.dll
+		zip -q gbm d:\gbm\*.*

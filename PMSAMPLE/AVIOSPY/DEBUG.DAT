@@ -1,0 +1,21 @@
+Start rc=0 Pgm=D:\VIOSPY\VIOSPYM.EXE
+Status  = 40
+Shift   = 00A0
+Scancode= 00
+char    = 61
+Status  = 42
+Shift   = 00A0
+Scancode= 00
+char    = 0D
+Status  = 42
+Shift   = 00A0
+Scancode= 48
+char    = E0
+Status  = 42
+Shift   = 00A0
+Scancode= 4B
+char    = E0
+Status  = 42
+Shift   = 00A0
+Scancode= 53
+char    = E0

@@ -1,0 +1,38 @@
+#define INCL_WIN
+#include <os2.h>
+#include "rotline.h"
+
+
+MENU ID_ROTLINE PRELOAD
+BEGIN
+
+    SUBMENU    "Shapes", -1
+    BEGIN
+        MENUITEM "~Spiros"           , IDM_SPIRO    , MIS_TEXT, 0
+        MENUITEM "~Expanding cube"   , IDM_EXPCUBE  , MIS_TEXT, 0
+        MENUITEM "~Rotating cube"    , IDM_ROTCUBE  , MIS_TEXT, 0
+        MENUITEM "Multiple ~cubes"   , IDM_CUBES    , MIS_TEXT, 0
+        MENUITEM "Text"              , IDM_TEXT     , MIS_TEXT, 0
+
+    END
+
+    SUBMENU    "Auto play", -1
+    BEGIN
+        MENUITEM "~Start drawing" , IDM_AUTOLINES  , MIS_TEXT, 0
+        MENUITEM "S~top drawing"  , IDM_STOPDRAW   , MIS_TEXT, MIA_DISABLED
+    END
+
+    SUBMENU    "Refresh", -1
+    BEGIN
+        MENUITEM "~Refresh now" , IDM_REFRESH  , MIS_TEXT, 0
+    END
+
+    SUBMENU    "Exit", -1
+    BEGIN
+        MENUITEM "~Exit now", IDM_EXIT  , MIS_TEXT, 0
+        MENUITEM "~Resume"  , IDM_RESUME, MIS_TEXT, 0
+    END
+
+END
+
+

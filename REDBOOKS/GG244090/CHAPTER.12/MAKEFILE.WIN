@@ -1,0 +1,37 @@
+#
+# Makefile for the Windows "file transfer" sample application.
+#
+
+all: ft.h ft_c.exe ft_s.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = ft_c.c ft_m.c ft_s.c
+COBJECTS        = ft_c.obj ftc.obj
+SOBJECTS        = ft_m.obj ft_s.obj fts.obj ftsa.obj
+
+ft.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+ft_c.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc $*.exe
+
+ft_s.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc $*.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del ft.h
+        -del ftc.c
+        -del fts.c
+        -del ftsa.c
+

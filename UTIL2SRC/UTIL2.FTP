@@ -1,0 +1,16 @@
+user beyoder
+cd beyoder.191
+ascii
+put util2.pkg                util2.package
+put util2.ava                util2.avail
+put ..\utildos\utildos.pkg   utildos.package
+binary
+put util2doc.zip             util2doc.zipbin
+put util3exe.zip             util3exe.zipbin
+put util3src.zip             util3src.zipbin
+put ..\utildos\utildexe.zip  utildexe.zipbin
+put ..\utildos\utildsrc.zip  utildsrc.zipbin
+close
+quit
+
+

@@ -1,0 +1,564 @@
+
+Exception Management with 32-bit OS/2
+
+
+
+
+10-15-1993
+
+
+Monte Copeland
+
+IBM Corporation
+1000 NW 51st Street
+Boca Raton, FL 33431
+
+
+
+                Exception Management with 32-bit OS/2
+
+32-BIT OS/2 EXCEPTION MANAGEMENT
+
+
+Under 16-bit OS/2 architecture, a process cannot handle access
+violations and certain other exceptions; the system invariably
+terminates the process. The only thing a 16-bit program can do is
+register an exit-list function using the DosExitList() API. Then, at
+process termination time, OS/2 calls each of the registered exit-list
+functions, and they do some cleanup before the process terminates.
+This approach is process-granular. It allows for process cleanup, but
+not error recovery.
+
+Under 32-bit OS/2, error recovery is thread-granular. OS/2 keeps a
+chain of exception handler functions for every thread. When a thread
+causes an exception, OS/2 walks the chain and calls each of the
+functions until one reports "handled." If no function handles the
+exception, the system takes default action. For many exceptions, the
+default action is process termination.
+
+The exception management APIs are new in 32-bit OS/2. They are
+available to 32-bit executables and dynamic link libraries (DLLs).
+OS/2 designers intend for 32-bit exception management to be
+hardware-independent, to be a superset of traditional 16-bit
+exit-list processing, to encompass 16-bit signals, and to provide
+thread-granular recovery of exceptions.
+
+
+---------------------------------------------------------------------------
+
+   TIB         |<-- exception registration records  -->|
+-----------    -----------    -----------    -----------
+| pFirst  | -> | pNext-> | -> | pNext-> | -> |    -1   |
+|         |    |---------|    |---------|    |---------|
+| Thread  |    | pHandler|    | pHandler|    | pHandler|
+| Info    |    -----------    -----------    -----------
+| Block   |
+|         |
+|         |
+|         |
+-----------
+
+---------------------------------------------------------------------------
+       Figure 1.  Chain of Exception Registration Records
+     A pointer to the first record in the chain is stored in
+         the thread information block (TIB) structure.
+---------------------------------------------------------------------------
+
+
+This article shows three possibilities for exception handler
+functions:
+
+1. A function recovers from the error and reports "handled" by
+returning XCPT_CONTINUE_EXECUTION. Execution resumes.
+
+
+                                  32-bit OS/2 Exception Management  1
+
+
+
+                Exception Management with 32-bit OS/2
+
+
+2. A function does not handle the exception and reports "not handled"
+by returning XCPT_CONTINUE_SEARCH. Other handlers in the chain get a
+chance to handle the exception.
+
+3. The third option is graceful failure. This approach is nicely
+suited for worker functions in EXEs and DLLs that must remain robust
+in spite of bad parameters or killed threads.
+
+A discussion of these options follows.
+
+
+
+
+
+ADDING A HANDLER TO THE CHAIN
+
+
+Use the API DosSetExceptionHandler() to insert an exception handler
+for the calling thread. This API performs an insert-at-head
+operation; therefore, the last handler inserted is the first one
+called at exception time. It is quite possible for one handler to
+serve numerous threads, but each thread must call
+DosSetExceptionHandler() for itself.
+
+The OS/2 Toolkit defines a exception registration record structure
+called EXCEPTIONREGISTRATIONRECORD, but you can define your own. See
+Figure 2. (More later on why that is a good thing to do.) The
+absolute minimum exception registration record is a structure that
+contains two 32-bit pointers: a pointer to the next exception
+registration record in the chain and a pointer to the handler
+function.
+
+---------------------------------------------------------------------------
+// bare-bones exception registration record
+// see also \toolkt20\c\os2h\bsexcpt.h
+typedef struct _regrec {
+  PVOID   pNext;
+  PFN     pfnHandler;
+} REGREC;
+typedef REGREC *PREGREC;
+
+// a prototype for an exception handler function
+ULONG _System HandlerFunction(  PEXCEPTIONREPORTRECORD       p1,
+                                PREGREC                      p2,
+                                PCONTEXTRECORD               p3,
+                                PVOID                        p4 );
+---------------------------------------------------------------------------
+     Figure 2.  REGREC definition and handler function prototype
+---------------------------------------------------------------------------
+
+
+Assign the pointer regrec.pfnHandler, then call
+
+
+                                  32-bit OS/2 Exception Management  2
+
+
+
+                Exception Management with 32-bit OS/2
+
+DosSetExceptionHandler(). The system assigns regrec.pNext. See Figure
+3.
+
+---------------------------------------------------------------------------
+  REGREC regrec;
+  ...
+  regrec.pfnHandler = (PFN)HandlerFunction;
+  rc = DosSetExceptionHandler( (PEXCEPTIONREGISTRATIONRECORD)&regrec );
+  assert( 0 == rc );
+---------------------------------------------------------------------------
+  Figure 3: Code fragment showing REGREC declaration and use.
+---------------------------------------------------------------------------
+
+
+
+
+
+
+RECOVERABLE EXCEPTIONS
+
+
+When an exception handler returns "handled," it means that the
+handler has recovered from the exception, and execution resumes at
+the point of the exception.
+
+One scenario involving recoverable exceptions is NPX (80387)
+emulation. For example, compile a program with hardware
+floating-point instructions, and run it on a system without a
+floating-point coprocessor. Executing a floating-point instruction
+causes OS/2 to raise a coprocessor-not-available exception.
+
+The handler emulates the floating-point instruction in software.  In
+fact, this scenario describes one of OS/2's default exception
+handlers. Code compiled with floating-point instructions will run
+under 32-bit OS/2 on systems without a math coprocessor.
+
+Another scenario is sparse allocation of memory. In 32-bit OS/2,
+DosAllocMem() allocates memory in a collection of 4K pages. (The size
+of every DosAllocMem allocation is always rounded up to the next
+higher multiple of 4K.) The pages within a memory allocation can have
+different attributes: notable ones are "committed" and "invalid." By
+using DosSetMem(), one can commit individual pages within a memory
+allocation.
+
+Sample Program 1 uses DosSetMem() in an exception handler to commit
+memory as it is referenced. The sample program allocates a memory
+object such that none of the pages are committed, then it writes to
+that memory. This causes a page fault, and the system delievers an
+exception to the handler. The handler commits the memory, returns
+"handled," and the system restarts the instruction.
+
+
+
+
+
+                                  32-bit OS/2 Exception Management  3
+
+
+
+                Exception Management with 32-bit OS/2
+
+---------------------------------------------------------------------------
+/* SPARSE.C.  This program allocates a one MB memory object but commits no
+pages.  The program then writes to that memory which is invalid, and this
+causes a trap.  The handler commits the invalid page and resumes execution.
+Compile and link this program with:  icc /Ss sparse.c */
+
+// os2 includes
+#define INCL_DOS
+#define INCL_ERRORS
+#include <os2.h>
+
+// c includes
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
+// exception handler registration record
+typedef struct _regrec {
+  PVOID pNext;
+  PFN   pfnHandler;
+} REGREC;
+typedef REGREC *PREGREC;
+
+// ----------------------------------------------------------------------
+ULONG _System Handler( PEXCEPTIONREPORTRECORD p1,
+                       PREGREC p2,
+                       PCONTEXTRECORD p3,
+                       PVOID pv )
+{
+  // interested in access violation
+  if( p1->ExceptionNum == XCPT_ACCESS_VIOLATION  ) {
+    assert( p1->ExceptionInfo[0] == XCPT_WRITE_ACCESS );
+    // try to commit the referenced page
+    if( 0==DosSetMem((PVOID)p1->ExceptionInfo[1], 1, PAG_COMMIT|PAG_WRITE )){
+      // successful commit; resume execution
+      return XCPT_CONTINUE_EXECUTION;
+    }
+  }
+  // not handled, let other handlers in the chain have the exception
+  return XCPT_CONTINUE_SEARCH;
+}
+
+// ----------------------------------------------------------------------
+int main ( void )
+{
+  APIRET      rc;
+  PCHAR       pchar;
+  PSZ         psz;
+  PVOID       pvBase;
+  REGREC      regrec;
+
+  // insert exception handler into the chain of handlers for this thread
+
+
+                                  32-bit OS/2 Exception Management  4
+
+
+
+                Exception Management with 32-bit OS/2
+
+  regrec.pfnHandler = (PFN)Handler;
+  rc = DosSetExceptionHandler( (PEXCEPTIONREGISTRATIONRECORD) &regrec );
+  assert( rc == 0 );
+
+  // allocate a memory object without committing any of it;
+  // note lack of PAG_COMMIT flag
+  rc = DosAllocMem(  &pvBase, 1048576, PAG_WRITE );
+  assert( rc == 0 );
+
+  // this causes an exception since the page is not committed
+  pchar = (PCHAR)pvBase;
+  *pchar = 'a';
+
+  // this string copy causes two more exceptions
+  psz = (PSZ)pvBase + (4096 + 4092);
+  strcpy( psz, "This string crosses a 4K page boundary." );
+
+  // reference the memory
+  printf( "%c\n", *pchar );
+  printf( "%s\n", psz );
+
+  // free memory object
+  rc = DosFreeMem( pvBase );
+  assert( rc == 0 );
+
+  // unlink handler before returning
+  rc = DosUnsetExceptionHandler( (PEXCEPTIONREGISTRATIONRECORD) &regrec );
+  assert( rc == 0 );
+
+  return 0;
+}
+---------------------------------------------------------------------------
+                    Sample Program 1: sparse.c
+---------------------------------------------------------------------------
+
+
+
+
+
+GRACEFUL FAILURE -- WHEN GOOD THREADS GO BAD
+
+
+Some exceptions are not so easy to restart. Can an exception handler
+fix a bad pointer during a general protection fault? Probably not.
+Should an exception handler choose a new divisor after division by
+zero? No. The operation must fail -- but gracefully.
+
+Graceful failure is important to application programming interfaces,
+APIs. API worker functions must return sensible, failing result codes
+to the caller in error situations.
+
+Worker functions use an exception handler like a safety net. If a
+thread traps while executing a function, the safety net is there to
+
+
+                                  32-bit OS/2 Exception Management  5
+
+
+
+                Exception Management with 32-bit OS/2
+
+catch it. For the net to be in place, the worker function registers a
+handler at function entry and removes it at function exit. The
+overhead is small, and it is worth the robustness gained.
+
+
+Getting There from Here:
+
+In Sample Program 1, OS/2 lifts the thread from the point of the
+exception, makes it call the exception handler, then drops it back on
+the faulting instruction. This is no good for graceful failure. Yes,
+it is desirable to jump back to the worker function, but not at the
+point of the exception!
+
+Instead, the thread must jump from the exception handler function to
+a known point in the worker function.  This is an interfunctional
+GOTO.  Debates still rage about GOTO, but most programmers accept
+them when it comes to exception management.
+
+Code an interfunctional GOTO in C using setjmp() and longjmp().  Use
+setjmp() to record the state of the thread at the beginning of the
+worker function. Later, from the exception handler function, use
+longjmp() to return the thread to the saved state. State information
+is stored in a variable of type jmp_buf.
+
+The exception handler function must have addressability to the
+jmp_buf in order to use it on the call to longjmp(). The stack frame
+of the worker function is the ideal place to hold the jmp_buf and the
+exception registration record. Note that a pointer to the exception
+registration record is one of the parameters to the exception handler
+function. Therefore, the way for an exception handler function to get
+the address of a jmp_buf is to put a jmp_buf at the end of the
+exception registration record See Figure 4.
+
+---------------------------------------------------------------------------
+
+// user-extended exception registration record
+typedef struct _regrec {
+  PVOID     pNext;
+  PFN       pfnHandler;
+  jmp_buf   jmpWorker;
+} REGREC;
+typedef REGREC *PREGREC;
+
+---------------------------------------------------------------------------
+                Figure 4. Extended REGREC definition
+---------------------------------------------------------------------------
+
+
+Sample Program 2 consists of the main() function, a worker function,
+and an exception handler function.  It shows how the worker function
+always returns a sensible result code in spite of bad parameters.
+
+
+
+
+                                  32-bit OS/2 Exception Management  6
+
+
+
+                Exception Management with 32-bit OS/2
+
+---------------------------------------------------------------------------
+/* WORKER.C.  This program shows how a worker function can use an
+exception handler like a safety net for calling threads.
+Compile and link this program with:  icc /ss worker.c */
+
+// os2 includes
+#define INCL_DOS
+#define INCL_ERRORS
+#include <os2.h>
+
+// c includes
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <setjmp.h>
+#include <assert.h>
+
+// user-extended exception registration record
+typedef struct _regrec {
+  PVOID     pNext;
+  PFN       pfnHandler;
+  jmp_buf   jmpWorker;
+} REGREC;
+typedef REGREC *PREGREC;
+
+// ----------------------------------------------------------------------
+ULONG _System Handler( PEXCEPTIONREPORTRECORD p1,
+                       PREGREC p2,
+                       PCONTEXTRECORD p3,
+                       PVOID pv )
+{
+  switch( p1->ExceptionNum ) {
+  case XCPT_ACCESS_VIOLATION:
+  case XCPT_INTEGER_DIVIDE_BY_ZERO:
+  case XCPT_INTEGER_OVERFLOW:
+  case XCPT_PROCESS_TERMINATE:        // killed thread case
+  case XCPT_ASYNC_PROCESS_TERMINATE:  // killed thread case
+    // interested in this one
+    longjmp( p2->jmpWorker, p1->ExceptionNum );
+  default:
+    break;
+  }
+  // not handled
+  return XCPT_CONTINUE_SEARCH;
+}
+
+
+// ----------------------------------------------------------------------
+// returns TRUE for success, FALSE for failure
+LONG _System WorkerFunction( PCHAR pch )
+{
+  LONG        rc;
+  LONG        rcResult;
+
+
+                                  32-bit OS/2 Exception Management  7
+
+
+
+                Exception Management with 32-bit OS/2
+
+  ULONG       ulException;
+  REGREC      regrec;
+
+  // set a handler
+  regrec.pfnHandler = (PFN)Handler;
+  rc = DosSetExceptionHandler( (PEXCEPTIONREGISTRATIONRECORD) &regrec );
+  assert( rc == 0 );
+
+  // store a known thread state
+  ulException = setjmp( regrec.jmpWorker );
+
+  if( ulException ) {
+    // got here from longjmp; get the handler off the chain
+    rc = DosUnsetExceptionHandler( (PEXCEPTIONREGISTRATIONRECORD) &regrec );
+    assert( rc == 0 );
+
+    // clean up here: free memory allocations, release mutex sems, etc.
+
+    // check for the killed-thread case
+    switch( ulException ) {
+    case XCPT_PROCESS_TERMINATE:
+    case XCPT_ASYNC_PROCESS_TERMINATE:
+      // clean up done above and thread really wants to die
+      DosExit( EXIT_THREAD, 0 );
+      break;
+    }
+    // set a failing result code
+    rcResult = FALSE;
+    goto depart;
+  }
+
+  // dereference the supplied pointer
+  *pch = 'a';
+
+  rc = DosUnsetExceptionHandler( (PEXCEPTIONREGISTRATIONRECORD) &regrec );
+  assert( rc == 0 );
+
+  rcResult = TRUE;
+
+depart:
+  return rcResult;
+}
+
+
+// ----------------------------------------------------------------------
+int main ( void )
+{
+  CHAR     szWork[ 16 ];
+  LONG     rc;
+
+  // try worker function with a good pointer
+  rc = WorkerFunction( szWork );
+  printf( "Good pointer returns %d\n", rc );
+
+
+                                  32-bit OS/2 Exception Management  8
+
+
+
+                Exception Management with 32-bit OS/2
+
+
+  // try worker function with a bad pointer
+  rc = WorkerFunction( NULL );
+  printf( "Bad pointer returns %d\n", rc );
+
+  return 0;
+}
+---------------------------------------------------------------------------
+                    Sample Program 2: worker.c
+---------------------------------------------------------------------------
+
+
+
+Related Notes:
+
+
+The Killed Thread: Sample Program 2 shows how to handle the killed
+thread case. Even though there are no killed threads in the program,
+the technique is critical to exported worker functions in DLLs where
+the client process may use DosKillThread with abandon.
+
+
+Nested Exceptions: At exception time, OS/2 inserts a handler at the
+head of the chain before invoking the other handlers in order to
+detect nested exceptions. (A nested exception is one that occurs in
+an exception handler.) The IBM C Set/2 implementation of longjmp()
+correctly unwinds the system's nested exception handler.
+
+
+Sparse Allocations in OS/2: When there is no COMMIT option on the
+MEMMAN statement in CONFIG.SYS, OS/2 handles every memory allocation
+in a sparse manner similar to Sample Program 1. This technique is
+called lazy commit.  When the COMMIT option is present on MEMMAN,
+commits are never deferred.
+
+
+Future Considerations:
+
+Rest assured that this exception management strategy is portable to
+future versions of OS/2 including Workplace OS, the microkernel
+implementation of OS/2. It uses 32-bit APIs, ANSI C runtime routines,
+and no assembler code.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  32-bit OS/2 Exception Management  9
+

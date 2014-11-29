@@ -1,0 +1,12 @@
+DBUpdateType=1
+* DBBackupSystem=C:\BACKUP
+DBStopCommunications=Y
+DBUpdateConfigSys=Y
+DBInstallDatabaseTools=Y
+DBInstallEngine=Y
+DBInstallQueryManager=Y
+DBInstallDOSReqSuppt=Y
+DBInstallWinReqSuppt=Y
+DBInstallEngine=Y
+DBReplace=Y
+

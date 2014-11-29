@@ -1,0 +1,60 @@
+#==============================================================================
+# util3src.txt - List of source files for BookMaster
+#
+#      (aix):        list2bm util3src.txt | aix2dos >utilsrc.script
+#
+#      (dos, os/2):  list2bm util3src.txt utilsrc.scr
+#==============================================================================
+
+#------------------------------------------------------------------------------
+# Title page
+#------------------------------------------------------------------------------
+
+-title  "UTIL2 PACKAGE - Source Code (OS/2 2.1 and C Set/2)"
+-author "Brian Yoder"
+-date   "September 30, 1993"
+
+#------------------------------------------------------------------------------
+# Body of the output document
+#------------------------------------------------------------------------------
+
+-section "Makefile and Listfiles"
+makefile                            # Makefile
+util.def                            # Module definition file for utilities
+util3src.txt                        # This list file!
+
+-section "Header Files"
+util.h                              # Header for util.lib library subroutines
+regexp.h                            # Only included by rxpm.c
+bmtbl.h                             # Used by bmtbl utility
+
+-section "Library Subroutines"
+crcfile.c                           # Get CRC and length of a file
+cfaccess.c                          # Configuration (text) file subroutines
+futil.c                             # Misc. file utility subroutines
+lbuf.c                              # Buffered stream I/O subroutines
+rxpm.c                              # Regular expression and pattern-matching
+speclist.c                          # File spec list processing
+text2bm.c                           # Convert text to BookMaster symbols
+
+-section "Utility Program Source Code"
+bmtbl.c                             # Build BookMaster table definition
+ccmt.c                              # Check C comments
+ccp.c                               # Conditional copy
+cdx.cmd                             # Change directory (extended capability)
+cdir.c                              # Change directory (used by cdx.cmd)
+chmod.c                             # Change file mode
+crc.c                               # CRC generation
+crcchk.c                            # CRC generation and checking
+grep.c                              # Get regular expression and print
+list2bm.c                           # Store files in BookMaster format
+ls.c                                # List directory
+t2bm.c                              # Convert a file to BookMaster format
+
+-section "Test Programs"
+args.c                              # Just used to get my DOS feet wet again!
+cfdmp.c                             # Test subroutines in cfaccess.c
+ftest.c                             # Test various file utilities
+pmt.c                               # Test pattern-matching in rxpm.c
+tlbuf.c                             # Test for lbuf.c
+

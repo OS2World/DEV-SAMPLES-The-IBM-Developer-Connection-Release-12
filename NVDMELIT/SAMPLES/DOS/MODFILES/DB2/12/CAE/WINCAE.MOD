@@ -1,0 +1,12 @@
+[AUTOEXEC.BAT]
+InsertToken(SET,DB2PATH,LEFT)
+$(TargetDir)SQLWINCA
+InsertToken(SET,IPF_PATH,LEFT)
+$(TargetDir)SQLWINCA\BIN
+InsertToken(SET,HELP,LEFT)
+$(TargetDir)SQLWINCA\HELP
+InsertToken(SET,BOOKSHELF,LEFT)
+$(TargetDir)SQLWINCA\HELP
+InsertToken(PATH,,RIGHT)
+$(TargetDir)SQLWINCA\BIN
+

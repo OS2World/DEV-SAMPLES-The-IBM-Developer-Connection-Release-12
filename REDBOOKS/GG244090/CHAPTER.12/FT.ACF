@@ -1,0 +1,8 @@
+[
+implicit_handle ( handle_t global_handle )
+]
+interface ft
+{
+[ comm_status, fault_status ] send_file ();
+[ comm_status, fault_status ] receive_file ();
+}

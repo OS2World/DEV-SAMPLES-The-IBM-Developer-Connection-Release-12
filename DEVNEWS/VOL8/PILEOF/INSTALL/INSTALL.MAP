@@ -1,0 +1,23 @@
+
+ install
+
+ Start         Length     Name                   Class
+ 0001:00000000 000003C4CH CODE32                 CODE 32-bit
+ 0001:00003C4C 000000030H _MSGSEG32              CODE 32-bit
+ 0002:00000000 000000550H DATA32                 DATA 32-bit
+ 0002:00000550 000000000H CTOR_DTOR1             DATA 32-bit
+ 0002:00000550 000000000H CTOR_DTOR2             DATA 32-bit
+ 0002:00000550 000000000H CTOR_DTOR3             DATA 32-bit
+ 0002:00000550 000000110H CONST32                CONST 32-bit
+ 0002:00000660 00000000CH EDC1                   EDC_CLASS 32-bit
+ 0002:0000066C 0000001B0H EDC2                   EDC_CLASS 32-bit
+ 0002:0000081C 000000004H EDC3                   EDC_CLASS 32-bit
+ 0002:00000820 000000000H BSS32                  BSS 32-bit
+ 0002:00000820 0000000C0H c_common               BSS 32-bit
+ 0002:000008E0 000002000H STACK32                STACK 32-bit
+
+ Origin   Group
+ 0000:0   FLAT
+ 0002:0   DGROUP
+
+Program entry point at 0001:00000120

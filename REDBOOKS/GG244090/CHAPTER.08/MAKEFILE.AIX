@@ -1,0 +1,40 @@
+#
+# Makefile for the AIX Version of the MessageBox example.
+#
+
+# command names
+CC       = cc_r
+IDL	 = idl
+RM	 = rm -f
+
+# command flags
+CFLAGS   = -g -I/usr/include/dce
+IDLFLAGS = -no_cpp -keep all -I. 
+
+# libraries
+LIBS     = -ldce
+
+# object files
+SOBJS	 = usecds.o usecds_sstub.o
+COBJS	 = getcds.o usecds_cstub.o
+
+# targets
+all:	usecds getcds
+
+getcds: $(COBJS)
+	$(CC) $(CFLAGS) $(COBJS) $(LIBS) -o $@
+
+usecds: $(SOBJS)
+	$(CC) $(CFLAGS) $(SOBJS) $(LIBS) -o $@
+
+usecds.h usecds_cstub.o usecds_sstub.o: usecds.idl usecds.acf
+	$(IDL) $(IDLFLAGS) usecds.idl
+
+clean:
+	-$(RM)  core *.o usecds_?stub.c usecds.h 
+
+# dependencies
+getcds.o: getcds.c usecds.h errchk.h
+
+usecds.o: usecds.c usecds.h errchk.h
+

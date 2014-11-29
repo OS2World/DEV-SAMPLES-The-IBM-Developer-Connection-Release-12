@@ -1,0 +1,837 @@
+ 
+
+
+                                                                                                                            PAGE   1
+                                                                                                                            10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+      1 /*  IDSS_Cmp_Opts: -As -Zpe -G2s                                     */
+      2 /*                                                                   */
+      3 /*-------------------------------------------------------------------*/
+      4 /*  First lines must be C compiler options.                          */
+      5 /*-------------------------------------------------------------------*/
+      6 /*  OPtions -W3 and -DLINT_ARGS are forced by COS2 IDSS process.     */
+      7 /*                                                                   */
+      8 /*                                                                   */
+      9 /*  Warning: If you supply -DLINT_ARGS option or any -Dxxx options   */
+     10 /*           twice, the IBM-C2 compiler will loop and  your  COS2    */
+     11 /*           IDSS process will abort on time out.                    */
+     12 /*                                                                   */
+     13 /*-------------------------------------------------------------------*/
+     14 /*           G set printer to condensed mode, Double printing      */
+     15 /*                                                                   */
+     16 #pragma linesize(132)
+     17 #pragma pagesize(63)
+     18 #pragma title("GOS/2 WatchDog Version 2.00")
+     19 #pragma subtitle("Header")
+     20 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   2
+Header                                                                                                                      10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+     21 /*****************************************************************************
+     22 *       Author:        P.Guillon - D/0768 CER IBM La Gaude                   *
+     23 *                                                                            *
+     24 *       Environment:   PCAT, PS/2  OS/2  1.1 or higher                       *
+     25 *                                                                            *
+     26 *       OS2 Syntax:    WATCHDOG  ?                                           *
+     27 *                      WATCHDOG  [xxx.xxx] [/E or /D] [/Q]                   *
+     28 *                      WATCHDOG  /U [/Q]                                     *
+     29 *                                                                            *
+     30 *                          ?           Help                                  *
+     31 *                          xxx.xxx     Decimal time in minute                *
+     32 *                                        (2 minutes by default)              *
+     33 *                                          0.25 < xx.xxx < 120               *
+     34 *                          /E          Enable  (Default)                     *
+     35 *                          /D          Disable                               *
+     36 *                          /Q          Quiet (no messages)                   *
+     37 *                          /U          Uninstall                             *
+     38 *                                                                            *
+     39 *       This program watchs PC,PS's activities. It's a small resident        *
+     40 *       Process that automatically REBOOT OS/2  if isn't wakended  by        *
+     41 *       itself or by  RESETTPS  program during the timeout count pro-        *
+     42 *       grammed.                                                             *
+     43 *                                                                            *
+     44 *       The companion program RESETTPS, that reset  WATCHDOG  timeout        *
+     45 *       count,is usually invoked by VM to make sure that the HOST to         *
+     46 *       PS connection isn't lost.                                            *
+     47 *                                                                            *
+     48 *       The REBOOT function is assumed by the companion bimodal  Cha-        *
+     49 *       racter Device Driver SERVBOOT.SYS.                                   *
+     50 *                                                                            *
+     51 *       The design of this little program was done with in  mind  the        *
+     52 *       IDSS PS/2 La Gaude OS/2 servers. It's an OS/2  adaptation  of        *
+     53 *       DOS WATCHDOG 1.02.                                                   *
+     54 *----------------------------------------------------------------------------*
+     55 *      What you need to Compile this Program:                                *
+     56 *                                                                            *
+     57 *           Required Files:                                                  *
+     58 *                                                                            *
+     59 *                WATCHDOG.C    - Source code for this C Program.             *
+     60 *                WATCHDOG.DEF  - Make window compatible Program.             *
+     61 *                WATCHDOG.MAK  - Make file                                   *
+     62 *                                                                            *
+     63 *           Required Libraries:                                              *
+     64 *                                                                            *
+     65 *                SLIBCE.LIB   - This is the Protect mode/standard combined   *
+     66 *                               small model run-time library.                *
+     67 *                DOSCALLS.LIB - DLL API Import Library.                      *
+     68 *                                                                            *
+     69 *           Required Programs: IBM C/2 Compiler (Version 1.1 or later)       *
+     70 *                              IBM Linker/2 (Version 1.1 or later)           *
+     71 *                                                                            *
+     72 *****************************************************************************/
+     73 
+     74 #pragma subtitle("DLL Link References - History")
+     75 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   3
+DLL Link References - History                                                                                               10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+     76 /*****************************************************************************
+     77 *                                                                            *
+     78 *           Dynamic Link References:                                         *
+     79 *                                                                            *
+     80 *                DosAllocShrSeg - Allocate a "named" shareable memory block  *
+     81 *                DosGetShrSeg   - Obtain access to a "named" shared-memory   *
+     82 *                DosFreeSeg     - Deallocate a memory block                  *
+     83 *                                                                            *
+     84 *                DosCreateSem   - Create a system semaphore                  *
+     85 *                DosSemRequest  - Attempt to set (claim) a semaphore         *
+     86 *                DosSemClear    - Clear (release) a semaphore                *
+     87 *                DosCloseSem    - Close a system semaphore                   *
+     88 *                                                                            *
+     89 *                DosGetVersion  - Get the OS/2 Version number                *
+     90 *                DosOpen        - Open or Create a file                      *
+     91 *                DosDevIOCtl    - Generic Device I/O control                 *
+     92 *                                                                            *
+     93 *                DosBeep        - Make a musical tone on speaker             *
+     94 *                DosSleep       - Pause execution for a specified interval   *
+     95 *                DosExit        - Terminate process or one thread            *
+     96 *                                                                            *
+     97 ******************************************************************************
+     98 *                                                                            *
+     99 *    Initial Release Version 1:                                              *
+    100 *                                                                            *
+    101 *             - 09/01/89  T.Liethoudt's  Release  Version 1.0                *
+    102 *                                                                            *
+    103 *    Modified by Pete Guillon D/0768                                         *
+    104 *                                                                            *
+    105 *             - 06/22/90  Change MWATCHDO.CMD to make file WATCHDOG.MAK      *
+    106 *                         Add main function prototype                        *
+    107 *                         Change IPL device driver (DEMOD$ to IPLOS2$)       *
+    108 *----------------------------------------------------------------------------*
+    109 *                                                                            *
+    110 *    Release Version 2:                                                      *
+    111 *                                                                            *
+    112 *             - 09/28/90  Release Version 2.00                               *
+    113 *                                                                            *
+    114 *                         It's the OS/2 version of DOS WATCHDOG. This new    *
+    115 *                         program has the same options that DOS version:     *
+    116 *                                                                            *
+    117 *                            - Help                                          *
+    118 *                            - Variable Time out count                       *
+    119 *                            - Enable, Disable capability                    *
+    120 *                            - Quiet mode                                    *
+    121 *                            - Uninstal option                               *
+    122 *                                                                            *
+    123 *****************************************************************************/
+    124 
+    125 #pragma subtitle("Include - Define - F prototypes - Global")
+    126 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   4
+Include - Define - F prototypes - Global                                                                                    10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    127 #include <stdio.h>
+    128 #include <string.h>
+    129 #include <ctype.h>
+    130 #include <stdlib.h>
+    131 
+    132 #define INCL_BASE
+    133 #define INCL_DOSMEMMGR             /*  Required by the DosGetShrSeg function */
+    134 #include <OS2.h>
+    135 
+    136 #include "watchdog.h"              /*  Watchdog Micellaneous definitions     */
+    137 
+    138 #define SLEEP_DELAY   1000L        /*  Sleep delay in ms (set to 1 s) */
+    139 #define DEFAULT_T_OUT  120L        /*  Default Timeout is 2 minutes   */
+    140 #define COUNT_MIN       .25        /*  Mini count = .25 minutes (15s) */
+    141 #define COUNT_MAX      120.        /*  Maxi count = 120 minutes (2H)  */
+    142 
+    143                                    /* CASE OPTIONS ------------------ */
+    144 #define ENABLE           'E'               /*  Enable Case            */
+    145 #define DISABLE          'D'               /*  Disable Case           */
+    146 #define QUIET            'Q'               /*  Quiet  Case            */
+    147 #define UNINSTALL        'U'               /*  Uninstall Case         */
+    148 
+    149                                    /* INSTALL MASK ------------------ */
+    150 #define INST_C_MASK 0x80                   /*  Timeout count bit mask */
+    151 #define INST_E_MASK 0x40                   /*  Enable bit mask        */
+    152 #define INST_D_MASK 0x20                   /*  Disable bit mask       */
+    153 #define INST_Q_MASK 0x10                   /*  Quiet bit mask         */
+    154 #define INST_U_MASK 0x08                   /*  Uninstall bit mask     */
+    155 
+    156                                    /* DO-MI-SOL Play loop count ----- */
+    157 #define GET_SHAR_MEM_FAILED    1           /*  DosAllocShrSeg         */
+    158 #define DOS_VERS_FAILED        2           /*  DosGetVersion          */
+    159 #define OPEN_FAILED            3           /*  DosOpen                */
+    160 #define SHAR_MEM_ACCESS_FAILED 4           /*  DosGetShrSeg           */
+    161 #define IOCTL_FAILED           5           /*  DosDevIOCtl            */
+    162 #define IPL_FAILED             6           /*  IPL fail               */
+    163 
+    164 #define NON_EXCLUSIVE  1           /*  Non exclusive system semaphore */
+    165 
+    166 #define NOT_INSTALLED  0           /*  Not all ready installed        */
+    167 #define INSTALLED      1           /*  All ready installed            */
+    168 
+    169 VOID   logo_msg(VOID);                  /*  Print Logo function prototype    */
+    170 VOID   help_msg(VOID);                  /*  Print HelpMsg function prototype */
+    171                           /*  Open ServBoot Device Driver function prototype */
+    172 USHORT Open_ServBoot_Dev_Driver(VOID);
+    173 USHORT Re_Boot_OS2(VOID);               /*  ReBoot OS/2 Function prototype   */
+    174 VOID   Play(USHORT);                    /*  Play Function prototype          */
+    175                                         /*  Get parms function prototype     */
+    176 USHORT get_parms(INT ,CHAR * *, USHORT, WATCH FAR *);
+    177 VOID   main(INT, CHAR * *);             /*  main function prototype          */
+    178 
+    179 HFILE hfDevice_Handle;                  /* Global Device driver handle       */
+    180 
+    181 #pragma subtitle("main() function")
+    182 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   5
+main() function                                                                                                             10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    183 VOID main(INT iArgc,CHAR * argv[])
+    184 {
+    185 
+    186    USHORT usReturn_Code,           /*  Dos function Return Code       */
+    187           usRc;                    /*  Local function return Code     */
+    188 
+    189    USHORT usSize = WATCH_LENGTH;   /*  DosAllocShrSeg request size in Bytes  */
+    190    PSZ    pszName = SHARENAME;              /*  Shareable memory block name  */
+    191    SEL    selMem_Selector;                  /*  Receive Segment selector     */
+    192 
+    193    PSZ     pszSemName = SEMNAME;            /*  System semaphore name        */
+    194    HSEM    hsemSemHandle;                   /*  System semaphore Handle      */
+    195 
+    196 
+    197    WATCH FAR * Watch_Ptr;          /*  WATCH pointer                         */
+    198 
+    199                                    /* Get Access to Shareable memory Block   */
+    200    usReturn_Code = DosGetShrSeg(pszName, & selMem_Selector);
+    201 
+    202    if (usReturn_Code == ERROR_FILE_NOT_FOUND) {
+    203                                    /* if ServBoot Device Driver Installed    */
+    204       if (usReturn_Code = Open_ServBoot_Dev_Driver() == 0) {
+    205 
+    206          if (usReturn_Code=DosAllocShrSeg(usSize,/* Get Shareable mem Block  */
+    207                                           pszName,
+    208                                           & selMem_Selector) == 0) {
+    209 
+    210             Watch_Ptr = (WATCH FAR *) MAKEP(selMem_Selector,0);
+    211 
+    212                                                 /* Initialize Default parms  */
+    213             Watch_Ptr->Counter_Init_Value = DEFAULT_T_OUT;
+    214             Watch_Ptr->Counter = Watch_Ptr->Counter_Init_Value ;
+    215             Watch_Ptr->Flag = ENABLE_MASK;
+    216 
+    217                                                 /*  Get Install parameters   */
+    218             if (usRc= get_parms(iArgc, argv, NOT_INSTALLED, Watch_Ptr) != 0) {
+    219                DosFreeSeg(selMem_Selector);     /*  Then Deallocate memory   */
+    220                DosExit((USHORT) 0,usRc); }      /*  And Exit if some error   */
+    221 
+    222             DosCreateSem(NON_EXCLUSIVE,         /*  Create System semaphore  */
+    223                          & hsemSemHandle,
+    224                          pszSemName);
+    225 
+    226             DosSemRequest(hsemSemHandle,      /*  Waits for shared resources */
+    227                           SEM_INDEFINITE_WAIT);
+    228 
+    229 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   6
+main() function                                                                                                             10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    230             while ((Watch_Ptr->Flag & U_MASK) == 0){  /* WATCHDOG Loop */
+    231 
+    232                DosSemClear(hsemSemHandle);    /*  Release  shared resources  */
+    233 
+    234                if (usReturn_Code = DosSleep(SLEEP_DELAY) != NO_ERROR) {
+    235                   logo_msg();
+    236                   printf("\n -*-*- DosSleep Error Code %04x -*-*-\n",
+    237                                                                 usReturn_Code);
+    238                   DosBeep(262,500);DosBeep(440,1000);DosBeep(262,500);
+    239                } /* End if */
+    240 
+    241                DosSemRequest(hsemSemHandle,  /*  Waits for shared resources  */
+    242                              SEM_INDEFINITE_WAIT);
+    243 
+    244                if (Watch_Ptr->Flag & ENABLE_MASK) {
+    245                   if (--Watch_Ptr->Counter <= 0) {
+    246 #ifdef DEBUG
+    247                      usReturn_Code = system("ECHO Temporary REBOOT\n");
+    248                      Watch_Ptr->Counter = Watch_Ptr->Counter_Init_Value ;
+    249 #else
+    250                            /*  Reboot OS/2 - DosExit SHOULD NEVER be invoked */
+    251                      DosExit((USHORT) 0,usReturn_Code = Re_Boot_OS2() );
+    252 #endif
+    253                   } /* End if */
+    254                } /* endif */
+    255 
+    256             } /* endwhile WATCHDOG Loop */
+    257 
+    258             DosCloseSem(hsemSemHandle);         /*  Close system semaphore   */
+    259 
+    260             if ((Watch_Ptr->Flag & QUIET_MASK) == 0)
+    261                 printf("\n  -*- WATCHDOG uninstalled successfully -*-\n");
+    262 
+    263             DosFreeSeg(selMem_Selector);     /*  Deallocate Shared memory    */
+    264             DosExit((USHORT) 0,(USHORT) 0);  /*  and Exit whith Rc = 0       */
+    265 
+    266          } else {     /* Get Shareable memory Block with some Error */
+    267             logo_msg(); /* Print Logo and Error Message             */
+    268             printf("\n -*-*- Cannot Get Shareable Memory Block -*-*-\n");
+    269             printf("  -*-     Program Aborted with RC %04x    -*-\n",
+    270                                                                usReturn_Code);
+    271             Play((USHORT)GET_SHAR_MEM_FAILED);   /* Play DO-MI-SOL-DO....    */
+    272             DosExit((USHORT) 0,usReturn_Code);   /* Then Exit With Rc Error  */
+    273          } /* endif - Get Shareable memory Block */
+    274 
+    275       } else {               /* Else ServBoot Device Driver not Installed    */
+    276          DosExit((USHORT) 0,usReturn_Code);      /* Exit With Rc Error       */
+    277       } /* endif ServBoot Device Driver Installed */
+    278 
+    279 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   7
+main() function                                                                                                             10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    280 
+    281    } else {  /* Not ERROR_FIND_NOT_FOUND, WATCHDOG maybe all Ready installed */
+    282       if (usReturn_Code == 0) {
+    283          Watch_Ptr = (WATCH FAR *) MAKEP(selMem_Selector,0);
+    284 
+    285          DosOpenSem( & hsemSemHandle,             /*  Open System semaphore  */
+    286                      pszSemName);
+    287 
+    288          DosSemRequest(hsemSemHandle,         /*  Waits for shared resources */
+    289                        SEM_INDEFINITE_WAIT);
+    290 
+    291          Watch_Ptr->Counter = Watch_Ptr->Counter_Init_Value ;
+    292                                               /*  Program allready Installed */
+    293                                               /*  Get Change options         */
+    294          usRc = get_parms(iArgc, argv, INSTALLED, Watch_Ptr);
+    295 
+    296          DosSemClear(hsemSemHandle);          /*  Release  shared resources  */
+    297 
+    298          DosFreeSeg(selMem_Selector);         /*  Freeing Shared memory      */
+    299          DosExit((USHORT) 0,usRc);            /*  And Exit with Rc           */
+    300       } else {  /* Unexpected Error From Get Access to Share Memory Block    */
+    301          logo_msg(); /* Print Logo and Error Message                         */
+    302          printf("\n -*-*- Cannot Get Access to Shareable Memory Block -*-*-\n");
+    303          printf("       -*-     Program Aborted with RC %04x    -*-\n",
+    304                                             /* Play DO-MI-SOL-DO-SOL-MI-DO   */
+    305                                                               usReturn_Code);
+    306          Play((USHORT)SHAR_MEM_ACCESS_FAILED);
+    307          DosExit((USHORT) 0,usReturn_Code);      /* Then Exit With Rc Error  */
+    308       } /* endif - Program allready installed */
+    309 
+    310    } /* endif - ERROR_FILE_NOT_FOUND                                         */
+    311 
+    312 } /* end of main program */
+
+
+main  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+pszName . . . . . . . . . auto                             -0018 
+hsemSemHandle . . . . . . auto                             -0014 
+usRc. . . . . . . . . . . auto                             -0010 
+Watch_Ptr . . . . . . . . auto                             -000e 
+usSize. . . . . . . . . . auto                             -000a 
+selMem_Selector . . . . . auto                             -0008 
+pszSemName. . . . . . . . auto                             -0006 
+usReturn_Code . . . . . . auto                             -0002 
+iArgc . . . . . . . . . . param                             0004
+argv. . . . . . . . . . . param                             0006
+
+    313 
+    314 #pragma subtitle("logo_msg(), hlp_msg() functions")
+    315 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   8
+logo_msg(), hlp_msg() functions                                                                                             10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    316 
+    317 VOID   logo_msg(VOID)                 /*  Print Logo Msg function definition */
+    318 {
+    319    printf("\n ษอออออออออออออออออออออออออออออออออออออป\n") ;
+    320    printf(  " บ    -*- IBM  -*-    บ\n") ;
+    321    printf(  " บ             CER LA GAUDE            บ\n") ;
+    322    printf(  " บ                                     บ\n") ;
+    323    printf(  " บ        WATCHDOG Version 2.00        บ\n") ;
+    324    printf(  " บ                 by                  บ\n") ;
+    325    printf(  " บ            Pete Guillon             บ\n") ;
+    326    printf(  " ศอออออออออออออออออออออออออออออออออออออผ\n") ;
+    327    return ;
+    328 } /* End logo_msg() function */
+    329 
+    330 
+    331 
+    332 VOID   help_msg(VOID)             /*  Print Help Message function definition */
+    333 {
+    334    printf(" This program watchs  PC, PS's activities. It's a small resident  Process  that\n") ;
+    335    printf(" automatically REBOOT OS/2 if isn't wakended by itself or by  RESETTPS  program\n") ;
+    336    printf(" during the timeout count programmed. At any time it can be disabled or enabled\n") ;
+    337    printf(" and his timeout count changed. OS/2 Syntax is:\n") ;
+    338    printf("     WATCHDOG  ?\n") ;
+    339    printf("     WATCHDOG  [xxx.xxx] [/E  |  /D] [/Q]\n") ;
+    340    printf("     WATCHDOG  /U [/Q]\n\n") ;
+    341    printf("         ?           Help\n") ;
+    342    printf("         xxx.xxx     Decimal time in minute (2 by default) 0.25 < xxx.xxx < 120\n") ;
+    343    printf("         /E          Enable  (Default)\n") ;
+    344    printf("         /D          Disable\n") ;
+    345    printf("         /Q          Quiet (no messages)\n") ;
+    346    printf("         /U          Uninstall\n") ;
+    347    return ;
+    348 } /* End help_msg() function */
+    349 
+    350 #pragma subtitle("get_parms() functions")
+    351 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE   9
+get_parms() functions                                                                                                       10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    352 USHORT get_parms(INT iArg_C,CHAR * *Arg_V,USHORT Inst_Status,WATCH FAR * W_Ptr)
+    353 {
+    354    UCHAR  uchInstall_Flag = 0;              /*  Install flag byte            */
+    355    USHORT usGet_Parms_Rc = 0;               /* Get Parms return code         */
+    356 
+    357    INT iWi;                                 /* Working Index                 */
+    358 
+    359    float TimeOutCount;                      /* Working floating TimeoutCount */
+    360 
+    361    CHAR Count_Arg_Buff[81],                 /* Count Argument Working buffer */
+    362         Working_Buffer[81],                 /* Working count buffer          */
+    363         * arg_p,                            /* Current Argument pointer      */
+    364         * token;                            /* Token Pointer                 */
+    365 
+    366    while ((iArg_C > 1) && (usGet_Parms_Rc == 0)) {
+    367 
+    368       arg_p = strupr(Arg_V[iArg_C-- -1]);   /* Capitalize Current Argument   */
+    369 
+    370       if (arg_p[0] == '/'  && arg_p[2] == '\0') {   /* If /x Argument        */
+    371          switch (arg_p[1]) {
+    372             case ENABLE:                        /* /E  Option                */
+    373                uchInstall_Flag |= INST_E_MASK;  /* Set Enable bit Mask       */
+    374                break;
+    375             case DISABLE:                       /* /D  Option                */
+    376                uchInstall_Flag |= INST_D_MASK;  /*  Set Disable bit Mask     */
+    377                break;
+    378             case QUIET:                         /* /Q Option                 */
+    379                uchInstall_Flag |= INST_Q_MASK;  /* Add Quiet bit Mask        */
+    380                break;
+    381             case UNINSTALL:                     /* /U Option                 */
+    382                uchInstall_Flag |= INST_U_MASK;  /* Add Quiet bit Mask        */
+    383                break;
+    384             default:
+    385                usGet_Parms_Rc = 2;              /* Set Error RC = 2          */
+    386          } /* endswitch */
+    387 
+    388       } else {                                  /* Not /x Argument           */
+    389          if (arg_p[0] == '?'  && arg_p[1] == '\0') {
+    390             usGet_Parms_Rc = 1;                 /* ? Option                  */
+    391 
+    392          } else {                               /* Maybe Valid Timeout Count */
+    393             strcpy(Count_Arg_Buff,"0");         /* Heading zero for Strok    */
+    394             token = strtok(strcat(Count_Arg_Buff,arg_p),".");
+    395 
+    396             for (iWi = 0; iWi < strlen(token) && usGet_Parms_Rc == 0; iWi++)
+    397                if (isdigit(token[iWi]) == 0)    /* Error if not digit        */
+    398                   usGet_Parms_Rc = 2;
+    399 
+    400             if (usGet_Parms_Rc == 0) {          /* Valid fixed digits        */
+    401                strcpy(Working_Buffer,token);    /* Put Fixed part in Buffer  */
+    402                strcat(Working_Buffer,".");      /* Add . to it               */
+    403                token = strtok(NULL," ");        /* Get decimal part          */
+    404 
+    405                for (iWi = 0; iWi < strlen(token) && usGet_Parms_Rc == 0; iWi++)
+    406                   if (isdigit(token[iWi]) == 0) /* Error if not digit        */
+    407                      usGet_Parms_Rc = 2;
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE  10
+get_parms() functions                                                                                                       10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    408 
+    409                if (usGet_Parms_Rc == 0) {         /* If Valid decimal digits   */
+    410                   strcat(Working_Buffer,token); /* Add decimal part in Buff  */
+    411                   sscanf(Working_Buffer,"%f",&TimeOutCount);
+    412 
+    413                                        /* Set Error Code if outside limits   */
+    414                   if ((TimeOutCount < (float) COUNT_MIN) ||
+    415                       (TimeOutCount > (float) COUNT_MAX)) usGet_Parms_Rc = 2;
+    416                                        /* Otherwise Add Count bit Mask       */
+    417                   else uchInstall_Flag |= INST_C_MASK;
+    418 
+    419                } /* endif Valid decimal digits */
+    420             } /* endif Valid Fixed digits */
+    421          } /* endif Else Maybe Valid timeout Count */
+    422       } /* endif Else No /x Argument */
+    423    } /* endwhile */
+    424 
+    425                      /* If all parameters individually Valid Process Options */
+    426    if (usGet_Parms_Rc ==0) {
+    427 
+    428       if (uchInstall_Flag & INST_U_MASK ) {
+    429 
+    430          if (uchInstall_Flag & ~(INST_U_MASK | INST_Q_MASK) ) {
+    431             usGet_Parms_Rc = 2;             /* Only /Q is valid with /U      */
+    432             logo_msg();                     /* Display Logo   */
+    433             help_msg();                     /* Display Help   */
+    434 
+    435          } else {
+    436             if (Inst_Status == NOT_INSTALLED) {
+    437                usGet_Parms_Rc = 3;          /* Set RC = 3     */
+    438                logo_msg();                  /* Display Logo   */
+    439                printf("\n -*-*- Cannot uninstall WATCHDOG program -*-*-\n");
+    440                printf("      -*-    Program not installed    -*-\n");
+    441 
+    442             } else {                        /* Uninstall Pgm  */
+    443                W_Ptr->Flag |= U_MASK;
+    444                if (uchInstall_Flag & INST_Q_MASK) W_Ptr->Flag |= QUIET_MASK;
+    445 
+    446             } /* endif  */
+    447          } /* endif  */
+    448 
+    449       } else {            /* Test if not Enable and Disable Options together */
+    450          if ( (uchInstall_Flag & INST_E_MASK)   &&
+    451               (uchInstall_Flag & INST_D_MASK))  {
+    452             usGet_Parms_Rc = 2;             /* /E not Valid with /D          */
+    453             logo_msg();                     /* Display Logo   */
+    454             help_msg();                     /* Display Help   */
+    455 
+    456          } else {                  /* Process. All Options are valid.        */
+    457 
+    458             if (uchInstall_Flag & INST_C_MASK) {
+    459                W_Ptr->Counter_Init_Value = (ULONG) (TimeOutCount * 60) ;
+    460                W_Ptr->Counter = W_Ptr->Counter_Init_Value ;
+    461             } /* endif */
+    462 
+    463             if (uchInstall_Flag & INST_E_MASK)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE  11
+get_parms() functions                                                                                                       10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    464                W_Ptr->Flag |= ENABLE_MASK;
+    465             else if (uchInstall_Flag & INST_D_MASK)
+    466                W_Ptr->Flag &= ~ENABLE_MASK;
+    467 
+    468             if ((uchInstall_Flag & INST_Q_MASK) == 0) {
+    469                logo_msg();                  /* Display Logo   */
+    470 
+    471                if (Inst_Status == NOT_INSTALLED)
+    472                   printf("\n -*-*- Program  installed successfully -*-*-\n");
+    473 
+    474                else {
+    475                   printf("\n -*-*- Watchdog Time Out ");
+    476 
+    477                   if (W_Ptr->Flag & ENABLE_MASK) printf("Enabled");
+    478                   else printf("Disabled");
+    479 
+    480                   printf(" set to %07.3f Minutes -*-*-\n",
+    481                                     (float)W_Ptr->Counter_Init_Value / 60);
+    482                } /* endif */
+    483             } /* endif */
+    484          } /* endif */
+    485       } /* endif */
+    486 
+    487    } else {                        /* No all parmameters  individually Valid */
+    488       logo_msg();                           /* Display Logo   */
+    489       help_msg();                           /* Display Help   */
+    490 
+    491    } /* endif /* All parameters individually Valid  */
+    492 
+    493    return usGet_Parms_Rc;                   /* Return Rc to Caller           */
+    494 
+    495 } /* End get_parms() function */
+
+
+get_parms  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+usGet_Parms_Rc. . . . . . auto                             -00b2 
+Working_Buffer. . . . . . auto                             -00b0 
+iWi . . . . . . . . . . . auto                             -005e 
+arg_p . . . . . . . . . . auto                             -005c 
+Count_Arg_Buff. . . . . . auto                             -005a 
+token . . . . . . . . . . auto                             -0008 
+uchInstall_Flag . . . . . auto                             -0006 
+TimeOutCount. . . . . . . auto                             -0004 
+iArg_C. . . . . . . . . . param                             0004
+Arg_V . . . . . . . . . . param                             0006
+Inst_Status . . . . . . . param                             0008
+W_Ptr . . . . . . . . . . param                             000a
+
+    496 
+    497 #pragma subtitle("Open ServBoot Device Driver function")
+    498 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE  12
+Open ServBoot Device Driver function                                                                                        10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    499 #define DEV_NAME         "SREBOOT$" /* Device Driver basic Name  (all ver)   */
+    500 #define DEV_PSEUDO_PATH  "\\DEV\\"  /* Device Driver pseudoPath (ver >= 1.2) */
+    501 #define DEVNAME_MAX_L    14
+    502 
+    503 #define SYSTEM_ATTRIB  4                  /* File Attribute = System         */
+    504 #define OPEN_IF_EXIST  1                  /* OFlag = open, fail if not exist */
+    505 #define DENY_MODE      0x40               /* OMode = Deny None               */
+    506 
+    507                          /*  Open ServBoot Device Driver function definition */
+    508 USHORT Open_ServBoot_Dev_Driver(VOID)
+    509 {
+    510    CHAR   Device_Driver_Name[DEVNAME_MAX_L] ;   /* Holds Device Driver name  */
+    511    USHORT usVersion ,                           /* Holds OS/2 Version number */
+    512           usAction ,                            /* Required for DosOpen      */
+    513           usRc ;                                /* Return code from OS/2 API */
+    514                                 /* If we can get the version                 */
+    515    if ( (usRc = DosGetVersion( & usVersion)) == 0 ) {
+    516 
+    517       if (LOUCHAR(usVersion) <= 10)           /* If minor version is <= 10   */
+    518          strcpy(Device_Driver_Name,DEV_NAME); /* Use Device Driver name only */
+    519 
+    520       else {        /* Else minor version > 1  Use full (pseudo-)pathname    */
+    521          strcpy(Device_Driver_Name, DEV_PSEUDO_PATH); /* Get Pseudo Path     */
+    522          strcat(Device_Driver_Name, DEV_NAME);        /* then Add it's Name  */
+    523       } /* endif */
+    524 
+    525       /* Get Device Driver Handle                                            */
+    526       if ((usRc = DosOpen((PSZ) Device_Driver_Name,  /* Device Driver name   */
+    527                 & hfDevice_Handle,                   /* DD Handle (returned) */
+    528                 & usAction,               /* Action (returned, UNUSED)       */
+    529                 (ULONG) 0,                /* File Size not applicable        */
+    530                 (USHORT) SYSTEM_ATTRIB,   /* File Attribute = System         */
+    531                 (USHORT) OPEN_IF_EXIST,   /* OFlag = open, fail if not exist */
+    532                 (USHORT) DENY_MODE,       /* OMode = Deny None               */
+    533                 (ULONG) 0) )              /* RESERVED                        */
+    534                 != 0 ) {                  /* If DosOpen failed, error:       */
+    535 
+    536          logo_msg();             /* Print Logo and Error Message             */
+    537          printf("\n -*-*- ServBoot Device Driver Failed to Open -*-*-\n");
+    538          printf("  -*-       Program Aborted with RC %04x      -*-\n", usRc);
+    539          Play((USHORT)OPEN_FAILED);         /* Play DO-MI-SOL-DO-SOL-MI-DO   */
+    540       } /* endif DosOpen */
+    541 
+    542    } else {                               /* Get Dos Version failed          */
+    543       logo_msg();                /* Print Logo and Error Message             */
+    544       printf("\n -*-*-      Cannot Get Dos Version      -*-*-\n");
+    545       printf("  -*-    Program Aborted with RC %04x    -*-\n", usRc);
+    546       Play((USHORT)DOS_VERS_FAILED);      /* Play DO-MI-SOL-DO-SOL-MI-DO     */
+    547    } /* endif DosGetVersion  */
+    548 
+    549    return usRc;                           /* Return to caller                */
+    550 
+    551 } /* End Open_ServBoot_Dev_Driver() function */
+
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE  13
+Open ServBoot Device Driver function                                                                                        10-03-90
+                                                                                                                            21:42:25
+
+                                                                                IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+Open_ServBoot_Dev_Driver  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+usVersion . . . . . . . . auto                             -0014 
+usRc. . . . . . . . . . . auto                             -0012 
+Device_Driver_Name. . . . auto                             -0010 
+usAction. . . . . . . . . auto                             -0002 
+
+    552 
+    553 #pragma subtitle("Re_Boot_O2 and Play functions")
+    554 #pragma page(1)
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE  14
+Re_Boot_O2 and Play functions                                                                                               10-03-90
+                                                                                                                            21:42:25
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    555 
+    556 #define SERVBOOT_CAT    0x80            /*  SERVBOOT Device Driver Category  */
+    557 #define SERVBOOT_FUNC   0x40            /*  SERVBOOT IOCTL Function          */
+    558 
+    559 
+    560 USHORT Re_Boot_OS2(VOID)               /*  Re_Boot_OS2 Function definition   */
+    561 {
+    562    USHORT usRc ;                              /* Return code from OS/2 API   */
+    563 
+    564    if ( (usRc = DosDevIOCtl( (PVOID) NULL,    /* Data buffer (UNUSED)        */
+    565               (PVOID) NULL,                   /* Parm list (UNUSED)          */
+    566               (USHORT) SERVBOOT_FUNC,         /* Function = Desired command  */
+    567               (USHORT) SERVBOOT_CAT,          /* Category = ServBoot DD      */
+    568               hfDevice_Handle) )              /* DosOpen handle              */
+    569               != 0) {                         /* If IOCtl failed, send       */
+    570                                               /*  error message              */
+    571       logo_msg();                /* Print Logo and Error Message             */
+    572       printf("\n -*-*- ServBoot Device Driver IOCTL Failed -*-*-\n");
+    573       printf("  -*-      Program Aborted with RC %04x     -*-\n", usRc);
+    574       Play((USHORT)IOCTL_FAILED);          /* Play DO-MI-SOL-DO-SOL-MI-DO    */
+    575    } else {
+    576       logo_msg();                /* Print Logo and Error Message             */
+    577       printf("\n -*-*- ServBoot Device Driver Does Not IPL -*-*-\n");
+    578       printf("  -*-      Program Aborted with RC %04x     -*-\n", usRc = 0xFF);
+    579       Play((USHORT)IPL_FAILED);            /* Play DO-MI-SOL-DO-SOL-MI-DO    */
+    580    } /* endif */
+    581 
+    582    return usRc ;                            /* SHOULD NEVER RETURN           */
+    583 
+    584 } /* End Re_Boot_OS2() function */
+
+
+Re_Boot_OS2  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+usRc. . . . . . . . . . . auto                             -0002 
+
+    585 
+    586 
+    587 VOID Play(USHORT usCount)                     /*  Play Function definition   */
+    588 {
+    589                                   /* Play DO_MI-SOL-DO-SOL-MI-DO Count times */
+    590    DosBeep(262,250);
+    591 
+    592    for ( ; usCount > 0 ; usCount--) {
+    593       DosBeep(330,250);DosBeep(392,250);DosBeep(494,250);
+    594       DosBeep(392,250);DosBeep(330,250);DosBeep(262,250);
+    595    } /* endfor */
+    596 
+    597    return ;
+    598 
+    599 } /* End Play() function */
+
+ 
+
+
+GOS/2 WatchDog Version 2.00                                                                                               PAGE  15
+Re_Boot_O2 and Play functions                                                                                               10-03-90
+                                                                                                                            21:42:25
+
+                                                                                IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+Play  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+usCount . . . . . . . . . param                             0004
+
+
+Global Symbols
+
+Name                      Class   Type              Size   Offset  
+
+DosAllocShrSeg. . . . . . extern  far function       ***     ***
+DosBeep . . . . . . . . . extern  far function       ***     ***
+DosCloseSem . . . . . . . extern  far function       ***     ***
+DosCreateSem. . . . . . . extern  far function       ***     ***
+DosDevIOCtl . . . . . . . extern  far function       ***     ***
+DosExit . . . . . . . . . extern  far function       ***     ***
+DosFreeSeg. . . . . . . . extern  far function       ***     ***
+DosGetShrSeg. . . . . . . extern  far function       ***     ***
+DosGetVersion . . . . . . extern  far function       ***     ***
+DosOpen . . . . . . . . . extern  far function       ***     ***
+DosOpenSem. . . . . . . . extern  far function       ***     ***
+DosSemClear . . . . . . . extern  far function       ***     ***
+DosSemRequest . . . . . . extern  far function       ***     ***
+DosSleep. . . . . . . . . extern  far function       ***     ***
+Open_ServBoot_Dev_Driver. global  near function      ***    063a
+Play. . . . . . . . . . . global  near function      ***    074e
+Re_Boot_OS2 . . . . . . . global  near function      ***    06e6
+_ctype. . . . . . . . . . extern  struct/array       ***     ***
+get_parms . . . . . . . . global  near function      ***    0340
+help_msg. . . . . . . . . global  near function      ***    02ca
+hfDevice_Handle . . . . . common  unsigned int         2     ***
+logo_msg. . . . . . . . . global  near function      ***    0280
+main. . . . . . . . . . . global  near function      ***    0000
+printf. . . . . . . . . . extern  near function      ***     ***
+sscanf. . . . . . . . . . extern  near function      ***     ***
+strcat. . . . . . . . . . extern  near function      ***     ***
+strcpy. . . . . . . . . . extern  near function      ***     ***
+strlen. . . . . . . . . . extern  near function      ***     ***
+strtok. . . . . . . . . . extern  near function      ***     ***
+strupr. . . . . . . . . . extern  near function      ***     ***
+
+Code size = 07ae (1966)
+Data size = 07b3 (1971)
+Bss size  = 0000 (0)
+
+No errors detected
+

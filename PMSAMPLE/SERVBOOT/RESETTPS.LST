@@ -1,0 +1,242 @@
+ 
+
+                                                                                                                            PAGE   1
+                                                                                                                            10-03-90
+                                                                                                                            22:07:18
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+      1 /*  IDSS_Cmp_Opts: -As -Zpe -G2s                                     */
+      2 /*                                                                   */
+      3 /*-------------------------------------------------------------------*/
+      4 /*  First lines must be C compiler options.                          */
+      5 /*-------------------------------------------------------------------*/
+      6 /*  OPtions -W3 and -DLINT_ARGS are forced by COS2 IDSS process.     */
+      7 /*                                                                   */
+      8 /*                                                                   */
+      9 /*  Warning: If you supply -DLINT_ARGS option or any -Dxxx options   */
+     10 /*           twice, the IBM-C2 compiler will loop and  your  COS2    */
+     11 /*           IDSS process will abort on time out.                    */
+     12 /*                                                                   */
+     13 /*-------------------------------------------------------------------*/
+     14 /*           G set printer to condensed mode, Double printing      */
+     15 /*                                                                   */
+     16 #pragma linesize(132)
+     17 #pragma pagesize(63)
+     18 #pragma title("GOS/2 RESETTPS Version 2.00")
+     19 #pragma subtitle("Header")
+     20 #pragma page(1)
+ 
+
+GOS/2 RESETTPS Version 2.00                                                                                               PAGE   2
+Header                                                                                                                      10-03-90
+                                                                                                                            22:07:18
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+     21 /*****************************************************************************
+     22 *       Author:        P.Guillon - D/0768 CER IBM La Gaude                   *
+     23 *                                                                            *
+     24 *       Environment:   PCAT, PS/2  OS/2  1.1 or higher                       *
+     25 *                                                                            *
+     26 *       OS2 Syntax:    RESETTPS                                              *
+     27 *                                                                            *
+     28 *       This is the companion program of WATCHDOG. It reset  WATCHDOG        *
+     29 *       timeout count to an initial value. It's usually invoked by VM        *
+     30 *       to make sure that the HOST to PS connection is isn't lost.           *
+     31 *                                                                            *
+     32 *       The REBOOT function is assumed by the companion bimodal  Cha-        *
+     33 *       racter Device Driver SERVBOOT.SYS.                                   *
+     34 *                                                                            *
+     35 *       The design of this little program was done with in  mind  the        *
+     36 *       IDSS PS/2 La Gaude OS/2 servers. It's an OS/2  adaptation  of        *
+     37 *       DOS RESETTPS.                                                        *
+     38 *----------------------------------------------------------------------------*
+     39 *      What you need to Compile this Program:                                *
+     40 *                                                                            *
+     41 *           Required Files:                                                  *
+     42 *                                                                            *
+     43 *                RESETTPS.C    - Source code for this C Program.             *
+     44 *                WATCHDOG.H    - Watchdog miscellaneous definitions          *
+     45 *                RESETTPS.DEF  - Make window compatible Program.             *
+     46 *                RESETTPS.MAK  - Make file                                   *
+     47 *                                                                            *
+     48 *           Required Libraries:                                              *
+     49 *                                                                            *
+     50 *                SLIBCE.LIB   - This is the Protect mode/standard combined   *
+     51 *                               small model run-time library.                *
+     52 *                DOSCALLS.LIB - DLL API Import Library.                      *
+     53 *                                                                            *
+     54 *           Required Programs: IBM C/2 Compiler (Version 1.1 or later)       *
+     55 *                              IBM Linker/2 (Version 1.1 or later)           *
+     56 *                                                                            *
+     57 *****************************************************************************/
+     58 
+     59 #pragma subtitle("DLL Link References - History")
+     60 #pragma page(1)
+ 
+
+GOS/2 RESETTPS Version 2.00                                                                                               PAGE   3
+DLL Link References - History                                                                                               10-03-90
+                                                                                                                            22:07:18
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+     61 /*****************************************************************************
+     62 *                                                                            *
+     63 *           Dynamic Link References:                                         *
+     64 *                                                                            *
+     65 *                DosGetShrSeg   - Obtain access to a "named" shared-memory   *
+     66 *                DosFreeSeg     - Deallocate a memory block                  *
+     67 *                                                                            *
+     68 *                DosOpenSem     - Opens a "named" system semaphore           *
+     69 *                DosSemRequest  - Attempt to set (claim) a semaphore         *
+     70 *                DosSemClear    - Clear (release) a semaphore                *
+     71 *                                                                            *
+     72 *                DosBeep        - Make a musical tone on speaker             *
+     73 *                DosExit        - Terminate process or one thread            *
+     74 *                                                                            *
+     75 ******************************************************************************
+     76 *                                                                            *
+     77 *    Initial Release Version 1:                                              *
+     78 *                                                                            *
+     79 *             - 09/01/89  T.Liethoudt's  Release  Version 1.0                *
+     80 *                                                                            *
+     81 *    Modified by Pete Guillon D/0768                                         *
+     82 *                                                                            *
+     83 *             - 06/22/90  Change MRESETTP.CMD to make file RESETTPS.MAK      *
+     84 *                         Add main function prototype                        *
+     85 *----------------------------------------------------------------------------*
+     86 *                                                                            *
+     87 *    Release Version 2:                                                      *
+     88 *                                                                            *
+     89 *             - 09/28/90  Release Version 2.00                               *
+     90 *                                                                            *
+     91 *                         It's the OS/2 version of DOS RESETTPS. This new    *
+     92 *                         program use a "named" system semaphore to share    *
+     93 *                         a  "named" shared-memory block.                    *
+     94 *                                                                            *
+     95 *****************************************************************************/
+     96 
+     97 #pragma subtitle("Include - Define - F prototypes - Global")
+     98 #pragma page(1)
+ 
+
+GOS/2 RESETTPS Version 2.00                                                                                               PAGE   4
+Include - Define - F prototypes - Global                                                                                    10-03-90
+                                                                                                                            22:07:18
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+     99 #include <stdio.h>
+    100 
+    101 #define INCL_BASE
+    102 #define INCL_DOSMEMMGR             /*  Required by the DosGetShrSeg function */
+    103 #include <OS2.h>
+    104 
+    105 #include "watchdog.h"              /*  Watchdog Micellaneous definitions     */
+    106 
+    107 VOID main(VOID);                   /*  main function prototype               */
+    108 
+    109 
+    110 #pragma subtitle("main() function")
+    111 #pragma page(1)
+ 
+
+GOS/2 RESETTPS Version 2.00                                                                                               PAGE   5
+main() function                                                                                                             10-03-90
+                                                                                                                            22:07:18
+
+ Line#  Source Line                                                             IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+    112 VOID main(VOID)
+    113 {
+    114    USHORT usReturn_Code;           /*  Dos function Return Code              */
+    115 
+    116    PSZ    pszName = SHARENAME;              /*  Shareable memory block name  */
+    117    SEL    selMem_Selector;                  /*  Receive Segment selector     */
+    118 
+    119    PSZ     pszSemName = SEMNAME;            /*  System semaphore name        */
+    120    HSEM    hsemSemHandle;                   /*  System semaphore Handle      */
+    121 
+    122    WATCH FAR * Watch_Ptr;          /*  WATCH pointer                         */
+    123 
+    124                                    /* Get Access to Shareable memory Block   */
+    125    usReturn_Code = DosGetShrSeg(pszName, & selMem_Selector);
+    126 
+    127    if (usReturn_Code == 0) {
+    128       Watch_Ptr = (WATCH FAR *) MAKEP(selMem_Selector,0);
+    129 
+    130       DosOpenSem( & hsemSemHandle,          /*  Open System semaphore        */
+    131                   pszSemName);
+    132 
+    133       DosSemRequest(hsemSemHandle,          /*  Waits for shared resources   */
+    134                     SEM_INDEFINITE_WAIT);
+    135 
+    136                             /* Restore Init value count if WATCHDOG enabled  */
+    137       if (Watch_Ptr->Flag & ENABLE_MASK)
+    138          Watch_Ptr->Counter = Watch_Ptr->Counter_Init_Value ;
+    139 
+    140       DosSemClear(hsemSemHandle);             /*  Release  shared resources  */
+    141 
+    142       DosFreeSeg(selMem_Selector);            /*  Freeing Shared memory      */
+    143 
+    144    } else {
+    145       DosBeep(262,250);DosBeep(330,250);DosBeep(392,250);DosBeep(494,250);
+    146       DosBeep(392,250);DosBeep(330,250);DosBeep(262,250);
+    147 
+    148 #ifdef DEBUG
+    149       printf("\n -*-*- STARTTPS Error Code %04x -*-*-\n",usReturn_Code);
+    150       printf("  -*-    WatchDog not Started    -*-\n");
+    151 #endif
+    152 
+    153    } /* endif */
+    154 
+    155    DosExit((USHORT) 0,usReturn_Code);         /*  Exit Process              */
+    156 
+    157 } /* end of main program */
+
+
+main  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+pszName . . . . . . . . . auto                             -0014 
+hsemSemHandle . . . . . . auto                             -0010 
+Watch_Ptr . . . . . . . . auto                             -000c 
+selMem_Selector . . . . . auto                             -0008 
+ 
+
+GOS/2 RESETTPS Version 2.00                                                                                               PAGE   6
+main() function                                                                                                             10-03-90
+                                                                                                                            22:07:18
+
+                                                                                IBM Personal Computer C/2 Version 1.10 (Release 7.5)
+
+
+main  Local Symbols
+
+Name                      Class   Type              Size   Offset  Register
+
+pszSemName. . . . . . . . auto                             -0006 
+usReturn_Code . . . . . . auto                             -0002 
+
+
+Global Symbols
+
+Name                      Class   Type              Size   Offset  
+
+DosBeep . . . . . . . . . extern  far function       ***     ***
+DosExit . . . . . . . . . extern  far function       ***     ***
+DosFreeSeg. . . . . . . . extern  far function       ***     ***
+DosGetShrSeg. . . . . . . extern  far function       ***     ***
+DosOpenSem. . . . . . . . extern  far function       ***     ***
+DosSemClear . . . . . . . extern  far function       ***     ***
+DosSemRequest . . . . . . extern  far function       ***     ***
+main. . . . . . . . . . . global  near function      ***    0000
+
+Code size = 00de (222)
+Data size = 0029 (41)
+Bss size  = 0000 (0)
+
+No errors detected

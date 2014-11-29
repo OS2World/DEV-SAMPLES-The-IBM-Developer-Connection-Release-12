@@ -1,0 +1,26 @@
+FILE= E:\ANV2
+*****************************
+* COMPONENTS TO BE INSTALLED *
+*****************************
+COMP= AGENT FOR OS/2
+CFGUPDATE  = AUTO
+DELETEBACKUP  = NO
+OVERWRITE= YES
+SAVEBACKUP= NO
+*************************************************************
+* TRANSPORT AGENT USED TO COMMUNICATE          *
+* WITH MANAGING SYSTEM (ANYNET,IP,IPX,NETBIOS)  *
+*************************************************************
+NETVIEW_AGENT_TRANSPORT=IP
+*******************************
+*SUBAGENTS TO INSTALL   *
+*******************************
+NETVIEW_LAN_SERVER_AGENT=YES
+NETVIEW_LAN_REQUESTER_AGENT=YES
+**********************************************************
+*TRANSPORTS MANAGING SYSTEM WILL DISCOVER  *
+**********************************************************
+NETVIEW_IP_TRANSPORT=YES
+NETVIEW_IPX_TRANSPORT=NO
+NETVIEW_NETBIOS_TRANSPORT=YES
+

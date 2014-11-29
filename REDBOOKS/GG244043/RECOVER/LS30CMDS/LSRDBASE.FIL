@@ -1,0 +1,272 @@
+/* CASPREP Sample Advanced input file */
+
+:vars
+d1=x:
+d2=y:                                /* Not used               */
+d3=z:                                /* LCULOG                 */
+d4=w:                                /* RECOVER                */
+bootdrive=c:                         /* boot drive             */
+maintdrive=c:                        /* maintenance drive      */
+exepath="d1"\exe                     /* executables path       */
+maint_dir="maintdrive"\service       /* maintenance directory  */
+ifs_dir="bootdrive"\srvifsrq         /* SRVIFS requester drive */
+dll_dirs="d1"\dll;"d1"\img\lcu;      /* DLL directories        */
+rsp_dir="d1"\rsp                     /* Response file directory*/
+log_dir="d3"                         /* Log file directory     */
+img_dir="d1"\IMG                     /* Product image directory*/
+csd_dir="d1"\CSD                     /* CSD directory          */
+srvifs_server1=LSRDBASE              /* SRVIFS server #1       */
+srvifs_alias1=\\LSRDBASE\dDRIVE      /* SRVIFS alias #1        */
+srvifs_alias3=\\LSRDBASE\LCULOG      /* SRVIFS alias #2        */
+srvifs_alias4=\\LSRDBASE\RECOVER     /* SRVIFS alias #3        */
+srvifs_server2=server2               /* SRVIFS server #2       */
+:endvars
+
+/* SRVATTACHES */
+/* :srvattch */
+/* "d2" "srvifs_alias1"               Not used */
+/* */
+/* :endsrvattch */
+
+:prog new_seinst
+name = OS/2 2.0 New installation
+invoke = "exepath"\seinst /b:"bootdrive" /s:"img_dir"\os2v20 /t:"maint_dir"
+                          /l1:"log_dir"\os2v20\"client".log /r:
+rspdir = "rsp_dir"\os2v20
+default = NEWINST.rsp
+:endprog
+
+:prog re_seinst
+name = OS/2 2.0 Refresh
+invoke = "exepath"\seinst /b:"bootdrive" /s:"img_dir"\os2v20 /t:"maint_dir"
+                          /l1:"log_dir"\os2v20\"client".log /r:
+rspdir = "rsp_dir"\os2v20
+default = UPDATE.rsp
+:endprog
+
+:prog semaint
+name = OS/2 2.0 Maintenance
+invoke = "exepath"\semaint /s:"img_dir"\os2v20 /t:"maint_dir" /b:"bootdrive"
+                           /l1:"log_dir"\os2v20\"client".log
+:endprog
+
+:prog laps_prep
+name = LAPS Maintenance
+invoke = "img_dir"\laps\laps /e:prep /s:"img_dir"\laps /t:"maint_dir"
+                            /tu:"bootdrive" /l1:"log_dir"\laps\"client".log
+                            /r:"rsp_dir"\laps\lapsrsp.rsp
+:endprog
+
+:prog laps
+name = LAPS
+invoke = "img_dir"\laps\laps /e:maint /s:"img_dir"\laps /t:"bootdrive"
+                            /l1:"log_dir"\laps\"client".log /r:
+rspdir = "rsp_dir"\laps
+default = lapsrsp.rsp
+:endprog
+
+:prog esainst
+name = Extd/2
+invoke = "img_dir"\es10\esainst /s:"img_dir"\es10 /z /l1:"log_dir"\es10\"client".l1
+                               /l2:"log_dir"\es10\"client".l2
+                               /l3:"log_dir"\es10\"client".l3
+                               /l4:"log_dir"\es10\"client".l4 /r:
+rspdir = "rsp_dir"\es10
+default = default.rsp
+:endprog
+
+:prog req_instr
+name = LAN Services 3.0 Requester
+invoke = "img_dir"\ls30\laninstr /req /g:"rsp_dir"\ls30\general
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2 /r:
+rspdir = "rsp_dir"\ls30
+default = lanreq.rsp
+:endprog
+
+:prog advanced_srv_instr
+name = LAN Services 3.0 Advanced Server Installation
+invoke = "img_dir"\ls30\laninstr /srv /g:"rsp_dir"\ls30\general
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2 /r:
+rspdir = "rsp_dir"\ls30
+default = assrv0.rsp
+:endprog
+
+:prog advanced_srv_reinst
+name = LAN Services 3.0 Advanced Server Re-Installation
+invoke = "img_dir"\ls30\laninstr /srv /g:"rsp_dir"\ls30\general
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2 /r:
+rspdir = "rsp_dir"\ls30
+default = assrv1.rsp
+:endprog
+
+:prog as_srv_386hpfs
+name = LAN Services 3.0 Advanced 386 HPFS Re-Installation
+invoke = "img_dir"\ls30\laninstr /srv /g:"rsp_dir"\ls30\general
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2 /r:
+rspdir = "rsp_dir"\ls30
+default = hpfs386.rsp
+:endprog
+
+:prog entry_srv_instr
+name = LAN Services 3.0 Entry Server Installation
+invoke = "img_dir"\ls30\laninstr /srv /g:"rsp_dir"\ls30\general
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2 /r:
+rspdir = "rsp_dir"\ls30
+default = essrv0.rsp
+:endprog
+
+:prog entry_srv_reinst
+name = LAN Services 3.0 Entry Server Re-Installation
+invoke = "img_dir"\ls30\laninstr /srv /g:"rsp_dir"\ls30\general
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2 /r:
+rspdir = "rsp_dir"\ls30
+default = essrv1.rsp
+:endprog
+
+:prog thinsrv
+name = SRVIFS Server
+invoke = "img_dir"\srvifs\thinsrv /s:"img_dir"\srvifs /t:"bootdrive"\server
+                                 /tu:"bootdrive"\ /l1:"log_dir"\srvifs\"client".log
+                                 /u:"rsp_dir"\srvifs\server.lst
+                                 /r:"rsp_dir"\srvifs\server.ini
+:endprog
+
+:utility attended_ls30inst
+name = Attended LAN Server 3.0 installation
+invoke = "img_dir"\ls30\laninstr /srv
+                                /l1:"log_dir"\ls30\"client".l1
+                                /l2:"log_dir"\ls30\"client".l2
+
+:endutility
+
+:utility thin386
+name = Thin 386
+invoke = "img_dir"\ls30\thin386
+                       /b:"bootdrive"
+                       /t:"maint_dir"\tmp386
+                       /l1:"log_dir"\ls30\"client".l1
+                       /l2:"log_dir"\ls30\"client".l2
+:endutility
+
+:utility sec386
+name = SEC 386
+invoke = "img_dir"\ls30\thin386
+                       /b:"bootdrive"
+                       /t:"bootdrive"\ibm386fs
+                       /l1:"log_dir"\ls30\"client".l1
+                       /l2:"log_dir"\ls30\"client".l2
+:endutility
+
+:utility thinifs1
+name = SRVIFS Requester1
+invoke = "img_dir"\srvifs\thinifs /S:"img_dir"\srvifs /t:"ifs_dir" /tu:"bootdrive"
+                                 /l1:"log_dir"\srvifs\"client".log
+                                 /req:"client" /srv:"srvifs_alias1" /d:"d1"
+:endutility
+
+:utility thinifs2
+name = SRVIFS Requester2
+invoke = "img_dir"\srvifs\thinifs /S:"img_dir"\srvifs /t:"ifs_dir" /tu:"bootdrive"
+                                 /l1:"log_dir"\srvifs\"client".log
+                                 /req:"client" /srv:"srvifs_alias3" /d:"d3"
+:endutility
+
+:utility thinifs3
+name = SRVIFS Requester3
+invoke = "img_dir"\srvifs\thinifs /S:"img_dir"\srvifs /t:"ifs_dir" /tu:"bootdrive"
+                                 /l1:"log_dir"\srvifs\"client".log
+                                 /req:"client" /srv:"srvifs_alias4" /d:"d4"
+:endutility
+
+:prog fservice
+name = OS/2 Service Pak
+invoke = "csd_dir"\os2v20\fservice
+         /s:"csd_dir"\os2v20
+         /t:c:\service
+         /l1:"log_dir"\os2v20\"client".l1
+         /r:
+rspdir  = "rsp_dir"\os2v20
+default = svp.rsp
+:endprog
+
+:utility ifsdel
+name = SRVIFS Delete
+invoke = "img_dir"\srvifs\ifsdel /t:"ifs_dir" /tu:"bootdrive"
+:endutility
+
+:utility casinstl
+name = LAN CID Utility
+invoke = "img_dir"\lcu\casinstl /cmd:"d4"\ls30cmds /tu:"bootdrive"
+                                  /pl:"dll_dirs"
+                                  /pa:"img_dir"\lcu
+                                  /l1:"log_dir"\lcu\"client".log
+                                  /l2:"log_dir"\lcu\srvifs_req.log
+                                  /D
+:endutility
+
+:utility casdelet
+name = LAN CID Utility Delete
+invoke = "img_dir"\lcu\casdelet /pl:"dll_dirs" /tu:"bootdrive"
+:endutility
+
+:utility xcopySdf
+name = Restore Server DCDB and NET.ACC
+invoke = "exepath"\xcopy "d4"\backups\"client"\*.*
+                         "bootdrive"\IBMLAN /S /E
+:endutility
+
+:utility restNetAcc
+name = Restore NET.ACC file
+invoke = copy "bootdrive"\IBMLAN\ACCOUNTS\NETACC.BKP
+              "bootdrive"\IBMLAN\ACCOUNTS\NET.ACC
+
+:endutility
+
+:utility cmdprompt
+name = OS/2 2.0 Command Prompt
+invoke = "d4"\LS30CMDS\MAKECON.CMD
+
+:endutility
+
+:utility removeOS2Acls
+name = Remove OS/2 ACLs using PREPACL
+invoke = "img_dir"\ls30\prepacl /P /DL:OS2ACLS.LST
+                                /B:"d4"\LS30CMDS\"client".acl
+                                /l1:"log_dir"\ls30\"client".al1
+                                /l2:"log_dir"\ls30\"client".al2
+                                /O
+:endutility
+
+:utility removeAcls
+name = Remove OS/2 and selected IBMLAN ACLs
+invoke = "img_dir"\ls30\prepacl /P /DL:MOREACLS.LST
+                                /B:"d4"\LS30CMDS\"client".acl
+                                /l1:"log_dir"\ls30\"client".al1
+                                /l2:"log_dir"\ls30\"client".al2
+                                /O
+:endutility
+
+:utility restoreAcls
+name = Restore ACLs using PREPACL
+invoke = "img_dir"\ls30\prepacl /R /B:"d4"\LS30CMDS\"client".acl
+                                /l1:"log_dir"\ls30\"client".al1
+                                /l2:"log_dir"\ls30\"client".al2
+
+:endutility
+
+:utility remarkStatement
+name = Remark statement in CONFIG.SYS
+invoke = "d4"\LS30CMDS\REMSTATE "bootdrive"\CONFIG.SYS
+                                "bootdrive"\CONFIG.BEF
+                                ifs="maint_dir"\tmp386\hpfs386.ifs
+
+:endutility
+
+:install keywords
+

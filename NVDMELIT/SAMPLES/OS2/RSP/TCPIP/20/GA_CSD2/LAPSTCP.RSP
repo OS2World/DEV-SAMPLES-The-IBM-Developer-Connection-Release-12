@@ -1,0 +1,16 @@
+
+  INST_SECTION = (
+    UPGRADE_LEVEL = SAME
+    INSTALL = PRODUCT
+  )
+
+
+prot_section = (
+   section_name = tcpip_nif
+   nif          = tcpip.nif
+   Bindings = IBMTOK_nif
+   drivername   = TCPIP$
+   )
+
+
+

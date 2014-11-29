@@ -1,0 +1,56 @@
+
+#ifdef __PRIVATE__
+//#
+//#     File:           SimpInst.idl
+//#
+//#     Contains:       IDL description of SimplePartInstall
+//#
+//#     Written by:     Joe Ochipinti
+//#
+//#     Copyright:      (c) 1995 by IBM Corp., all rights reserved.
+//#
+//#     Change History (most recent first):
+//#
+//#              <1>      3/23/95       jso             first checked in
+//#
+//#     To Do:
+//#
+#else
+//#     Copyright:      (c) 1993-1995 by IBM Corp., all rights reserved.
+#endif
+
+#include <somobj.idl>
+
+
+//==============================================================================
+// Theory of Operation
+//==============================================================================
+
+/*
+   This is a simple class that demonstrates how to register a part using SOM classes
+*/
+
+//==============================================================================
+// Classes defined in this interface
+//==============================================================================
+interface SimplePartInstall;
+
+
+interface SimplePartInstall : SOMObject
+
+{
+
+        void Register ();
+
+
+#ifdef __SOMIDL__
+
+    implementation
+    {
+
+       functionprefix = SimplePartInstall;
+
+       releaseorder: Register;
+    };
+#endif
+};

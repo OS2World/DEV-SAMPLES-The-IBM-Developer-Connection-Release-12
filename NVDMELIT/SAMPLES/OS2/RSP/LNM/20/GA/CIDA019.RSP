@@ -1,0 +1,115 @@
+*************************************************************************
+*  Example response file for LAN Network Manager for OS/2 Installation
+*************************************************************************
+*
+*     Comment lines have an '*' as the first printable character.
+*
+*     Any lines without definitions are ignored and the program
+*     uses the built-in default values for keywords.
+*
+*     INSTALL.EXE returns an error for any invalid keyword values.
+*
+*     INSTALL.EXE ignores any unrecognized keywords.
+*
+*************************************************************************
+*
+*
+*====================*
+* INSTALLATION PATHS *
+*====================*
+*
+*********************************************
+* Path for LAN Network Manager for OS/2 files
+*********************************************
+file=c:\lm20
+*
+*********************
+* Path for GV/2 files
+*********************
+aux1=c:\ibmexq\dll
+*
+*
+**********************************
+* Drive for LNM for OS/2 database
+**********************************
+aux3=c:
+*
+*=====================================*
+* LNM COMPONENTS TO INSTALL/DEINSTALL *
+*=====================================*
+*
+***************************************************************
+* The names of the LNM for OS/2 components are case-sensitive
+* and must be specified EXACTLY as they appear here.
+*
+* To include a specific component in an action, simply remove
+* the asterisk (*) from the first column of the line.
+*
+* To indicate that a specific component should not be installed,
+* comment the component out by placing an asterisk (*) in the
+* first column of the line.
+***************************************************************
+*
+comp=LAN Network Manager for OS/2
+comp=Reorg
+comp=Transfer/Migrate
+comp=Queries
+comp=README file
+comp=STARTUP parameters
+comp=LNM Books:  Library Reader/2
+comp=LNM Books:  VIEW
+comp=Library Reader/2 Program
+comp=SNMP Agent
+
+*=================================*
+* SYSTEM CONFIGURATION PARAMETERS *
+*=================================*
+*
+**************************************************
+* Automatically update the CONFIG.SYS as required?
+**************************************************
+cfgupdate=auto
+*
+*******************************************
+* Overwrite all files that currently exist?
+*******************************************
+overwrite=yes
+*
+*******************************************
+* Back up existing files before installing?
+*******************************************
+savebackup=no
+*
+*********************************************
+* Delete just the backup copies of the files?
+* A 'no' value indicates that all copies are
+* to be deleted.
+*********************************************
+deletebackup=no
+*
+**************************************************
+* Delete the LNM database if one already exists?
+* A value of 1 indicates deletion.  Any other
+* value indicates that the database is unaffected.
+**************************************************
+deldb=1
+*
+*========================*
+* DB2/2 logon parameters *
+*========================*
+*
+*********************************
+* USERID used when starting DB2/2
+*********************************
+database_userid=USERID
+*
+***********************************
+* Password used when starting DB2/2
+***********************************
+database_password=PASSWORD
+*
+************************************************************
+* The port number used for communication with an SNMP client
+************************************************************
+lnm_port=7605
+

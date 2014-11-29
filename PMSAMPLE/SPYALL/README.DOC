@@ -1,0 +1,38 @@
+Move the spyall.DLL to a valid DLL path
+
+Use the SYSDLLS.EXE to add the SPYALL Dll to the list of the PM
+Loaded DLLs see Programming guide chapter 13 Registering a public
+window class.
+
+Reipl is needed for SPYALL to be taken in account in "SYS_DLLS" "Load".
+
+The SysDlls.exe is Flip/Flop and will remove the SPYALL entry from SYS_DLLS
+Load if it already  exists and add it if it does'nt.
+
+The INIT.ASM is just there to specidy the Entry point for the DLL load
+per process initialisation which is called by the System.
+
+The Dummy function does nothing is just there because PM need an entry point @1
+in the DLL.
+
+The DLLINIT function Will be called each time a process calls
+WinCreateMsgQueue and will start a thread attached to that process,
+thread which is defined in SPYALL.C
+
+Use the getdir program to activate the thread in the target PM process
+getdir need the decimal process id of the target process use PSTAT to get
+the hex process id and convert to decimal.
+
+If you modify that code for your own usage you'd better first reipl
+using DOS and make a backup copy of your OS2.INI file which
+is in the C:\OS2 path and this before you add the SPYALL definition using
+SYSDLLS.EXE .
+
+If you had a Trap in your modified code just reipl in DOS
+restore the OS2.INI and reipl in OS/2. Correct the problem and reipl.
+
+
+Enjoy It
+
+Marc Fiammante
+

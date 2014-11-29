@@ -1,0 +1,23 @@
+# old CFLAGS = -c -Ss+ -Ti+ 
+CFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /DNO_LIBPATH
+#CFLAGS - /c /Gd- /Sm /Re /Ss /Ms /O+	 /Gm- /Q+ /DNO_LIBPATH
+LFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+#LFLAGS =        /ALIGN:32 /EXEPACK /M /NOI
+
+F = ..\..\util\fmf
+M = ..\..\util\myerror
+
+LINKOBJS = head+$F\fmf+$M\myerror
+
+head.exe     : head.obj $F\fmf.obj $M\myerror.obj head.def 
+            link386 $(LFLAGS) $(LINKOBJS),head.exe,NUL,,head.def;
+
+head.obj     : head.c $F\fmf.h makefile
+            icc $(CFLAGS) -I$F head.c
+
+$F\fmf.obj   : $F\fmf.c $F\fmf.h makefile
+            icc $(CFLAGS) -Fo$F\fmf.obj $F\fmf.c
+
+$M\myerror.obj: $M\myerror.c makefile
+            icc $(CFLAGS) -Fo$M\myerror.obj $M\myerror.c
+

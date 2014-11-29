@@ -1,0 +1,23 @@
+
+ tutorial
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000B008H CODE32                 CODE 32-bit
+ 0001:0000B008 000000030H _MSGSEG32              CODE 32-bit
+ 0002:00000000 000000630H DATA32                 DATA 32-bit
+ 0002:00000630 000000000H CTOR_DTOR1             DATA 32-bit
+ 0002:00000630 000000000H CTOR_DTOR2             DATA 32-bit
+ 0002:00000630 000000000H CTOR_DTOR3             DATA 32-bit
+ 0002:00000630 000000780H CONST32                CONST 32-bit
+ 0002:00000DB0 00000000CH EDC1                   EDC_CLASS 32-bit
+ 0002:00000DBC 000000210H EDC2                   EDC_CLASS 32-bit
+ 0002:00000FCC 000000004H EDC3                   EDC_CLASS 32-bit
+ 0002:00000FD0 000000000H BSS32                  BSS 32-bit
+ 0002:00000FD0 0000001A0H c_common               BSS 32-bit
+ 0002:00001170 000008000H STACK32                STACK 32-bit
+
+ Origin   Group
+ 0000:0   FLAT
+ 0002:0   DGROUP
+
+Program entry point at 0001:00006688

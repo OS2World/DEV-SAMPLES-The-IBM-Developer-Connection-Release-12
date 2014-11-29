@@ -1,0 +1,35 @@
+# IBM Developer's Workframe/2 Make File Creation run at 10:36:10 on 03/12/93
+
+# Make File Creation run in directory:
+#   F:\SWITCH;
+
+.SUFFIXES:
+
+.SUFFIXES: .c .rc
+
+ALL: HOTK.EXE \
+     hotk.RES
+
+HOTK.EXE:  \
+  hotk.OBJ \
+  hotk.RES \
+  HOTK.DEF \
+  MAKEFILE
+   @REM @<<HOTK.@0
+     /M:FULL +
+     hotk.OBJ
+     HOTK.EXE
+     HOTK.MAP
+     
+     HOTK.DEF;
+<<
+   LINK386.EXE @HOTK.@0
+   RC hotk.RES HOTK.EXE
+
+{.}.rc.res:
+   RC -r .\$*.RC
+
+{.}.c.obj:
+   ICC.EXE /Sm /Gt /C .\$*.c
+
+!include MAKEFILE.DEP

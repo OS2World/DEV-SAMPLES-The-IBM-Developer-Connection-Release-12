@@ -1,0 +1,16 @@
+LIBRARY pmprtd
+
+DESCRIPTION 'OS/2 Presentation Manager Input hook'
+
+PROTMODE
+
+CODE PRELOAD
+
+DATA SINGLE SHARED PRELOAD
+
+HEAPSIZE   0x1000       ; recommend 4k as minimum heapsize
+
+EXPORTS
+ INPUTHOOKPROC    @1
+ PRTWINDOW        @2
+

@@ -1,0 +1,19 @@
+;----------------------------------
+; ordent.def module definition file
+;----------------------------------
+
+NAME    ORDENT  WINDOWAPI
+
+DESCRIPTION     'DBCS OS/2 Sample Program, Order Entry'
+PROTMODE
+HEAPSIZE        MAXVAL
+STACKSIZE       32768
+EXPORTS         ClientWndProc
+                LogonDlgProc
+                OrdrEntDlgProc
+                ReptPrtDlgProc
+                CustQueryProc
+                CustListProc
+                CustRegProc
+                CustInfoProc
+

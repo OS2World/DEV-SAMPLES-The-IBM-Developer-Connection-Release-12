@@ -1,0 +1,19 @@
+[
+uuid(00007706-5848-1C01-B104-10005A4F5444),
+version(1.0)
+]
+interface matho
+{
+   const short MAX_PRECISION = 11;
+   const short MAX_VALUES = 12;
+   const char *OBJ_UUID_INT = "00024342-0855-1BFD-A236-10005A4F5444";
+   const char *OBJ_UUID_FLOAT = "0079767E-08E7-1BFD-A297-10005A4F5444";
+   const char *OBJ_UUID_DOUBLE = "00422DF4-FE4D-1C1C-96B1-10005A4F5444";
+   typedef [ string ] char value_s_t[ MAX_PRECISION + 1 ];
+   void add (
+      [ in ] handle_t bh,
+      [ in, length_is ( num_values ) ] value_s_t value_a[ MAX_VALUES ],
+      [ in ] long num_values,
+      [ out ] value_s_t sum
+   );
+}

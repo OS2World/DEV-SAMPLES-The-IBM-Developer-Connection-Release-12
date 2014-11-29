@@ -1,0 +1,287 @@
+
+Don't Hesitate to Terminate                    Monte Copeland
+
+
+
+Applications, unlike operating systems, have to terminate. As
+programmers, we concentrate on the loading and running of our
+applications, but we often skimp on termination. As a program
+grows in complexity, with multiple processes, threads, DLLs,
+semaphores, and shared memory, termination becomes a complex
+issue. This article discusses several aspects of termination for
+programs running under OS/2.
+
+
+
+
+
+
+Thread 1 Is Special
+
+Under OS/2, thread 1 has special character. When an EXE loads,
+OS/2 creates thread 1 in the new process and gives it control.
+Thread 1 may create other threads, starting with thread 2. There
+is no thread 0 in OS/2.
+
+No matter how many threads in a process, the process will
+terminate when thread 1 terminates. In other words, if thread 1
+calls
+
+   rc = DosExit( EXIT_THREAD, 0 );
+
+it is practically the same as
+
+   rc = DosExit( EXIT_PROCESS, 0 );
+
+In either case, thread 1 receives the exception
+XCPT_PROCESS_TERMINATE. Any other threads receive the exception
+XCPT_ASYNC_PROCESS_TERMINATE.
+
+When a thread receives either of these exceptions, it should
+remove its exception handler, clean up, and exit. It can exit by
+calling DosExit( <thread> ) or by returning from its thread
+function. The latter is better because it gives the language
+runtime a chance to clean up, too.
+
+See the sample code T1TERM.C in \SOURCE\DEVNEWS\VOL12\TERM which
+demonstrates this behavior and the associated exceptions.
+
+
+
+
+
+DosKillThread() API
+
+A hot topic on OS/2 programming forums is the use of
+DosKillThread(). OS/2 programmers have tried to use
+DosKillThread() and found it troublesome. DosKillThread() can
+work correctly in some cases; in other cases it hangs the system.
+Instead of using DosKillThread(), programmers usually set a flag
+so the thread exits itself.
+
+DosKillThread() is troublesome because most code is not robust
+with regard to killed threads. Killing a thread is a random act.
+Robust code is always prepared for this asynchronous exception,
+and robustness requires tireless use of exception handlers.
+
+DosKillThread() causes the most trouble in Presentation Manager
+applications or applications using 16-bit DLLs. For performance
+reasons, PM does not use exception handlers to guard against the
+XCPT_ASYNC_PROCESS_TERMINATE exception. So if a thread is killed
+owning the main semaphore of PM, PM can hang solidly. A similar
+problem exists for threads blocked in 16-bit DLLs. They don't
+have exception handlers because DosSetExceptionHandler() is a
+32-bit API.
+
+However, DosKillThread() works well on threads blocked in OS/2
+kernel APIs such as DosWaitEventSem(), DosRequestMutexSem(),
+DosRead(), or DosSleep() especially if these APIs were called
+directly from application code, not indirectly from other DLLs.
+
+See the sample code KILL2.C in \SOURCE\DEVNEWS\VOL12\TERM. Every
+subroutine called on thread 2 uses an exception handler to detect
+the killed-thread case. Once handled, each subroutine raises the
+same exception again for callers' exception handlers.
+
+
+
+
+
+
+Signals Are Exceptions, Too
+
+OS/2 delivers signals as exceptions. Signals result from the user
+pressing Ctrl-C or Ctrl-Break or because a program called
+DosKillProcess(). In all cases, OS/2 dispatches signal exceptions
+on thread 1 of the process.
+
+If a program handles the thread-granular termination exceptions
+XCPT_PROCESS_TERMINATE and XCPT_ASYNC_PROCESS_TERMINATE, then
+it is not necessary to handle the signal exception at all! The
+default action for a signal exception is to terminate all the
+threads in the process. Thus, every thread in the process will
+soon receive an XCPT_ASYNC_PROCESS_TERMINATE exception.
+
+
+
+
+
+
+Exit Lists Are History
+
+OS/2 maintains a per-process list of functions that get called at
+process termination to do clean up. Programs add functions to
+this list using the DosExitList() API. At process termination,
+OS/2 kills all the process' threads except thread 1. The system
+uses the remaining thread to call each function in the exit list.
+Then the process dies.
+
+There are restrictions on exit list functions. Some APIs can't be
+called from an exit list function, SQL for example. Don't risk
+blocking on semaphores while in exit list, or the process will
+stay blocked until reboot.
+
+Exit lists are rooted in 16-bit OS/2 programming. In 32-bit OS/2,
+new APIs provide a superset of function which can eliminate exit
+lists altogether.
+
+First of all, there is per-thread exception handling to detect
+when individual threads terminate. (See the sample code KILL2.C
+or T1TERM.C mentioned above. Refer to \DOCS\DEVCON2.INF for an
+article on exception management.) This mechanism provides
+thread-granular clean up instead of process-granular clean up.
+
+Second, the DosWaitThread() API lets the programmer ensure that
+thread 1 is the last thread to exit. This is important for the
+reason stated above: when thread 1 exits, all threads exit.
+
+For DLLs, the IBM VisualAge C++ compiler documents the special
+function
+
+   ULONG APIENTRY _DLL_InitTerm( ULONG hmod, ULONG flag );
+
+which gets called during process initialization and termination,
+assuming the DLL is linked with INITINSTANCE and TERMINSTANCE
+attributes on the LIBRARY statement in the .DEF file. When called
+at termination time, it is not so different from an exit list
+function call: there is only thread 1 left in the process, and
+the process is about to die.
+
+
+
+
+
+
+PM Application Termination
+
+Presentation Manager applications begin to terminate upon receipt
+of the WM_CLOSE message. Default WM_CLOSE processing posts a
+WM_QUIT message to the same window, and this causes the
+get/dispatch message loop to exit. After that, the application
+destroys its windows and cleans up.
+
+WM_CLOSE message processing IS NOT a good place to perform
+application shutdown because PM applications are not guaranteed
+to receive a WM_CLOSE. For example, a user can terminate a PM
+application by pressing the Delete key at the Window List (or
+mouse button 2 then the close option). The shell does not send a
+WM_CLOSE message to this application. Instead it posts a WM_QUIT
+message to the message queue of the application.
+
+For best results, put application termination and clean up code
+after the get/dispatch message loop, not in the WM_CLOSE case.
+
+PM applications can handle the XCPT_SIGNAL exception and still
+terminate in their usual way. See sample code PMAPP.C. Start
+PMAPP.EXE then kill it with KILL.EXE. Upon receipt of the
+XCPT_SIGNAL exception, PMAPP.EXE posts itself a WM_QUIT message
+and terminates in its normal way.
+
+
+
+
+
+
+OS/2 Cleans Up At Termination
+
+Neatness counts at program termination. Of course it is best for
+an application to clean up its files, memory, semaphores, and
+windows before termination. However, OS/2 will clean up at
+process termination in case of abnormal end or laziness.
+
+At process termination, OS/2 will close open files, close private
+semaphores, and free private memory. OS/2 will decrement the use
+count for shared semaphores and close them if the use count goes
+to zero. OS/2 will decrement the use count for shared memory and
+free the memory if the use count goes to zero. At thread
+termination, OS/2 will free the stack of the thread, provided it
+was created with 32-bit _beginthread() or 32-bit
+DosCreateThread().
+
+For untidy PM applications, the OS/2 window manager will clean up
+windows and messages queues, and the graphics engine will close
+device contexts and presentation spaces.
+
+
+
+
+
+REXX Terminates
+
+Any application can run REXX programs using the RexxStart() API
+to give a compiled application the flavor of an interpreter.
+
+A thread in a process can halt another of its threads executing
+REXX code using the RexxSetHalt() API. However, if the REXX
+thread is blocked in OS/2 (waiting on a semaphore or I/O, for
+example), RexxSetHalt() will not interrupt it. You must combine
+RexxSetHalt() with some form of wake up. In your REXX command
+handlers and registered functions, block REXX threads in muxwait
+event semaphores then post one after the call to RexxSetHalt().
+
+
+
+
+
+Session Manager Reports Terminations
+
+The OS/2 session manager knows when a related child session
+terminates and can notify the parent session via a queue. This is
+a nice feature for a writing specialized shells. One shell
+process can start a number of child sessions all with the same
+termination queue and devote one thread to read it. When any
+child session terminates, the thread blocked in DosReadQueue()
+will wake up. See \SOURCE\DEVNEWS\VOL12\TERM\TERMQ.C for some
+sample code.
+
+
+
+
+
+
+Termination and Shutdown
+
+System administrators always need to shut down OS/2 computers for
+maintenance. They need remote shutdown that is safe and
+automatic. It sounds simple, but it's BIG trouble when
+applications refuse to terminate.
+
+SETBOOT.EXE of OS/2 is a limited-function program that simulates
+Ctrl-Alt-Del for reboot. Before reboot, you must always close
+open files and terminate important programs. For example,
+termination of an OS/2 server is the reverse of startup:
+
+    . stop clients using server programs and resources
+    . stop server applications and daemons
+    . stop DB2
+    . stop Warp Server
+    . stop MQSeries
+    . stop Communications Manager
+    . stop remaining programs that have open files
+    . setboot.exe
+
+Besides passing parameters to Boot Manager, SETBOOT.EXE does
+little more than emuluate Ctrl-Alt-Del. WARNING! Setboot alone is
+not enough to properly shutdown a machine. True, the file system
+is shut down, and there's no CHKDSK at next IPL, but any
+read/write files left open during setboot will be corrupted!
+
+Some software products provide a program to stop a program, a
+utility EXE that signals the main EXE(s) to terminate. This is
+convenient and helps greatly to automate unattended shutdowns.
+Ideally, such a utility would terminate after the main program
+terminates thus eliminating guesswork about the timing of
+termination.
+
+
+
+
+
+
+Don't Hesitate to Terminate
+
+We work hard to get our programs up and running, but don't forget
+about termination! Write programs so they terminate quickly and
+cleanly at the right time. Your systems manager will love you for
+it! Don't make 'em pull a gun. Leave politely when asked.
+

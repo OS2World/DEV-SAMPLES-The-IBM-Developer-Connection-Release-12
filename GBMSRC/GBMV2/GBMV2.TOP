@@ -1,0 +1,23 @@
+Display a Bitmap
+
+/*...Vmodel\46\h:0:*/
+/*...Vmodel\46\c    \45\ manipulate bitmap data:0:*/
+
+/*...Vbmputils\46\h:0:*/
+/*...Vbmputils\46\c \45\ PM bitmap utilities:0:*/
+
+/*...Vhelp\46\h:0:*/
+/*...Vhelp\46\c     \45\ PM Help stuff:0:*/
+
+/*...Vgbmv2\46\h    \45\ resource ID\39\s:0:*/
+/*...Vgbmv2hlp\46\h \45\ help panel ID\39\s:0:*/
+
+/*...Vgbmv2\46\c    \45\ c program main body:0:*/
+
+/*...Vgbmv2\46\rc   \45\ resource file:0:*/
+
+/*...Vgbmv2\46\scr  \45\ help script:0:*/
+
+/*...Vgbmv2\46\def  \45\ module definition file:0:*/
+
+/*...Vmakefile   \45\ how to make project:0:*/

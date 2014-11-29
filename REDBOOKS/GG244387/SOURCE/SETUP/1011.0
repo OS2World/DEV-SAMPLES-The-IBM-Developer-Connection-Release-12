@@ -1,0 +1,24 @@
+Arg window self
+
+/* Get item value  Entry Field */
+ServerName = VpGetItemValue(window,1001)
+IF ServerName = "" THEN Do
+	response=VpMessageBox(window,'Message','You must provide a Server name')
+	Call VpItem window, 1001, 'FOCUS'
+	Return
+	End
+UserName = VpGetItemValue(window,1002)
+IF UserName = "" THEN Do
+	response=VpMessageBox(window,'Message','You must provide an administrator account')
+	Call VpItem window, 1002, 'FOCUS'
+	Return
+	End
+Password = VpGetItemValue(window,1003)
+WaitPtr = VpLoadPicture('SYSICON',3)
+CALL VpWindow window,'SETPOINTER',WaitPtr
+NetUseLSDrive = VpGetItemValue(window,1006)
+BootLSDrive = VpGetItemValue(window,1007)
+call setup ServerName NetUseLSDrive BootLSDrive "/B" UserName Password
+StdPtr = VpLoadPicture('SYSICON',1)
+CALL VpWindow window,'SETPOINTER',StdPtr
+

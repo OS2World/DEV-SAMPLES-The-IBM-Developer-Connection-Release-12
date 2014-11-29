@@ -1,0 +1,12 @@
+DBUpdateType=1
+DBStopCommunications = 1
+DBUpdateConfigSys=1
+DBMaxSharedSegments=8192
+DBMaxRemoteConnections=0
+DBMaxActiveDB=3
+DBSheapThres=250
+DBCommunicationType=0
+DBInstallDatabaseTools=Y 
+DBInstallQueryManager=Y  
+DBInstallDocumentation=Y 
+

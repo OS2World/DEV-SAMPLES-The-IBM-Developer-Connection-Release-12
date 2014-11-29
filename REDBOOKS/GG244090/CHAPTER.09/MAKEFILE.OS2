@@ -1,0 +1,50 @@
+#
+# Makefile for the OS/2 Version of the MessageBox example.
+#
+
+# command names
+CC	= icc
+LD	= link386
+IDL	= idl
+DEL	= del
+
+
+# command flags
+CMADEFS	 = /D_CMA_PROTO_ /D_CMA_NOWRAPPERS_ /DCMA_UNIPROCESSOR 
+DEFS	 = /DINTEL80x86 /DIBMOS2
+CFLAGS	 =/I. /Q+ /Ms $(CMADEFS) $(DEFS)
+LDFLAGS	 =/BATCH /E /MAP /NOI /NOL /NOD
+IDLFLAGS = /no_cpp /I.
+
+# libraries
+LIBS	= dceos2.lib dde4mbs.lib os2386.lib
+
+# object files
+SOBJS	= server.obj manager.obj mbox_sstub.obj security.obj
+COBJS	= client.obj mbox_cstub.obj
+
+# targets
+all: mbox.exe message.exe
+
+message.exe: $(COBJS)
+	$(LD) $(COBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+mbox.exe: $(SOBJS)
+	$(LD) $(SOBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+mbox.h mbox_stub.c mbox_cstub.c: mbox.idl mbox.acf
+	$(IDL) $(IDLFLAGS) mbox.idl
+
+clean:
+	-$(DEL) *.obj *stub.c mbox.h  *.map message.box
+
+# dependencies
+client.obj: client.c mbox.h common.h
+
+server.obj: server.c mbox.h common.h
+
+manager.obj: manager.c mbox.h
+
+security.obj: security.c common.h
+
+

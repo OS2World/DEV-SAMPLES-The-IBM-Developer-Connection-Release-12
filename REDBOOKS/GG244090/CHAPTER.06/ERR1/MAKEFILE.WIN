@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err1" sample application.
+#
+
+all: err1.h  err1_cli.exe err1_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err1_cli.c err1_mgr.c err1_srv.c
+COBJECTS        = err1_cli.obj err1c.obj
+SOBJECTS        = err1_mgr.obj err1_srv.obj err1s.obj
+
+err1.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err1_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err1_cli.exe
+
+err1_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err1_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err1.h
+        -del err1c.c
+        -del err1s.c
+

@@ -1,0 +1,187 @@
+
+
+
+    The PRTSAMP application has been developed using the Print Sample code
+    in the OS/2 Developer's Toolkit as the code base. The idea is to make
+    the Print Sample OSA aware so programmers will understand what it
+    takes to make a PM application OSA aware.
+
+
+    SOURCE FILE STRUCTURE
+    ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+    FILE NAME                  PURPOSE
+    ÄÄÄÄÄÄÄÄÄÄ            ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+    PRTSAMP.C             MAIN PROGRAM FILE FOR THREAD 1
+                          PROCS: MAIN, WNDPROC
+
+    PRTOBJ.C              THE SECOND THREAD W/OBJECT WINDOW
+                          PROCS: THREADMAIN, OBJECTWNDPROC
+
+    PRTCREAT.C            APPLICATION INITIALIZATION
+                          PROCS: CREATE
+
+    PRTMENU.C             HANDLE MENU SELECTIONS
+                          PROCS: MENU
+
+    PRTEVENT.C            ROUTINES TO INTERFACE WITH OSA - INTRA APPLICATION
+
+    PRTEVENT.H            INCLUDE FILE FOR INTERFACING WITH OSA
+
+    MAKEFILE              MAKE FILE TO COMPILE AND CREATE PRTSAMP
+
+
+   MODIFIED FILES
+   ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+    The following is a list of the Print Sample files that have been
+    modified and a brief description of the modifications:
+
+    1] PRTSAMP.C
+
+       ß  Add:
+          #define INCL_OSA
+          #define INCL_NOODAPI
+
+       ß  Add new include file:
+          #include "prtevent.h"
+
+       ß Procedure WinProc modifications:
+
+         - For case  WM_CLOSE:
+             Add OSA Termination code
+         - For case  WM_CREATE:
+             Add OSA Initialization code
+
+         - Added new case WM_SEMANTICEVENT
+             Add code to process the Semantic Event Message
+
+
+
+    2] PRTMENU.C
+
+       ß  Add:
+          #define INCL_OSA
+          #define INCL_NOODAPI
+
+       ß  Add new include file:
+          #include "prtevent.h"
+
+       ß  Procedure Menu modifications:
+         - For case  IDM_OPEN:
+             Add code to generate the Required Open Document OSA Event
+
+         - For case  IDM_PRINT:
+             Add code to generate the Required Print Document OSA Event
+
+       ß  Procedure MyFileDlgProc modifications:
+
+         - For case FDM_VALIDATE:
+             Remove call to procedure ValidateFilename to make this
+             procedure more generalized. The Open Document Event Handler
+             will be calling ValidateFilename instead.
+
+
+
+     NEW FILES
+    ÄÄÄÄÄÄÄÄÄÄÄ
+
+    The following is a list of the NEW Print Sample files
+    and a brief description of them:
+
+    1] PRTEVENT.C  - Contains all the code which sends and receives
+                     OSA Events, and the Event Handlers
+
+       OSA Manager Initialization and Termination
+       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+       ß InitOSA  - OSA Initialization and installation of Event Handlers
+
+       ß TerminateOSA - OSA Termination and removal of Event Handlers
+
+
+
+       OSA Generator and Related Functions
+       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+       ß GenerateOSAEvent - Generates OSA Events depending on menu
+          item selected. It will call other worker routines to do
+          most of the work.
+
+       ß CreateAERecord - Creates the OSA Event Record by calling
+          AECreateOSAEvent
+
+       ß CreateAEAddrDescr - Creates an OSA Event Address Descriptor
+          for a target address to yourself or another application
+
+       ß GetFileNames - Brings up a standard file dialog to obtain a
+          list of filename for Open Document and Print Document Events.
+
+       ß CreateAEFileList - Creates a descriptor record containing a list
+          of filenames of one filename record
+
+       ß SendOSAEvent - Sends an OSA event by calling AESend
+
+
+       Responding to OSA Events
+       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+       ß ProcessSemanticEvent - Processes the WM_SEMANTICEVENT message
+          by calling ProcessOSAEvent.
+
+
+
+       Event Handlers
+       ÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+       ß OpenAppProc - Handles the Open Application Event
+
+       ß QuitAppProc - Handles the Quit Application Event
+
+       ß OpenDocProc - Handles the Open Document Event
+
+       ß PrintDocProc - Handles the Print Document Event
+
+
+
+    2] PRTEVENT.H - Include file for OSA Event source file PRTEVENT.C.
+          Contains the compile option OSA_AWARE which is used to include
+          OSA Handling code throughout the Print Sample C files and the
+          compile option OSA_DEBUG which will display debugging messages
+          for testing OSA.
+
+
+    3] MAKEFILE - New MAKEFILE which builds the Print Sample application.
+
+
+
+    The following table details the OSA APIs used by the PRTSAMP
+    application to create, send and respond to the four Required OSA
+    events:
+
+    FUNCTION                                  OSA EVENT
+    _________                                 ____________
+
+
+    AECountItems                       OPEN DOC
+    AECreateDesc                       OPEN APP, QUIT APP, OPEN DOC, PRINT DOC
+    AECreateOSAEvent                   OPEN APP, QUIT APP, OPEN DOC, PRINT DOC
+    AECreateList                       OPEN DOC
+    AEDisposeDesc                      OPEN APP, QUIT APP, OPEN DOC, PRINT DOC
+    AEGetHWND                          The Event Handlers
+    AEGetNthPtr                        OPEN DOC
+    AEGetParamDesc                     OPEN DOC
+    AEGetParamPtr                      PRINT DOC
+    AEInit                             Application Initialization (WM_CREATE)
+    AEInstallEventHandler              Application Initialization (WM_CREATE)
+    AEProcessOSAEvent                  OPEN APP, QUIT APP, OPEN DOC, PRINT DOC
+    AEPutDesc                          OPEN DOC
+    AEPutParamDesc                     OPEN DOC
+    AEPutParamPtr                      PRINT DOC
+    AESend                             OPEN APP, QUIT APP, OPEN DOC, PRINT DOC
+    AETerminate                        Application Termination (WM_CLOSE)
+
+
+
+
+

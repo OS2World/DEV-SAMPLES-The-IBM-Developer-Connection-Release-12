@@ -1,0 +1,243 @@
+
+                    Process and Thread Information
+
+          Parent
+Process   Process   Session   Process   Thread
+  ID        ID        ID       Name       ID    Priority   Block ID   State
+
+ 0011      0010       04      PSTAT       01      031F     00000000   Ready
+ 0002      0000       02      (kernel)    01      0200     00000000  Frozen
+ 000A      0000       01      PMSHELL     01      0800     FFFE0015  Blocked
+                                          02      0800     FFFE0006  Blocked
+                                          03      0800     FFE0000A  Blocked
+                                          04      0800     FFFD0016  Blocked
+                                          05      0800     FFFD0017  Blocked
+                                          06      0800     0BD80ACA  Blocked
+                                          07      0800     FFFE000C  Blocked
+                                          08      0800     FFFE000E  Blocked
+                                          09      0800     FFFE0010  Blocked
+                                          0A      0800     FFFE000F  Blocked
+                                          0B      0800     0BD823FC  Blocked
+                                          0C      0800     FFFE0012  Blocked
+                                          0D      0800     FFFE0013  Blocked
+                                          0E      0800     FFFE0014  Blocked
+                                          0F      0500     FFFD0023  Blocked
+                                          10      0804     0BD80ABC  Blocked
+                                          11      0800     FFFD0025  Blocked
+                                          12      0800     02282E9F  Blocked
+ 0003      0000       00      (kernel)    01      0800     FFFE0002  Blocked
+ 0004      0000       00      LOGDAEM     01      021F     0BD823CC  Blocked
+                                          02      021F     0550000E  Blocked
+ 0005      0000       00      LANDLL      01      080B     544F4B52  Blocked
+ 0006      0000       00      LANMSGEX    01      0200     FFFEF636  Blocked
+ 0008      0000       00      CNTRL       02      0801     00000001  Blocked
+                                          01      0801     FFFE0007  Blocked
+                                          03      0801     00000001  Blocked
+                                          04      0801     FFFE0007  Blocked
+                                          05      0801     FFFE0007  Blocked
+                                          06      0802     00000008  Blocked
+                                          07      0801     FFFE0007  Blocked
+                                          08      0801     00000000   Ready
+                                          09      0801     00000002  Blocked
+ 000B      000A       00      HARDERR     01      0800     0BD80AD8  Blocked
+                                          02      0800     0BD80DEC  Blocked
+                                          03      0800     0BD80E14  Blocked
+ 000C      000A       20      PMSPOOL     02      021F     0BD823FC  Blocked
+                                          01      021F     FFFE0016  Blocked
+                                          03      021F     FFFE001B  Blocked
+                                          04      021F     FFFD002C  Blocked
+                                          05      021F     FFFD002D  Blocked
+                                          06      021F     FFFD002E  Blocked
+                                          07      021F     FFFE001C  Blocked
+                                          08      021F     FFFE28F5  Blocked
+                                          09      021F     FFFE001D  Blocked
+ 000D      000A       21      PMEXEC      01      0200     FFFE0020  Blocked
+                                          02      0200     0BD823FC  Blocked
+                                          03      0200     0BD82408  Blocked
+ 000F      000A       22      E           01      0200     FFFE0023  Blocked
+                                          02      0200     0BD823FC  Blocked
+ 0010      000A       04      CMD         01      0400     FFE00010  Blocked
+
+
+                    System Semaphore Information
+
+   Owning Process             No. of     No. of          Semaphore
+(Name  ID  Session)  Index  References  Requests  Flag     Name
+
+                      0000      00         03     0000   \SEM\VIOPOPUP
+                      0000      08         03     0000   \SEM\VIOPRTSC
+LOGDAEM   0004  00    0000      01         03     0000   \SEM\LOGDATA\JGRENBLF.SEM
+                      0000      08         02     0000   \SEM\IPCQUEUE.SEM
+                      0000      00         01     0000   \SEM\LKNED000.SEM
+                      0000      00         01     0000   \SEM\LKNED001.SEM
+                      0000      00         01     0000   \SEM\LKNED002.SEM
+                      0000      00         01     0000   \SEM\LKNED003.SEM
+                      0000      00         01     0000   \SEM\SERIAL.SEM
+                      0000      00         01     0000   \SEM\PLSHAPI.SEM
+HARDERR   000B  00    0000      01         04     0000   \SEM\FULLSPY.SEM1
+                      0000      00         04     0000   \SEM\FULLSPY.SEM2
+PMEXEC    000D  21    0000      01         02     0000   \SEM\DOS$
+                      0000      08         01     0000   \SEM\PM_PRINT.MGR
+                      0000      00         01     0000   \SEM\LKNED004.SEM
+
+
+          Named Shared Memory Information
+
+                            No. of
+  Handle     Selector     References     Shared Memory Name
+
+   0083        0578           01          DOS\CDIB
+   0033        02B7           02          BVS\BVS00
+   011F        02F7           01          LFNAMEDS
+   00DB        035F           01          INETXXX
+   00E9        0A17           02          SMG\SGTITLE
+   00CE        0A3F           02          BVS\BVS01
+   031B        0B4F           01          BVS\BVS02
+   0313        0BBF           01          BVS\BVS03
+   02E2        0C4F           01          PMSHAPI
+   026B        0EBF           04          FULLSPY.DAT
+   0552        0397           02          BVS\BVS04
+
+
+          Run-Time Link Libraries
+
+ Process   Process   Session
+  Name       ID        ID      Library List
+
+ PSTAT      0011       04      DOSCALL1
+                                  NLS
+                                     DOSCALL1*
+                               VIOCALLS
+                                  DOSCALL1*
+                                  NLS*
+                               MSG
+                                  DOSCALL1*
+                                  NLS*
+                               KBDCALLS
+                                  DOSCALL1*
+                               NLS*
+ (kernel)   0002       02       
+ PMSHELL    000A       01      PMSHLTKT
+                                  DOSCALL1*
+                                  NLS*
+                                  PMWIN
+                                     DISPLAY
+                                        DOSCALL1*
+                                        NLS*
+                                        VIOCALLS*
+                                        PMWIN*
+                                        PMGRE
+                                           DOSCALL1*
+                                           NLS*
+                                           PMWIN*
+                                           PMGPI
+                                              DOSCALL1*
+                                              NLS*
+                                              PMWIN*
+                                              PMGRE*
+                                           PMSHAPI
+                                              DOSCALL1*
+                                              NLS*
+                                              OS2SM
+                                                 SESMGR
+                                                    DOSCALL1*
+                                                    KBDCALLS*
+                                                    MOUCALLS
+                                                       DOSCALL1*
+                                                    NLS*
+                                                    QUECALLS
+                                                       DOSCALL1*
+                                                    VIOCALLS*
+                                                 DOSCALL1*
+                                                 NLS*
+                                                 PMWIN*
+                                                 PMGPI*
+                                                 PMSHAPI*
+                                              PMWIN*
+                                        PMSHAPI*
+                                        IARFS
+                                           DOSCALL1*
+                                     SESMGR*
+                                     DOSCALL1*
+                                     NLS*
+                                     PMGPI*
+                                     PMGRE*
+                                     OS2SM*
+                                     PMSHAPI*
+                                  MSG*
+                               DOSCALL1*
+                               PMWIN*
+                               PMGPI*
+                               OS2SM*
+ (kernel)   0003       00       
+ LOGDAEM    0004       00      DOSCALL1*
+                               KBDCALLS*
+                               NLS*
+                               VIOCALLS*
+                               NAMPIPES
+                                  DOSCALL1*
+                               MSG*
+ LANDLL     0005       00      ACSLAN
+                                  LANMSGDL
+                                     DOSCALL1*
+                                     KBDCALLS*
+                                     MSG*
+                                     VIOCALLS*
+                                  DOSCALL1*
+                               DOSCALL1*
+ LANMSGEX   0006       00      LANMSGDL*
+                               DOSCALL1*
+                               MSG*
+                               VIOCALLS*
+ CNTRL      0008       00      DOSCALL1*
+ HARDERR    000B       00      DOSCALL1*
+                               KBDCALLS*
+                               MOUCALLS*
+                               MSG*
+                               NLS*
+                               SESMGR*
+                               VIOCALLS*
+ PMSPOOL    000C       20      PMSHLTKT*
+                               SPL1B
+                                  PMSPL
+                                     DOSCALL1*
+                                     MONCALLS
+                                        DOSCALL1*
+                                     NLS*
+                                     SESMGR*
+                                     PMWIN*
+                                     PMGPI*
+                                     PMSHAPI*
+                                     SPOOLCP
+                                        DOSCALL1*
+                                     SPL1B*
+                                     MSG*
+                                  DOSCALL1*
+                                  PMWIN*
+                                  PMSHAPI*
+                               DOSCALL1*
+                               MSG*
+                               PMWIN*
+                               PMGPI*
+                               OS2SM*
+                               PMSHAPI*
+                               PMSPL*
+ PMEXEC     000D       21      OS2SM*
+                               DOSCALL1*
+                               PMWIN*
+                               PMGPI*
+                               PMSHAPI*
+                               PMSHLTKT*
+ E          000F       22      DOSCALL1*
+                               NLS*
+                               PMWIN*
+                               PMGPI*
+                               OS2SM*
+                               PMSHAPI*
+ CMD        0010       04      SESMGR*
+                               DOSCALL1*
+                               KBDCALLS*
+                               MSG*
+                               NLS*
+                               QUECALLS*
+                               VIOCALLS*

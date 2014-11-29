@@ -1,0 +1,105 @@
+//  Module Header
+//
+//  Module Name: ICLUIXMP
+//
+//  Copyright (c) International Business Machines Corporation 1991, 1992
+//
+//  Author: Alan Auerbach  (auerbach@vnet.ibm.com)
+
+#ifndef icluixmp_idl
+#define icluixmp_idl
+
+#include "wpabs.idl"
+
+interface M_IcluiExample;
+
+interface IcluiExample : WPAbstract
+
+//#
+//# CLASS: IcluiExample
+//#
+//# CLASS HIERARCHY:
+//#   SOMObject
+//#     ÀÄÄ WPObject
+//#           ÀÄÄ WPAbstract
+//#                 ÀÄÄ IcluiExample
+//#
+//# DESCRIPTION:
+//#    This is the IcluiExample Object class
+//#    This is to illustrate interoperability between Workplace Shell
+//#    and ICLUI with regard to settings pages.
+//#
+//#
+{
+
+   ULONG  wpQueryaVariable( );
+   VOID   wpSetaVariable(in ULONG value);
+   VOID   wpRefreshViews( );
+
+#ifdef __SOMIDL__
+  implementation {
+
+    releaseorder:  wpQueryaVariable,
+                   wpSetaVariable,
+                   wpRefreshViews;
+
+    //# Class Modifiers
+    externalstem = icluixmp;
+    local;
+    externalprefix = it_;
+    majorversion = 1;
+    minorversion = 2;
+    filestem = icluixmp;
+    metaclass = M_IcluiExample;
+    callstyle = oidl;
+    dllname = "icluixmp.dll";
+
+    passthru C_xih = ""
+"     #define INCL_WIN"
+"     #define INCL_DOS"
+""
+"     #include <os2.h>";
+
+    ULONG    aVariable;
+
+    //# Method Modifiers
+    wpModifyPopupMenu:  override;
+    wpAddSettingsPages: override;
+    wpRestoreState:     override;
+    wpSaveState:        override;
+    wpOpen:             override;
+    wpMenuItemSelected: override;
+  };
+#endif /* __SOMIDL__ */
+};
+
+interface M_IcluiExample : M_WPAbstract
+{
+
+#ifdef __SOMIDL__
+  implementation {
+
+    //# Class Modifiers
+    externalstem = icluixmp;
+    local;
+    externalprefix = itM_;
+    majorversion = 1;
+    minorversion = 2;
+    filestem = icluixmp;
+    callstyle = oidl;
+    dllname = "icluixmp.dll";
+
+    //# Method Modifiers
+    wpclsInitData:               override;
+    wpclsQueryTitle:             override;
+    wpclsQueryDefaultView:       override;
+    wpclsQueryStyle:             override;
+    wpclsCreateDefaultTemplates: override;
+
+    //# Data Modifiers
+
+  };
+#endif /* __SOMIDL__ */
+};
+
+#endif  /* icluixmp_idl  */

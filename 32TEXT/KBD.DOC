@@ -1,0 +1,594 @@
+*
+* Title: kbd.doc
+*
+* Function:
+*     Workplace OS/2 keyboard APIs
+*
+* Copyright:
+*     Copyright (C) IBM Corp. 1993, 1995
+*
+* Notes:
+*     This is preliminary documentation and subject to change.
+*
+========================================================================
+
+KbdCharIn - Read Character from Keyboard
+
+APIRET APIENTRY  KbdCharIn(PKBDKEYINFO CharData, ULONG Flag, HKBD hkbd);
+
+KbdCharIn reads a character data record from the keyboard
+
+Parameters
+
+    CharData (PKBDKEYINFO)  output
+        Address of character data structure:
+        USHORT   ucUniChar - Unicode char
+        USHORT   chChar    - Char in current codepage
+        UCHAR    chScan    - Scan code
+        UCHAR    fbStatus  - Final/Interim bits
+        USHORT   fsState   - Shift state
+        ULONG    VKey      - Virtual key
+        UCHAR    bNlsShift - NLS Shift state
+        UCHAR    resv      - Reserved
+        ULONG    time      - Time stamp (ms from IPL)
+
+    Flag (ULONG)  input
+        Wait for a keystorke if not available
+        0 = Wait if a keystroke is not available
+        1 = Immediate return if no keystroke available
+        2 = Return keystroke if available, but do not remove from queue
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    375  = ERROR_KBD_INVALID_IOWAIT
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    Note: KbdCharIn returns a complete keystroke.  This behavior is
+    unlike the OS/2 1.X version, which only returned a single byte.
+
+    If bit 0 of fbStatus is set, the character returned is either 0
+    or 0xe0.  The unicode character contains the virtual key.
+
+    For valid characters, the character in the current codepage is
+    returned, and the unicode character contains the unicode encoding
+    of the character.
+
+========================================================================
+
+KbdFlushBuffer - Flush the input keyboard buffer
+
+APIRET APIENTRY  KbdFlushBuffer (HKBD hkbd);
+
+KbdFlushBuffer removes all entries from the keyboard buffer.  This
+discards all user type ahead.
+
+Parameters
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+========================================================================
+
+KbdGetConsole - Read Key or Event from Console
+
+APIRET APIENTRY  KbdGetConsole(PVOID Data, PULONG Kind, ULONG Flags,
+                    HKBD hkbd);
+
+KbdCharIn reads a key, mouse event, or notify from the console.
+
+Parameters
+
+    Data (PVOID)   output
+        The form of the data returned depends on the type of event.
+        For keyboard events, this is of type KBDKEYINFO.  For mouse
+        events this is of the form MOUQUEINFO.
+
+    Kind (PULONG)  output
+        The returned event kind:
+        0 = No event available
+        1 = Keyboard event (not a valid character)
+        2 = Character returned
+        3 = Mouse event
+        4 = Notification
+
+    Flag (ULONG)  input
+        Wait for a keystorke if not available
+        0 = Wait if an event is not available
+        1 = Immediate return if no keystroke available
+        2 = Return event if available, but do not remove from queue
+        3 = Wait for event and return it, but do not remove from queue
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    375  = ERROR_KBD_INVALID_IOWAIT
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    KbdGetConsole allows the retrieval of either a keyboard or mouse
+    event.  This should be used by programs using both input devices.
+    See KbdCharIn and MouReadEventQue for details of the returned
+    values and conditions.
+
+    Note: Only those mouse events which are enabled by the event mask
+    are returned.  By default, the event mask is disabled.
+
+========================================================================
+
+KbdGetCp - Get keyboard codepage
+
+APIRET APIENTRY  KbdGetCp (ULONG ulReserved, PUSHORT pidCP, HKBD hkbd);
+
+KbdGetCp returns the current keyboard codepage.
+
+Parameters
+
+    ulReserved (ULONG)  input
+        Reserved, must be zero
+
+    pidCP (PUSHORT)  output
+        Pointer to location to return code page
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+========================================================================
+
+KbdGetHWID - Get keyboard hardware ID
+
+APIRET APIENTRY  KbdGetHWID (PKBDHWID pkbdhwid, HKBD hkbd);
+
+KbdGetHWID returns the type of keyboard in use.  The hardware ID
+specifies the type of keyboard attached, and is defined by the
+manufacturer.
+
+Parameters
+
+    pkbdhwid (PKBDHWID)  output
+        Pointer to location to return keyboard hardware ID.
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+========================================================================
+
+KbdGetLayout - Get keyboard layout
+
+APIRET APIENTRY  KbdGetLayout(PSZ name, HKBD hkbd);
+
+Returns the name of the keyboard layout in use in ASCII.
+
+Parameters
+
+    name (PSZ)  output
+        Pointer to location to return keyboard layout.
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+========================================================================
+
+KbdGetLayoutUni - Get keyboard layout Uni
+
+APIRET APIENTRY  KbdGetLayout(UniChar * name, HKBD hkbd);
+
+Returns the name of the keyboard layout in use in Unicode.
+
+Parameters
+
+    name (UniChar *)  output
+        Pointer to location to return keyboard layout.
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+========================================================================
+
+KbdGetStatus - Get keyboard status
+
+APIRET APIENTRY  KbdGetStatus (PKBDINFO pkbdinfo, HKBD hkbd);
+
+KbdGetStatus returns a set of information concerning the keyboard.
+
+Parameters
+
+    pkbdinfo (PKBDINFO)  output
+        Pointer to location to return keyboard status.
+        USHORT cb           - Length of returned data (10)
+        USHORT fsMask       - State mask
+        USHORT chTurnAround - Turnaround character
+        USHORT fsInterim    - Interim character state (and NLS Shift)
+        USHORT fsState      - Current shift state
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    376  = ERROR_KBD_INVALID_LENGTH
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    Some of the keyboard status information may be changed using
+    KbdSetStatus.
+
+    The upper byte within fsInterim is the NLS Shift state.  The
+    meaning of the NLS shift varies by language.  The following bits
+    are defined to access this data.
+
+    NLSS_NLS1   (0x01)  -  Fullwidth, National layer
+    NLSS_NLS2   (0x02)  -  Katakana, JAMO, phonetic
+    NLSS_NLS3   (0x04)  -  Hiragana, Hangeul, TsangJye
+    NLSS_APPL   (0x10)  -  Application bit
+    NLSS_NLS4   (0x40)  -  Romanji, HanjaCsr
+    NLSS_KANJI  (0x80)  -  Kanji, Hanja
+
+
+========================================================================
+
+KbdPeek - Peek at a keyboard character
+
+APIRET APIENTRY  KbdPeek(PKBDKEYINFO CharData, HKBD hkbd);
+
+KbdPeek returns keyboard data if available, but does not remove it
+from the queue.
+
+Parameters
+
+    CharData (PKBDKEYINFO)  output
+        Address of character data structure:
+        USHORT   ucUniChar - Unicode char
+        USHORT   chChar    - Char in current codepage
+        UCHAR    chScan    - Scan code
+        UCHAR    fbStatus  - Final/Interim bits
+        USHORT   fsState   - Shift state
+        ULONG    VKey      - Virtual key
+        UCHAR    bNlsShift - NLS Shift state
+        UCHAR    resv      - Reserved
+        ULONG    time      - Time stamp (ms from IPL)
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    375  = ERROR_KBD_INVALID_IOWAIT
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    Note: KbdPeek returns a complete keystroke.  This behavior is
+    unlike the OS/2 1.X version, which only returned a single byte.
+
+    If bit 0 of fbStatus is set, the character returned is either 0
+    or 0xe0.  The unicode character contains the virtual key.
+
+    For valid characters, the character in the current codepage is
+    returned, and the unicode character contains the unicode encoding
+    of the character.
+
+========================================================================
+
+KbdSetCp - Set keyboard codepage
+
+APIRET APIENTRY  KbdGetCp (ULONG ulReserved, USHORT idCP, HKBD hkbd);
+
+KbdSetCp sets the current keyboard codepage.  This causes a change in
+the translation of keys.  The codepage may be any non-stateful codepage.
+Setting this codepage does not affect the display or process codepages.
+
+Parameters
+
+    ulReserved (ULONG)  input
+        Reserved, must be zero
+
+    idCP (USHORT)  input
+        Pointer to location to return code page
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+    443  = ERROR_KBD_INVALID_CODEPAGE_ID
+
+Comments
+
+========================================================================
+
+KbdSetLayout - Set keyboard layout
+
+APIRET APIENTRY  KbdSetLayout(PSZ name, HKBD hkbd);
+
+Returns the name of the keyboard layout in use in ASCII.
+
+Parameters
+
+    name (PSZ)  input
+        Name of new keyboard layout.
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+    476  = ERROR_CODE_PAGE_NOT_FOUND
+
+Comments
+
+========================================================================
+
+KbdSetLayoutUni - Set keyboard layout
+
+APIRET APIENTRY  KbdSetLayout(UniChar * name, HKBD hkbd);
+
+Returns the name of the keyboard layout in use in Unicode.
+
+Parameters
+
+    name (UniChar *)  input
+        Name of new keyboard layout.
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+         = ERROR_INVALID_KBD_LAYOUT
+
+Comments
+
+========================================================================
+
+KbdSetRate - Set keyboard rate and delay
+
+APIRET APIENTRY  KbdSetRate (ULONG rate, ULONG delay, HKBD hkbd);
+
+KbdSetRate allows the typomatic rate of the keyboard to be changed.
+The change is global and affects all sessions.  If the device is not
+capable of the specified rate, device is set to the nearest available
+value.
+
+Parameters
+
+    rate (ULONG)  input
+        Number of repeated keys per second.  This is normally a value
+        between 1 and 30.
+
+    delay (ULONG)  input
+        Delay before first repeated key.  This is normally a value
+        between 250 and 1000.
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+
+========================================================================
+
+KbdSetStatus - Set keyboard status
+
+APIRET APIENTRY  KbdSetStatus (PKBDINFO pkbdinfo, HKBD hkbd);
+
+KbdSetStatus allows the current state of the keyboard to be changed.
+
+Parameters
+
+    pkbdhwid (PKBDINFO)  input
+        Pointer to location to return keyboard status.
+        USHORT cb           - Length of returned data (10)
+        USHORT fsMask       - State mask
+        USHORT chTurnAround - Turnaround character
+        USHORT fsInterim    - Interim character state (and NLS shift)
+        USHORT fsState      - Current shift state
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    376  = ERROR_KBD_INVALID_LENGTH
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+
+    Bits 15-8  Reserved (must be zero)
+    Bit  9     Set terminal input mode
+    Bit  8     Return shifts
+    Bit  7     Use two byte turnaround
+    Bit  6     Modify turn around character
+    Bit  5     Modify interim flags
+    Bit  4     Modify shift state
+    Bit  3     Set ASCII input mode
+    Bit  2     Set Binary input mode
+    Bit  1     Set Echo off
+    Bit  0     Set Echo on
+
+Notes:
+    The upper byte of the fsInterim is the NLS shift state, and may
+    be modified by this API.
+
+========================================================================
+
+KbdStringIn - Get string input
+
+APIRET APIENTRY  KbdStringIn (PCH pch, PSTRINGINBUF pchIn, ULONG Flag,
+                                     HKBD hkbd);
+
+KbdStringIn gets a string of keyboard input.
+
+Parameters
+
+    pch (PCH)  output
+
+    pchIn (PSTRINGINBUF)  input/output
+        Pointer to buffer length structure
+        USHORT cb    - Length of input buffer (bytes)
+        USHORT cchIn - Number of bytes returned
+
+    Flag (ULONG)  input
+        Wait for a keystorke if not availab*e
+        0 = Wait if a keystroke is not available
+        1 = Immediate return if no keystroke available
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    376  = ERROR_KBD_INVALID_LENGTH
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    Note: This function is retained only for compatibility.  New code
+    should not use it.  KbdGetConsole is the preferred function for
+    new code.
+
+    The contents and ending condition depends on the keyboard state:
+
+    ASCII  - Only valid characters are placed in the input buffer.
+             The function ends when a turnaround character is found,
+             or when the buffer fills.  The turnaround character is
+             placed in the buffer, but is not included in the string
+             length returned.
+
+    BINARY - Both valid characters and extended keys are returned.
+             The extended keys are returned as two byte strings with
+             a leading 0x00 or 0xe0 character.  The function ends
+             when the buffer fills.
+
+    The maximum buffer length is 255 bytes.
+
+========================================================================
+
+KbdStringInUni - Get string input
+
+APIRET APIENTRY  KbdStringInUni (UniChar * puch, PSTRINGINBUF pchIn, ULONG Flag,
+                                     HKBD hkbd);
+
+KbdStringIn gets a string of keyboard input.
+
+Parameters
+
+    puch (UniChar *)  output
+
+    pchIn (PSTRINGINBUF)  input/output
+        Pointer to buffer length structure
+        USHORT cb    - Length of input buffer (bytes)
+        USHORT cchIn - Number of bytes returned
+
+    Flag (ULONG)  input
+        Wait for a keystorke if not availab*e
+        0 = Wait if a keystroke is not available
+        1 = Immediate return if no keystroke available
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    376  = ERROR_KBD_INVALID_LENGTH
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    Note: This function is retained only for compatibility.  New code
+    should not use it.  KbdGetConsole is the preferred function for
+    new code.
+
+    The contents and ending condition depends on the keyboard state:
+
+    ASCII  - Only valid characters are placed in the input buffer.
+             The function ends when a turnaround character is found,
+             or when the buffer fills.  The turnaround character is
+             placed in the buffer, but is not included in the string
+             length returned.
+
+    BINARY - Both valid characters and extended keys are returned.
+             The extended keys are returned as two byte strings with
+             a leading 0x00 or 0xe0 character.  The function ends
+             when the buffer fills.
+
+    The maximum buffer length is 255 bytes.
+
+========================================================================
+
+KbdXlate - Translate scan codes
+
+APIRET APIENTRY  KbdXlate (PKBDKEYINFO pKey, HKBD hkbd);
+
+KbdXlate allows for the translation of scan codes to characters.
+
+Parameters
+
+    pKey (PKBDKEYINFO)  input/output
+        Address of character data structure:
+        USHORT   ucUniChar - Unicode char
+        USHORT   chChar    - Char in current codepage
+        UCHAR    chScan    - Scan code
+        UCHAR    fbStatus  - Final/Interim bits
+        USHORT   fsState   - Shift state
+        ULONG    VKey      - Virtual key
+        UCHAR    bNlsShift - NLS Shift state
+        UCHAR    resv      - Reserved
+        ULONG    time      - Time stamp (ms from IPL)
+
+    hkbd (HKBD)  input
+        Reserved, must be zero
+
+Returns
+    0    = No error
+    376  = ERROR_KBD_INVALID_LENGTH
+    439  = ERROR_KBD_INVALID_HANDLE
+
+Comments
+    This function is designed for conditions where the scan codes
+    are known, but not the character.  This must be used with care,
+    and is not designed to substitute for the normal OS/2 keyboard
+    translation functions.
+
+    The field resv must be maintained from call to call whenever
+    an interim bit is set.
+

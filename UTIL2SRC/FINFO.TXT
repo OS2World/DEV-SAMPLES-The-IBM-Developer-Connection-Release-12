@@ -1,0 +1,145 @@
+\toolkt20\book\text.tmp - Where the toolkit help function places output.
+
+---------------------------------------------------------------------------
+
+c:\toolkt20\c\os2h\BSEDOS.H(520) :       typedef struct _FILEFINDBUF3                 /* findbuf3 */
+c:\toolkt20\c\os2h\BSEDOS.H(718) :    typedef struct _FILESTATUS3
+
+typedef struct _FILESTATUS3           typedef struct _FILEFINDBUF3
+        {                                     {
+        FDATE  fdateCreation;                 ULONG   oNextEntryOffset;
+        FTIME  ftimeCreation;                 FDATE   fdateCreation;
+        FDATE  fdateLastAccess;               FTIME   ftimeCreation;
+        FTIME  ftimeLastAccess;               FDATE   fdateLastAccess;
+        FDATE  fdateLastWrite;                FTIME   ftimeLastAccess;
+        FTIME  ftimeLastWrite;                FDATE   fdateLastWrite;
+        ULONG  cbFile;                        FTIME   ftimeLastWrite;
+        ULONG  cbFileAlloc;                   ULONG   cbFile;
+        ULONG  attrFile;                      ULONG   cbFileAlloc;
+        } FILESTATUS3;                        ULONG   attrFile;
+                                              UCHAR   cchName;
+                                              CHAR    achName[CCHMAXPATHCOMP];
+                                              } FILEFINDBUF3;
+
+===============================================================================
+   /* File time and date types */
+
+   typedef struct _FILESTATUS      /* fsts */
+           {
+           FDATE  fdateCreation;
+           FTIME  ftimeCreation;
+           FDATE  fdateLastAccess;
+           FTIME  ftimeLastAccess;
+           FDATE  fdateLastWrite;
+           FTIME  ftimeLastWrite;
+           ULONG  cbFile;
+           ULONG  cbFileAlloc;
+           USHORT attrFile;
+           } FILESTATUS;
+
+   typedef struct _FILESTATUS2     /* fsts2 */
+           {
+           FDATE  fdateCreation;
+           FTIME  ftimeCreation;
+           FDATE  fdateLastAccess;
+           FTIME  ftimeLastAccess;
+           FDATE  fdateLastWrite;
+           FTIME  ftimeLastWrite;
+           ULONG  cbFile;
+           ULONG  cbFileAlloc;
+           USHORT attrFile;
+           ULONG  cbList;
+           } FILESTATUS2;
+
+   typedef struct _FILESTATUS3     /* fsts3 */
+           {
+           FDATE  fdateCreation;
+           FTIME  ftimeCreation;
+           FDATE  fdateLastAccess;
+           FTIME  ftimeLastAccess;
+           FDATE  fdateLastWrite;
+           FTIME  ftimeLastWrite;
+           ULONG  cbFile;
+           ULONG  cbFileAlloc;
+           ULONG  attrFile;
+           } FILESTATUS3;
+
+   typedef struct _FILESTATUS4      /* fsts4 */
+           {
+           FDATE  fdateCreation;
+           FTIME  ftimeCreation;
+           FDATE  fdateLastAccess;
+           FTIME  ftimeLastAccess;
+           FDATE  fdateLastWrite;
+           FTIME  ftimeLastWrite;
+           ULONG  cbFile;
+           ULONG  cbFileAlloc;
+           ULONG  attrFile;
+           ULONG  cbList;
+           } FILESTATUS4;
+
+------------------------------------------------------------------------------
+
+      typedef struct _FILEFINDBUF     /* findbuf */
+              {
+              FDATE  fdateCreation;
+              FTIME  ftimeCreation;
+              FDATE  fdateLastAccess;
+              FTIME  ftimeLastAccess;
+              FDATE  fdateLastWrite;
+              FTIME  ftimeLastWrite;
+              ULONG  cbFile;
+              ULONG  cbFileAlloc;
+              USHORT attrFile;
+              UCHAR  cchName;
+              CHAR   achName[CCHMAXPATHCOMP];
+              } FILEFINDBUF;
+
+      typedef struct _FILEFINDBUF2    /* findbuf2 */
+              {
+              FDATE  fdateCreation;
+              FTIME  ftimeCreation;
+              FDATE  fdateLastAccess;
+              FTIME  ftimeLastAccess;
+              FDATE  fdateLastWrite;
+              FTIME  ftimeLastWrite;
+              ULONG  cbFile;
+              ULONG  cbFileAlloc;
+              USHORT attrFile;
+              ULONG  cbList;
+              UCHAR  cchName;
+              CHAR   achName[CCHMAXPATHCOMP];
+              } FILEFINDBUF2;
+
+      typedef struct _FILEFINDBUF3                 /* findbuf3 */
+              {
+              ULONG   oNextEntryOffset;            /* new field */
+              FDATE   fdateCreation;
+              FTIME   ftimeCreation;
+              FDATE   fdateLastAccess;
+              FTIME   ftimeLastAccess;
+              FDATE   fdateLastWrite;
+              FTIME   ftimeLastWrite;
+              ULONG   cbFile;
+              ULONG   cbFileAlloc;
+              ULONG   attrFile;                    /* widened field */
+              UCHAR   cchName;
+              CHAR    achName[CCHMAXPATHCOMP];
+              } FILEFINDBUF3;
+
+      typedef struct _FILEFINDBUF4                 /* findbuf4 */
+              {
+              ULONG   oNextEntryOffset;            /* new field */
+              FDATE   fdateCreation;
+              FTIME   ftimeCreation;
+              FDATE   fdateLastAccess;
+              FTIME   ftimeLastAccess;
+              FDATE   fdateLastWrite;
+              FTIME   ftimeLastWrite;
+              ULONG   cbFile;
+              ULONG   cbFileAlloc;
+              ULONG   attrFile;                    /* widened field */
+              ULONG   cbList;
+              UCHAR   cchName;
+              CHAR    achName[CCHMAXPATHCOMP];
+              } FILEFINDBUF4;

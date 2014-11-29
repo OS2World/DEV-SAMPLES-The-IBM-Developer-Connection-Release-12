@@ -1,0 +1,27 @@
+# IBM Developer's Workframe/2 Make File Creation run at 12:04:25 on 12/06/93
+
+# Make File Creation run in directory:
+#   D:\DRF6\SRC\PMDDHK;
+
+# Assumed INCLUDE environment variable path:
+#   D:\TOOLKT20\CPLUS\OS2H;
+#   D:\TOOLKT20\C\OS2H;
+#   D:\TOOLKT20\ASM\OS2INC;
+#   D:\IBMCPP\INCLUDE;
+#   D:\IBMCPP\IBMCLASS;
+
+
+INCLUDE000=$(INCLUDE)
+
+
+PMDDHK.OBJ:  PMDDHK.C  \
+#  {$(INCLUDE000)}os2.h  \
+#  {$(INCLUDE000)}pmddim.h  \
+   MAKEFILE
+
+PMDDHK32.OBJ:  PMDDHK32.C  \
+#  {$(INCLUDE000)}os2.h  \
+#  {$(INCLUDE000)}pmddim.h  \
+   MAKEFILE
+
+

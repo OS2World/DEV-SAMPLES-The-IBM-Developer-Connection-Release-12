@@ -1,0 +1,9 @@
+DBUpdateType=2
+DBStopCommunications = 1
+DBUpdateConfigSys=1
+DBMaxCommoHeapSize=10
+DBMaxRDSHeapSize=8
+DBMaxSharedSegments=8192
+DBMaxRemoteConnections=20
+DBWorkStationName=CIDA053
+

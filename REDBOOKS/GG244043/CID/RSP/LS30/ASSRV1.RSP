@@ -1,0 +1,78 @@
+
+DELETEIBMLAN = Networks<
+
+  netlb = 
+
+>
+
+UPDATEIBMLAN = Remoteboot<
+
+  rpldir = Migrate
+
+>
+
+UPDATEIBMLAN = Requester<
+
+  Computername = LSRDDC01
+  Domain = LSRDRECA
+
+>
+
+ADDIBMLAN = Requester<
+
+  wrkservices = LSCLIENT,MESSENGER,NETPOPUP
+
+>
+
+ADDIBMLAN = Server<
+
+  srvservices = ALERTER,GENALERT,LSSERVER,NETLOGON,NETRUN,REPLICATOR,TIMESOURCE
+
+>
+  Config386Cache = Migrate
+  ConfigApplDumpPath = Migrate
+  ConfigApplMaxDumps = Migrate
+  ConfigAutoStartFFST = Yes
+  ConfigAutoStartLS = No
+  ConfigCopyDLR = CopyIfRequired
+  ConfigCopyDOS = CopyIfRequired
+  ConfigCopyLSP = CopyIfRequired
+  ConfigCopyOS2Requester = CopyIfRequired
+  ConfigDisplayMSG = Migrate
+  ConfigHeap = Migrate
+  ConfigInitializeDCDB = NO
+  ConfigLazyWrite = Migrate
+  ConfigMsgLogName = Migrate
+  ConfigRouteAlertsTo = IBMLANMANAGER
+  ConfigServerType = DomainController
+  ConfigSourceDrive = C
+  ConfigSystemDumpPath = Migrate
+  ConfigSystemMaxDumps = Migrate
+  ConfigTargetDrive = C
+  ConfigUpsPort = Migrate
+  ConfigUseAllMem = Migrate
+  ConfigWsId = LSRDWK00        
+  ConfigWsSerial1 = 55
+  ConfigWsSerial2 = 0123456
+  ConfigWsType1 = 8595
+  ConfigWStype2 = 0H9
+  Install386HPFS = INSTALLIFREQUIRED
+  InstallAPI = INSTALLIFREQUIRED
+  InstallDlrDownload = INSTALLIFREQUIRED
+  InstallDosLanApi = INSTALLIFREQUIRED
+  InstallDosRemoteIPL = INSTALLIFREQUIRED
+  InstallFaultTolerance = INSTALLIFREQUIRED
+  InstallFullScreenInterface = INSTALLIFREQUIRED
+  InstallFFST = INSTALLIFREQUIRED
+  InstallGenericAlerter = INSTALLIFREQUIRED
+  InstallGlossary = INSTALLIFREQUIRED
+  InstallInstallProgram = INSTALLIFREQUIRED
+  InstallLocalSecurity = INSTALLIFREQUIRED
+  InstallLoopBackDriver = INSTALLIFREQUIRED
+  InstallMigrationImportUtil = INSTALLIFREQUIRED
+  InstallOS2CmdRef = INSTALLIFREQUIRED
+  InstallOS2OnlineRef = INSTALLIFREQUIRED
+  InstallOS2RemoteIPL = INSTALLIFREQUIRED
+  InstallServer = INSTALLIFREQUIRED
+  InstallUPM = INSTALLIFREQUIRED
+  InstallUps = INSTALLIFREQUIRED

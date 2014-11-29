@@ -1,0 +1,15 @@
+
+LIBRARY         3DLine INITINSTANCE TERMINSTANCE 
+
+DESCRIPTION     '3D Line Control'
+
+CODE            LOADONCALL EXECUTEREAD NOIOPL NONCONFORMING
+DATA            LOADONCALL READWRITE NOIOPL MULTIPLE NONSHARED
+
+PROTMODE
+
+EXETYPE         OS2
+
+EXPORTS         Line3D_Register = Line3DRegister @ 1
+                Line3D_Query = Line3DQuery @ 2
+                Line3D_Styles = Line3DStyles @ 3

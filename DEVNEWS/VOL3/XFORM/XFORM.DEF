@@ -1,0 +1,7 @@
+NAME  Xform  WINDOWAPI
+
+DESCRIPTION 'Transforms - Model transform examples'
+
+PROTMODE
+HEAPSIZE    32768
+STACKSIZE   16384

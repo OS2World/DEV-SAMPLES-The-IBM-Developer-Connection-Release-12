@@ -1,0 +1,25 @@
+/******************************************************************************
+*
+*  File Name   : PILEOF.RC
+*
+*  Description : Define Work Place Shell Sample resources and dialogs
+*
+*
+******************************************************************************/
+#include        "pileof.ih"
+#include        "pileofpg.h"
+
+rcinclude   pileofpg.dlg
+
+POINTER ID_ICON LOADONCALL MOVEABLE DISCARDABLE pileof.ico
+
+MENU   IDM_PRIMARYMENU
+{
+    MENUITEM    SEPARATOR
+    MENUITEM    "C~hange Title",        IDM_NEWTITLE
+    MENUITEM    "~Spread Contents",     IDM_SPREAD
+    MENUITEM    "~Turn Upside-down",    IDM_TURNOVER
+}
+
+
+

@@ -1,0 +1,3432 @@
+*
+* Title: vio.doc
+*
+* Function:
+*     Workplace OS/2 base video APIs
+*
+* Copyright:
+*     Copyright (C) IBM Corp. 1995
+*
+* Notes:
+*     This is preliminary documentation and subject to change.
+*
+VioAssociate
+================================================================================
+Associate or Disassociate a Vio presentation space with a device context.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET  VioAssoicate(HDC hdc, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  hdc (HDC) - input
+     Device context handle.  If this is NULL, a disassociation occurs.
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is returned from VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+     495       ERROR_VIO_NOT_PRES_MGR_SG
+     499       ERROR_VIO_ASSOCIATED_DC
+
+
+REMARKS
+-------
+
+Subsequent Vio calls to this Vio presentation space will direct output to
+the specified device context.
+
+If a null handle is specified for the device context, the presentation space
+is disassociated from any device context.
+
+An associated presentation space or device context cannot be associated.
+
+The screen device context is the only kind of device that can be associated
+with a Vio presentation space.
+
+
+
+VioCreateLogFont
+================================================================================
+Specify a font for use by a Vio session
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET  VioCreateLogFont(PFATTR attrs, ULONG lcid, PSTR8 Name, HVIO, hvio);
+
+
+PARAMETERS
+----------
+
+  attrs (PFATTR) - input
+     Pointer to structure containing the attributes of the font.
+
+  lcid (LONG) - input
+     Local identifier.  This must be a value in the range 1 to 3.
+     It is an error if lcid is already in use.
+
+  Name (STR8) - input
+     Logical font name.  This string is optional, and is used to
+     describe the logical font.
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+
+REMARKS
+-------
+
+The system selects the font most closely matching the specified font from
+the set of monospaced fonts which are installed on the system.
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+VioCreatePS
+================================================================================
+Create a Vio presentation space
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioCreatePS(PHVIO phvio, ULONG Rows, ULONG Columns,
+                                ULONG Format, ULONG Bytes, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  phvio (PHVIO) - output
+     The location to return the newly created presentation space handle.
+
+  Rows (ULONG) - input
+     The number of rows in the presentation space.  The maximum value
+     allowed is 255.
+
+  Columns (ULONG) - input
+     The number of columns in the presentation space.  The maximum value
+     allowed is 255.
+
+  Format (ULONG) - input
+     The format of the attributes:
+       1 = VGA compatible
+       2 = Unicode
+       3 = MFI compatible
+     112 = DBCS Common  (0x70)
+
+  AttrBytes (ULONG) - input
+     The number of attribute bytes.  This is used along with the format
+     to select the attribute structure.  This field has a value of 1, 2,
+     or 3.
+
+  hvio (HVIO) - input
+     The value is reserved, and must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+
+
+VioDeleteSetId
+================================================================================
+Make the logical font no longer avaliable via the local id
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioDeleteSetId(ULONG lcid, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  lcid (ULONG) - input
+     The local identifier for a font
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+After this call, the lcid is available for reuse.
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+
+VioDestroyPS
+================================================================================
+Destroy the Vio presentation space
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioDestroyPS(HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+     499       ERROR_VIO_ASSOCIATED_DC
+
+
+REMARKS
+-------
+
+The presentation space must not be associated with a device context when
+VioDestroyPS is called.
+
+The Vio presentation space handle is invalid after this call
+
+After this call, the lcid is available for reuse.
+
+
+
+VioEndPopUp
+================================================================================
+This call is issued by the application when it no longer requires the temporary
+screen obtained through a previous VioPopUp call.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET  VioEndPopUp(HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     405       ERROR_VIO_NO_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+When the application issues a VioEndPopUp call, all video calls are directed to
+the application's normal video buffer.
+
+An error is returned if issued with a non-zero handle.
+
+
+
+VioGetAnsi
+===============================================================================
+This call returns the current ANSI status On/Off state.
+
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioGetAnsi(PULONG Indicator, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Indicator (PULONG) - output
+     Address of the current ANSI status. A value of 1 indicates ANSI is active,
+     and a value of 0 indicates ANSI is not active.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+
+VioGetBuf
+================================================================================
+This call returns the address of the logical video buffer (LVB).
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioGetBuf(PULONG LVBPtr, PULONG Length, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  LVBPtr (PULONG) - output
+     Address of the logical video buffer.
+
+  Length (PULONG) - output
+     Address of the length buffer in bytes.  The length is: number of
+     rows * number of columns * size of cell.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+An application using VioGetBuf can prepare a screen in the application's own
+logical video buffer (LVB) offline.  When the application is in the foreground,
+the physical screen buffer is updated from the LVB when VioShowBuf is issued.
+When the application runs in the background, the physical screen buffer is
+updated when the application is switched to the foreground.
+
+Once VioGetBuf is issued, all VioWrtXX calls issued while the application is
+running in the foreground are written to the physical display buffer and LVB.
+
+VioGetMode may be used to determine the dimensions of the buffer.
+
+If VioSetMode is issued following a VioGetBuf call, the size of the logical
+video buffer is changed, and VioGetBuf should be reissued.
+
+
+
+
+VioGetConfig
+================================================================================
+This call returns the video display configuration.
+
+
+CALL SYNTAX
+-----------
+
+ typedef struct _VIOCONFIGINFO {  /* vioin  */
+     ULONG   cb;                    /* Length of this data structure */
+     ULONG   adapter;               /* Display adapter type */
+     ULONG   display;               /* Display/monitor type */
+     ULONG   cbMemory;              /* Bytes of memory on the adapter */
+     ULONG   Configuration;         /* Configuration number */
+     ULONG   VDHVersion;            /* Reserved */
+     ULONG   Flags;
+     ULONG   HWBufferSize;          /* Size to save video state */
+     ULONG   FullSaveSize;          /* Full save size */
+     ULONG   PartSaveSize;          /* Partial save size */
+     ULONG   EMAdaptersOFF;         /* Offset to emulated adapter types */
+     ULONG   EMDisplaysOFF;         /* Offset to emulated display types */
+ } VIOCONFIGINFO;
+
+ #define INCL_VIO
+
+ APIRET   VioGetConfig(PULONG ConfigID, PVIOCONFIGINFO ConfigData,
+                       HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  ConfigID (ULONG) - input
+     Identifies for which display configuration information is being requested:
+
+     Value     Definition
+     0         Current configuration
+     1         Primary configuration
+     2         Secondary configuration.
+
+
+  ConfigData (PVIOCONFIGINFO) - output
+     Address of structure where the display configuration is returned.
+
+     length (ULONG)
+        Input parameter to VioGetConfig.  The length must be either 4 to
+        indicate the actual length should be returned, or at least 48.
+
+     adaptertype (ULONG)
+        Display adapter type.
+
+        Value     Definition
+        0-3       Reserved
+        3         VGA Display Adapter
+        4-6       Reserved
+        7         8514/A.
+        8         Image Adapter/A
+        9         XGA Display Adapter
+
+        Values ranging from 0-4095 are reserved for IBM.
+
+     displaytype (USHORT)
+        Display or monitor type.
+
+        Value     Definition
+        0-2       Reserved
+        3         13" Monochrome Display
+        4         13" Color Displays
+        5-8       Reserved
+        9         16" 1024x768 capable color display
+        10        LCD or Plasma display
+        11        large monochrome display
+        12        14" 1024x768 capable color display
+        13        Reserved
+
+        Values ranging from 0-4095 are reserved for IBM.
+
+     adaptmem (ULONG)
+        Amount of memory, in bytes, on the adapter.
+
+     Configuration (ULONG)
+        Number of the display configuration that this data corresponds to. This
+        is assigned by the video subsystem.
+
+     VDHVersion (ULONG)
+        This field is reserved.
+
+     Flag bits (ULONG)
+        Are defined as follows:
+
+        Bit       Description
+        31-1      Reserved
+        0         Power up display configuration.
+
+     Hardware state buffer size (ULONG)
+        Size of the buffer required by the Base Video Handler (BVH) to save the
+        full hardware state excluding the physical display buffer.
+
+     Max buffer size - full save (ULONG)
+        Maximum size buffer required by the BVH to save the full physical
+        display buffer.
+
+     Max buffer size - partial save (ULONG)
+        Maximum size buffer required by the BVH to save the portion of the
+        physical display buffer that is overlaid by a pop-up.
+
+     Offset to emulated adapter types (ULONG)
+        Offset within the configuration data structure to the following
+        information describing what other display adapters are emulated by this
+        display adapter.
+
+        Number of Data words (ULONG)
+           Contains a one word field specifying a count of data words to follow.
+
+        Data word 1 (ULONG)
+           Bits set in the data words identify display adapters emulated.  Data
+           word 1 has the following definition:
+
+           Bit       Description
+           0-2       Reserved
+           3         VGA
+           4-6       Reserved
+           7         8514/A Adapter
+           8         Image Adapter/A
+           9         XGA Adapter
+           10-31     Reserved.
+
+     Offset to emulated display types (ULONG)
+        Offset within the configuration data structure to the following
+        information describing what other displays are emulated by this display.
+
+        Number of Data words (ULONG)
+           One word field specifying a count of data words to follow.
+
+        Data word 1 (ULONG)
+           Bits set in the data words identify displays emulated.  Data word 1
+           has the following definition:
+
+           Bit       Description
+           0-2       Reserved
+           3         13" Monochrome Display
+           4         13" Color Displays
+           5-8       Reserved
+           9         16" 1024x768 capable color display
+           10        LCD or Plasma display
+           11        large monochrome display
+           12        14" 1024x768 capable color display
+           13-31     Reserved
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+     438       ERROR_VIO_INVALID_LENGTH
+
+
+REMARKS
+-------
+
+The values returned may not be correct if the adapter cannot be properly
+identified, or if the device is not capable of returning its settings.
+
+
+
+VioGetCp
+================================================================================
+This call allows a process to query the code page currently used to display text data.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioGetCp(ULONG Reserved, PUSHORT CodePageID, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Reserved (ULONG) - input
+     Reserved value, must be zero.
+
+  CodePageID (PUSHORT) - output
+     Address of a word in the application's data area.  The current video code
+     page is returned in this word.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+The display code page ID previously set by VioSetCp, or inherited from the
+requesting process, is returned to the caller.
+
+The code page tag returned is the currently active code page.
+
+
+
+VioGetCurPos
+================================================================================
+This call returns the coordinates of the cursor.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioGetCurPos(PULONG Row, PULONG Column, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Row (PULONG) - output
+     Address of the current Row position of the cursor where 0 is the top row.
+
+  Column (PULONG) - output
+     Address of the current column position of the cursor where 0 is the
+     leftmost column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+
+VioGetCurType
+================================================================================
+This call returns the cursor type.
+
+
+CALL SYNTAX
+-----------
+
+ typedef struct _VIOCURSORINFO {
+     USHORT   yStart;               /* cursor start line */
+     USHORT   cEnd;                 /* cursor end line */
+     USHORT   cx;                   /* cursor width */
+     USHORT   attr;                 /* -1=hidden cursor */
+ } VIOCURSORINFO;
+
+ #define INCL_VIO
+
+ APIRET   VioGetCurType(PVIOCURSORINFO CursorData, HVIO hvio);
+
+PARAMETERS
+----------
+
+  CursorData (PVIOCURSORINFO) - output
+     Address of the cursor characteristics structure:
+
+     startline (USHORT)
+        Horizontal scan line in the character cell that marks the top line of
+        the cursor.  If the character cell has n scan lines, 0 is the top scan
+        line of the character cell and (n-1) is the bottom scan line.
+
+     endline (USHORT)
+        Horizontal scan line in the character cell that marks the bottom line of
+        the cursor.  Scan lines within a character cell are numbered as defined
+        in startline.
+
+     cursorwidth (USHORT)
+        Width of the cursor.  In text modes, cursorwidth is the number of
+        columns.  The maximum number supported by the OS/2 base video subsystem
+        is 1. In graphics modes, cursorwidth is the number of pels.
+
+     cursorattrib (USHORT)
+        A value of -1 denotes a hidden cursor, all other values in text mode
+        denote normal cursor and in graphics mode denote color attribute.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If CursorStartLine and CursorEndLine were originally specified as percentages on
+VioSetCurType (using negative values), the positive values into which they were
+translated are returned.  Refer to VioSetCurType for more information on how
+percentages can be used to set CursorStartLine and CursorEndLine independent of
+the number of scan lines per character cell.
+
+
+
+VioGetDeviceCellSize
+================================================================================
+Returns the size of the current character cell in pels
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioGetDeviceCellSize(PULONG Height, PULONG Width, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Height (PULONG) - output
+     Location to return the height of the character cell in pels
+
+  Width (PULONG) - output
+     Location to return the width of the character cell in pels
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+
+
+VioGetMode
+================================================================================
+This call returns the mode of the display.
+
+
+CALL SYNTAX
+-----------
+
+ typedef struct _VIOMODEINFO {
+     USHORT cb;                    /* Length of the entire data structure  */
+     UCHAR  fbType;                /* Bit mask of mode being set           */
+     UCHAR  color;                 /* Number of colors (power of 2)        */
+     USHORT col;                   /* Number of text columns               */
+     USHORT row;                   /* Number of text rows                  */
+     USHORT hres;                  /* Horizontal resolution                */
+     USHORT vres;                  /* Vertical resolution                  */
+     UCHAR  fmt_ID;                /* Attribute format                     */
+     UCHAR  attrib;                /* Number of attributes                 */
+     USHORT resv;                  /* Reserved */
+     ULONG  buf_addr;              /* Video aperture address               */
+     ULONG  buf_length;            /* Video aperture length                */
+     ULONG  full_length;           /* Video state full save length         */
+     ULONG  partial_length;        /* Video state partial save length      */
+     PCH    ext_data_addr;         /* Extra data address                   */
+ } VIOMODEINFO;
+ typedef VIOMODEINFO far *PVIOMODEINFO;
+
+ #define INCL_VIO
+
+ APIRET   VioGetMode(ModeData, hvio);
+
+ PVIOMODEINFO     ModeData;      /* Mode characteristics */
+ HVIO             hvio;     /* Vio handle */
+
+ APIRET           rc;            /* return code */
+
+
+PARAMETERS
+----------
+
+  ModeData (PVIOMODEINFO) - input/output
+     Far address of a structure where mode characteristics are returned.
+
+     length (USHORT)
+        Input parameter to VioGetMode.  Length specifies the length of the data
+        structure in bytes including Length itself.  The value specified on
+        input controls the amount of mode data returned.  The minimum structure
+        size required is 2 bytes.  The length is modified on output.
+
+     type (UCHAR)
+        Mode characteristics bit mask:
+
+        Bit       Description
+
+        7-4       Reserved
+
+        3         0 = VGA BIOS compatible modes
+                  1 = Native mode
+
+        2         0 = Enable color burst
+                  1 = Disable color burst
+
+        1         0 = Text mode
+                  1 = Graphics mode
+
+        0         0 = Monochrome compatible mode
+                  1 = Other
+
+     numcolors (UCHAR)
+        Number of colors defined as a power of 2. This is equivalent to the
+        number of color bits that define the color, for example:
+
+        Value     Definition
+        0         Monochrome
+        1         2 colors
+        2         4 colors
+        4         16 colors
+        8         256 colors
+        16        64K colors
+        24        16M colors
+
+     textcols (USHORT)
+        Number of text columns.
+
+     textrows (USHORT)
+        Number of text rows.
+
+     pelcols (USHORT)
+        Horizontal resolution, number of pel columns.
+
+     pelrows (USHORT)
+        Vertical resolution, number of pel rows.
+
+     Attribute Format (UCHAR)
+        Format of the attributes.
+
+     Number of Attributes (UCHAR)
+        Number of attributes in a character cell.
+
+     Buffer Address (ULONG)
+        Physical address of the physical display aperture.  This may be
+        zero for emulated video hardware.
+
+     Buffer Length (ULONG)
+        Length of the physical display aperture.
+
+     Full Buffer Size (ULONG)
+        Size of the buffer required for a full save of the video state.
+
+     Partial Buffer Size (ULONG)
+        Size of the buffer required for a partial (pop-up) save of the
+        video state.
+
+     Extended Data Area Address (PCH)
+        Virtual address to an extended mode data structure or zero if none.
+        The format of the extended mode data structure is determined by the
+        device driver and is unknown to OS/2.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+     438       ERROR_VIO_INVALID_LENGTH
+
+
+REMARKS
+-------
+
+ Refer to VioSetMode for examples.
+
+
+
+VioGetOrigin
+================================================================================
+Get the position at which the presentation space maps to the window
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioGetOrg(PULONG Row, PULONG Column, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Height (PULONG) - input
+     Location to return the topmost row shown in the window
+
+  Width (PULONG) - input
+     Location to return the leftmost column shown in the window
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+VioGetState
+================================================================================
+This call returns the current settings of the palette registers, overscan
+(border) color, blink/background intensity switch, color registers, underline
+location, or target VioSetMode display configuration.
+
+
+CALL SYNTAX
+-----------
+
+ typedef struct _VIOPALSTATE {
+     USHORT  cb;                   /* Length of this structure in bytes */
+     USHORT  type;                 /* Request type=0 get palette registers */
+     USHORT  iFirst;               /* First palette register to return */
+     USHORT  acolor[1];            /* Color value palette register */
+ } VIOPALSTATE;
+ typedef VIOPALSTATE far *PVIOPALSTATE;
+
+ typedef struct _VIOOVERSCAN {
+     USHORT  cb;                   /* Length of this structure */
+     USHORT  type;                 /* Request type=1 get overscan
+                                     (border) color */
+     USHORT  color;                /* Color value */
+ } VIOOVERSCAN;
+ typedef VIOOVERSCAN far *PVIOOVERSCAN;
+
+ typedef struct _VIOINTENSITY {
+     USHORT  cb;                   /* Length of this structure */
+     USHORT  type;                 /* Request type=2 get blink/background
+                                     intensity switch */
+     USHORT  fs;                   /* Value of blink/background switch */
+ } VIOINTENSITY;
+ typedef VIOINTENSITY far *PVIOINTENSITY;
+
+ typedef struct _VIOCOLORREG {
+     USHORT  cb;
+     USHORT  type;
+     USHORT  firstcolorreg;
+     USHORT  numcolorregs;
+     PCH     colorregaddr;
+ } VIOCOLORREG;
+ typedef VIOCOLORREG far *PVIOCOLORREG;
+
+ typedef struct _VIOSETULINELOC {
+     USHORT  cb;
+     USHORT  type;
+     USHORT  scanline;
+ } VIOSETULINELOC;
+ typedef VIOSETULINELOC far *PVIOSETULINELOC;
+
+ typedef struct _VIOSETTARGET {
+     USHORT  cb;
+     USHORT  type;
+     USHORT  defaultalgorithm;
+ } VIOSETTARGET;
+ typedef VIOSETTARGET far *PVIOSETTARGET;
+
+ #define INCL_VIO
+
+ APIRET   VioGetState(PVOID RequestBlock, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  RequestBlock (PVOID) - input/output
+     Address of the video state structures consisting of six different
+     structures depending on the request type:
+
+     Type      Definition
+     0         Get palette registers
+     1         Get overscan (border) color
+     2         Get blink/background intensity switch
+     3         Get color registers
+     4         Reserved
+     5         Get the scan line for underlining
+     6         Get target VioSetMode display configuration.
+
+     The six structures, depending on request type, are:
+
+     VIOPALSTATE
+        length (USHORT) - input
+           Length of structure, including length.
+
+           38        Maximum valid value.
+
+        type (USHORT) - input
+           Request type 0 for palette registers.
+
+        palette (USHORT) - input
+           First palette register in the palette register sequence; must be
+           specified in the range 0 through 15.  The palette registers are
+           returned in sequential order.  The number returned is based upon
+           length.
+
+        color (USHORT*(length-6)/2) - output
+           Color value for each palette register.  The maximum number of entries
+           in the color value array is 16.
+
+     VIOOVERSCAN
+        length (USHORT) - input
+           Length of structure, including length.
+
+           6         Only valid value.
+
+        type (USHORT) - input
+           Request type 1 for overscan (border) color.
+
+        color (USHORT) - input
+           Color value.
+
+     VIOINTENSITY
+        length (USHORT) - input
+           Length of structure, including length.
+
+           6         Only valid value.
+
+        type (USHORT) - input
+           Request type 2 for blink/background intensity switch.
+
+        switch (USHORT) - output
+           Switch set as:
+
+           Value     Definition
+           0         Blinking foreground colors enabled.
+           1         High intensity background colors enabled.
+
+     VIOCOLORREG
+        length (USHORT) - input
+           Length of structure, including length.
+
+           12        Length in bytes.
+
+        type (USHORT) - input
+           Request type 3 for color registers.
+
+        first color (USHORT) - input
+           First color register to get in the color register sequence; must be
+           specified in the range 0 through 255.  The color registers are
+           returned in sequential order.
+
+        number color (USHORT) - input
+           Number of color registers to get; must be specified in the range 1
+           through 256.
+
+        datarea (PCH) - input
+           Far address of a data area where the color registers are returned.
+           The size of the data area must be three bytes times the number of
+           color registers to get.  The format of each entry returned is as
+           follows:
+
+           Byte 1    Red value
+           Byte 2    Green value
+           Byte 3    Blue value
+
+     VIOSETULINELOC
+        length (USHORT) - input
+           Length of structure, including length.
+
+           6         Length in bytes.
+
+        type (USHORT) - input
+           Request type 5 to get the scan line for underlining.
+
+        scanline (USHORT) - output
+           The value returned is in the range 0 through 31 and is the scan line
+           minus 1. A value of 32 means underlining is disabled.
+
+     VIOSETTARGET
+
+        length (USHORT) - input
+           Length of structure, including length.
+
+           6         Length in bytes.
+
+        type (USHORT) - input
+           Request type 6 to get display configuration selected to be the target
+           of the next VioSetMode.
+
+        select (USHORT) - output
+           Configuration:
+
+           Value     Definition
+           0         Default selection algorithm. See VioSetMode.
+           1         Primary
+           2         Secondary.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+     438       ERROR_VIO_INVALID_LENGTH
+
+
+REMARKS
+-------
+
+Note: VioGetState allows access to hardware dependent features.  Not all
+video hardware will honor these settings, or return valid settings.
+
+
+VioModeUndo
+================================================================================
+This call allows one thread within a process to cancel a VioModeWait issued by
+another thread within the same process.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioModeUndo(ULONG OwnerIndic, ULONG KillIndic, ULONG Reserved);
+
+
+PARAMETERS
+----------
+
+  OwnerIndic (ULONG) - input
+     Indicates whether the thread issuing VioModeUndo wants ownership of
+     VioModeWait to be reserved for its process.
+
+     Value     Definition
+     0         Reserve ownership
+     1         Give up ownership.
+
+  KillIndic (ULONG) - input
+     Indicates whether the thread (with the outstanding VioModeWait) should be
+     returned an error code or be terminated.
+
+     Value     Definition
+     0         Return error code
+     1         Terminate thread.
+
+  Reserved (ULONG) - input
+     Reserved value, must be zero
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     422       ERROR_VIO_FUNCTION_OWNED
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     486       ERROR_VIO_BAD_RESERVE
+
+
+REMARKS
+-------
+
+VioModeUndo may be issued only by a thread within the process that owns
+VioModeWait.  The thread issuing VioModeUndo can either reserve ownership of the
+VioModeWait function for its process or give up ownership.  The thread whose
+VioModeWait is cancelled is optionally terminated.
+
+
+
+VioModeWait
+================================================================================
+This call allows a graphics mode application to be notified when it must restore
+its video mode, state, and modified display adapter registers.  The return from
+this function call provides the notification.
+
+
+CALL SYNTAX
+-----------
+ #define INCL_VIO
+
+ APIRET   VioModeWait(ULONG RequestType, ULONG NotifyType, ULONG Reserved);
+
+
+PARAMETERS
+----------
+
+  RequestType (ULONG) - input
+     Application request event.  RequestType = 0 indicates the application wants
+     to be notified at the end of a pop-up to restore its mode.  RequestType = 0
+     is the only event supported by VioModeWait.
+
+  NotifyType (PULONG) - output
+     Address of the operation to be performed by the application returning from
+     VioModeWait.  NotifyType = 0, indicating restore mode, is the only type of
+     notification returned.
+
+  Reserved (ULONG) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     422       ERROR_VIO_FUNCTION_OWNED
+     423       ERROR_VIO_RETURN
+     424       ERROR_SCS_INVALID_FUNCTION
+     428       ERROR_VIO_NO_SAVE_RESTORE_THD
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+
+
+REMARKS
+-------
+
+At the completion of an application or hard error pop-up (reference VioPopUp),
+OS/2 notifies the session that was originally interrupted for the pop-up to
+restore its mode.  The return from this function call provides that
+notification.  The thread that issued the call must perform the restore and then
+immediately re-issue VioModeWait.
+
+When an application's VioModeWait thread is notified, the thread must restore
+its video mode, state, and modified display adapter registers.  An application's
+VioModeWait thread does not restore the physical display buffer.  OS/2
+saves/restores the physical display buffer over a pop-up.
+
+Only one process for a session can issue VioModeWait.  The first process that
+issues VioModeWait becomes the owner of this function.  (Refer to VioModeUndo.)
+
+An application must issue VioModeWait only if it writes directly to the
+registers on the display adapter.  Otherwise, the application can allow OS/2 to
+perform the required restore by not issuing VioModeWait.
+
+When an application issues VioModeWait, it is also required to issue
+VioSaveRedrawWait to be notified at screen switch time to perform a full save or
+restore (reference VioSaveRedrawWait.  Two application threads must be dedicated
+to performing these operations.
+
+
+
+VioPopUp
+================================================================================
+This call is issued by an application process when it requires a temporary
+screen to display a momentary message to the user.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioPopUp(PUSHORT Options, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Options (PULONG) - input
+     Address of the bit flags that indicate which options to the application are
+     being selected.
+
+     Bit       Description
+
+     31-2      Reserved, set to zero.
+
+     1         0 = Non-transparent operation.  The video mode is set to a
+               textmode.  The screen is clreaded, and the cusor is positioned
+               at the upper left corner of the screen.
+
+               1 = Transparent operation.  If the video mode of the outgoing
+               foreground session is a textmode no mode change occurs.  The
+               screen is not cleared, and the cursor remains at its current
+               position.  If the video mode is not text, or if this session
+               has a VioSaveRedrawWait active, the pop-up is refused.
+
+               OS/2 is responsible for saving and restoring the physical display
+               buffer of the previous foreground session around a pop-up.  This
+               is true whether transparent or non-transparent operation is
+               selected.
+
+     0         0 = Return with unique error code ERROR_VIO_EXISTING_POPUP if
+               pop-up is not immediately available.
+
+               1 = Wait if pop-up is not immediately available.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     405       ERROR_VIO_NO_POPUP
+     406       ERROR_VIO_EXISTING_POPUP
+     483       ERROR_VIO_TRANSPARENT_POPUP
+
+
+REMARKS
+-------
+
+VioPopUp is normally issued by the application when it is running in the
+background and wishes to immediately display a message to the user without
+waiting to become the active foreground session.
+
+When an application process issues VioPopUp, it should wait for the return from
+the request.  If the process allows any of its threads to write to the screen
+before VioPopUp returns a successful return code, the screen output may be
+directed to the application's normal video buffer rather than to the pop-up
+screen.  If the process allows any of its threads to issue keyboard or mouse
+calls before VioPopUp returns a successful return code, the input is directed
+from the application's normal session.  Once the process that issued VioPopUp
+receives a successful return code, video and keyboard calls issued by any of the
+threads in the pop-up process are directed to the pop-up screen.  This continues
+until the process issues VioEndPopUp.  At that time video and keyboard calls
+resume being directed to the application's normal video buffer.
+
+There may be only one pop-up in existence at any time.  If a process requests a
+pop-up and a pop-up already exists, the process has the choice of waiting for
+the prior pop-up to complete or receiving an immediate return with an error
+code.  The error code indicates that the operation failed due to an existing
+pop-up having captured the screen.
+
+Video pop-ups provide a mechanism for a background application to notify the
+operator of an abnormal event the operator must take some action.  When
+considering the suitability of using pop-ups in a particular situation, the
+possible disruptive effect of pop-ups to the operator should be considered.  If
+the operator were interrupted frequently by pop-ups issued by background
+applications, the operator would not effectively work with the foreground
+application.
+
+While a video pop-up is in the foreground, the operator cannot use the hot key
+to switch to another application or to the shell . Before the operator can
+switch another application or the shell to the foreground, the pop-up
+application must issue VioEndPopUp.
+
+While a video pop-up is in effect, all video calls from the previous foreground
+session are blocked until the process that issued VioPopUp issues VioEndPopUp.
+
+When VioPopUp is issued, only the process within the session that issued
+VioPopUp is brought to the foreground.  Assuming the session was already the
+foreground session, any video calls issued by other processes in that session
+are blocked until the process that issued VioPopUp issues VioEndPopUp.
+
+DosExecPgm may not be issued by a process during a pop-up.  The following video
+calls are the only calls that may be issued during the pop-up by the process
+that issued VioPopUp:
+
+  VioEndPopUp         VioScrollLeft
+  VioGetConfig        VioSetCurPos
+  VioGetCp            VioSetCurType
+  VioGetAnsi          VioSetCp
+  VioGetState         VioSetState
+  VioGetCurPos        VioWrtNChar
+  VioGetCurType       VioWrtNAttr
+  VioGetMode          VioWrtNCell
+  VioReadCharStr      VioWrtCharStr
+  VioReadCellStr      VioWrtCharStrAttr
+  VioScrollRight      VioWrtCellStr
+  VioScrollUp         VioWrtTTY
+  VioScrollDown
+
+This function can be used from within a PM application.  Kbdxxx, Mouxxx, and
+Vioxxx calls with a zero handle are all allowed between VioPopUp and
+VioEndPopUp, and are directed to the pop-up screen.
+
+
+
+VioQueryFonts
+================================================================================
+Query the fonts associated with a video buffer
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioQueryFonts(PULONG Remfonts, PFONTMETRICS Metrics,
+                                ULONG Metlen, PULONG Fonts,
+                                PSZ Facename, ULONG Options, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Remfonts (ULONG) - output
+     Number of fonts for which information is not returned.
+
+  Metrics (PFONTMETRICS) - output
+     Font metrics.  Matching font metrics are returned in this buffer.
+
+  Metlen (ULONG) - input
+     The maximum length of data to be returned for each record.
+
+  Fonts (PULONG) - input/output
+     Location of the number of fonts to be returned on input.  This is
+     updated with the actual number of fonts returned on output.
+
+  Facename (PSZ) - input
+     The facename of fonts desired, or NULL to indicate that all
+     applicable fonts should be returned.
+
+  Options (BIT32) - input
+     This controls which fonts are selected:
+     VQF_PUBLIC  - Return only public fonts
+     VQF_PRIVATE - Return only private fonts
+     VQF_ALL     - Return both public and private fonts
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+By inspecting the returned font metrics, the application may choose the
+font which best meets its requirements.
+
+All metrics are returned in pel coordinates.
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+
+VioQueryFontsUni
+================================================================================
+Get the fonts associated with a video buffer.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioQueryFontsUni(PULONG Remfonts, PFONTMETRICS Metrics,
+                                ULONG Metlen, PULONG Fonts,
+                                UniChar * Facename, ULONG Options, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Remfonts (ULONG) - output
+     Number of fonts for which information is not returned.
+
+  Metrics (PFONTMETRICS) - output
+     Font metrics.  Matching font metrics are returned in this buffer.
+
+  Metlen (ULONG) - input
+     The maximum length of data to be returned for each record.
+
+  Fonts (PULONG) - input/output
+     Location of the number of fonts to be returned on input.  This is
+     updated with the actual number of fonts returned on output.
+
+  Facename (UniChar *) - input
+     The facename of fonts desired, or NULL to indicate that all
+     applicable fonts should be returned.
+
+  Options (BIT32) - input
+     This controls which fonts are selected:
+     VQF_PUBLIC  - Return only public fonts
+     VQF_PRIVATE - Return only private fonts
+     VQF_ALL     - Return both public and private fonts
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+By inspecting the returned font metrics, the application may choose the
+font which best meets its requirements.
+
+All metrics are returned in pel coordinates.
+
+The input facename and output metrics are given in Unicode.
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+VioQuerySetIds
+================================================================================
+Query the list of local identifiers
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioQuerySetIds(PULONG lcids, PSTR8 Names,
+                                 PULONG Types, ULONG count, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  lcids (PULONG) - output
+     An array of local identifiers output
+
+  Names (PSTR8) - output
+     An array of 8 character names associated with the lcids.
+
+  Types (ULONG) - output
+     An array of types accociated with each lcid
+
+  count (PULONG) - input
+     The number of objects to be queried.  The maximum value in use is 3.
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+
+VioReadCellStr
+================================================================================
+This call reads a string of character-attribute pairs (cells) from the screen,
+starting at the specified location.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioReadCellStr(PCH CellStr, PULONG Length, ULONG Row,
+                         ULONG Column, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  CellStr (PCH) - output
+     Address of the buffer where the cell string is returned.
+
+  Length (PULONG) - input/output
+     Address of the buffer length in bytes.  Length must take into account that
+     each character-attribute(s) entry in the buffer is 2 or 4 bytes.  If the
+     length of the buffer is not sufficient, the last entry is not complete.
+
+  Row (ULONG) - input
+     Starting row of the field to read, 0 is the top row.
+
+  Column (ULONG) - input
+     Starting column of the field to read, 0 is the leftmost column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string read comes to the end of the line and is not complete, the string
+read continues at the beginning of the next line.  If the read comes to the end
+of the screen and is not complete, the read terminates and the length is set to
+the length of the buffer that was filled.
+
+
+
+VioReadCharStr
+================================================================================
+This call reads a string of characters from the display starting at the
+specified location.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioReadCharStr(PCH CharStr, PULONG Length, ULONG Row, ULONG Column,
+                         HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  CharStr (PCH) - output
+     Address of the buffer where the character string is returned.
+
+  Length (PULONG) - input/output
+     Address of the buffer length in bytes.
+
+  Row (ULONG) - input
+     Starting row of the field to read, 0 is the top row.
+
+  Column (ULONG) - input
+     Starting column of the field to read, 0 is the leftmost column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string read comes to the end of the line and is not complete, then the
+string read continues at the beginning of the next line.  If the read comes to
+the end of the screen and is not complete, the read terminates and the length is
+set to the number of characters read.
+
+
+
+VioSaveRedrawUndo
+================================================================================
+This call allows one thread within a process to cancel a VioSaveRedrawWait issued
+by another thread within the same process.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioSaveRedrawUndo(ULONG OwnerIndic, ULONG KillIndic, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  OwnerIndic (ULONG) - input
+     Indicates whether the thread issuing VioSaveRedrawUndo wants ownership of
+     VioSaveRedrawWait to be reserved for its process.
+
+     Value     Definition
+     0         Reserve ownership
+     1         Give up ownership.
+
+  KillIndic (ULONG) - input
+     Indicates whether the thread with the outstanding VioSaveRedrawWait should
+     be returned an error code or be terminated.
+
+     Value     Definition
+     0         Return error code
+     1         Terminate thread.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     422       ERROR_VIO_FUNCTION_OWNED
+     428       ERROR_VIO_NO_SAVE_RESTORE_THD
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+
+
+REMARKS
+-------
+
+The issuing thread can reserve ownership of VioSaveRedrawWait for its process or
+give it up.  The thread whose VioSaveRedrawWait was cancelled is optionally
+terminated.  VioSaveRedrawUndo may be issued only by a thread within the same
+process that owns VioSaveRedrawWait.
+
+
+
+VioSaveRedrawWait
+================================================================================
+This call notifies a graphics mode application when it must save or redraw its
+screen image.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioSaveRedrawWait(ULONG SaveRedrawIndic, ULONG NotifyType, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  SaveRedrawIndic (ULONG) - input
+     Indicates which events the application is waiting for:
+
+     Value     Definition
+     0         The session manager notifies the application for both save
+               and redraw operations.
+     1         The session manager notifies the application for redraw
+                operations only.
+
+  NotifyType (PULONG) - output
+     Address that specifies the operation to be performed by the application
+     upon return from VioSaveRedrawWait:
+
+     Value     Definition
+     0         Save screen image
+     1         Restore screen image.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     422       ERROR_VIO_FUNCTION_OWNED
+     423       ERROR_VIO_RETURN
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+OS/2 uses VioSaveRedrawWait to notify a graphics mode application to save or
+restore its screen image at screen switch time.  The application in the outgoing
+foreground session is notified to perform a save.  The application in the
+incoming foreground session is notified to perform a restore.  The application
+must perform the action requested and immediately re-issue VioSaveRedrawWait.
+When an application performs a save, it saves its physical display buffer, video
+mode, and any other information the application needs to completely redraw its
+screen at restore time.
+
+Only one process per session can issue VioSaveRedrawWait.  The process that first
+issues VioSaveRedrawWait becomes the owner of the function.
+
+A text mode application must issue VioSaveRedrawWait only if the application
+writes directly to the registers on the display adapter.  Assuming
+VioSaveRedrawWait is not issued by a text mode application, OS/2 performs the
+required saves and restores.
+
+An application that issues VioSaveRedrawWait may also need to issue VioModeWait.
+This would allow the application to be notified when it must restore its mode at
+the completion of an application or hard error pop-up.  Refer to VioModeWait for
+more information.  Two application threads would be required to perform these
+operations in this case.
+
+At the time a VioSaveRedrawWait thread is notified, the session is in transition
+to/from the background.  Although the session's official status is background,
+any selector to the physical display buffer previously obtained by the
+VioSaveRedrawWait process (through VioGetPhysBuf) is valid at this time.  The
+physical display buffer must be accessed without issuing VioScrLock.  Since the
+session's official status is background, any thread waits if it issues
+VioScrLock with the "wait if unsuccessful" option.
+
+An application containing a VioSaveRedrawWait thread should be designed so that
+the process does not cause any hard errors while the VioSaveRedrawWait thread is
+running, otherwise a system lockout may occur.
+
+An application's VioSaveRedrawWait thread may be notified to perform a restore
+before it is notified to perform a save.  This happens if the application was
+running in the background the first time it issued VioSaveRedrawWait.  The return
+from this function call provides the notification.  The thread that issues the
+call performs the save or redraw and then reissues VioSaveRedrawWait to wait
+until its screen image must be saved or redrawn again.
+
+
+
+VioScrLock
+================================================================================
+This call requests ownership of (locks) the physical display buffer.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioScrLock(ULONG WaitFlag, PUCHAR Status, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  WaitFlag (ULONG) - input
+     Indicates whether the process should block until the screen I/O can
+     take place.
+
+     Value     Definition
+     0         Return if screen I/O not available
+     1         Wait until screen I/O is available.
+
+  Status (PUCHAR) - output
+     Address of the Indicator of whether the lock is successful, described
+     below.
+
+     Value     Definition
+     0         Lock successful
+     1         Lock unsuccessful (in the case of no wait).
+
+               Status is returned only when AX = 0.
+
+               Status = 1 may be returned only when WaitFlag = 0.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     366       ERROR_VIO_WAIT_FLAG
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     434       ERROR_VIO_LOCK
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+This function call permits a process to determine if I/O to the physical screen
+buffer can take place.  This prevents the process from writing to the physical
+buffer when the process is in the background.  Processes must cooperate with the
+system in coordinating screen accesses.
+
+Screen switching is disabled while the screen lock is in place.  If a screen
+switch is suspended by a screen lock, and if the application holding the lock
+does not issue VioScrUnLock within a system-defined time limit, the screen
+switch occurs, and the process holding the lock is frozen in the background.  A
+process should yield the screen lock as soon as possible to avoid being frozen
+when running in the background.  The timeout on the lock does not begin until a
+screen switch is requested.
+
+When the screen lock is in effect and another thread in the same or different
+process (in the same session) issues VioScrLock, the second thread receives an
+error code.  VioScrUnLock must be issued by a thread within the same process
+that issued VioScrLock.
+
+
+VioScrollDown
+================================================================================
+This call scrolls the entire display buffer (or area specified within the
+display buffer) down.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioScrollDown(ULONG TopRow, ULONG LeftCol, ULONG BotRow,
+                        ULONG RightCol, ULONG Lines, PBYTE Cell, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  TopRow (ULONG) - input
+     Top row to be scrolled.
+
+  LeftCol (ULONG) - input
+     Left column to be scrolled.
+
+  BotRow (ULONG) - input
+     Bottom row to be scrolled.
+
+  RightCol (ULONG) - input
+     Right column to be scrolled.
+
+  Lines (ULONG) - input
+     Number of lines to be inserted at the top of the screen area being
+     scrolled.  If 0 is specified, no lines are scrolled.
+
+  Cell (PBYTE) - input
+     Address of the character-attribute(s) pair (2 or 4 bytes) used as a fill
+     character on inserted lines.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+TopRow = 0 and LeftCol = 0 identifies the top left corner of the screen.
+
+If a value greater than the maximum value is specified for TopRow, LeftCol,
+BotRow, RightCol, or Lines, the maximum value for that parameter is used.
+
+If TopRow and LeftCol = 0 and if BotRow, RightCol, and Lines is greater than
+the screen lines, the entire screen is filled with the character-attribute
+pair defined by Cell.
+
+
+
+VioScrollLeft
+================================================================================
+This call scrolls the entire display buffer (or area specified within the
+display buffer) to the left.
+
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioScrollLeft(ULONG TopRow, ULONG LeftCol, ULONG BotRow,
+                        ULONG RightCol, ULONG Lines, PBYTE Cell, HVIO hvio);
+
+
+
+PARAMETERS
+----------
+
+  TopRow (ULONG) - input
+     Top row to be scrolled.
+
+  LeftCol (ULONG) - input
+     Left column to be scrolled.
+
+  BotRow (ULONG) - input
+     Bottom row to be scrolled.
+
+  RightCol (ULONG) - input
+     Right column to be scrolled.
+
+  Lines (ULONG) - input
+     Number of columns to be inserted at the right of the screen area being
+     scrolled.  If 0 is specified, no lines are scrolled.
+
+  Cell (PBYTE) - input
+     Address of the character attribute(s) pair (2 or 4 bytes) used as a fill
+     character on inserted columns.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+TopRow = 0 and LeftCol = 0 identifies the top left corner of the screen.
+
+If a value greater than the maximum value is specified for TopRow, LeftCol,
+BotRow, RightCol, or Lines, the maximum value for that parameter is used.
+
+If TopRow and LeftCol = 0 and if BotRow, RightCol, and Lines is greater than
+the screen lines, the entire screen is filled with the character-attribute
+pair defined by Cell.
+
+
+
+VioScrollRight
+================================================================================
+This call scrolls the entire display buffer (or area specified within the
+display buffer) to the right.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioScrollRight(ULONG TopRow, ULONG LeftCol, ULONG BotRow,
+                        ULONG RightCol, ULONG Lines, PBYTE Cell, HVIO hvio);
+
+PARAMETERS
+----------
+
+  TopRow (ULONG) - input
+     Top row to be scrolled.
+
+  LeftCol (ULONG) - input
+     Left column to be scrolled.
+
+  BotRow (ULONG) - input
+     Bottom row to be scrolled.
+
+  RightCol (ULONG) - input
+     Right column to be scrolled.
+
+  Lines (ULONG) - input
+     Number of columns to be inserted at the left of the screen area being
+     scrolled.  If 0 is specified, no lines are scrolled.
+
+  Cell (PBYTE) - input
+     Address of the character attribute(s) pair (2 or 4 bytes) used as a fill
+     character on inserted columns.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+TopRow = 0 and LeftCol = 0 identifies the top left corner of the screen.
+
+If a value greater than the maximum value is specified for TopRow, LeftCol,
+BotRow, RightCol, or Lines, the maximum value for that parameter is used.
+
+If TopRow and LeftCol = 0 and if BotRow, RightCol, and Lines is larger than the
+screen lines, the entire screen is filled with the character and attribute
+defined by Cell.
+
+
+
+VioScrollUp
+================================================================================
+This call scrolls the entire display buffer (or area specified within the display buffer) up.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioScrollUp(ULONG TopRow, ULONG LeftCol, ULONG BotRow,
+                        ULONG RightCol, ULONG Lines, PBYTE Cell, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  TopRow (ULONG) - input
+     Top row to be scrolled.
+
+  LeftCol (ULONG) - input
+     Left column to be scrolled.
+
+  BotRow (ULONG) - input
+     Bottom row to be scrolled.
+
+  RightCol (ULONG) - input
+     Right column to be scrolled.
+
+  Lines (ULONG) - input
+     Number of lines to be inserted at the bottom of the screen area being
+     scrolled.  If 0 is specified, no lines are scrolled.
+
+  Cell (PBYTE) - input
+     Address of the character attribute(s) pair (2 or 4 bytes) used as a fill
+     character on inserted lines.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+TopRow = 0 and LeftCol = 0 identifies the top left corner of the screen.
+
+If a value greater than the maximum value is specified for TopRow, LeftCol,
+BotRow, RightCol, or Lines, the maximum value for that parameter is used.
+
+If TopRow and LeftCol = 0 and if BotRow, RightCol, and Lines is larger than the
+screen lines, the entire screen is filled with the character-attribute
+pair defined by Cell.
+
+
+
+VioScrUnLock
+================================================================================
+This call releases ownership of (unlocks) the physical display buffer.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioScrUnLock(HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     367       ERROR_VIO_UNLOCK
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+This call releases the screen lock that is set by VioScrLock.  The VioScrUnLock
+call must be issued by a thread in the same process as the thread that issued
+VioScrLock.
+
+
+
+VioSetAnsi
+================================================================================
+This call activates or deactivates ANSI support.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioSetAnsi(ULONG Indicator, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Indicator (ULONG) - input
+     Equals 1 to activate ANSI support or 0 to deactivate ANSI.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     421       ERROR_VIO_INVALID_PARMS
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+For ANSI support, "ON" is the default.
+
+
+
+VioSetCp
+================================================================================
+This call allows a process to set the code page used to display text data on the
+screen for the specified handle.
+
+
+CALL SYNTAX
+-----------
+ #define INCL_VIO
+
+ APIRET   VioSetCp(ULONG Reserved, USHORT CodePageID, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Reserved (ULONG) - input
+     Reserved value, must be zero.
+
+  CodePageID (USHORT) - input
+     The CodePageID must be a known codepage.  Note that the values 0, -1,
+     and -2 which are supported by OS/2 2.x will cause an error in
+     Workplace OS/2.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     436       ERROR_VIO_INVALID_HANDLE
+     469       ERROR_VIO_BAD_CP
+     470       ERROR_VIO_NO_CP
+     471       ERROR_VIO_NA_CP
+
+
+REMARKS
+-------
+
+The specified codepage applies to all new characters.  How VioSetCp acts
+on characters already in the video buffer is undefined.
+
+
+
+VioSetCurPos
+================================================================================
+This call sets the cursor's coordinates on the screen.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioSetCurPos(ULONG Row, ULONG Column, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Row (ULONG) - input
+     New cursor row position, 0 is the top row.
+
+  Column (ULONG) - input
+     New cursor column position, 0 is the leftmost column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+
+VioSetCurType
+================================================================================
+This call sets the cursor type.
+
+
+CALL SYNTAX
+-----------
+
+
+ typedef struct _VIOCURSORINFO {  /* vioci */
+     USHORT   yStart;               /* cursor start line */
+     USHORT   cEnd;                 /* cursor end line   */
+     USHORT   cx;                   /* cursor width      */
+     USHORT   attr;                 /* -1=hidden cursor  */
+ } VIOCURSORINFO;
+
+ #define INCL_VIO
+
+ APIRET   VioSetCurType(PVIOCURSORINFO CursorData, HVIO hvio);
+
+
+PARAMETERS
+----------
+  CursorData (PVIOCURSORINFO) - input
+     Address of the cursor characteristics structure:
+
+     startline (USHORT)
+        Horizontal scan line in the character cell that marks the top line of
+        the cursor.  If the character cell has n scan lines, 0 is the top scan
+        line of the character cell and (n - 1) is the bottom scan line.
+
+     endline (USHORT)
+        Horizontal scan line in the character cell that marks the bottom line of
+        the cursor.  Scan lines within a character cell are numbered as defined
+        in startline.  The maximum value allowed is 31.
+
+     cursorwidth (USHORT)
+        Width of the cursor.  In text modes, cursorwidth is the number of
+        columns.  The maximum number supported by the OS/2 base video subsystem
+        is 1. In graphics modes, cursorwidth is the number of pels.
+
+        A value of 0 specifies the default width.  In text modes, this is 1
+        column.  In graphics modes, this is the number of pels equivalent to the
+        width of one character.
+
+     cursorattrib (USHORT)
+        A value of -1 denotes a hidden cursor, all other values denote a normal
+        cursor.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     356       ERROR_VIO_WIDTH
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+To set CursorStartLine and CursorEndLine independent of the number of scan lines
+for each character cell, you may specify these parameters as percentages.  OS/2
+then calculates the physical start and end scan lines, respectively, by
+multiplying the percentage specified for the parameter by the total number of
+scan lines in the character cell and rounding to the nearest scan line.
+Percentages are specified as negative values (or 0) in the range 0 through -100.
+Specifying CursorStartLine = -90 and CursorEndLine = -100 requests a cursor that
+occupies the bottom 10 percent of the character cell.
+
+The actual appearance of the cursor is hardware dependent.  The video hardware
+may not support the specified parameters.
+
+
+
+VioSetDeviceCellSize
+================================================================================
+Sets the size of the current character cell in pels
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioSetDeviceCellSize(ULONG Height, ULONG Width, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Height (ULONG) - input
+     Height of the character cell in pels
+
+  Width (ULONG) - input
+     Width of the character cell in pels
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If the device does not support the specified cell size, the cell size
+closest to the specified size is used.  VioGetDeviceCellSize can be used
+to find the actual size selected.
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+
+VioSetMode
+================================================================================
+This call sets the mode of the display.
+
+
+CALL SYNTAX
+-----------
+
+ typedef struct _VIOMODEINFO {
+     USHORT cb;                    /* Length of the entire data structure  */
+     UCHAR  fbType;                /* Bit mask of mode being set           */
+     UCHAR  color;                 /* Number of colors (power of 2)        */
+     USHORT col;                   /* Number of text columns               */
+     USHORT row;                   /* Number of text rows                  */
+     USHORT hres;                  /* Horizontal resolution                */
+     USHORT vres;                  /* Vertical resolution                  */
+     UCHAR  fmt_ID;                /* Attribute format                     */
+     UCHAR  attrib;                /* Number of attributes                 */
+     ULONG  buf_addr;
+     ULONG  buf_length;
+     ULONG  full_length;
+     ULONG  partial_length;
+     PCH    ext_data_addr;
+ } VIOMODEINFO;
+ typedef VIOMODEINFO far *PVIOMODEINFO;
+
+ #define INCL_VIO
+
+ APIRET   VioSetMode(PVIOMODEINFO ModeData, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  ModeData (PVIOMODEINFO) - input
+     Address of the mode characteristics structure:
+
+     length (USHORT)
+        Input parameter to VioSetMode.  Length specifies the length of the data
+        structure in bytes including Length itself.  The minimum structure size
+        required is 3 bytes.  OS/2 sets to the first mode (in the list of modes
+        supported by this display configuration) with a data structure matching
+        the mode data specified.
+
+     type (UCHAR)
+        Mode characteristics bit mask:
+
+        Bit       Description
+
+        7-4       Reserved, set to zero.
+
+        3         0 = VGA BIOS compatible modes
+                  1 = Native mode.
+
+        2         0 = Enable color burst
+                  1 = Disable color burst.
+
+        1         0 = Text mode.
+                  1 = Graphics mode.
+
+        0         0 = Monochrome compatible mode.
+                  1 = Other.
+
+     numcolors (UCHAR)
+        Number of colors defined as a power of 2. This is equivalent to the
+        number of color bits that define the color, for example:
+
+        Value     Definition
+        0         Monochrome
+        1         2 colors.
+        2         4 colors.
+        4         16 colors.
+        8         256 colors.
+        16        64K colors.
+        24        16M colors.
+
+     textcols (USHORT)
+        Number of text columns.
+
+     textrows (USHORT)
+        Number of text rows.
+
+     pelcols (USHORT)
+        Horizontal resolution, number of pel columns.
+
+     pelrows (USHORT)
+        Vertical resolution, number of pel rows.
+
+     Attribute Format (UCHAR)
+        Identifies the format of the attributes.
+        The format of the attributes:
+          1 = VGA compatible
+          2 = Unicode
+          3 = MFI compatible
+        112 = DBCS Common  (0x70)
+
+     Number of Attributes (UCHAR)
+        Identifies the number of attributes in a character cell
+        (1, 2, or 3).
+
+     Buffer Address (ULONG)
+        Physical address of the physical display aperture.
+
+     Buffer Length (ULONG)
+        Length of the physical display aperture.
+
+     Full Buffer Size (ULONG)
+        Size of the buffer required for a full save of the physical display
+        buffer for this mode.
+
+     Partial Buffer Size (ULONG)
+        Size of the buffer required for a partial (pop-up) save of the physical
+        display buffer for this mode.
+
+     Extended Data Area Address (PCH)
+        Virtual address to an extended mode data structure or zero if none.
+        The format of the extended mode data structure is determined by the
+        device driver and is unknown to OS/2.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+     438       ERROR_VIO_INVALID_LENGTH
+     467       ERROR_VIO_FONT
+
+
+REMARKS
+-------
+
+VioSetMode initializes the cursor position and type.
+
+VioSetMode does not clear the screen if the new and old modes are compatible.
+To clear the screen, use one of the VioScrollxx calls.
+
+Assuming no target display configuration for VioSetMode is selected, the mode is
+set on the primary configuration.  If the primary configuration does not support
+the mode specified, the mode is set on the secondary configuration.
+
+
+VioSetOrigin
+================================================================================
+Set the position at which the presentation space maps to the window
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET APIENTRY  VioSetOrigin(ULONG Row, ULONG Column, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Height (ULONG) - input
+     Topmost row shown in the window
+
+  Width (ULONG) - input
+     Leftmost column shown in the window
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+This call is used when the presentation space is larger than the window
+size to control which part of the presentation space is displayed.  It
+does not itself cause any output to be displayed.
+
+In OS/2 2.x, hvio cannot be zero.
+
+
+
+
+VioSetState
+================================================================================
+This call performs one of the following functions; set palette registers, sets
+the overscan (border) color, set the blink/background intensity switch, set
+color registers, set the underline location, or set the target VioSetMode
+display configuration.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioSetState(PVOID RequestBlock, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  RequestBlock (PVOID) - input
+     Address of the video state structures consisting of six different
+     structures depending on the request type:
+
+     Type      Definition
+     0         Set palette registers
+     1         Set overscan (border) color
+     2         Set blink/background intensity switch
+     3         Set color registers
+     4         Reserved
+     5         Set underline location
+     6         Set target VioSetMode display configuration
+
+     The six structures, depending on request type, are:
+
+     VIOPALSTATE
+        length (USHORT) - input
+           Length of structure, including length.
+
+           38        Maximum valid value.
+
+        reqtype (USHORT) - input
+           Request type 0 for palette registers.
+
+        palette (USHORT) - input
+           First palette register in the palette register sequence; must be
+           specified in the range 0 through 15.  The palette registers are
+           returned in sequential order.  The number returned is based upon
+           length.
+
+        color (USHORT*(length-6)/2) - input
+           Color value for each palette register.  The maximum number of entries
+           in the color value array is 16.
+
+     VIOOVERSCAN
+        length (USHORT) - input
+           Length of structure, including length.
+
+           6         Only valid value.
+
+        reqtype (USHORT) - input
+           Request type 1 for overscan (border) color.
+
+        color (USHORT) - input
+           Color value.
+
+     VIOINTENSITY
+        length (USHORT) - input
+           Length of structure, including length.
+
+           6         Only valid value.
+
+        reqtype (USHORT) - input
+           Request type 2 for blink/background intensity switch.
+
+        switch (USHORT) - input
+           Switch set as:
+
+           Value     Definition
+           0         Blinking foreground colors enabled.
+           1         High intensity background colors enabled.
+
+        VIOCOLORREG
+           length (USHORT) - input
+              Length of structure, including length.
+
+              12        Only valid value.
+
+           type (USHORT) - input
+              Request type 3 for color registers.
+
+           first color (USHORT) - input
+              First color register to set in the color register sequence; must
+              be specified in the range 0 through 255.  The color registers are
+              set in sequential order.
+
+           number color (USHORT) - input
+              Number of color registers to set; must be specified in the range 1
+              through 256.
+
+           datarea (PCH) - input
+              Far address of a data area containing one three-byte entry for
+              each color register to be set.  The format of each entry is as
+              follows:
+
+              Byte 1    Red value
+              Byte 2    Green value
+              Byte 3    Blue value.
+
+        VIOSETULINELOC
+           length (USHORT) - input
+              Length of structure, including length.
+
+              6         Only valid value.
+
+           type (USHORT) - input
+              Request type 5 to set the scan line for underlining.  Underlining
+              is enabled only when the foreground color is 1 or 9.
+
+           scanline (USHORT) - input
+              Scan line minus 1. Values of 0 through 31 are acceptable.  A value
+              of 32 means underlining is disabled.
+
+        VIOSETTARGET
+           length (USHORT) - input
+              Length of structure, including length.
+              6         Only valid value.
+
+           type (USHORT) - input
+              Request type 6 to set display configuration to be the target of
+              the next VioSetMode.
+
+           select (USHORT) - input
+              Configuration:
+
+              Value     Definition
+              0         Default selection algorithm.  See VioSetMode.
+              1         Primary
+              2         Secondary.
+
+  hvio (HVIO) - input
+     Reserved value, must be zero.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+     438       ERROR_VIO_INVALID_LENGTH
+
+
+REMARKS
+-------
+
+Note: VioSetState allows setting of hardware dependent features.  Not all
+video hardware will honor these settings.
+
+
+
+VioShowBuf
+================================================================================
+This call updates the physical display buffer with the logical video buffer
+(LVB).
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioShowBuf(ULONG Offset, ULONG Length, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Offset (ULONG) - input
+     Starting offset within the logical video buffer at which the update to the
+     screen is to start.
+
+  Length (ULONG) - input
+     Length of the area to be updated to the screen.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     430       ERROR_VIO_ILLEGAL_DURING_POPUP
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+VioShowBuf is ignored unless it is issued by a process that has previously
+called VioGetBuf and that is currently executing in the foreground.
+
+
+
+VioShowPS
+================================================================================
+Update the disply of the Vio presentation space
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+    APIRET APIENTRY  VioShowPS(ULONG Depth, ULONG Width, ULONG Cell, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Depth (ULONG) - input
+     Depth of the updated rectangle
+
+  Width (ULONG) - input
+     Width of the updated rectangle
+
+  Cell (ULONG)
+     Offset to the first updated cell.  The offset of the top, left corner
+     is zero.
+
+  hvio (HVIO) - input
+     Vio presentation space handle.  This is either zero to indicate the
+     default Vio session, or a value returned by VioCreatePS.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     421       ERROR_VIO_INVALID_PARMS
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+This call is used to specify that part or all of the presentation space
+logical buffer needs to be redrawn.
+
+This call has the same function as VioShowBuf, but the area to update is
+specified differently.
+
+
+VioWrtCellStr
+================================================================================
+This call writes a string of character-attribute pairs (cells) to the display.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtCellStr(PCH CellStr, ULONG Length, ULONG Row, ULONG Column,
+                        HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  CellStr (PCH) - input
+     Address of the string of character-attribute(s) cells to be written.
+
+  Length (ULONG) - input
+     Length, in bytes, of the string to be written.  Each character-attribute(s)
+     cell is 2 or 4 bytes.
+
+  Row (ULONG) - input
+     Starting cursor row.
+
+  Column (ULONG) - input
+     Starting cursor column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string write gets to the end of the line and is not complete, the string
+write continues at the beginning of the next line.  If the write gets to the end
+of the screen, the write terminates.
+
+
+VioWrtCharStr
+================================================================================
+This call writes a character string to the display.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtCharStr(PCH CharStr, ULONG Length, ULONG Row, ULONG Column,
+                        HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  CharStr (PCH) - input
+     Address of the character string to be written.
+
+  Length (ULONG) - input
+     Length, in bytes, of the character string.
+
+  Row (ULONG) - input
+     Starting cursor row.
+
+  Column (ULONG) - input
+     Starting cursor column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string write gets to the end of the line and is not complete, the string
+write continues at the beginning of the next line.  If the write gets to the end
+of the screen, the write terminates.
+
+
+
+VioWrtCharStrAttr
+================================================================================
+This call writes a character string with repeated attribute to the display.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtCharStrAtt(PCH CharStr, ULONG Length, ULONG Row, ULONG Column,
+                           PBYTE Attr, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  CharStr (PCH) - input
+     Address of the character string to be written.
+
+  Length (ULONG) - input
+     Length, in bytes, of the character string.
+
+  Row (ULONG) - input
+     Starting cursor row.
+
+  Column (ULONG) - input
+     Starting cursor column.
+
+  Attr (PBYTE) - input
+     Address of the attribute(s) (1 or 3 bytes) to be used in the display buffer
+     for each character of the string written.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string write gets to the end of the line and is not complete, the string
+write continues at the beginning of the next line.  If the write gets to the end
+of the screen, the write terminates.
+
+
+VioWrtNAttr
+================================================================================
+This call writes an attribute to the display a specified number of times.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtNAttr(PBYTE Attr, ULONG Times, ULONG Row, ULONG Column,
+                      HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Attr (PBYTE) - input
+     Address of the attribute(s) (1 or 3 bytes) to be written.
+
+  Times (ULONG) - input
+     Number of times to write the attribute.
+
+  Row (ULONG) - input
+     Starting cursor row.
+
+  Column (ULONG) - input
+     Starting cursor column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a repeated write gets to the end of the line and is not complete, the write
+continues at the beginning of the next line.  If the write gets to the end of
+the screen, the write terminates.
+
+
+VioWrtNCell
+================================================================================
+This call writes a cell (character-attribute pair) to the display a specified
+number of times.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtNCell(PBYTE Cell, ULONG Times, ULONG Row, ULONG Column,
+                      HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Cell (PBYTE) - input
+     Address of the character-attribute(s) cell (2 or 4 bytes) to be written.
+
+  Times (ULONG) - input
+     Number of times to write the cell.
+
+  Row (ULONG) - input
+     Starting cursor row.
+
+  Column (ULONG) - input
+     Starting cursor column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a repeated write gets to the end of the line and is not complete, the write
+continues at the beginning of the next line.  If the write gets to the end of
+the screen, the write terminates.
+
+
+
+VioWrtNChar
+================================================================================
+VioWrtNChar writes a character to the display a specified number of times.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtNChar(PCH Char, ULONG Times, ULONG Row, ULONG Column,
+                      HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  Char (PCH) - input
+     Address of the character to be written.
+
+  Times (ULONG) - input
+     Number of times to write the character.
+
+  Row (ULONG) - input
+     Starting cursor row.
+
+  Column (ULONG) - input
+     Starting cursor column.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     358       ERROR_VIO_ROW
+     359       ERROR_VIO_COL
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a repeated write gets to the end of the line and is not complete, the write
+continues at the beginning of the next line.  If the write gets to the end of
+the screen, the write terminates.
+
+
+VioWrtTTY
+================================================================================
+This call writes a character string to the display starting at the current
+cursor position.  At the completion of the write, the cursor is positioned at
+the first position beyond the end of the string.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtTTY(PCH CharStr, ULONG Length, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  CharStr (PCH) - input
+     Address of the string to be written.
+
+  Length (ULONG) - input
+     Length of the character string in bytes.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string write gets to the end of the line and is not complete, the string
+write continues at the beginning of the next line.  If the write gets to the end
+of the screen, the screen is scrolled, and the write continues until completed.
+
+The characters carriage return, line feed, backspace, tab, and bell are treated
+as commands rather than printable characters.  Backspace is a non-destructive
+backspace.  Tabs are expanded to provide standard 8-byte-wide fields.  VioWrtTTY
+is the only video call affected by ANSI.
+
+Characters are written using the current attribute defined by ANSI or the
+default value 7.
+
+Characters are in the VIO codepage, but ANSI sequences are interpreted
+in ASCII.
+
+
+
+VioWrtTTYUni
+================================================================================
+This call writes a Unicode character string to the display starting at the
+current cursor position.  At the completion of the write, the cursor is
+positioned at the first position beyond the end of the string.
+
+
+CALL SYNTAX
+-----------
+
+ #define INCL_VIO
+
+ APIRET   VioWrtTTYUni(UniChar * UniCharStr, ULONG Length, HVIO hvio);
+
+
+PARAMETERS
+----------
+
+  UniCharStr (UniChar *) - input
+     Address of the string to be written.
+
+  Length (ULONG) - input
+     Length of the character string in bytes.
+
+  hvio (HVIO) - input
+     This must be zero unless the caller is a Presentation Manager application,
+     in which case it must be the value returned by VioGetPs.
+
+
+RETURNS
+-------
+     Return code descriptions are:
+
+     0         NO_ERROR
+     355       ERROR_VIO_MODE
+     436       ERROR_VIO_INVALID_HANDLE
+
+
+REMARKS
+-------
+
+If a string write gets to the end of the line and is not complete, the string
+write continues at the beginning of the next line.  If the write gets to the end
+of the screen, the screen is scrolled, and the write continues until completed.
+
+The characters carriage return, line feed, backspace, tab, and bell are treated
+as commands rather than printable characters.  Backspace is a non-destructive
+backspace.  Tabs are expanded to provide standard 8-byte-wide fields.  VioWrtTTY
+is the only video call affected by ANSI.
+
+Characters are written using the current attribute defined by ANSI or the
+default value 7.
+
+The unicode characters are placed into the video buffer in the current mode.
+If the Vio codepage does not contain the unicode character a substitution
+character is used and no error is given.
+
+
+
+WinDefAVioWindowProc
+================================================================================
+This call invodes the default AVIO window procedure.
+
+CALL SYNTAX
+-----------
+  #define INCL_AVIO
+
+  MRESULT APIENTRY WinDefAVioWindowProc(HWND hwnd, ULONG msg,
+                                      ULONG mp1, ULONG mp2);
+
+
+PARAMETERS
+----------
+  hwnd (HWND) - input
+     Window handle.
+
+  msg (ULONG) - input
+     Message identity
+
+  mp1 (ULONG) - input
+     Parameter 1
+
+  mp2 (ULONG) - input
+     Parameter 2
+
+REMARKS:
+  Applications using AVIO must pass all WM_SIZE messages for the window
+  with which the AVIO presentation space is associated to this routine
+  using the same parameters as are received in the WM_SIZE message.
+  This routine maintains the window size data in the presentation space,
+  and must be called before the application accesses the window.
+
+  This call is not a replacement for WinDefWindowProc which must also be
+  called to process any messages which have not been handled by the
+  application's window procudure.
+
+

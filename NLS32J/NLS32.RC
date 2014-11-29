@@ -1,0 +1,89 @@
+/***** NLS32 C サンプル・プログラム・リソース・スクリプト・ファイル(.RC) ******/
+/*                                                                            */
+/*  アプリケーションにより使用されるウィンドウ・リソースはリソース・スクリプ  */
+/*  ト・ファイル .RC で定義されます。このファイルはリソース・コンパイラーに   */
+/*  よりコンパイルされ，実行可能形式ファイルを生成します。                    */
+/*  この定義とはリソース定義ステートメント，またはリソースを含む他のファイル  */
+/*  への参照のいずれかです。                                                  */
+/*                                                                            */
+/*  このリソース・スクリプト・ファイルには以下の定義を含んでいます。          */
+/*  ------------------------------------------------------------------------  */
+/*  ステートメント:                   参照:                                   */
+/*  STRINGTABLE                       #include "nls32.h"                      */
+/*                                    ICON ICONID    nls32.ico                */
+/*                                    rcinclude      nls32.dlg                */
+/*                                                                            */
+/******************************************************************************/
+
+#define INCL_PM
+#define INCL_NLS
+
+#include <os2.h>
+#include "nls32.h"
+
+MENU ID_NLSSAMP  PRELOAD
+BEGIN
+    SUBMENU         "IME モード(\036I\037ｱ)"                   ,  IDM_IME
+    BEGIN
+        MENUITEM    "IME 活動/非活動(\036A\037ｶ)"    ,  IDCMD_ACTIVATE
+        MENUITEM    "IME 使用可/不可(\036E\037ｼ)"         ,  IDCMD_ENABLE
+        MENUITEM    "スポット変換-使用可/不可(\036S\037ｽ)" ,  IDCMD_ONTHESPOT
+        MENUITEM    "かな漢字変換-使用可/不可(\036K\037ﾍ)"   ,  IDCMD_INLINE
+        MENUITEM    "IME 名の問い合わせ(\036Q\037ﾄ)"         ,  IDCMD_IMENAME
+    END
+    SUBMENU         "文字モード(\036C\037ﾓ)"             ,  IDM_CHARACTER
+    BEGIN
+        MENUITEM    "英数字(\036A\037ｴ)"             ,  IDCMD_ALPHA
+        MENUITEM    "カタカナ(\036K\037ｶ)"           ,  IDCMD_KATAKANA
+        MENUITEM    "ひらがな(\036H\037ﾋ)"           ,  IDCMD_HIRAGANA
+        MENUITEM    "SBCS/DBCS(\036S\037ｴ)"                  ,  IDCMD_SBCSDBCS
+        MENUITEM    "ローマ字/非ローマ字(\036R\037ﾛ)"        ,  IDCMD_ROMAN
+        MENUITEM    "適用業務状況(\036T\037ﾃ)"               ,  IDCMD_APPLSTAT
+        MENUITEM    "優先順位(\036P\037ﾕ)"                   ,  IDCMD_PRIORITY
+    END
+    SUBMENU         "フォント(\036F\037ﾌ)"                      ,  IDM_FONTS
+    BEGIN
+        MENUITEM    "フォント選択(\036S\037ｾ)..."             ,  IDCMD_SELECTFONT
+        MENUITEM    "フォント･ドライバーのロード(\036L\037ﾛ)..."        ,  IDCMD_LOADFD
+        MENUITEM    "フォント･ドライバーのアンロード(\036U\037ｱ)..."    ,  IDCMD_UNLOAD
+    END
+    SUBMENU         "折り返し(\036W\037ｵ)"                   ,  IDM_WORDWRAP
+    BEGIN
+        MENUITEM    "あり/なし(\036Y\037ｱ)"                     ,  IDCMD_WORDWRAP
+    END
+    SUBMENU         "終了(\036X\037ｼ)"                       ,  IDM_EXIT
+    BEGIN
+        MENUITEM    "終了実行(\036E\037ｼ)...\tF3"     ,  IDCMD_EXIT
+        MENUITEM    "再開(\036R\037ｻ)"                    ,  IDCMD_CONTINUE
+    END
+    SUBMENU         "ヘルプ(\036H\037ﾍ)"                       ,  IDM_HELP
+    BEGIN
+        MENUITEM    "全般ヘルプ(\036E\037ｾ)..."           ,  IDCMD_HELPEXT
+        MENUITEM    "ヘルプ索引(\036I\037ｻ)..."              ,  IDCMD_HELPIND
+        MENUITEM    "キーのヘルプ(\036K\037ｷ)..."               ,  IDCMD_HELPKEY
+
+    END
+END
+
+ICON ID_NLSSAMP   nls32.ico
+
+ACCELTABLE ID_NLSSAMP PRELOAD
+BEGIN
+   VK_F3, IDCMD_EXIT,  VIRTUALKEY
+END
+
+STRINGTABLE
+BEGIN
+    IDSNAME,      "Nls32"
+    IDSDLGHELP,   "ダイアログ・ボックス・ヘルプがここに表示されます。"
+    IDSDEFAULTFD, "C:\\OS2\\DLL\\PMNLSFD2.FDR"
+    IDSERRORFD,   "フォント・ドライバーはすでにロードされています。"
+    IDSHELP,      "ヘルプ情報がここに用意されます。"
+    IDSEND,       "プログラムを終了しますか?"
+    IDSPORTD,     "PM_PORT_DRIVER"
+    IDSPORTDKEY,  "PARALLEL"
+    IDSNONEFDR,   "フォント・ドライバー・ファイルが見つかりません。"
+END
+
+rcinclude nls32.dlg
+

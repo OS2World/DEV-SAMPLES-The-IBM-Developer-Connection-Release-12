@@ -1,0 +1,66 @@
+Source for Generalised Bitmap Module
+------------------------------------
+
+I wrote this all in my spare time.
+I hereby place this source code in the public domain.
+Please feel free to use this source in any way you please.
+Do not try to exclude others from using this source.
+No guarantees provided, and support is in my scarce free time.
+
+Unzip with the -d option to make the following directories :-
+
+	.
+		Bits from elsewhere, included to make source complete.
+		scroll.* is a pre-built OS/2 2.x PM scroller control.
+
+	.\gbm
+		Fully portable 32 bit C code that provides most of the
+		functionality. Has been compiled on 32 bit OS/2, AIX and other
+		32 bit platforms. Provides librarys to perform file I/O,
+		error-diffusion, halftoning, colour reduction, reflecting,
+		rotating, transposing, scaling and cropping.
+
+	.\gbmv
+		Simple 32 bit OS/2 PM bitmap viewer. Simply provides application
+		whose client displays a bitmap.
+
+	.\gbmdlg
+		Provides a derivation of WinFileDlg, which is designed to
+		allow the user to specify the file for loading or saving.
+		Has additional entryfield for "Bitmap specific options".
+		Has "Bitmap", "GIF", "PCX" etc. in the Filetypes combo box.
+		Includes help source to generate accompanying help text.
+
+	.\gbmv2
+		Sophisticated 32 bit OS/2 PM bitmap viewer with menu and dialogs
+		to give access to bitmap manipulation tools. Full help.
+
+	.\gbmvfsa
+		OS/2 Full Screen animation viewer using 320x200 8bpp VGA mode.
+		Written using the almost documented Vio calls.
+
+	.\gbmlogo
+		Tool to make VRAM0.DAT, VRAM1.DAT, VRAM2.DAT and VRAM3.DAT for
+		feeding into MAKELOGO.EXE supplied on Developer Connection CD 6.
+		MAKELOGO.EXE makes VRAM.DAT which can be copied over hidden
+		file \OS2LOGO on the boot drive, to change the boot screen.
+		Input to GBMLOGO.EXE should be a 640x400 bitmap.
+
+Each directory effectively defines one of my projects. They should be built in
+the order listed above, because later projects use headers/librarys etc. from
+the earlier ones.
+
+If a makefile uses stuff from another directory, it accesses it via a make
+variable defined at the start. In this way, if I move a directory, I need only
+change a line at the top of a makefile.
+
+In fact the source is supplied with makefiles that work on my machine.
+So you will need to edit the makefiles and change the following lines to :-
+
+	SCROLL =		to place where . directory unzipped to
+	GBM =			to place where .\gbm directory unzipped to
+	GBMDLG =		to place where .\gbmdlg directory unzipped to
+
+{{{ Andy Key
+
+Internet: ak@nyangau.aladdin.co.uk

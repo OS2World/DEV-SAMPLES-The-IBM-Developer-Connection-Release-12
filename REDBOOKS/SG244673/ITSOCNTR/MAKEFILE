@@ -1,0 +1,202 @@
+!INCLUDE <stdmake.inc>
+#  Makefile for SOM-based OpenDoc Parts  - Created by Bart Jacob
+#
+#    ษออออออออออออออออออออออออออออออออออออออออออออออป
+#    บ Filename: itsocntr  Class: ITSOContainerPart บ
+#    ศออออออออออออออออออออออออออออออออออออออออออออออผ
+#
+#  Assumes the following macros/environment variables are
+#  set and the associated directory structures exist:
+#
+#    SOMBASE   -  Directory where SOM Toolkit is installed.
+#
+#      $(SOMBASE)
+#           ณ
+#           รฤ INCLUDE     // SOM Toolkit IDL's and Bindings (.h and/or .xh files)
+#           ภฤ LIB         // SOM Toolkit LIB files used for linking
+#
+#    ODBASE    -  Directory where OpenDoc Toolkit is Installed
+#
+#      $(ODBASE)
+#           ณ
+#           รฤ IDL         // OpenDoc provided IDL's for OpenDoc classes
+#           รฤ INCLUDE     // OpendDoc bindings (.h and/or .xh files)
+#           รฤ OS2H        // Location of new OS2.H file
+#           รฤ SAMPLES     // OpendDoc Sample Code
+#           ณ    ภฤPARTS   // OpenDoc Sample Parts
+#           ภฤ LIB         // OpenDoc LIB files used for linking
+#                               (opendoc.lib , os2cmbsi.lib)
+#
+#    ODSRCBASE   -  Parent directory for directories containing source for
+#                   individual parts.
+#
+#      $(ODSRCBASE)
+#           ณ
+#           รฤ xxx         //
+#           รฤ yyy         // Directories for various parts
+#           ภฤ zzz         //
+#
+#    MYPARTS    -  Directory where Class Libraries (DLL's) will reside...
+#                  this direcotry must also be specified in ther LIBPATH
+#
+# -------------------------------------------------------------------------------
+
+#
+# The following lines ensure pre-req environment variables are set.
+#
+
+!IFNDEF SOMBASE
+!ERROR  Required environment parameter not set: SOMBASE
+!ENDIF
+
+!IFNDEF ODBASE
+!ERROR  Required environment parameter not set: ODBASE
+!ENDIF
+
+!IFNDEF ODSRCBASE
+!ERROR  Required environment parameter not set: ODSRCBASE
+!ENDIF
+
+!IFNDEF MYPARTS
+!ERROR  Required environment parameter not set: MYPARTS
+!ENDIF
+
+# ----Macro Definitions----Macro Definitions-----Macro Definitions----
+
+CLASSFNAM   = itsocntr
+PARENT      =
+
+#CDEBUG      = /Ti+ -DDEBUG
+#LDEBUG      = /CO
+
+PUBLIC      = $(ODBASE)\samples\parts\public
+DEST        = $(MYPARTS)
+
+CC          = icc
+CFLAGS      = $(CDEBUG) -Gd+ /Ge- /Gm+ /Q /N20 /C /Fi /Si $(INCLUDEPATH)
+
+!IFDEF VACPP
+
+LINKER      = ilink
+LKSYNTX     = /nofree
+
+!ELSE
+
+LINKER      = link386
+
+!ENDIF
+
+LFLAGS      = $(LKSYNTX) $(LDEBUG) /nod /noe /packd /packc /exepack /align:16 /pmtype:pm /nologo /noi
+
+!IFDEF VACPP
+
+LIBLIST     = \
+              cppom30i.lib \
+              CPPOOC3i.LIB \
+              somtk.lib   \
+              os2386.lib   \
+              os2cmbsi.lib \
+              opendoc.lib  
+
+!ELSE
+
+LIBLIST     = \
+              dde4muii.lib    \
+              dde4cci.lib     \
+              dde4mbsi.lib    \
+              somtk.lib       \
+              os2386.lib      \
+              os2cmbsi.lib    \
+              opendoc.lib  
+
+!ENDIF
+
+OBJLIST     = iswin.obj partinfo.obj ordcoll.obj xfrmiter.obj $(CLASSFNAM).obj
+
+CLEANFILES = $(OBJLIST)               \
+             *.xh                     \
+             *.xih                    \
+             $(CLASSFNAM).def         \
+             $(CLASSFNAM).res         
+
+# ----Targets-----Targets-----Targets-----Targets-----Targets----
+
+ALL:  $(DEST)\$(CLASSFNAM).dll $(PUBLIC)\$(CLASSFNAM).pdl
+  @echo Up-to-date
+
+$(DEST)\$(CLASSFNAM).dll: $(OBJLIST) $(CLASSFNAM).def $(CLASSFNAM).res
+       $(LINKER) $(LFLAGS) @<<
+$(OBJLIST) focuslib.obj except.obj odexenv.obj oddebug.obj
+$(DEST)\$(CLASSFNAM).dll
+nul
+$(LIBLIST)
+$(CLASSFNAM).def
+<<
+       rc $(CLASSFNAM).res $(DEST)\$(CLASSFNAM).dll
+
+iswin.obj       : iswin.cpp        \
+                  iswin.hpp        
+
+partinfo.obj    : partinfo.cpp     \
+                  partinfo.hpp
+
+ordcoll.obj     : ordcoll.cpp      \
+                  ordcoll.h      
+
+xfrmiter.xih    : xfrmiter.idl
+
+#xfrmiter.xh     : xfrmiter.idl
+
+xfrmiter.cpp    : xfrmiter.idl
+
+xfrmiter.obj    : xfrmiter.cpp     \
+                  xfrmiter.xih     \
+                  xfrmiter.xh      
+
+$(CLASSFNAM).xih: $(CLASSFNAM).idl
+
+#$(CLASSFNAM).xh : $(CLASSFNAM).idl
+
+$(CLASSFNAM).cpp: $(CLASSFNAM).idl
+
+$(CLASSFNAM).obj: $(CLASSFNAM).cpp \
+                  $(CLASSFNAM).xih \
+                  $(CLASSFNAM).xh  \
+                  itsodefs.h       \
+                  itsorc.h         
+
+$(CLASSFNAM).res: $(CLASSFNAM).rc itsorc.h $(CLASSFNAM).dlg
+
+$(CLASSFNAM).def: $(CLASSFNAM).idl
+
+$(PUBLIC)\$(CLASSFNAM).pdl: $(CLASSFNAM).idl
+
+cpp:
+  $(SC) $(SCCPP) $(CLASSFNAM).idl
+
+!IFDEF VACPP
+clean:
+        @erase *.pch
+        @del $(CLEANFILES)  >nul 2>&1 
+
+!ELSE
+
+clean:
+        @cd cset2pre
+        @erase *.*h*
+        @cd ..
+        @rd cset2pre
+        @del $(CLEANFILES)  >nul 2>&1 
+
+!ENDIF
+
+checkin:
+        @\utils\checkin keypad.cpp
+
+checkout:
+        @\utils\checkout keypad.cpp
+
+zip:
+        pkzip2 -x*.x* -x*.obj -x*.dll -p $(CLASSFNAM).zip *.*
+
+

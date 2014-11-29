@@ -1,0 +1,36 @@
+
+            OS/2 Warp DBCS Application Primer Featuring XPG4
+                                                                   02/16/96  DTCO
+
+This package contains the following:
+
+   README  1ST        This file.
+
+   XPRMOS2 INF        Guide document (INF format).
+
+   XPRMOS2 <DIR>      Sample sources, data and executable module.
+       |
+       +-- en_us <DIR>  English resources (Source, .DLL and .HLP)
+       |
+       +-- ja_jp <DIR>  Japanese resources (Source, .DLL and .HLP)
+
+
+   LOCALE  <DIR>      The locale files.
+              |
+              +-- dde4mth.dll  A dll file from VAC++
+              |
+              +-- en_us <DIR> English locales from VAC++
+              |
+              +-- ja_jp <DIR> Japanese locales from VAC++
+
+
+ Please read "READ.ME" file in the XPRMOS2 directory for the rest of the
+ instructions.  The section 1.1 must be replaced with the following. 
+
+    --------------------------------------------------------------
+     Copy the dde4mth.dll file to a directory which is included in               
+     LIBPATH statement.                                  
+    --------------------------------------------------------------
+
+
+

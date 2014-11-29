@@ -1,0 +1,11 @@
+user beyoder
+cd beyoder.191
+ascii
+put ccp.doc                 ccp.doc
+binary
+put ccp.exe                 ccp.exebin
+put ..\utildos\ccp.exe      ccp.exedbin
+close
+quit
+
+

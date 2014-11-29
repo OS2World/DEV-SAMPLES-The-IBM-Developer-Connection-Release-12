@@ -1,0 +1,83 @@
+
+ dragfold
+
+ Start         Length     Name                   Class
+ 0001:00000000 000000354H CODE32                 CODE 32-bit
+ 0002:00000000 000000004H DDE4_DATA32            DATA 32-bit
+ 0003:00000000 000000200H DATA32                 DATA 32-bit
+ 0003:00000200 000000000H CTOR_DTOR1             DATA 32-bit
+ 0003:00000200 000000000H CTOR_DTOR2             DATA 32-bit
+ 0003:00000200 000000000H CTOR_DTOR3             DATA 32-bit
+ 0003:00000200 000000000H CONST32                CONST 32-bit
+ 0003:00000200 000000000H BSS32                  BSS 32-bit
+ 0003:00000200 000000004H c_common               BSS 32-bit
+
+ Origin   Group
+ 0003:0   DGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0003:00000004 DRAGFOLDCClassData      DRAGFOLDCClassData
+ 0003:00000000 DRAGFOLDClassData       DRAGFOLDClassData
+ 0001:00000000 DRAGFOLDNewClass        DRAGFOLDNewClass
+
+  Address         Publics by Name
+
+ 0003:00000004       DRAGFOLDCClassData
+ 0003:00000000       DRAGFOLDClassData
+ 0001:00000000       DRAGFOLDNewClass
+ 0001:0000002C       dragf_wpDragOver
+ 0001:00000144       dragf_wpDrop
+ 0000:00000000  Imp  DrgAddStrHandle      (PMDRAG.33)
+ 0000:00000000  Imp  DrgDeleteStrHandle   (PMDRAG.37)
+ 0000:00000000  Imp  DrgQueryDragitemPtr  (PMDRAG.46)
+ 0000:00000000  Imp  DrgVerifyRMF         (PMDRAG.59)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  WPFolderNewClass     (PMWP.15)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0002:00000000       _dllentry
+ 0001:0000021C       _DLL_InitTerm
+ 0003:00000200       _edata
+ 0003:00000204       _end
+ 0001:0000023C       _fpninit
+ 0003:000001F0       __ctdtused
+ 0003:00000200       __ctordtorCurrent
+ 0003:00000200       __ctordtorEnd
+ 0001:00000270       __ctordtorInit
+ 0003:00000200       __ctordtorStart
+ 0001:00000240       __ctordtorTerm
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  WPFolderNewClass     (PMWP.15)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  DrgDeleteStrHandle   (PMDRAG.37)
+ 0000:00000000  Imp  DrgVerifyRMF         (PMDRAG.59)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0000:00000000  Imp  DrgAddStrHandle      (PMDRAG.33)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  DrgQueryDragitemPtr  (PMDRAG.46)
+ 0001:00000000       DRAGFOLDNewClass
+ 0001:0000002C       dragf_wpDragOver
+ 0001:00000144       dragf_wpDrop
+ 0001:0000021C       _DLL_InitTerm
+ 0001:0000023C       _fpninit
+ 0001:00000240       __ctordtorTerm
+ 0001:00000270       __ctordtorInit
+ 0002:00000000       _dllentry
+ 0003:00000000       DRAGFOLDClassData
+ 0003:00000004       DRAGFOLDCClassData
+ 0003:000001F0       __ctdtused
+ 0003:00000200       _edata
+ 0003:00000200       __ctordtorStart
+ 0003:00000200       __ctordtorEnd
+ 0003:00000200       __ctordtorCurrent
+ 0003:00000204       _end
+
+Program entry point at 0001:0000021C

@@ -1,0 +1,12 @@
+
+DLGTEMPLATE 100 LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Send a Message to Win/OS2 process", 100, 80, 17, 176, 92,
+            WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        ENTRYFIELD      "", 101, 11, 48, 160, 8, ES_MARGIN
+        PUSHBUTTON      "~OK", IDC_OK, 10, 10, 50, 20
+        PUSHBUTTON      "Cancel",IDC_CANCEL, 122, 9, 45, 20
+        LTEXT           "Enter Message to Send", 104, 9, 59, 97, 11
+    END
+END

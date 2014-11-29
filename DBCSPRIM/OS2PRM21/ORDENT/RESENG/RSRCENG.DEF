@@ -1,0 +1,8 @@
+;-----------------------------------
+; rsrceng.def module definition file
+;-----------------------------------
+
+LIBRARY      RSRCENG
+
+DESCRIPTION  'DBCS OS/2 Sample Program, Order Entry Resources for US English'
+

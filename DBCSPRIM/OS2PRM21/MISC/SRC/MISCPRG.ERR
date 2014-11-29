@@ -1,0 +1,10 @@
+Operating System/2  Resource Compiler
+Version 2.02.001 Feb 01 1994
+(C) Copyright IBM Corporation 1988-1993
+(C) Copyright Microsoft Corp. 1985-1993
+All rights reserved.
+
+RC: warning - country code 0 is incorrect for this codepage -- using default
+
+Creating binary resource file miscprg.RES
+RC:  RCPP -E -D RC_INVOKED -f miscprg.rc -ef d:\r207\tools\RCPP.ERR -I . -I D:\SURESH\IBMCPP\INCLUDE -I D:\TOOLKIT\H

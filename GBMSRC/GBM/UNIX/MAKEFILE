@@ -1,0 +1,178 @@
+#
+# Generalised Bitmap Module
+# UNIX
+#
+
+CFLAGS =	-c -O -DUNIX -DAIX
+#CFLAGS =	-c -O -DUNIX -DSUN
+#CFLAGS =	-c -O -DUNIX -DXNX
+#CFLAGS =	-c -O -DUNIX -DHP
+
+.SUFFIXES:	.c .o
+
+.c.o:
+		cc $(CFLAGS) $*.c
+
+#
+
+all:		gbm.a gbmhdr \
+		gbmmir.a gbmref \
+		gbmrect.a gbmsub \
+		gbmscale.a gbmsize \
+		gbmerr.a gbmtrunc.a gbmht.a gbmhist.a gbmmcut.a gbmbpp \
+		gbmcpal \
+		gbmgamma
+
+#
+
+gbm.a:		gbm.o gbmpgm.o gbmppm.o gbmbmp.o gbmtga.o gbmkps.o gbmiax.o gbmpcx.o gbmtif.o gbmtifh.o gbmlbm.o gbmvid.o gbmgif.o gbmxbm.o gbmspr.o gbmpsg.o gbmgem.o gbmcvp.o gbmhelp.o
+		ar ru gbm.a gbm.o gbmpgm.o gbmppm.o gbmbmp.o gbmtga.o gbmkps.o gbmiax.o gbmpcx.o gbmtif.o gbmtifh.o gbmlbm.o gbmvid.o gbmgif.o gbmxbm.o gbmspr.o gbmpsg.o gbmgem.o gbmcvp.o gbmhelp.o
+
+gbm.o:		gbm.c gbm.h gbmhelp.h gbmpgm.h gbmppm.h gbmbmp.h gbmtga.h gbmkps.h gbmiax.h gbmpcx.h gbmtif.h gbmlbm.h gbmvid.h gbmgif.h gbmxbm.h gbmspr.h gbmpsg.h gbmgem.h gbmcvp.h
+
+gbmpgm.o:	gbmpgm.c gbm.h gbmhelp.h
+
+gbmppm.o:	gbmppm.c gbm.h gbmhelp.h
+
+gbmbmp.o:	gbmbmp.c gbm.h gbmhelp.h
+
+gbmtga.o:	gbmtga.c gbm.h gbmhelp.h
+
+gbmkps.o:	gbmkps.c gbm.h gbmhelp.h
+
+gbmiax.o:	gbmiax.c gbm.h gbmhelp.h
+
+gbmpcx.o:	gbmpcx.c gbm.h gbmhelp.h
+
+gbmtif.o:	gbmtif.c gbm.h gbmhelp.h gbmtifh.h
+
+gbmtifh.o:	gbmtifh.c gbmtifh.h
+
+gbmlbm.o:	gbmlbm.c gbm.h gbmhelp.h
+
+gbmvid.o:	gbmvid.c gbm.h gbmhelp.h
+
+gbmgif.o:	gbmgif.c gbm.h gbmhelp.h
+
+gbmxbm.o:	gbmxbm.c gbm.h gbmhelp.h
+
+gbmspr.o:	gbmspr.c gbm.h gbmhelp.h
+
+gbmpsg.o:	gbmpsg.c gbm.h gbmhelp.h
+
+gbmgem.o:	gbmgem.c gbm.h gbmhelp.h
+
+gbmcvp.o:	gbmcvp.c gbm.h gbmhelp.h
+
+gbmhelp.o:	gbmhelp.c gbm.h
+
+#
+
+gbmhdr:		gbmhdr.o gbm.a
+		cc -o gbmhdr gbmhdr.o gbm.a
+		strip gbmhdr
+
+gbmhdr.o:	gbmhdr.c gbm.h
+
+#
+
+gbmmir.a:	gbmmir.o
+		ar ru gbmmir.a gbmmir.o
+
+gbmmir.o:	gbmmir.c
+
+gbmref:		gbmref.o gbm.a gbmmir.a
+		cc -o gbmref gbmref.o gbm.a gbmmir.a
+		strip gbmref
+
+gbmref.o:	gbmref.c gbm.h gbmmir.h
+
+#
+
+gbmrect.a:	gbmrect.o
+		ar ru gbmrect.a gbmrect.o
+
+gbmrect.o:	gbmrect.c
+
+gbmsub:		gbmsub.o gbm.a gbmrect.a
+		cc -o gbmsub gbmsub.o gbm.a gbmrect.a
+		strip gbmsub
+
+gbmsub.o:	gbmsub.c gbm.h gbmrect.h
+
+#
+
+gbmscale.a:	gbmscale.o
+		ar ru gbmscale.a gbmscale.o
+
+gbmscale.o:	gbmscale.c
+
+gbmsize:	gbmsize.o gbm.a gbmscale.a
+		cc -o gbmsize gbmsize.o gbm.a gbmscale.a
+		strip gbmsize
+
+gbmsize.o:	gbmsize.c gbm.h gbmscale.h
+
+#
+
+gbmerr.a:	gbmerr.o
+		ar ru gbmerr.a gbmerr.o
+
+gbmerr.o:	gbmerr.c
+
+#
+
+gbmtrunc.a:	gbmtrunc.o
+		ar ru gbmtrunc.a gbmtrunc.o
+
+gbmtrunc.o:	gbmtrunc.c
+
+#
+
+gbmht.a:	gbmht.o
+		ar ru gbmht.a gbmht.o
+
+gbmht.o:	gbmht.c
+
+#
+
+gbmhist.a:	gbmhist.o
+		ar ru gbmhist.a gbmhist.o
+
+gbmhist.o:	gbmhist.c
+
+#
+
+gbmmcut.a:	gbmmcut.o
+		ar ru gbmmcut.a gbmmcut.o
+
+gbmmcut.o:	gbmmcut.c
+
+#
+
+gbmbpp:		gbmbpp.o gbm.a gbmerr.a gbmtrunc.a gbmht.a gbmhist.a gbmmcut.a
+		cc -o gbmbpp gbmbpp.o gbm.a gbmerr.a gbmtrunc.a gbmht.a gbmhist.a gbmmcut.a
+		strip gbmbpp
+
+gbmbpp.o:	gbmbpp.c gbm.h gbmerr.h gbmtrunc.h gbmht.h gbmhist.h gbmmcut.h
+
+#
+
+gbmcpal:	gbmcpal.o gbm.a gbmhist.a gbmmcut.a
+		cc -o gbmcpal gbmcpal.o gbm.a gbmhist.a gbmmcut.a
+		strip gbmcpal
+
+gbmcpal.o:	gbmcpal.c gbm.h gbmhist.h gbmmcut.h
+
+#
+
+gbmgamma:	gbmgamma.o gbm.a
+		cc -o gbmgamma gbmgamma.o gbm.a -lm
+		strip gbmgamma
+
+gbmgamma.o:	gbmgamma.c gbm.h
+
+#
+
+clean:
+		@rm -f *.o

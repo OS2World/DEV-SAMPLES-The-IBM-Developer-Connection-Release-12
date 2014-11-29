@@ -1,0 +1,42 @@
+
+; ROUTINE NAME: ProInitComp. Set up IDC with Parallel Port Device Driver.
+;
+; FUNCTION:     This routine is called after all device drivers are
+;               initialized so that device drivers can setup their
+;               inter-device driver communications.  This routine
+;               removes ordering dependencies from within config.sys.
+;               The prototype device driver obtains the parallel port
+;               device driver's IDC routine address.
+;
+; NOTES:        System initialization resized our code segment on return
+;               from the init command.  Since the init command happens
+;               before init complete, this routine cannot be discarded
+;               like the init routine.  The next best thing is to make
+;               this routine swappable.
+;
+;               This routine is called at kernel (task) time, not
+;               device driver initialization time.
+;
+; ENTRY:        es:bx -> kernel request packet
+;               ds       our data segment
+;
+; EXIT:         all other registers are not preserved
+;
+        PUBLIC  proinitcomp
+proinitcomp     proc    near
+        ASSUME  CS:SWAPSEG,DS:DSEG,ES:NOTHING,SS:NOTHING
+
+        push    bx                                      ; Save register
+        mov     bx,offset prtname                       ; Device driver name
+        mov     di,offset prt                           ; AttachDD structure
+        mov     dl,DevHlp_AttachDD                      ; Attach DD function
+        call    DWORD PTR [device_help]                 ; Call device help
+;       jc      error                                   ; Error processing
+
+        pop     bx                                      ; Restore register
+        mov     es:[bx].RPStatus,REQDONE                ; Set the done bit
+        ret
+proinitcomp     endp
+
+<< Prototype Device Driver Initialization Complete Routine >>
+

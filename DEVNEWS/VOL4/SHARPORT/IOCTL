@@ -1,0 +1,62 @@
+
+; Generic IOCtl Request Packet Structure Definition
+
+ReqPacket       STRUC
+RPLength        db      ?       ; Request Packet Length
+RPUnitCode      db      ?       ; Request Packet Unit Code
+RPCommand       db      ?       ; Request Packet Command Code
+RPStatus        dw      ?       ; Request Packet Return Status
+RPReserved      dd      ?       ; Request Packet Reserved
+RPQueue         dd      ?       ; Request Packet Queue Linkage
+Category        db      ?       ; Category Code
+Function        db      ?       ; Function Code
+GIOParmPack     dd      ?       ; PTR to Parm Packet
+GIODataPack     dd      ?       ; PTR To Data Packet
+GIOSFN          dw      ?       ; System File Number
+GIOParmLen      dw      ?       ; Parm Packet Length
+GIODataLen      dw      ?       ; Data Packet Length
+ReqPacket       ENDS
+
+; RPStatus Return Codes
+
+REQDONE                 EQU     0100h   ; REQUEST IS DONE, NO ERROR, NO RET CODE
+
+; Device Helper Function Codes
+
+DevHlp_AttachDD         EQU     42  ; 2Ah Verify access to memory
+
+; Device Driver Header Flags and Capabilities
+
+DEV_CHAR_DEV            EQU     8000H
+DEVLEV_3                EQU     0180H
+DEV_30                  EQU     0800H
+
+DEV_IOCTL2              EQU     0001H
+DEV_INITCOMPLETE        EQU     0010H
+
+; Global Data Area
+
+device_help     dd      0       ; Device Helper Services Pointer
+
+PDDIDC          STRUC
+IDCRealEntry    dd      ?       ; Real Mode Entry Point (Seg:Offset)
+IDCRealDS       dw      ?       ; Real Mode Data Segment
+IDCProtEntry    dd      ?       ; Protect Mode Entry Point (Sel:Offset)
+IDCProtDS       dw      ?       ; Protect Mode Data Selector
+PDDIDC          ENDS
+
+prtname         db      "LPT1    ",0 ; Device driver name
+prt             PDDIDC  <>      ; Record for attaching to Parallel Port DD
+
+REQEXCLUSIVE    EQU     0       ; Request exclusive function code
+RELEXCLUSIVE    EQU     1       ; Release exclusive function code
+REQWAIT         EQU     1       ; Wait for exclusive access
+LPT1            EQU     0       ; First parallel port
+LPT2            EQU     1       ; Second parallel port
+LPT3            EQU     2       ; Third parallel port
+
+flags           dw      0       ; Global flags
+HAVEACCESS      EQU     1       ; Have access to parallel port
+
+<<Prototype Device Driver Data Structures>>
+

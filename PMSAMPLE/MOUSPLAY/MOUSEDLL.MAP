@@ -1,0 +1,29 @@
+
+ mousedll
+
+ Start         Length     Name                   Class
+ 0001:00000000 000002AF4H CODE32                 CODE 32-bit
+ 0002:00000000 000000030H _MSGSEG32              CODE 32-bit
+ 0003:00000000 000000058H GLOBDATA               DATA 32-bit
+ 0004:00000000 000000774H DATA32                 DATA 32-bit
+ 0004:00000774 000000204H CONST32                CONST 32-bit
+ 0004:00000978 00000000CH EDC1                   EDC_CLASS 32-bit
+ 0004:00000984 000000114H EDC2                   EDC_CLASS 32-bit
+ 0004:00000A98 000000004H EDC3                   EDC_CLASS 32-bit
+ 0004:00000A9C 000000000H BSS32                  BSS 32-bit
+ 0004:00000A9C 0000000F9H c_common               BSS 32-bit
+
+ Origin   Group
+ 0004:0   DGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0001:00000120 KeyPlayHookProc         KeyPlayHookProc
+ 0001:00000000 MousePlayHookProc       MousePlayHookProc
+ 0003:00000008 PlayString              PlayString
+ 0003:00000000 sXCoordinate            sXCoordinate
+ 0003:00000002 sYCoordinate            sYCoordinate
+ 0003:00000004 Thmq                    Thmq
+
+Program entry point at 0001:00002918

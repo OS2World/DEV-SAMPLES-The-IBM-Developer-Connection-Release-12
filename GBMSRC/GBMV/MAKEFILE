@@ -1,0 +1,35 @@
+#
+# Simple bitmap viewer
+#
+# IBM C-Set++
+#
+
+GBM =		\ak\gbm\gbm
+
+.SUFFIXES:	.c .obj
+
+CFLAGS =	/C+ /W3 /I$(GBM) /G4 /Gd-e+m+ /Q+ /Wpro /O+
+LFLAGS =	/BATCH /NOLOGO /ALIGN:4 /BASE:0x10000 /NOI
+
+.c.obj:
+		icc $(CFLAGS) $*.c
+
+#
+
+gbmv.exe:	gbmv.obj gbmv.def gbmv.res $(GBM)\gbm.lib $(GBM)\gbmerr.lib $(GBM)\gbmht.lib
+		link386 $(LFLAGS) gbmv.obj,$@, nul, $(GBM)\gbm.lib $(GBM)\gbmerr.lib $(GBM)\gbmht.lib, gbmv.def
+		rc gbmv.res $@
+
+gbmv.obj:	gbmv.c gbmv.h $(GBM)\gbm.h $(GBM)\gbmerr.h $(GBM)\gbmht.h
+
+gbmv.res:	gbmv.rc gbmv.h gbmv.ico
+		rc -r gbmv.rc
+
+#
+
+clean:
+		-del *.obj *.res 2> nul
+
+install:
+		copy *.exe d:\gbm
+

@@ -1,0 +1,11 @@
+
+;CountryCode=35
+
+;CountryKeyboard=39
+
+;The path specified on the command line overrides this value.
+TargetPath=C:\DOS
+
+;HistoryLogFile=C:\PCDOS.HIS
+;ErrorLogFile=C:\PCDOS.ERR
+

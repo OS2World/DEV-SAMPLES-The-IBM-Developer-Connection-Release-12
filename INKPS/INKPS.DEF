@@ -1,0 +1,18 @@
+NAME    INKPS  WINDOWAPI
+DESCRIPTION 'New InkPS Demo'
+
+PROTMODE
+
+CODE            MOVEABLE
+DATA            MOVEABLE
+
+HEAPSIZE        30000
+STACKSIZE       10000
+
+IMPORTS
+
+    GpiBeginInkPath   = PMGPI.670
+    GpiEndInkPath     = PMGPI.671
+    GpiStrokeInkPath  = PMGPI.672
+
+

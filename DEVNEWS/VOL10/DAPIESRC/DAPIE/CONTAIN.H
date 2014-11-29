@@ -1,0 +1,9 @@
+#define DLG_ADDRBOOK     100
+#define CNR_ADDRBOOK     101
+#define PB_ADD           102
+#define PB_DIAL          103
+#define PHONEBOOK        256
+#define IDM_DISPLAY      400
+#define IDM_ICON         401
+#define IDM_NAME         402
+#define IDM_TEXT         403

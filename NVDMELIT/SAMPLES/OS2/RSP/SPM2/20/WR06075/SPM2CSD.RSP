@@ -1,0 +1,7 @@
+**** Default Response File
+*
+:SERVICE
+:DIRLIST D:
+<default>
+:ENDDIRLIST
+

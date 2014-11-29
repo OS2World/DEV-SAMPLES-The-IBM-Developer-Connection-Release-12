@@ -1,0 +1,18 @@
+#ifndef OS2_INCLUDED
+   #include <os2.h>
+#endif
+DLGINCLUDE 1 "XPRMINFO.H"
+
+DLGTEMPLATE DID_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "", DID_ABOUT, 10, 6, 313, 212, WS_VISIBLE, FCF_SYSMENU | 
+            FCF_TITLEBAR
+    BEGIN
+        CONTROL         2663, AB_BID_LOGO, 71, 72, 242, 109, WC_STATIC, 
+                        SS_BITMAP | WS_VISIBLE
+        CTEXT           "", AB_STX_COPY1, 3, 57, 308, 8
+        CTEXT           "", AB_STX_COPY2, 3, 33, 308, 8
+        CTEXT           "", AB_STX_COPY3, 3, 44, 308, 8
+        PUSHBUTTON      "", DID_OK, 137, 8, 40, 13, NOT WS_TABSTOP
+    END
+END

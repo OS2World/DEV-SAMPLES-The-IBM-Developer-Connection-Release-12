@@ -1,0 +1,212 @@
+#
+# OS/2, 32 bit
+# IBM C-Set++
+#
+# Builds GBM.DLL which is compiled multithreaded
+# Therefore all users should also be multithreaded
+#
+
+CFLAGS_EXE =	/C+ /W3 /DOS2 /G4 /Gd-e+m+ /Q+ /Wpro /O+
+CFLAGS_DLL =	/C+ /W3 /DOS2 /G4 /Gd-e-m+ /Q+ /Wpro /O+
+LFLAGS_EXE =	/NOI /ALIGN:4 /BATCH /NOLOGO /BASE:0x10000 /STACK:0x4000 /PMTYPE:VIO
+LFLAGS_DLL =	/NOI /ALIGN:4 /BATCH /NOLOGO
+
+.SUFFIXES:	.c .obj
+
+.c.obj:
+		icc $(CFLAGS_EXE) $*.c
+
+#
+
+all:		gbm.dll gbm.lib gbmhdr.exe \
+		gbmmir.lib gbmref.exe \
+		gbmrect.lib gbmsub.exe \
+		gbmscale.lib gbmsize.exe \
+		gbmerr.lib gbmtrunc.lib gbmht.lib gbmhist.lib gbmmcut.lib gbmbpp.exe \
+		gbmcpal.exe \
+		gbmgamma.exe
+
+#
+
+#...Vgbm\46\def:0:
+
+GBMOBJ =	gbm.obj gbmpgm.obj gbmppm.obj gbmbmp.obj gbmtga.obj gbmkps.obj gbmiax.obj gbmpcx.obj gbmtif.obj gbmtifh.obj gbmlbm.obj gbmvid.obj gbmgif.obj gbmxbm.obj gbmspr.obj gbmpsg.obj gbmgem.obj gbmcvp.obj gbmhelp.obj
+
+gbm.dll:	$(GBMOBJ) gbm.def
+		link386 $(LFLAGS_DLL) $(GBMOBJ),$@,nul,,gbm.def
+
+gbm.lib:	gbm.def
+		implib /NOLOGO /NOI $@ $**
+
+gbm.obj:	gbm.c gbm.h gbmhelp.h gbmpgm.h gbmppm.h gbmbmp.h gbmtga.h gbmkps.h gbmiax.h gbmpcx.h gbmtif.h gbmlbm.h gbmvid.h gbmgif.h gbmxbm.h gbmspr.h gbmpsg.h gbmgem.h gbmcvp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmpgm.obj:	gbmpgm.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmppm.obj:	gbmppm.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmbmp.obj:	gbmbmp.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmtga.obj:	gbmtga.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmkps.obj:	gbmkps.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmiax.obj:	gbmiax.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmpcx.obj:	gbmpcx.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmtif.obj:	gbmtif.c gbm.h gbmhelp.h gbmtifh.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmtifh.obj:	gbmtifh.c gbmtifh.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmlbm.obj:	gbmlbm.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmvid.obj:	gbmvid.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmgif.obj:	gbmgif.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmxbm.obj:	gbmxbm.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmspr.obj:	gbmspr.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmpsg.obj:	gbmpsg.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmgem.obj:	gbmgem.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmcvp.obj:	gbmcvp.c gbm.h gbmhelp.h
+		icc $(CFLAGS_DLL) $*.c
+
+gbmhelp.obj:	gbmhelp.c gbm.h
+		icc $(CFLAGS_DLL) $*.c
+
+#
+
+gbmhdr.exe:	gbmhdr.obj gbm.lib
+		link386 $(LFLAGS_EXE) /NOE gbmhdr.obj setargv,$@,nul,gbm.lib;
+
+gbmhdr.obj:	gbmhdr.c gbm.h
+
+#
+
+gbmmir.lib:	gbmmir.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmmir.obj:	gbmmir.c
+
+gbmref.exe:	gbmref.obj gbm.lib gbmmir.lib
+		link386 $(LFLAGS_EXE) gbmref.obj,$@,nul,gbm gbmmir.lib;
+
+gbmref.obj:	gbmref.c gbm.h gbmmir.h
+
+#
+
+gbmrect.lib:	gbmrect.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmrect.obj:	gbmrect.c
+
+gbmsub.exe:	gbmsub.obj gbm.lib gbmrect.lib
+		link386 $(LFLAGS_EXE) gbmsub.obj,$@,nul,gbm.lib gbmrect.lib;
+
+gbmsub.obj:	gbmsub.c gbm.h gbmrect.h
+
+#
+
+gbmerr.lib:	gbmerr.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmerr.obj:	gbmerr.c
+
+#
+
+gbmscale.lib:	gbmscale.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmscale.obj:	gbmscale.c
+
+gbmsize.exe:	gbmsize.obj gbm.lib gbmscale.lib
+		link386 $(LFLAGS_EXE) gbmsize.obj,$@,nul,gbm.lib gbmscale.lib;
+
+gbmsize.obj:	gbmsize.c gbm.h gbmscale.h
+
+#
+
+gbmtrunc.lib:	gbmtrunc.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmtrunc.obj:	gbmtrunc.c
+
+#
+
+gbmht.lib:	gbmht.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmht.obj:	gbmht.c
+
+#
+
+gbmhist.lib:	gbmhist.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmhist.obj:	gbmhist.c
+
+#
+
+gbmmcut.lib:	gbmmcut.obj
+		-del $@ 2> nul
+		lib /NOLOGO $@ $**;
+
+gbmmcut.obj:	gbmmcut.c
+
+#
+
+gbmbpp.exe:	gbmbpp.obj gbm.lib gbmerr.lib gbmtrunc.lib gbmht.lib gbmhist.lib gbmmcut.lib
+		link386 $(LFLAGS_EXE) gbmbpp.obj,$@,nul,gbm.lib gbmerr.lib gbmtrunc.lib gbmht.lib gbmhist.lib gbmmcut.lib;
+
+gbmbpp.obj:	gbmbpp.c gbm.h gbmerr.h gbmtrunc.h gbmht.h gbmhist.h gbmmcut.h
+
+#
+
+gbmcpal.exe:	gbmcpal.obj gbm.lib gbmhist.lib gbmmcut.lib
+		link386 $(LFLAGS_EXE) gbmcpal.obj,$@,nul,gbm.lib gbmhist.lib gbmmcut.lib;
+
+gbmcpal.obj:	gbmcpal.c gbm.h gbmhist.h gbmmcut.h
+
+#
+
+gbmgamma.exe:	gbmgamma.obj gbm.lib
+		link386 $(LFLAGS_EXE) gbmgamma.obj,$@,nul,gbm.lib;
+
+gbmgamma.obj:	gbmgamma.c gbm.h
+
+#
+
+clean:
+		-del *.obj 2> nul
+
+install:
+		copy *.exe d:\gbm
+		copy *.dll d:\gbm

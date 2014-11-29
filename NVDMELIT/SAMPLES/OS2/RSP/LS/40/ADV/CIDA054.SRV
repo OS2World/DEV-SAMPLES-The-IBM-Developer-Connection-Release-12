@@ -1,0 +1,67 @@
+DELETEIBMLAN = Networks<
+  netlb = 
+>
+UPDATEIBMLAN = Remoteboot<
+  rpldir = Migrate
+  rpluserdir = Migrate
+>
+UPDATEIBMLAN = Requester<
+  Computername = CIDA054
+  Domain = Q4IT100
+  useallmem = Yes
+>
+ADDIBMLAN = Requester<
+  wrkservices = MESSENGER
+>
+DELETEIBMLAN = Server<
+  srvservices = DCDBREPL
+>
+ADDIBMLAN = Server<
+  srvservices = ALERTER,GENALERT,LSSERVER,NETLOGON
+>
+  Config386Cache = WSDetermineSize
+  ConfigApplDumpPath = C:\OS2\SYSTEM
+  ConfigApplMaxDumps = 32
+  ConfigAutoStartFFST = No
+  ConfigAutoStartLS = Yes
+  ConfigCopyDLR = CopyIfRequired
+  ConfigCopyDOS = CopyIfRequired
+  ConfigCopyLSP = CopyIfRequired
+  ConfigCopyOS2Requester = CopyIfRequired
+  ConfigDisplayMSG = OFF
+  ConfigDosVersion = Migrate
+  ConfigDosNumber = 0
+  ConfigHeap = WSDetermineSize
+  ConfigLazyWrite = Immediate
+  ConfigMsgLogName = C:\OS2\SYSTEM\OS2MLOG.DAT
+  ConfigServerType = AdditionalServer
+  ConfigSourceDrive = None
+  ConfigSystemDumpPath = C:\OS2\SYSTEM
+  ConfigSystemMaxDumps = 32
+  ConfigTargetDrive = C
+  ConfigUpsPort = Migrate
+  ConfigUseAllMem = Yes
+  ConfigWsId = Migrate
+  ConfigWsSerial1 = Migrate
+  ConfigWsSerial2 = Migrate
+  ConfigWsType1 = 6384
+  ConfigWStype2 = F30
+  Install386HPFS = INSTALL
+  InstallAPI = INSTALLIFREQUIRED
+  InstallDosLanApi = INSTALLIFREQUIRED
+  InstallDosRemoteIPL = INSTALLIFREQUIRED
+  InstallFaultTolerance = REMOVE
+  InstallFFST = INSTALL
+  InstallGenericAlerter = INSTALL
+  InstallInstallProgram = INSTALLIFREQUIRED
+  InstallLocalSecurity = INSTALLIFREQUIRED
+  InstallLoopBackDriver = INSTALLIFREQUIRED
+  InstallOS2RemoteIPL = INSTALLIFREQUIRED
+  InstallServer = INSTALL
+  InstallUPM = INSTALLIFREQUIRED
+  InstallUps = INSTALLIFREQUIRED
+  InstallMSGPopup = INSTALLIFREQUIRED
+  InstallGUI = INSTALL
+  InstallClipBoard = INSTALLIFREQUIRED
+  InstallDesktopIcons = YES
+

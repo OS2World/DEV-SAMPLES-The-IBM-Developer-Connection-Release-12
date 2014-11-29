@@ -1,0 +1,15 @@
+LIBRARY gtkpart INITINSTANCE
+DESCRIPTION '2D Graphics Part - Class Library'
+PROTMODE
+DATA MULTIPLE NONSHARED LOADONCALL
+IMPORTS
+   ETKUCMS.UCMenuCreateFromResource
+   WinColorDlg = PMCTLS.294
+EXPORTS
+   GraphicsPartCClassData
+   GraphicsPartClassData
+   GraphicsPartNewClass
+   M_GraphicsPartCClassData
+   M_GraphicsPartClassData
+   M_GraphicsPartNewClass
+

@@ -1,0 +1,127 @@
+Generalised Bitmap Module
+
+This code is written with no segmentation and 32-bit in mind.
+Code is 100% portable, intended to run on OS/2 and AIX on RS/6000.
+
+/*...Vos2\92\makefile  \45\ OS\47\2 version of makefile:0:*/
+/*...Vunix\92\makefile \45\ UNIX version of makefile:0:*/
+
+Generalised bitmap read / write module
+
+/*...Vgbmhelp\46\h:0:*/
+/*...Vgbmhelp\46\c     \45\ assorted helpers:0:*/
+
+/*...Vgbmpgm\46\h:0:*/
+/*...Vgbmpgm\46\c      \45\ Poskanzers Portable Greymap:0:*/
+
+/*...Vgbmppm\46\h:0:*/
+/*...Vgbmppm\46\c      \45\ Poskanzers Portable Pixel Map:0:*/
+
+/*...Vgbmbmp\46\h:0:*/
+/*...Vgbmbmp\46\c      \45\ OS\47\2 1\46\1\44\ 1\46\2\44\ 2\46\0 \47\ Windows 3\46\0 bitmap:0:*/
+
+/*...Vgbmtga\46\h:0:*/
+/*...Vgbmtga\46\c      \45\ Targa \47\ Vista:0:*/
+
+/*...Vgbmkps\46\h:0:*/
+/*...Vgbmkps\46\c      \45\ IBM KIPS:0:*/
+
+/*...Vgbmiax\46\h:0:*/
+/*...Vgbmiax\46\c      \45\ IBM Image Access eXecutive:0:*/
+
+/*...Vgbmpcx\46\h:0:*/
+/*...Vgbmpcx\46\c      \45\ ZSoft PC Paintbrush:0:*/
+
+/*...Vgbmtif\46\h:0:*/
+/*...Vgbmtif\46\c      \45\ Microsoft\47\Aldus Tagged Image File Format:0:*/
+/*...Vgbmtifh\46\h:0:*/
+/*...Vgbmtifh\46\c:0:*/
+
+/*...Vgbmlbm\46\h:0:*/
+/*...Vgbmlbm\46\c      \45\ Amiga IFF \47\ ILBM format:0:*/
+
+/*...Vgbmvid\46\h:0:*/
+/*...Vgbmvid\46\c      \45\ YUV12C M\45\Motion Frame Buffer:0:*/
+
+/*...Vgbmgif\46\h:0:*/
+/*...Vgbmgif\46\c      \45\ CompuServe Graphics Interchange Format:0:*/
+
+/*...Vgbmxbm\46\h:0:*/
+/*...Vgbmxbm\46\c      \45\ X Bitmaps:0:*/
+
+/*...Vgbmspr\46\h:0:*/
+/*...Vgbmspr\46\c      \45\ RiscOS Sprites:0:*/
+
+/*...Vgbmpsg\46\h:0:*/
+/*...Vgbmpsg\46\c      \45\ RiscOS Sprites:0:*/
+
+/*...Vgbmgem\46\h:0:*/
+/*...Vgbmgem\46\c      \45\ GEM Raster:0:*/
+
+/*...Vgbmcvp\46\h:0:*/
+/*...Vgbmcvp\46\c      \45\ Portrait:0:*/
+
+/*...Vgbm\46\h         \45\ interface to general bitmap library:0:*/
+/*...Vgbm\46\c         \45\ general bitmap library:0:*/
+
+Simple test applications
+
+/*...Vgbmhdr\46\c      \45\ display header of bitmap files:0:*/
+
+Reflection code
+
+/*...Vgbmmir\46\h      \45\ interface to reflection code:0:*/
+/*...Vgbmmir\46\c      \45\ reflection code:0:*/
+
+/*...Vgbmref\46\c      \45\ testcase for reflection code and main GBM library:0:*/
+
+Subrectangle code
+
+/*...Vgbmrect\46\h     \45\ interface to subrectangle extraction code:0:*/
+/*...Vgbmrect\46\c     \45\ subrectangle extraction code:0:*/
+
+/*...Vgbmsub\46\c      \45\ testcase for subrectangle code and main GBM library:0:*/
+
+Scaling code
+
+/*...Vgbmscale\46\h    \45\ interface to scaling code:0:*/
+/*...Vgbmscale\46\c    \45\ scaling code:0:*/
+
+/*...Vgbmsize\46\c     \45\ testcase for scaling code and main GBM library:0:*/
+
+Error diffusion code
+
+/*...Vgbmerr\46\h      \45\ interface to error diffusion code:0:*/
+/*...Vgbmerr\46\c      \45\ error diffusion code:0:*/
+
+Bits per pixel truncation code
+
+/*...Vgbmtrunc\46\h    \45\ interface to truncate to lower bits per pixel code:0:*/
+/*...Vgbmtrunc\46\c    \45\ truncate to lower bits per pixel code:0:*/
+
+Halftoning code
+
+/*...Vgbmht\46\h       \45\ interface to halftoner:0:*/
+/*...Vgbmht\46\c       \45\ halftoner:0:*/
+
+Histogram / Frequency-of-use
+
+/*...Vgbmhist\46\h     \45\ interface to frequency of use palette mapper:0:*/
+/*...Vgbmhist\46\c     \45\ frequency of use palette mapper:0:*/
+
+Median Cut
+
+/*...Vgbmmcut\46\h     \45\ interface to median cut palette mapper:0:*/
+/*...Vgbmmcut\46\c     \45\ median cut palette mapper:0:*/
+
+Extensive test program
+
+/*...Vgbmbpp\46\c      \45\ change bits per pixel in a file:0:*/
+
+Common palette
+
+/*...Vgbmcpal\46\c     \45\ map to common palette:0:*/
+
+Gamma correction
+
+/*...Vgbmgamma\46\c    \45\ gamma correction:0:*/

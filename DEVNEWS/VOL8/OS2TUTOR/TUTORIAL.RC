@@ -1,0 +1,317 @@
+/* TUTORIAL.RC */
+/* Tutorial Resource file */
+
+/* OS/2 data types */
+#include <os2.h>
+#include "tutrc.h"
+
+/* ICONS */
+/* Change this to your icon */
+ICON ID_PRIMWIN PRELOAD os2tutor.ico
+
+/* BITMAPS for panels */
+/* For 256 color bitmaps, use the panel number. */
+/* For 16 color bitmaps add the 1000. */
+/* i.e. BITMAP 301  256col.bmp */
+/*      BITMAP 1301 16col.bmp */
+/* Note this RC has no 16 color bitmaps */
+/* 16 color bitmaps are optional - */
+/* if they are not there, the 256 color ones are used */
+
+BITMAP 1    BIGART.bmp
+
+BITMAP 101  LTLART.bmp
+BITMAP 1101  LTLART.bmp /* 16 color bitmap */
+
+BITMAP 201  LTLART.bmp
+BITMAP 202  LTLART.bmp
+BITMAP 203  LTLART.bmp
+
+BITMAP 301  LTLART.bmp
+BITMAP 302  LTLART.bmp
+BITMAP 303  LTLART.bmp
+
+/* BITMAPS for buttons */
+/* These should not be modified */
+/* If you want to change the buttons, change the artwork */
+
+/* Generic bitmaps for Quit and Return */
+BITMAP IDBMP_GENUP GENUPU.BMP
+BITMAP IDBMP_GENDOWN GENDNU.BMP
+/* Bitmaps for Back */
+BITMAP IDBMP_BACKUP BACKUPE.BMP
+BITMAP IDBMP_BACKDOWN BACKDNE.BMP
+BITMAP IDBMP_BACKDUP BACKUPD.BMP
+/* Bitmaps for Forward */
+BITMAP IDBMP_FORWARDUP FWDUPE.BMP
+BITMAP IDBMP_FORWARDDUP FWDUPD.BMP
+BITMAP IDBMP_FORWARDDOWN FWDDNE.BMP
+/* Bitmaps for sections - highlighted and unhighlighted */
+BITMAP IDBMP_SECUP SECTUPU.BMP
+BITMAP IDBMP_SECDOWN SECTDNU.BMP
+BITMAP IDBMP_SECSELUP SECTUPS.BMP
+BITMAP IDBMP_SECSELDOWN SECTDNS.BMP
+
+/* STRINGS */
+
+STRINGTABLE
+BEGIN
+
+/* Overview of strings:
+
+   Panels are identified by a three digit identifer - xyy where x is the
+   section number and yy is the panel number within the section.  The
+   exception to this is the first panel which is 1.
+
+   Section titles are identified by x00 where x is the section number.
+   The constant SECTION is added to the section number only for
+   readability.
+
+   For any panel, the following constants can be added to the panel
+   identifier:
+
+   PANEL - Title of panel
+   TEXT - Initial text of MLE
+   PRACTICETB - MANDATORY - Titlebar of practice window and index entry
+   PRACTICE1 - Practice step 1
+   PRACTICE2 - Practice step 2
+   PRACTICE3 - Practice step 3
+   PRACTICE4 - Practice step 4
+   PRACTICE5 - Practice step 5
+   PRACTICE6 - Practice step 6
+   PRACTICE7 - Practice step 7
+   PRACTICE8 - Practice step 8
+   PRACTICE9 - Practice step 9
+   DOITTB - Titlebar of Do It! Window
+   DOITTEXT - Text of Do It!
+
+   If the text in TEXT and DOITTEXT, is over 255
+   characters another line must be added like this - xyy+PLACE+LINE2
+   where PLACE is either TEXT or DOITTEXT.  This does
+   not work for practice steps.
+
+   If you want a mandatory carriage return in your text, split the line
+   and align the new text at the fat left column.
+
+   If text is not present, the Tutorial automatically detects that
+   and disables the appropriate buttons (Do It! and Practice).
+
+   Note that due to limitations in the resource compiler, you cannot use
+   double quotes in your text */
+
+   /* Title of tutorial */
+   1                  "Your Tutorial"
+
+   /* Message text for first (title) panel */
+   1+TEXT             "This is the title panel of the tutorial!"
+   1+TEXT+LINE2       "If your text is too long, place it in line two"
+   1+PRACTICETB       "Title Screen" /* Index entry */
+
+   101+PANEL          "Tutorial - Introduction"
+   101+TEXT           "This page would introduce the tutorial"
+   101+PRACTICETB     "Introduction" /* Index entry */
+
+   200+SECTION        "Section 1"
+
+   201+PANEL          "Section 1 - Panel 1"
+   201+TEXT           "Click on a contents entry to go there."
+   201+PRACTICETB     "Section 1 - Panel 1" /* Index entry */
+
+   202+PANEL          "Section 1 - Panel 2"
+   202+TEXT           "This is where there would be text about this panel.  Note that this panel has Practice and Do It."
+   202+PRACTICETB     "Section 1 - Panel 2" /* Index entry */
+   202+DOITTB         "You are in 'Do It' mode"
+   202+DOITTEXT       "You can use the desktop.  Press 'Return' to return to the tutorial"
+   202+PRACTICE1      "1. Click on the desktop"
+   202+PRACTICE2      "2. Click on Return"
+
+
+   300+SECTION        "Section 2"
+
+   301+PANEL          "Section 2 - Panel 1"
+   301+TEXT           "Click on a contents entry to go there."
+   301+PRACTICETB     "Section 2 - Panel 1"
+
+   302+PANEL          "Section 2 - Panel 2"
+   302+TEXT           "This is the only panel in section 2.  It does not have Practice or Do It."
+   302+PRACTICETB     "Section 2 - Panel 2"
+
+
+   303+PANEL          "Congratulations"
+   303+TEXT           "You can review any topics at any time."
+   303+PRACTICETB     "Congratulations!"
+
+/* WINDOWS */
+
+/* This is the passover help text for the windows and the MLE */
+
+   ID_BUTTONWIN       "This is the button window."
+   ID_BITMAPWIN       "This graphic area contains graphic stuff."
+   ID_PAGEWIN         "This text area contains text stuff."
+   ID_MESSAGEWIN      "This is the message window."
+   FID_TITLEBAR       "The name of the topic and the location within the section are shown in the title bar."
+   FID_SYSMENU        "This is the title-bar icon. Double-click on the title-bar icon to close the Tutorial."
+   IDMLE_MSGBOX+2     "Text in this message window explains what is included within the topic and how you might want to use the information."
+
+/* BUTTONS */
+
+/* This is the text for the various buttons.
+   If the button text is too big for a line, divide the text and put it in
+   to the IDB_xxxxxx+1 string.  The Tutorial will automatically pick it up.
+   You might have to adjust the width of the buttons in the C file if you
+   do this.
+   This IDB_XXXXX+2 entry is the passover text for the button.  You can
+   add LINE2 to the passover text entry if you need a second line for the
+   passover text.
+
+   Note the sections are actually off by one (Intro is section 1) */
+
+/* Topic buttons */
+
+   IDB_SECTION1       "Introduction"
+   IDB_SECTION1+2     "Click on Introduction from any screen within the Tutorial to return to these instructions on 'How to Use the Tutorial'."
+
+   IDB_SECTION2       "Section 1"
+   IDB_SECTION2+2     "Click on Section 1 to enter section 1"
+
+   IDB_SECTION3       "Section 2"
+   IDB_SECTION3+2     "Click on Section 2 to enter section 2"
+
+/* If you want to add more sections, move one of the following ones above
+   this line.  Note that if you add all nine sections, you must change
+   the button height in the C file
+
+   IDB_SECTION4       "Section 3"
+   IDB_SECTION4+2     "Click on Section 3 to enter section 3"
+
+   IDB_SECTION5       "Section 4"
+   IDB_SECTION5+2     "Click on Section 4 to enter section 4"
+
+   IDB_SECTION6       "Section 5"
+   IDB_SECTION6+2     "Click on Section 5 to enter section 5"
+
+   IDB_SECTION7       "Section 6"
+   IDB_SECTION7+2     "Click on Section 6 to enter section 6"
+
+   IDB_SECTION8       "Section 7"
+   IDB_SECTION8+2     "Click on Section 7 to enter section 7"
+
+   IDB_SECTION9       "Section 8"
+   IDB_SECTION9+2     "Click on Section 8 to enter section 8"
+
+*/ /* end comment for buttons */
+
+/* Action buttons */
+
+   IDB_INDEX            "~Index"
+   IDB_INDEX+2          "Click on Index to see a list of Tutorial topics. Scroll to the text of the desired topic and then double-click on the text to go to that panel of the Tutorial."
+
+   IDB_PRACTICE         "~Practice"
+   IDB_PRACTICE+2       "Practice takes you to the Desktop where you can practice the current topic.  This message window will remain on your Desktop to guide you through the steps.  "
+   IDB_PRACTICE+2+LINE2 "To return to the Tutorial from Practice, click on the Return button."
+
+   IDB_DOIT             "~Do it!"
+   IDB_DOIT+2           "Do it! takes you to the Desktop and performs the action for you.  This message window will remain on your Desktop to explain the next step you can take.  To return to the Tutorial from Do it!, "
+   IDB_DOIT+2+LINE2     "click on the Return button."
+
+/* Message window buttons */
+
+   IDB_QUIT             "~Quit"
+   IDB_QUIT+2           "To close the Tutorial, click on Quit."
+   IDB_RTT              "~Return"
+   IDB_RTT+2            "Return takes you back to the tutorial topic you were viewing when you selected Practice or Do it!"
+   IDB_BACK             "Back"
+   IDB_BACK+2           "This button scrolls the tutorial one screen backward."
+   IDB_FORWARD          "Forward"
+   IDB_FORWARD+2        "This button scrolls the tutorial one screen forward."
+
+
+/* This are the general error messages for the tutorial */
+
+/* Error messages */
+
+   ERR_GENFAILURE      "Tutorial Has Failed"
+   ERR_NO_HELP         "Help Not Available"
+
+/* This is the ID for the memory that the tutorial uses to resurface itself
+   when you try to start it again.  You MUST change this! */
+
+   ID_SHAREDMEM        "\\SHAREMEM\\TUTOR"
+
+/* If you want to have a scroll bar on the MLE, set this string */
+   MLE_SCROLL_BAR      "Yes"
+END
+
+/* Accelerator tables */
+/* These must be updated to correspond to the underlined characters in the */
+/* Section buttons. */
+
+ACCELTABLE ID_COVERPAGE PRELOAD
+BEGIN
+    VK_F4,        IDB_QUIT, VIRTUALKEY, ALT
+    VK_F3,        IDB_QUIT, VIRTUALKEY
+    VK_PAGEDOWN, IDB_FORWARD, VIRTUALKEY
+    VK_PAGEUP, IDB_BACK, VIRTUALKEY
+    VK_ESC, IDB_PREVIOUS, VIRTUALKEY
+
+/* Necessary to emulate IPF behavior */
+    VK_TAB, IDB_TAB, VIRTUALKEY
+    VK_BACKTAB, IDB_SHIFTTAB, VIRTUALKEY
+    VK_ENTER, IDB_ENTER, VIRTUALKEY
+    VK_NEWLINE, IDB_ENTER, VIRTUALKEY
+
+    "N", IDB_SECTION1, VIRTUALKEY, ALT
+    "n", IDB_SECTION1, VIRTUALKEY, ALT
+    "N", IDB_SECTION1
+    "n", IDB_SECTION1
+    "1", IDB_SECTION2, VIRTUALKEY, ALT
+    "1", IDB_SECTION2
+    "2", IDB_SECTION3, VIRTUALKEY, ALT
+    "2", IDB_SECTION3
+    "3", IDB_SECTION4, VIRTUALKEY, ALT
+    "3", IDB_SECTION4
+    "4", IDB_SECTION5, VIRTUALKEY, ALT
+    "4", IDB_SECTION5
+    "5", IDB_SECTION6, VIRTUALKEY, ALT
+    "5", IDB_SECTION6
+    "6", IDB_SECTION7, VIRTUALKEY, ALT
+    "6", IDB_SECTION7
+    "7", IDB_SECTION8, VIRTUALKEY, ALT
+    "7", IDB_SECTION8
+    "8", IDB_SECTION9, VIRTUALKEY, ALT
+    "8", IDB_SECTION9
+    "I", IDB_INDEX, VIRTUALKEY, ALT
+    "i", IDB_INDEX, VIRTUALKEY, ALT
+    "I", IDB_INDEX
+    "i", IDB_INDEX
+    "P", IDB_PRACTICE, VIRTUALKEY, ALT
+    "p", IDB_PRACTICE, VIRTUALKEY, ALT
+    "P", IDB_PRACTICE
+    "p", IDB_PRACTICE
+    "D", IDB_DOIT, VIRTUALKEY, ALT
+    "d", IDB_DOIT, VIRTUALKEY, ALT
+    "D", IDB_DOIT
+    "d", IDB_DOIT
+    "R", IDB_RTT, VIRTUALKEY, ALT
+    "r", IDB_RTT, VIRTUALKEY, ALT
+    "R", IDB_RTT
+    "r", IDB_RTT
+    "Q", IDB_QUIT, VIRTUALKEY, ALT
+    "q", IDB_QUIT, VIRTUALKEY, ALT
+    "Q", IDB_QUIT
+    "q", IDB_QUIT
+END
+
+/* Tutorial Index Dialog Template */
+
+DLGTEMPLATE IDD_INDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Using OS/2 - Index", IDD_INDEX, 12, 6, 148, 84, WS_VISIBLE, FCF_SYSMENU |
+            FCF_TITLEBAR | FCF_DLGBORDER
+    BEGIN
+        LISTBOX         IDLB_INDEX, 4, 24, 138, 59, LS_NOADJUSTPOS | WS_TABSTOP | WS_GROUP
+        DEFPUSHBUTTON   "OK", DID_OK, 9, 3, 40, 14, WS_GROUP
+        PUSHBUTTON      "Cancel", DID_CANCEL, 79, 3, 40, 14, NOT WS_TABSTOP
+    END
+END
+

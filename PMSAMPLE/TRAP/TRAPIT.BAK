@@ -1,0 +1,444 @@
+/**********************************************************************/
+
+/**********************************************************************/
+/*                                                                    */
+/*  UNHANGPM                                                          */
+/*                                                                    */
+/* EXE . Timer based Ioctl query of the shift status of the Keyboard  */
+/* Shift status always is available.                                  */
+/* If CTRL+CTRL just Use DosKillProcess of the focus window process   */
+/* because it must be the hanger. I could use my SPYALL  technique    */
+/* (see PMSAMPLE package) to add a thread to all running PM processes */
+/* and generate a trap from that thread to force a fatal exit. I'll   */
+/* implement it in case I get feedback that DosKillProcess is not     */
+/* Always working                                                     */
+/* The ALT+ALT way is more touchy. I use the PM debug APIs get the doc*/
+/* from OPSYS2 at BCRVMPC1 (see OS2DEVEL forum header).               */
+/* I associate the hanger's queue to my thread, I reply to all        */
+/* pending sent messages I set a system send hook to intercept all new*/
+/* sent messages I hide the window and the I change the active window */
+/* DosSleep(0) are mandatory to release time slice for the other      */
+/* processes. I no DosSleep(0) hangs. I guess   this is a PM bug      */
+/* but I have not time to report it.                                  */
+/**********************************************************************/
+/* Version: 1.1             |   Marc Fiammante (FIAMMANT at LGEVM2)   */
+/*                          |   La Gaude FRANCE                       */
+/**********************************************************************/
+/*                                                                    */
+/**********************************************************************/
+/* History:                                                           */
+/* --------                                                           */
+/*                                                                    */
+/* created: Marc Fiammante October   1993                             */
+/**********************************************************************/
+#define INCL_BASE
+#define INCL_WIN
+#include <os2.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "pmdebug.h"
+VOID EXPENTRY HandleHang(HAB habHook,PQMSG pQmsg);
+VOID EXPENTRY HandleSend(HAB  hab, PSMHSTRUCT  pSmhStruct, BOOL  fInterThread);
+extern  BOOL EXPENTRY AbnInpTimHk(HAB,PID,TID );
+MRESULT EXPENTRY MyWindowProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 );
+MRESULT EXPENTRY WatcherProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 );
+void EXPENTRY SetSpy( HWND  sWatcher, HMQ   shmqDebugee, PID   shpid, TID   shtid);
+HMODULE hModule;
+BOOL    Success;
+BOOL    Start=FALSE;
+HAB     hab;
+HMQ     hmq;                             /* Message queue handle         */
+HWND    Watcher;
+HMQ     hmqDebugee;
+PID     hpid;
+TID  htid;
+HWND Desktop;
+#define ID_WINDOW 2345
+HWND    hwndFrame;                       /* Frame window handle          */
+HWND    hwndClient;                      /* Frame window handle          */
+BOOL    Recovery=FALSE;
+HMQ     hmqt;
+static CHAR Buffer[80];
+void _Optlink ithread(void *);
+void main(int argc,char**argv) {
+  QMSG qmsg;                            /* Message from message queue   */
+  ULONG flCreate;                       /* Window creation control flags*/
+  APIRET rc;
+  flCreate = FCF_SYSMENU | FCF_SIZEBORDER | FCF_TITLEBAR | FCF_MINMAX
+             | FCF_TASKLIST ;
+  hab = WinInitialize(0);               /* Initialize PM                */
+  hmq = WinCreateMsgQueue( hab, 0 );    /* Create a message queue       */
+  rc=DosQueryModuleHandle("UNHNGPMH",&hModule);
+  if (rc) {
+      WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
+                    "Could not Find DLL",
+                    "UnHangPM",
+                     1234,
+                     MB_OK | MB_ERROR);
+  } /* endif */
+  Desktop=WinQueryDesktopWindow(hab,NULLHANDLE);
+  _beginthread(ithread, 0,8192,0);
+  WinRegisterClass(                     /* Register window class        */
+     hab,                               /* Anchor block handle          */
+     "MyWindow",                        /* Window class name            */
+     MyWindowProc,                      /* Address of window procedure  */
+     CS_SIZEREDRAW,                     /* No special class style       */
+     4                                  /* 1  extra window double word  */
+     );
+  hwndFrame = WinCreateStdWindow(
+               HWND_DESKTOP,            /* Desktop window is parent     */
+               0L,                      /* No class style               */
+               &flCreate,               /* Frame control flag           */
+               "MyWindow",              /* Client window class name     */
+               "UnHang PM",             /* No window text               */
+               0,                       /* No special class style       */
+               0,                       /* Resource is in .EXE file     */
+               ID_WINDOW,               /* Frame window identifier      */
+               &hwndClient              /* Client window handle         */
+               );
+  Success=TRUE;
+  if (Success) {
+     if (hwndFrame!=0) {
+        ULONG Flags=SWP_SIZE | SWP_MOVE | SWP_ACTIVATE | SWP_SHOW;
+        if (argc>1) {
+           if (stricmp(argv[1],"HIDE")==0) {
+              Flags &=~(SWP_ACTIVATE | SWP_SHOW);
+           } /* endif */
+        } /* endif */
+        WinSetWindowPos( hwndFrame,     /* Set the size and position of */
+                      HWND_TOP,            /* the window before showing.   */
+                      100, 50, 270, 230,
+                      Flags
+                    );
+        /************************************************************************/
+        /* Get and dispatch messages from the application message queue         */
+        /* until WinGetMsg returns FALSE, indicating a WM_QUIT message.         */
+        /************************************************************************/
+        while( WinGetMsg( hab, &qmsg, 0, 0, 0 ) )
+               WinDispatchMsg( hab, &qmsg );
+     }
+
+  } else {
+      WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
+                    "Could not Create Hook",
+                    "UnHangPM",
+                     1234,
+                     MB_OK | MB_ERROR);
+  } /* endif */
+  DosSleep(0);
+  WinPostQueueMsg(hmqt,WM_QUIT,0,0);
+  while (WinQuerySendMsg( hab,NULLHANDLE, hmqDebugee, &qmsg)) {
+         /* option to queue these messages for later use     */
+         Success=WinReplyMsg(hab, NULLHANDLE, hmqDebugee, (MRESULT) 0);
+         if (!Success) {
+            DosBeep(400,30);
+         } /* endif */
+  }
+  WinDestroyWindow( hwndFrame );        /* Tidy up...                   */
+  WinDestroyMsgQueue( hmq );            /* and                          */
+  WinTerminate( hab );                  /* terminate the application    */
+  DosExit(EXIT_PROCESS,0);
+}
+CHAR *LabelText[]={"Keep Both Alt Keys down",
+                   "For hanger hide & focus recovery trial",
+                   "or Keep Both Ctrl Keys down",
+                   "during 1 sec to kill focus hanger",
+                   "UnHangPM V1.1",
+                   "by Marc Fiammante",
+                   "(Alt keys will recover focus",
+                   "one time only before next reboot)"};
+LONG Color=CLR_BACKGROUND;
+HFILE  hKbd;
+ULONG  Action;
+ULONG  Plen;
+ULONG  Dlen;
+ULONG  State;
+USHORT Shift;
+APIRET rc;
+MRESULT EXPENTRY MyWindowProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 )
+{
+   RECTL  clientrect;                     /* Rectangle coordinates        */
+   HPS hpsPaint;
+   POINTL pt;                            /* String screen coordinates    */
+   BOOL Invalid;
+   MRESULT Mr;
+   int  Line;
+   ERRORID Err;
+   HWND Focus,Active;
+   HMQ   hmqDeb;
+   PID  pid;
+   TID  tid;
+   switch( msg )
+   {
+   case WM_CREATE:
+      Buffer[0]=0;
+      WinStartTimer(hab,hwnd,1234,500);
+      break;                                /* end the application.     */
+   case WM_TIMER:
+      rc=DosOpen("KBD$",
+           &hKbd,
+           &Action,
+           0,
+           FILE_NORMAL,
+           FILE_OPEN,
+           OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE | OPEN_FLAGS_FAIL_ON_ERROR,
+           0);
+      if (rc) {
+         char Buf[80];
+         sprintf(Buf,"Open rc = %d",rc);
+         WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
+                       Buf,
+                       "UnHangPM",
+                        1234,
+                        MB_OK);
+      } /* endif */
+      Dlen= sizeof(State);
+      rc = DosDevIOCtl(
+                 hKbd,
+                 4,
+                 0x73,
+                 0,
+                 0,
+                 0,
+                 &State,
+                 sizeof(State),
+                 &Dlen );
+      Shift=(USHORT)State;
+      DosClose(hKbd);
+      Invalid=FALSE;
+      if ((State&0x0500)==0x0500) {
+         if (Color!=CLR_RED) {
+            Color=CLR_RED;
+            Invalid=TRUE;
+         } /* endif */
+         /*  Start=WinPostMsg(Watcher,WM_USER+1,0,0);*/
+         Focus=WinQueryFocus(HWND_DESKTOP);
+         Active=WinQueryActiveWindow(HWND_DESKTOP);
+         WinQueryWindowProcess(Focus,&pid,&tid);
+         hmqDeb=(HMQ)WinQueryWindowULong(Focus,QWL_HMQ);
+         if (hmqDeb==hmq) {
+            sprintf(Buffer,"Sorry Can't unhang Myself");
+          } else {
+            DosKillProcess(DKP_PROCESS,pid);
+         } /* endif */
+      } else {
+         if ((State&0x0A00)==0x0A00) {
+            if (Color!=CLR_RED) {
+               Color=CLR_RED;
+               Invalid=TRUE;
+            } /* endif */
+            if (Start==FALSE) {
+               Start=WinPostMsg(Watcher,WM_USER+2,0,0);
+            }
+            if (Start==FALSE) {
+               strcpy(Buffer,"Could not post to Watcher !!!");
+               Invalid=TRUE;
+            } /* endif */
+         } else {
+            if (Color!=CLR_BACKGROUND) {
+               Color=CLR_BACKGROUND;
+               Invalid=TRUE;
+            }
+         } /* endif */
+      } /* endif */
+      if (Invalid) {
+            WinInvalidateRect( hwnd, NULL, TRUE );
+      } /* endif */
+      break;
+   case WM_PAINT:
+      hpsPaint=WinBeginPaint( hwnd,0, &clientrect );
+      WinFillRect( hpsPaint, &clientrect,Color );/* Fill invalid rectangle       */
+      pt.x = 10; pt.y = 190;                    /* Set the text coordinates,    */
+      GpiCharStringAt( hpsPaint, &pt, (LONG)strlen(Buffer),Buffer);
+      for (Line=0;Line<8;Line++ ) {
+         pt.x = 10; pt.y = 170-(20*Line);   /* Set the text coordinates,    */
+         GpiCharStringAt( hpsPaint, &pt, (LONG)strlen(LabelText[Line]),LabelText[Line]);
+      } /* endfor */
+      WinEndPaint( hpsPaint );                        /* Drawing is complete   */
+      break;
+    case WM_CHAR:
+      /******************************************************************/
+      /* Character input is processed here.                             */
+      /* The first two bytes of message parameter 2 contain             */
+      /* the character code.                                            */
+      /******************************************************************/
+      if( SHORT2FROMMP( mp2 ) == VK_F3 )    /* If the key pressed is F3,*/
+          WinPostQueueMsg(hmqDebugee,WM_QUIT,0,0);
+      break;                                /* end the application.     */
+    case WM_CLOSE:
+      /******************************************************************/
+      /* This is the place to put your termination routines             */
+      /******************************************************************/
+      WinPostMsg( hwnd, WM_QUIT, 0L, 0L );  /* Cause termination        */
+      break;
+    default:
+      /******************************************************************/
+      /* Everything else comes here.  This call MUST exist              */
+      /* in your window procedure.                                      */
+      /******************************************************************/
+      return WinDefWindowProc( hwnd, msg, mp1, mp2 );
+  }
+  return FALSE;
+}
+HAB habt;
+MRESULT EXPENTRY WatcherProc( HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2 ) {
+   HMQ   hmqDeb;
+   QMSG  qmsg;
+   ERRORID Err;
+   HWND Focus,Active;
+   PID  pid;
+   TID  tid;
+   FILE *Debug;
+   BOOL Success;
+   switch( msg )
+   {
+     case WM_USER+1:
+         Start=FALSE;
+         break;
+     case WM_USER+2:
+         DosBeep(200,30);
+         Focus=WinQueryFocus(HWND_DESKTOP);
+         Active=WinQueryActiveWindow(HWND_DESKTOP);
+         Debug=fopen("DEBUG.DAT","w");
+         WinQueryWindowProcess(Focus,&pid,&tid);
+         hmqDeb=(HMQ)WinQueryWindowULong(Focus,QWL_HMQ);
+         if (hmqDeb==hmq) {
+            sprintf(Buffer,"Sorry Can't unhang Myself");
+            Start=FALSE;
+            break;
+         } /* endif */
+         fprintf(Debug,"Step 1 Focus %p Active %p Queue %p, pid %d tid %d\n",Focus,Active,hmqt,pid,tid);
+         fflush(Debug);
+         hmqDebugee =hmqDeb;
+         SetSpy(Watcher,hmqDebugee,pid,tid);
+         WinSetHook( habt, NULLHANDLE, HK_SENDMSG, (PFN)HandleSend, hModule);
+         while (WinQuerySendMsg( habt,NULLHANDLE, hmqDeb, &qmsg)) {
+                /* option to queue these messages for later use     */
+                fprintf(Debug,"Step 2 Reply\n"); fflush(Debug);
+                Success=WinReplyMsg(habt, NULLHANDLE, hmqDeb, (MRESULT) 0);
+                if (!Success) {
+                   DosBeep(400,30);
+                   fprintf(Debug,"Step 2 Reply fail\n"); fflush(Debug);
+                } /* endif */
+         }
+         Err=WinGetLastError(habt);
+         if (Err) {
+             DosBeep(1200,50);
+             sprintf(Buffer,"Error Query Send %8.8lX",Err);
+             fprintf(Debug,"Step 2 Error %p\n",Err); fflush(Debug);
+         } /* endif */
+         Err=WinGetLastError(habt);
+         fprintf(Debug,"Step 3\n"); fflush(Debug);
+         WinThreadAssocQueue( habt, hmqDeb);
+         Err=WinGetLastError(habt);
+         fprintf(Debug,"Step 3 Error %p\n",Err); fflush(Debug);
+         if (Err) {
+             DosBeep(1200,50);
+             sprintf(Buffer,"Error Assoc Queue %8.8lX\n",Err);
+         } else {
+             fprintf(Debug,"Step 4 Peek\n"); fflush(Debug);
+             WinSetAccelTable(habt,0,0);
+             fprintf(Debug,"Step 4.1 Accel\n"); fflush(Debug);
+             WinSetAccelTable(habt,0,Focus);
+             fprintf(Debug,"Step 4.2 Accel\n"); fflush(Debug);
+             WinSetAccelTable(habt,0,Active);
+             fprintf(Debug,"Step 4.3 Accel\n"); fflush(Debug);
+             DosSleep(0);
+             Success=WinShowWindow(Active,FALSE);
+             fprintf(Debug,"Show FALSE %d\n",Success); fflush(Debug);
+             Err=WinGetLastError(habt);
+             DosSleep(0);
+             Success=WinInvalidateRect(Desktop,0,TRUE);
+             Err=WinGetLastError(habt);
+             fprintf(Debug,"Invalidate %d Err %p\n",Success,Err); fflush(Debug);
+             DosSleep(0);
+             Success=WinSetFocus(HWND_DESKTOP,Desktop);
+             Err=WinGetLastError(habt);
+             fprintf(Debug,"Focus   %d Error %p\n",Success,Err); fflush(Debug);
+             DosSleep(0);
+             Success=WinSetActiveWindow(HWND_DESKTOP,Desktop);
+             Err=WinGetLastError(habt);
+             fprintf(Debug,"Active  %d Error %p\n",Success,Err); fflush(Debug);
+             DosSleep(0);
+             while (WinQuerySendMsg( habt,NULLHANDLE, hmq, &qmsg)) {
+                    /* option to queue these messages for later use     */
+                    fprintf(Debug,"Step 2 Reply\n"); fflush(Debug);
+                    Success=WinReplyMsg(habt, NULLHANDLE, hmqDeb, (MRESULT) 0);
+                    if (!Success) {
+                       DosBeep(400,30);
+                       fprintf(Debug,"Step 2 Reply fail\n"); fflush(Debug);
+                    } /* endif */
+             }
+             fprintf(Debug,"Step 8 \n"); fflush(Debug);
+             DosSleep(0);
+             while( WinGetMsg( habt, &qmsg, 0, 0, 0 ) ) {
+                    qmsg.hwnd=hwndClient;
+                    fprintf(Debug,"Step 9 Dispatch msg %d\n",qmsg.msg); fflush(Debug);
+                    WinDispatchMsg( habt, &qmsg );
+                    DosSleep(0);
+                    fprintf(Debug,"Step 10 Dispatch msg %d\n",qmsg.msg); fflush(Debug);
+             }
+             fprintf(Debug,"Step 11 Deassociate\n"); fflush(Debug);
+             WinThreadAssocQueue( habt, hmqt);
+             DosSleep(0);
+         }
+         WinReleaseHook( habt, NULLHANDLE, HK_SENDMSG, (PFN)HandleSend, hModule);
+         DosSleep(0);
+         while (WinQuerySendMsg( habt,NULLHANDLE, hmqDeb, &qmsg)) {
+         fprintf(Debug,"Reply msg %d\n",qmsg.msg); fflush(Debug);
+                DosSleep(0);
+                /* option to queue these messages for later use     */
+                Success=WinReplyMsg(habt, NULLHANDLE, hmqDeb, (MRESULT) 0);
+                if (!Success) {
+                   DosBeep(400,30);
+                   fprintf(Debug,"Step 2 Reply fail\n"); fflush(Debug);
+                } /* endif */
+         }
+         DosSleep(0);
+         fprintf(Debug,"Step 12 End");
+         fflush(Debug);
+         fclose(Debug);
+         hmqDebugee=0;
+         Start=FALSE;
+         fflush(Debug);
+     default:
+      return WinDefWindowProc( hwnd, msg, mp1, mp2 );
+   }
+   return FALSE;
+}
+void _Optlink ithread(void * toto) {
+   QMSG   qmsg;
+   FILE *Debug;
+   habt = WinInitialize(0);               /* Initialize PM                */
+   hmqt = WinCreateMsgQueue( habt, 0 );    /* Create a message queue       */
+   DosBeep(1800,30);
+   WinRegisterClass(                     /* Register window class        */
+     habt,                               /* Anchor block handle          */
+     "Watcher",                         /* Window class name            */
+     WatcherProc,                       /* Address of window procedure  */
+     0L,                                /* No special class style       */
+     0                                  /* 1  extra window double word  */
+     );
+   Watcher=WinCreateWindow(HWND_OBJECT,
+                           "Watcher",
+                           "Watcher",
+                           0,
+                           0,
+                           0,
+                           1,
+                           1,
+                           HWND_OBJECT,
+                           HWND_BOTTOM,
+                           6543,
+                           0,
+                           0);
+   while( WinGetMsg( hab, &qmsg, 0, 0, 0 ) )
+          WinDispatchMsg( hab, &qmsg );
+   WinDestroyWindow( Watcher);        /* Tidy up...                   */
+   WinDestroyMsgQueue( hmqt );            /* and                          */
+   WinTerminate( habt );                  /* terminate the application    */
+   DosBeep(2800,30);
+   _endthread();
+}
+

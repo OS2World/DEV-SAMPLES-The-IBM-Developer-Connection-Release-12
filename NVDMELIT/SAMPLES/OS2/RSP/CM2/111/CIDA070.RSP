@@ -1,0 +1,1142 @@
+*****************************************************************************
+* Keywords and values are documented in:
+* Response File Reference (Online book).
+*
+* To use this response file to install or configure Communications Manager
+* using the CMSETUP /R or CMLAN /R command, values for one or more of these
+* keywords must be provided:
+  CMUPDATETYPE = 1
+  CMUSERCFG = CIDA070
+  CMSTOPCOMMUNICATIONS = 1
+* CMMODELCFG =
+* CMINSTALLCURRENTFEATURES =
+*****************************************************************************
+
+* Installation keywords:
+
+     CMTARGET = C:
+     CMINSTALLFOLDERS = 1
+     CMINSTALLSSM = 1
+     CMINSTALLKEYBDREMAP = 1
+     CMINSTALLROPS = 0
+     CMINSTALLPD = 1
+     CMINSTALLCOMMANDREFERENCE = 1
+     CMINSTALLMESSAGEREFERENCE = 1
+     CMINSTALLKEYLOCK = 1
+     CMINSTALLCONFIGDIALOG = 1
+     CMINSTALLOVERVIEW = 1
+     CMINSTALLGLOSSARY = 0
+     CMINSTALLPDGUIDE = 1
+     CMINSTALLANYNET = 0
+     CMINSTALLHOSTGRAPHICS = 0
+     CMINSTALLRESPONSEFILEREFERENCE = 0
+     CMINSTALLAPLFONT = 0
+     CMSERVER = 0
+     CMINSTALLUPM = 0
+     CONFIGSYSTEMMAXDUMPS = 32
+     CONFIGSYSTEMDUMPPATH = C:\OS2\SYSTEM\
+     CONFIGAPPLMAXDUMPS = 32
+     CONFIGAPPLDUMPPATH = C:\OS2\SYSTEM\
+     CONFIGMSGLOGNAME = C:\OS2\SYSTEM\OS2MLOG.DAT
+     CONFIGWSID = PRGWKSTN
+     CONFIGWSSERIAL1 = 00
+     CONFIGWSSERIAL2 = 0000000
+     CONFIGWSTYPE1 = 8570
+     CONFIGWSTYPE2 = 000
+     CONFIGDISPLAYMSG = 1
+     CMWORKSTATIONTYPE = 1
+
+* Configuration keywords:
+
+3270_COLOR = (
+     NAME = 3270COLR
+     B_NORMAL_UNPROT = 1
+     B_INTENSE_UNPROT = 1
+     B_NORMAL_PROT = 1
+     B_INTENSE_PROT = 1
+     B_BLUE = 1
+     B_GREEN = 1
+     B_PINK = 1
+     B_RED = 1
+     B_TURQUOISE = 1
+     B_WHITE = 1
+     B_YELLOW = 1
+     B_DEFAULT_HILITE = 1
+     B_DEFAULT_NO_HILITE = 1
+     B_BLINK = 8
+     B_OIA = 3
+     F_NORMAL_UNPROT = 3
+     F_INTENSE_UNPROT = 13
+     F_NORMAL_PROT = 4
+     F_INTENSE_PROT = 8
+     F_BLUE = 4
+     F_GREEN = 3
+     F_PINK = 14
+     F_RED = 13
+     F_TURQUOISE = 12
+     F_WHITE = 8
+     F_YELLOW = 15
+     F_DEFAULT_HILITE = 8
+     F_DEFAULT_NO_HILITE = 3
+     F_BLINK = 1
+     F_OIA = 1
+)
+
+
+* 3270_CONNECT is not configured.
+
+3270_SESSION = (
+     NAME = A
+     SESSION_TYPE = 1
+*    COMMENT is either not used or not configured.
+     LONG_SESSION_NAME = AMDQ
+     SESSION_AUTOSTART = 1
+     ACTIVATE_PS_PRINT = 1
+     SHOW_WINDOW = 1
+     SPACE_SIZE = 1
+     AT_KEYBOARD_NAME = ACSCATUS
+     ENHANCED_KEYBOARD_NAME = ACSCENUS
+     COLOR_NAME = 3270COLR
+     PRINT_BUFFER_SIZE = 1920
+     CHAR_MAP_TYPE = 3
+     SUBSTITUTION_CHAR = NULL
+     DATA_CONFID = 1
+     SELECTIVE_PC_DATA_CONFID = 0
+     DATA_CONFID_ID = BLANK
+     XFER_SIZE = 0
+     PS_SIZE_ROW = 25
+     PS_SIZE_COLUMN = 80
+     UNSUP_CONTROL_CODE = 1
+     EMU_TYPE = 1
+     NAU_ADDRESS = 2
+*    LOGICAL_TERM_NUMBER is either not used or not configured.
+     DATA_COMPRESSION = 0
+     HOST_LINK_NAME = HOSTMDQ
+     HOST_ALARM = 1
+     PROTECTED_FIELD_ALARM = 1
+     SCREEN_UPDATE_ALARM = 1
+     TITLE_BAR = 1
+     DISPLAY_ROW_COLUMN = 2
+     DISPLAY_ICON = 2
+     MIN_MAX_STATE = 1
+     AUTO_FONT = 1
+     MENU_BAR = 1
+     HOTSPOT_CMDNN = 1
+     HOTSPOT_FNN = 1
+     HOTSPOT_FPNN = 1
+     HOTSPOT_NN = 1
+     HOTSPOT_PFNN = 1
+     HOTSPOT_SELECT_STRING = 1
+     PRINT_OIA = 0
+     PRINT_NULLS_SPACES = 1
+     DEVICE_FONTS = 1
+     SKIP_BLANK_LINES = 1
+     SPOOL_OUTPUT = 1
+     HOST_CODE_PAGE = 37
+     PC_CODE_PAGE = 437
+     CHARS_PER_INCH = 10
+     LINES_PER_INCH = 6
+     LINE_SPACING = 1
+     JOB_NAME = A
+     JOB_PRIORITY = 50
+     COPIES = 1
+*    SPOOL_NAME is either not used or not configured.
+     ATTRIBUTES = 1
+*    FAMILY_NAME is either not used or not configured.
+*    FACE_NAME is either not used or not configured.
+     UPDATE_ALARM = 1
+     TRANSLATE_TRANSPARENCY = 0
+     END_OF_JOB_TIMEOUT = 0
+     FORM_FEED_POS = 1
+*    PDT_NAME is either not used or not configured.
+)
+
+3270_SESSION = (
+     NAME = B
+     SESSION_TYPE = 1
+*    COMMENT is either not used or not configured.
+     LONG_SESSION_NAME = BMDQ
+     SESSION_AUTOSTART = 1
+     ACTIVATE_PS_PRINT = 1
+     SHOW_WINDOW = 1
+     SPACE_SIZE = 1
+     AT_KEYBOARD_NAME = ACSCATUS
+     ENHANCED_KEYBOARD_NAME = ACSCENUS
+     COLOR_NAME = 3270COLR
+     PRINT_BUFFER_SIZE = 1920
+     CHAR_MAP_TYPE = 3
+     SUBSTITUTION_CHAR = NULL
+     DATA_CONFID = 1
+     SELECTIVE_PC_DATA_CONFID = 0
+     DATA_CONFID_ID = BLANK
+     XFER_SIZE = 0
+     PS_SIZE_ROW = 25
+     PS_SIZE_COLUMN = 80
+     UNSUP_CONTROL_CODE = 1
+     EMU_TYPE = 1
+     NAU_ADDRESS = 3
+*    LOGICAL_TERM_NUMBER is either not used or not configured.
+     DATA_COMPRESSION = 0
+     HOST_LINK_NAME = HOSTMDQ
+     HOST_ALARM = 1
+     PROTECTED_FIELD_ALARM = 1
+     SCREEN_UPDATE_ALARM = 1
+     TITLE_BAR = 1
+     DISPLAY_ROW_COLUMN = 2
+     DISPLAY_ICON = 2
+     MIN_MAX_STATE = 1
+     AUTO_FONT = 1
+     MENU_BAR = 1
+     HOTSPOT_CMDNN = 1
+     HOTSPOT_FNN = 1
+     HOTSPOT_FPNN = 1
+     HOTSPOT_NN = 1
+     HOTSPOT_PFNN = 1
+     HOTSPOT_SELECT_STRING = 1
+     PRINT_OIA = 0
+     PRINT_NULLS_SPACES = 1
+     DEVICE_FONTS = 1
+     SKIP_BLANK_LINES = 1
+     SPOOL_OUTPUT = 1
+     HOST_CODE_PAGE = 37
+     PC_CODE_PAGE = 437
+     CHARS_PER_INCH = 10
+     LINES_PER_INCH = 6
+     LINE_SPACING = 1
+     JOB_NAME = B
+     JOB_PRIORITY = 50
+     COPIES = 1
+*    SPOOL_NAME is either not used or not configured.
+     ATTRIBUTES = 1
+*    FAMILY_NAME is either not used or not configured.
+*    FACE_NAME is either not used or not configured.
+     UPDATE_ALARM = 1
+     TRANSLATE_TRANSPARENCY = 0
+     END_OF_JOB_TIMEOUT = 0
+     FORM_FEED_POS = 1
+*    PDT_NAME is either not used or not configured.
+)
+
+3270_SESSION = (
+     NAME = E
+     SESSION_TYPE = 1
+*    COMMENT is either not used or not configured.
+     LONG_SESSION_NAME = EA01
+     SESSION_AUTOSTART = 1
+     ACTIVATE_PS_PRINT = 1
+     SHOW_WINDOW = 1
+     SPACE_SIZE = 1
+     AT_KEYBOARD_NAME = ACSCATUS
+     ENHANCED_KEYBOARD_NAME = ACSCENUS
+     COLOR_NAME = 3270COLR
+     PRINT_BUFFER_SIZE = 1920
+     CHAR_MAP_TYPE = 3
+     SUBSTITUTION_CHAR = NULL
+     DATA_CONFID = 1
+     SELECTIVE_PC_DATA_CONFID = 0
+     DATA_CONFID_ID = BLANK
+     XFER_SIZE = 0
+     PS_SIZE_ROW = 25
+     PS_SIZE_COLUMN = 80
+     UNSUP_CONTROL_CODE = 1
+     EMU_TYPE = 1
+     NAU_ADDRESS = 6
+*    LOGICAL_TERM_NUMBER is either not used or not configured.
+     DATA_COMPRESSION = 0
+     HOST_LINK_NAME = LINK0036
+     HOST_ALARM = 1
+     PROTECTED_FIELD_ALARM = 1
+     SCREEN_UPDATE_ALARM = 1
+     TITLE_BAR = 1
+     DISPLAY_ROW_COLUMN = 2
+     DISPLAY_ICON = 2
+     MIN_MAX_STATE = 1
+     AUTO_FONT = 1
+     MENU_BAR = 1
+     HOTSPOT_CMDNN = 1
+     HOTSPOT_FNN = 1
+     HOTSPOT_FPNN = 1
+     HOTSPOT_NN = 1
+     HOTSPOT_PFNN = 1
+     HOTSPOT_SELECT_STRING = 1
+     PRINT_OIA = 0
+     PRINT_NULLS_SPACES = 1
+     DEVICE_FONTS = 1
+     SKIP_BLANK_LINES = 1
+     SPOOL_OUTPUT = 1
+     HOST_CODE_PAGE = 37
+     PC_CODE_PAGE = 437
+     CHARS_PER_INCH = 10
+     LINES_PER_INCH = 6
+     LINE_SPACING = 1
+     JOB_NAME = E
+     JOB_PRIORITY = 50
+     COPIES = 1
+*    SPOOL_NAME is either not used or not configured.
+     ATTRIBUTES = 1
+*    FAMILY_NAME is either not used or not configured.
+*    FACE_NAME is either not used or not configured.
+     UPDATE_ALARM = 1
+     TRANSLATE_TRANSPARENCY = 0
+     END_OF_JOB_TIMEOUT = 0
+     FORM_FEED_POS = 1
+*    PDT_NAME is either not used or not configured.
+)
+
+3270_SESSION = (
+     NAME = F
+     SESSION_TYPE = 1
+*    COMMENT is either not used or not configured.
+     LONG_SESSION_NAME = FA01
+     SESSION_AUTOSTART = 1
+     ACTIVATE_PS_PRINT = 1
+     SHOW_WINDOW = 1
+     SPACE_SIZE = 1
+     AT_KEYBOARD_NAME = ACSCATUS
+     ENHANCED_KEYBOARD_NAME = ACSCENUS
+     COLOR_NAME = 3270COLR
+     PRINT_BUFFER_SIZE = 1920
+     CHAR_MAP_TYPE = 3
+     SUBSTITUTION_CHAR = NULL
+     DATA_CONFID = 1
+     SELECTIVE_PC_DATA_CONFID = 0
+     DATA_CONFID_ID = BLANK
+     XFER_SIZE = 0
+     PS_SIZE_ROW = 25
+     PS_SIZE_COLUMN = 80
+     UNSUP_CONTROL_CODE = 1
+     EMU_TYPE = 1
+     NAU_ADDRESS = 7
+*    LOGICAL_TERM_NUMBER is either not used or not configured.
+     DATA_COMPRESSION = 0
+     HOST_LINK_NAME = LINK0036
+     HOST_ALARM = 1
+     PROTECTED_FIELD_ALARM = 1
+     SCREEN_UPDATE_ALARM = 1
+     TITLE_BAR = 1
+     DISPLAY_ROW_COLUMN = 2
+     DISPLAY_ICON = 2
+     MIN_MAX_STATE = 1
+     AUTO_FONT = 1
+     MENU_BAR = 1
+     HOTSPOT_CMDNN = 1
+     HOTSPOT_FNN = 1
+     HOTSPOT_FPNN = 1
+     HOTSPOT_NN = 1
+     HOTSPOT_PFNN = 1
+     HOTSPOT_SELECT_STRING = 1
+     PRINT_OIA = 0
+     PRINT_NULLS_SPACES = 1
+     DEVICE_FONTS = 1
+     SKIP_BLANK_LINES = 1
+     SPOOL_OUTPUT = 1
+     HOST_CODE_PAGE = 37
+     PC_CODE_PAGE = 437
+     CHARS_PER_INCH = 10
+     LINES_PER_INCH = 6
+     LINE_SPACING = 1
+     JOB_NAME = F
+     JOB_PRIORITY = 50
+     COPIES = 1
+*    SPOOL_NAME is either not used or not configured.
+     ATTRIBUTES = 1
+*    FAMILY_NAME is either not used or not configured.
+*    FACE_NAME is either not used or not configured.
+     UPDATE_ALARM = 1
+     TRANSLATE_TRANSPARENCY = 0
+     END_OF_JOB_TIMEOUT = 0
+     FORM_FEED_POS = 1
+*    PDT_NAME is either not used or not configured.
+)
+
+3270_SESSION = (
+     NAME = I
+     SESSION_TYPE = 1
+*    COMMENT is either not used or not configured.
+     LONG_SESSION_NAME = IA02
+     SESSION_AUTOSTART = 1
+     ACTIVATE_PS_PRINT = 1
+     SHOW_WINDOW = 1
+     SPACE_SIZE = 1
+     AT_KEYBOARD_NAME = ACSCATUS
+     ENHANCED_KEYBOARD_NAME = ACSCENUS
+     COLOR_NAME = 3270COLR
+     PRINT_BUFFER_SIZE = 1920
+     CHAR_MAP_TYPE = 3
+     SUBSTITUTION_CHAR = NULL
+     DATA_CONFID = 1
+     SELECTIVE_PC_DATA_CONFID = 0
+     DATA_CONFID_ID = BLANK
+     XFER_SIZE = 0
+     PS_SIZE_ROW = 25
+     PS_SIZE_COLUMN = 80
+     UNSUP_CONTROL_CODE = 1
+     EMU_TYPE = 1
+     NAU_ADDRESS = 10
+*    LOGICAL_TERM_NUMBER is either not used or not configured.
+     DATA_COMPRESSION = 0
+     HOST_LINK_NAME = LINK0036
+     HOST_ALARM = 1
+     PROTECTED_FIELD_ALARM = 1
+     SCREEN_UPDATE_ALARM = 1
+     TITLE_BAR = 1
+     DISPLAY_ROW_COLUMN = 2
+     DISPLAY_ICON = 2
+     MIN_MAX_STATE = 1
+     AUTO_FONT = 1
+     MENU_BAR = 1
+     HOTSPOT_CMDNN = 1
+     HOTSPOT_FNN = 1
+     HOTSPOT_FPNN = 1
+     HOTSPOT_NN = 1
+     HOTSPOT_PFNN = 1
+     HOTSPOT_SELECT_STRING = 1
+     PRINT_OIA = 0
+     PRINT_NULLS_SPACES = 1
+     DEVICE_FONTS = 1
+     SKIP_BLANK_LINES = 1
+     SPOOL_OUTPUT = 1
+     HOST_CODE_PAGE = 37
+     PC_CODE_PAGE = 437
+     CHARS_PER_INCH = 10
+     LINES_PER_INCH = 6
+     LINE_SPACING = 1
+     JOB_NAME = I
+     JOB_PRIORITY = 50
+     COPIES = 1
+*    SPOOL_NAME is either not used or not configured.
+     ATTRIBUTES = 1
+*    FAMILY_NAME is either not used or not configured.
+*    FACE_NAME is either not used or not configured.
+     UPDATE_ALARM = 1
+     TRANSLATE_TRANSPARENCY = 0
+     END_OF_JOB_TIMEOUT = 0
+     FORM_FEED_POS = 1
+*    PDT_NAME is either not used or not configured.
+)
+
+3270_SESSION = (
+     NAME = J
+     SESSION_TYPE = 1
+*    COMMENT is either not used or not configured.
+     LONG_SESSION_NAME = JA02
+     SESSION_AUTOSTART = 1
+     ACTIVATE_PS_PRINT = 1
+     SHOW_WINDOW = 1
+     SPACE_SIZE = 1
+     AT_KEYBOARD_NAME = ACSCATUS
+     ENHANCED_KEYBOARD_NAME = ACSCENUS
+     COLOR_NAME = 3270COLR
+     PRINT_BUFFER_SIZE = 1920
+     CHAR_MAP_TYPE = 3
+     SUBSTITUTION_CHAR = NULL
+     DATA_CONFID = 1
+     SELECTIVE_PC_DATA_CONFID = 0
+     DATA_CONFID_ID = BLANK
+     XFER_SIZE = 0
+     PS_SIZE_ROW = 25
+     PS_SIZE_COLUMN = 80
+     UNSUP_CONTROL_CODE = 1
+     EMU_TYPE = 1
+     NAU_ADDRESS = 11
+*    LOGICAL_TERM_NUMBER is either not used or not configured.
+     DATA_COMPRESSION = 0
+     HOST_LINK_NAME = LINK0036
+     HOST_ALARM = 1
+     PROTECTED_FIELD_ALARM = 1
+     SCREEN_UPDATE_ALARM = 1
+     TITLE_BAR = 1
+     DISPLAY_ROW_COLUMN = 2
+     DISPLAY_ICON = 2
+     MIN_MAX_STATE = 1
+     AUTO_FONT = 1
+     MENU_BAR = 1
+     HOTSPOT_CMDNN = 1
+     HOTSPOT_FNN = 1
+     HOTSPOT_FPNN = 1
+     HOTSPOT_NN = 1
+     HOTSPOT_PFNN = 1
+     HOTSPOT_SELECT_STRING = 1
+     PRINT_OIA = 0
+     PRINT_NULLS_SPACES = 1
+     DEVICE_FONTS = 1
+     SKIP_BLANK_LINES = 1
+     SPOOL_OUTPUT = 1
+     HOST_CODE_PAGE = 37
+     PC_CODE_PAGE = 437
+     CHARS_PER_INCH = 10
+     LINES_PER_INCH = 6
+     LINE_SPACING = 1
+     JOB_NAME = J
+     JOB_PRIORITY = 50
+     COPIES = 1
+*    SPOOL_NAME is either not used or not configured.
+     ATTRIBUTES = 1
+*    FAMILY_NAME is either not used or not configured.
+*    FACE_NAME is either not used or not configured.
+     UPDATE_ALARM = 1
+     TRANSLATE_TRANSPARENCY = 0
+     END_OF_JOB_TIMEOUT = 0
+     FORM_FEED_POS = 1
+*    PDT_NAME is either not used or not configured.
+)
+
+
+* 5250_COLOR is not configured.
+
+
+* 5250_SESSION is not configured.
+
+
+* ACDI_PORT is not configured.
+
+
+* ACDI_REDIRECT is not configured.
+
+
+* ACDI_SPECIAL_CHARACTERS is not configured.
+
+AT_KEYBOARD = (
+     NAME = ACSCATUS
+)
+
+ENHANCED_KEYBOARD = (
+     NAME = ACSCENUS
+)
+
+ENHANCED_KEYBOARD = (
+     NAME = ACSOENUS
+)
+
+
+* FT_CICS is not configured.
+
+* FT_MISC is not configured.
+
+* FT_TSO is not configured.
+
+
+* FT_VM is not configured.
+
+
+* IDLC_DLC is not configured.
+
+LAN_DLC = (
+     NAME = 0
+     ADAPTER_TYPE = 2
+     MAX_LINK_STATION = 4
+     PER_INCOMING_CALLS = 0
+     FREE_LINK = 0
+     MAX_I_FIELD_SIZE = 1929
+     SEND_COUNT = 4
+     RECEIVE_COUNT = 4
+     CASM_LAN_ID = ELITE
+     SEND_ALERT = 0
+     LINK_ESTABLISHMENT_RETRANSMISSION = 8
+     MAX_ACTIVATION_ATTEMPTS = 0
+     LOCAL_SAP = 04
+     RETRANSMISSION_THRESHOLD = 8
+)
+
+
+* SDLC_DLC is not configured.
+
+
+* SRPI_SERVER is not configured.
+
+
+* SRPI_SVRBASE is not configured.
+
+
+* TWINAX_DLC is not configured.
+
+WORKSTATION = (
+*    COMMENT is either not used or not configured.
+*    TRANS_TABLE is either not used or not configured.
+     LOAD_SNA_APPC = 1
+     LOAD_SRPI = 1
+     LOAD_X25_API = 1
+     LOAD_ACDI = 1
+     USE_ACDI_API = 0
+     USE_ARTIC_ADAPTER_WITHOUT_X25 = 0
+     USE_LAN_PROTOCOLS_USING_ISDN = 0
+)
+
+
+* X25_DLC is not configured.
+
+
+* X25_LDIR is not configured.
+
+
+* X25_LINK is not configured.
+
+
+* X25_LINK_PVC is not configured.
+
+
+* X25_RDIR_NSNA_PVC is not configured.
+
+
+* X25_RDIR_NSNA_SVC is not configured.
+
+
+* X25_RDIR_SNA_PVC is not configured.
+
+
+* X25_RDIR_SNA_SVC is not configured.
+
+
+* X25_ROUTE is not configured.
+
+
+* ACTIVATE_LOGICAL_LINKS is not configured.
+
+ATTACH_MANAGER = (
+     START = 1
+)
+
+
+* CNOS_FQ_PLU_NAME is not configured.
+
+
+* CNOS_PLU_ALIAS is not configured.
+
+CONNECTION_NETWORK = (
+     NAME = USIBMNH.ELITE
+     COMMENT = connection network for ELITE lab
+     ADAPTER_INFO.1.ADAPTER_NUMBER = 0
+     ADAPTER_INFO.1.DLC_NAME = IBMTRNET
+)
+
+
+* COS is not configured.
+
+
+* CPIC_SIDE_INFO is not configured.
+
+
+* DEFAULT_SOC is not configured.
+
+
+* EXPLICIT_SOC is not configured.
+
+
+* GATEWAY_HOST is not configured.
+
+
+* GATEWAY_WORKSTATION is not configured.
+
+LOCAL_CP = (
+     NAME = USIBMNH.A01C070
+*    COMMENT is either not used or not configured.
+     CP_ALIAS = A01C070
+*    HOST_FP_LINK_NAME is either not used or not configured.
+     HOST_FP_SUPPORT = 1
+     NAU_ADDRESS = 0
+     NODE_ID = 05D00070
+     NODE_TYPE = 3
+     NW_FP_SUPPORT = 0
+*    NW_SERVER_NAME is either not used or not configured.
+     MAX_COMPRESSION_LEVEL = 0
+     MAX_COMPRESSION_TOKENS = 0
+)
+
+LOCAL_LU = (
+     NAME = A01L070
+*    COMMENT is either not used or not configured.
+     LU_ALIAS = A01L070
+     NAU_ADDRESS = 0
+*    HOST_LINK_NAME is either not used or not configured.
+)
+
+LOCAL_LU = (
+     NAME = A02L070
+*    COMMENT is either not used or not configured.
+     LU_ALIAS = A02L070
+     NAU_ADDRESS = 0
+*    HOST_LINK_NAME is either not used or not configured.
+)
+
+LOCAL_LU = (
+     NAME = CIDA070
+*    COMMENT is either not used or not configured.
+     LU_ALIAS = CIDA070
+     NAU_ADDRESS = 0
+*    HOST_LINK_NAME is either not used or not configured.
+)
+
+LOCAL_LU = (
+     NAME = CICSC070
+*    COMMENT is either not used or not configured.
+     LU_ALIAS = CICSC070
+     NAU_ADDRESS = 0
+*    HOST_LINK_NAME is either not used or not configured.
+)
+
+LOGICAL_LINK = (
+     NAME = LINK0036
+     COMMENT = Connection to Local Server/Gateway
+     DLC_NAME = IBMTRNET
+     ACTIVATE_AT_STARTUP = 1
+     CP_CP_SESSION_SUPPORT = 1
+     ADAPTER_NUMBER = 0
+     ADJACENT_NODE_TYPE = 2
+     PREFERRED_NN_SERVER = 1
+     DESTINATION_ADDRESS = 40000C1DA03604
+*    INIT_WITH_SNRM is either not used or not configured.
+     ETHERNET_FORMAT = 0
+*    OUTGOING_DIR_ENTRY_NAME is either not used or not configured.
+*    PERMANENT_CONNECTION_NAME is either not used or not configured.
+*    X25_DIR_ENTRY_NAME is either not used or not configured.
+*    FQ_ADJACENT_CP_NAME is either not used or not configured.
+     EFFECTIVE_CAPACITY = -1
+     COST_PER_BYTE = -1
+     COST_PER_CONNECT_TIME = -1
+     PROPAGATION_DELAY = -1
+     SECURITY = -1
+     USER_DEFINED_1 = -1
+     USER_DEFINED_2 = -1
+     USER_DEFINED_3 = -1
+     LIMITED_RESOURCE = 0
+     LINK_STATION_ROLE = -1
+*    PU_NAME is either not used or not configured.
+     SOLICIT_SSCP_SESSION = 1
+*    NODE_ID is either not used or not configured.
+*    ADJACENT_NODE_ID is either not used or not configured.
+     MAX_ACTIVATION_ATTEMPTS = 0
+     USE_PUNAME_AS_CPNAME = 0
+*    IDLC_T200 is either not used or not configured.
+*    IDLC_N200 is either not used or not configured.
+*    IDLC_N201 is either not used or not configured.
+*    IDLC_T203 is either not used or not configured.
+*    IDLC_K is either not used or not configured.
+*    IDLC_NW is either not used or not configured.
+)
+
+LOGICAL_LINK = (
+     NAME = HOSTMDQ
+*    COMMENT is either not used or not configured.
+     DLC_NAME = IBMTRNET
+     ACTIVATE_AT_STARTUP = 1
+     CP_CP_SESSION_SUPPORT = 0
+     ADAPTER_NUMBER = 0
+     ADJACENT_NODE_TYPE = 1
+*    PREFERRED_NN_SERVER is either not used or not configured.
+     DESTINATION_ADDRESS = 40000C1DA09904
+*    INIT_WITH_SNRM is either not used or not configured.
+     ETHERNET_FORMAT = 0
+*    OUTGOING_DIR_ENTRY_NAME is either not used or not configured.
+*    PERMANENT_CONNECTION_NAME is either not used or not configured.
+*    X25_DIR_ENTRY_NAME is either not used or not configured.
+*    FQ_ADJACENT_CP_NAME is either not used or not configured.
+     EFFECTIVE_CAPACITY = -1
+     COST_PER_BYTE = -1
+     COST_PER_CONNECT_TIME = -1
+     PROPAGATION_DELAY = -1
+     SECURITY = -1
+     USER_DEFINED_1 = -1
+     USER_DEFINED_2 = -1
+     USER_DEFINED_3 = -1
+     LIMITED_RESOURCE = -1
+     LINK_STATION_ROLE = -1
+     PU_NAME = CIDA070
+     SOLICIT_SSCP_SESSION = 1
+     NODE_ID = 05D00070
+*    ADJACENT_NODE_ID is either not used or not configured.
+     MAX_ACTIVATION_ATTEMPTS = 0
+     USE_PUNAME_AS_CPNAME = 0
+*    IDLC_T200 is either not used or not configured.
+*    IDLC_N200 is either not used or not configured.
+*    IDLC_N201 is either not used or not configured.
+*    IDLC_T203 is either not used or not configured.
+*    IDLC_K is either not used or not configured.
+*    IDLC_NW is either not used or not configured.
+)
+
+
+* LUA is not configured.
+
+
+* LU_LU_PASSWORD is not configured.
+
+MODE = (
+     NAME = APPCMODE
+*    COMMENT is either not used or not configured.
+     MAX_RU_SIZE_UPPER_BOUND = 4096
+     COS_NAME = #CONNECT
+     DEFAULT_RU_SIZE = 0
+     MAX_NEGOTIABLE_SESSION_LIMIT = 10
+     MIN_CONWINNERS_SOURCE = 0
+     PLU_MODE_SESSION_LIMIT = 4
+     RECEIVE_PACING_WINDOW = 63
+     COMPRESSION_NEED = 0
+     PLU_SLU_COMPRESSION = 0
+     SLU_PLU_COMPRESSION = 0
+)
+
+MODE = (
+     NAME = PARALLEL
+*    COMMENT is either not used or not configured.
+     MAX_RU_SIZE_UPPER_BOUND = 4096
+     COS_NAME = #CONNECT
+     DEFAULT_RU_SIZE = 0
+     MAX_NEGOTIABLE_SESSION_LIMIT = 32767
+     MIN_CONWINNERS_SOURCE = 0
+     PLU_MODE_SESSION_LIMIT = 10
+     RECEIVE_PACING_WINDOW = 4
+     COMPRESSION_NEED = 0
+     PLU_SLU_COMPRESSION = 0
+     SLU_PLU_COMPRESSION = 0
+)
+
+MODE = (
+     NAME = NDM2LU62
+*    COMMENT is either not used or not configured.
+     MAX_RU_SIZE_UPPER_BOUND = 4096
+     COS_NAME = #CONNECT
+     DEFAULT_RU_SIZE = 0
+     MAX_NEGOTIABLE_SESSION_LIMIT = 32767
+     MIN_CONWINNERS_SOURCE = 0
+     PLU_MODE_SESSION_LIMIT = 1
+     RECEIVE_PACING_WINDOW = 63
+     COMPRESSION_NEED = 0
+     PLU_SLU_COMPRESSION = 0
+     SLU_PLU_COMPRESSION = 0
+)
+
+MODE = (
+     NAME = IBMRDB
+*    COMMENT is either not used or not configured.
+     MAX_RU_SIZE_UPPER_BOUND = 4096
+     COS_NAME = #CONNECT
+     DEFAULT_RU_SIZE = 0
+     MAX_NEGOTIABLE_SESSION_LIMIT = 32767
+     MIN_CONWINNERS_SOURCE = 10
+     PLU_MODE_SESSION_LIMIT = 20
+     RECEIVE_PACING_WINDOW = 8
+     COMPRESSION_NEED = 0
+     PLU_SLU_COMPRESSION = 0
+     SLU_PLU_COMPRESSION = 0
+)
+
+MODE = (
+     NAME = DB2LU62
+*    COMMENT is either not used or not configured.
+     MAX_RU_SIZE_UPPER_BOUND = 4096
+     COS_NAME = #CONNECT
+     DEFAULT_RU_SIZE = 0
+     MAX_NEGOTIABLE_SESSION_LIMIT = 32767
+     MIN_CONWINNERS_SOURCE = 0
+     PLU_MODE_SESSION_LIMIT = 45
+     RECEIVE_PACING_WINDOW = 4
+     COMPRESSION_NEED = 0
+     PLU_SLU_COMPRESSION = 0
+     SLU_PLU_COMPRESSION = 0
+)
+
+MODE = (
+     NAME = DCAFMODE
+     COMMENT = DCAF Session Values
+     MAX_RU_SIZE_UPPER_BOUND = 1024
+     COS_NAME = #CONNECT
+     DEFAULT_RU_SIZE = 0
+     MAX_NEGOTIABLE_SESSION_LIMIT = 24
+     MIN_CONWINNERS_SOURCE = 1
+     PLU_MODE_SESSION_LIMIT = 24
+     RECEIVE_PACING_WINDOW = 8
+     COMPRESSION_NEED = 0
+     PLU_SLU_COMPRESSION = 0
+     SLU_PLU_COMPRESSION = 0
+)
+
+PARTNER_LU = (
+     NAME = USIBMNH.CICSA01
+*    COMMENT is either not used or not configured.
+     PARTNER_LU_ALIAS = CICSA01
+     PARTNER_LU_UNINTERPRETED_NAME = CICSA01
+     CONV_SECURITY_VERIFICATION = 0
+     MAX_MC_LL_SEND_SIZE = 4096
+     PARALLEL_SESSION_SUPPORT = 1
+)
+
+PARTNER_LU = (
+     NAME = USIBMNH.TCPA01
+*    COMMENT is either not used or not configured.
+     PARTNER_LU_ALIAS = TCPA01
+     PARTNER_LU_UNINTERPRETED_NAME = TCPA01
+     CONV_SECURITY_VERIFICATION = 0
+     MAX_MC_LL_SEND_SIZE = 32767
+     PARALLEL_SESSION_SUPPORT = 0
+)
+
+
+* PARTNER_LU_LOCATION is not configured.
+
+
+* REMOTE_FOCAL_POINT is not configured.
+
+SNA_DEFAULTS = (
+*    COMMENT is either not used or not configured.
+     DEFAULT_TP_CONV_SECURITY_RQD = 0
+     DEFAULT_TP_OPERATION = 2
+     DEFAULT_TP_PROGRAM_TYPE = 0
+     DIRECTORY_FOR_INBOUND_ATTACHES = *
+     IMPLICIT_INBOUND_PLU_SUPPORT = 1
+     DEFAULT_MODE_NAME = BLANK
+     DEFAULT_LOCAL_LU_ALIAS = CIDA070
+     MAX_HELD_ALERTS = 10
+     MAX_MC_LL_SEND_SIZE = 32767
+)
+
+TP = (
+     NAME = X'21',007
+     COMMENT = TP for SEND
+     FILESPEC = C:\IBMNVDM2\BIN\ANXSNADS.EXE
+*    ICON_FILESPEC is either not used or not configured.
+*    PARM_STRING is either not used or not configured.
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+     INCOMING_ALLOCATE_QUEUE_DEPTH = 255
+     INCOMING_ALLOCATE_TIMEOUT = -1
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 0
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = X'21',008
+     COMMENT = TP for RECEIVE
+     FILESPEC = C:\IBMNVDM2\BIN\ANXSNADS.EXE
+*    ICON_FILESPEC is either not used or not configured.
+*    PARM_STRING is either not used or not configured.
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+     INCOMING_ALLOCATE_QUEUE_DEPTH = 255
+     INCOMING_ALLOCATE_TIMEOUT = -1
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 0
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = X'07',6DB
+*    COMMENT is either not used or not configured.
+     FILESPEC = C:\SQLLIB\SQLCIAA.EXE
+*    ICON_FILESPEC is either not used or not configured.
+*    PARM_STRING is either not used or not configured.
+     CONV_SECURITY_RQD = 1
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = X'07',6SN
+*    COMMENT is either not used or not configured.
+     FILESPEC = C:\SQLLIB\SQLCNSM.EXE
+*    ICON_FILESPEC is either not used or not configured.
+*    PARM_STRING is either not used or not configured.
+     CONV_SECURITY_RQD = 1
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = CECI
+     COMMENT = CECI - Command level interpreter
+     FILESPEC = C:\CICS200\BIN\FAACLPIN.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = CECI
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = CEDA
+     COMMENT = CEDA - Resource Definition Online
+     FILESPEC = C:\CICS200\BIN\FAACLPIN.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = CEDA
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = CPMI
+     COMMENT = Mirror Program one of
+     FILESPEC = C:\CICS200\BIN\FAACLPIN\EXE.
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = CPMI
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = CRSR
+     COMMENT = CRSR - Remote Scheduler
+     FILESPEC = C:\CICS200\BIN\FAACLPIN.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = CRSR
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = CRTE
+     COMMENT = CRTE - Transaction Routing
+     FILESPEC = C:\CICS200\BIN\FAACLPIN.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = CRTE
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = CVMI
+     COMMENT = Another mirror program
+     FILESPEC = C:\CICS200\BIN\FAACLPIN.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = CVMI
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 2
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = IBM.DCAF.ADMIN.TRANSACTION.PROGRAM
+     COMMENT = DCAF 1.2 Administration TP
+     FILESPEC = C:\DCAF12\EQNSCPPC.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = 1
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 0
+     INCOMING_ALLOCATE_QUEUE_DEPTH = 5
+     INCOMING_ALLOCATE_TIMEOUT = 60
+     PROGRAM_TYPE = 1
+     RECEIVE_ALLOCATE_TIMEOUT = 60
+     SYNC_LEVEL = 0
+     TP_OPERATION = 1
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = IBM.DCAF.CONTROLLING.TRANSACTION.PROGRAM
+     COMMENT = DCAF 1.2 Controlling TP
+     FILESPEC = C:\DCAF12\EQNCTRAM.EXE
+*    ICON_FILESPEC is either not used or not configured.
+*    PARM_STRING is either not used or not configured.
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 0
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 0
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = IBM.DCAF.GATEWAY.TRANSACTION.PROGRAM
+     COMMENT = DCAF 1.2 Gateway TP
+     FILESPEC = C:\DCAF12\EQNGTWAM.EXE
+*    ICON_FILESPEC is either not used or not configured.
+*    PARM_STRING is either not used or not configured.
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 0
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 0
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 0
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+TP = (
+     NAME = IBM.DCAF.TARGET.TRANSACTION.PROGRAM
+     COMMENT = DCAF 1.2 Target TP
+     FILESPEC = C:\DCAF12\EQNTGAUT.EXE
+*    ICON_FILESPEC is either not used or not configured.
+     PARM_STRING = LU62
+     CONV_SECURITY_RQD = 0
+     CONVERSATION_TYPE = 0
+*    INCOMING_ALLOCATE_QUEUE_DEPTH is either not used or not configured.
+*    INCOMING_ALLOCATE_TIMEOUT is either not used or not configured.
+     PROGRAM_TYPE = 2
+     RECEIVE_ALLOCATE_TIMEOUT = -1
+     SYNC_LEVEL = 2
+     TP_OPERATION = 2
+     PIP_ALLOWED = 0
+)
+
+
+* USER_ID_PASSWORD is not configured.
+
+
+* INCOMING_CALL_DIR is not configured.
+
+
+* OUTGOING_CALL_DIR is not configured.
+
+
+* PORT_CONNECTION is not configured.
+
+

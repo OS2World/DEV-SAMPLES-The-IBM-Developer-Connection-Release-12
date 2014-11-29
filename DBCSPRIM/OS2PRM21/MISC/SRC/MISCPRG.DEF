@@ -1,0 +1,14 @@
+;----------------------------------
+; MISCPRG.def module definition file
+;----------------------------------
+NAME    MISCPRG WINDOWAPI
+
+DESCRIPTION     'DBCS OS/2 Sample Program, Miscellaneus'
+PROTMODE
+
+
+STUB            'OS2STUB.EXE'
+
+HEAPSIZE        32768
+IMPORTS         TRNSCALL.TrnsDt
+

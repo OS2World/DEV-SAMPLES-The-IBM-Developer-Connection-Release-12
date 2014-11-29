@@ -1,0 +1,7 @@
+	cl /c /Alfu /W3 /B1 D:\C\BIN\C1L.EXE /Gs /Gc loadicon.c
+loadicon.c
+loadicon.c(301) : warning C4016: 'GpiSetBitMapBits' : no function return type, using 'int' as default
+loadicon.c(301) : warning C4071: 'GpiSetBitMapBits' : no function prototype given
+loadicon.c(320) : warning C4071: 'GpiSetBitMapBits' : no function prototype given
+loadicon.c(378) : warning C4101: 'pt' : unreferenced local variable
+loadicon.c(257) : warning C4061: long/short mismatch in argument : conversion supplied

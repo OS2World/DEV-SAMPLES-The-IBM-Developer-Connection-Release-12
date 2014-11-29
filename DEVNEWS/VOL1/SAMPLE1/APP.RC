@@ -1,0 +1,17 @@
+/* start of file app.rc ----------------------------------------------*/
+
+#include "os2.h"
+#include "app.h"
+
+POINTER ID_APP THREADS.ICO
+
+MENU ID_APP
+BEGIN
+  SUBMENU    "Actions",                 IDM_ACTIONS,            MIS_TEXT
+  BEGIN
+    MENUITEM "Sleep & Beep",            IDM_SLEEP,              MIS_TEXT
+  END
+END
+
+/* end of file app.rc -------------------------------------------------*/
+

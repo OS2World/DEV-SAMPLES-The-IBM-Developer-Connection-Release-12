@@ -1,0 +1,39 @@
+#define INCL_WIN
+#include <os2.h>
+#include "wideln.h"
+
+
+
+MENU ID_PIN PRELOAD
+BEGIN
+    SUBMENU    "Exit", -1
+    BEGIN
+        MENUITEM "~Exit now", IDM_EXIT  , MIS_TEXT, 0
+        MENUITEM "~Resume"  , IDM_RESUME, MIS_TEXT, 0
+    END
+
+    SUBMENU    "Line End", -1
+    BEGIN
+        MENUITEM "Default" , IDM_ENDDEFAULT  , MIS_TEXT, 0
+        MENUITEM "Flat"    , IDM_ENDFLAT     , MIS_TEXT, 0
+        MENUITEM "Square"  , IDM_ENDSQUARE   , MIS_TEXT, 0
+        MENUITEM "Round"   , IDM_ENDROUND    , MIS_TEXT, 0
+    END
+
+    SUBMENU    "Line Join", -1
+    BEGIN
+        MENUITEM "Default" , IDM_JOINDEFAULT  , MIS_TEXT, 0
+        MENUITEM "Bevel"   , IDM_JOINFLAT     , MIS_TEXT, 0
+        MENUITEM "Round"   , IDM_JOINSQUARE   , MIS_TEXT, 0
+        MENUITEM "Mitre"   , IDM_JOINROUND    , MIS_TEXT, 0
+    END
+
+    SUBMENU    "Shape", -1
+    BEGIN
+        MENUITEM "Right angle" , IDM_RIGHTANGLE  , MIS_TEXT, 0
+        MENUITEM "Triangle"    , IDM_TRIANGLE    , MIS_TEXT, 0
+    END
+
+END
+
+

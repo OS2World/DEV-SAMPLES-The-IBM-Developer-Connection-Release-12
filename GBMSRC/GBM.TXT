@@ -1,0 +1,839 @@
+Generalised Bitmap Module
+=========================
+
+
+Supported File Formats
+----------------------
+
+Short name : Long name : File extensions
+	Comments
+
+Bitmap : OS/2 1.1, 1.2, 2.0 / Windows 3.0 bitmap : .BMP .VGA .BGA .RLE .DIB .RL4 .RL8
+	Reads any of the above if uncompressed or run-length compressed.
+	Will not read CCITT G3 MH Fax compressed files.
+	Will not read 24 bit RLE files.
+	If input is an OS/2 bitmaparray file then which bitmap can be specified.
+		Input options: index=# (default: 0)
+	Can be made to write OS/2 1.1 or Windows 3.0 / OS/2 2.0 bitmaps
+		Output options: 1.1,win,2.0 (default: 2.0, note win=2.0)
+	The handling of 1bpp bitmaps is a little complicated.
+	When reading 1bpp bitmaps, the palette is ignored.
+	1's are considered foreground, and they are considered black.
+	0's are considered background, and they are considered white.
+	This agrees with WorkPlace Shell WPFolder background mode, and most PM
+	programs, but notably disagrees with Windows PBrush.
+	When writing 1bpp bitmaps, the actual 2 colours in the palette are
+	ignored, and a fixed palette is written. This is so that the resulting
+	bitmap will display black on white when displayed by WPFolder etc..
+	Foreground and background colours in palette can be inverted on input.
+		Input options: inv
+	Foreground and background colours in palette can be inverted on output.
+		Output options: inv
+	Foreground and background colours in bits can be inverted on input.
+		Input options: invb
+	Foreground and background colours in bits can be inverted on output.
+		Output options: invb
+
+GIF : CompuServe Graphics Interchange Format : .GIF
+	Reads 1, bit data files.
+	Reads 2, 3 and 4 bit data files and presents them as 4 bit.
+	Reads 5, 6, 7 and 8 bit data files and presents them as 8 bit.
+	Writes 1, 4 and 8 bit data files.
+	Reads "GIF87a" and "GIF89a" style files.
+	Writes "GIF87a" style files.
+	Will write "GIF89a" file, if the transcol= option is used.
+	Should correctly handle deferred clear-code in LZW data stream.
+	Will not generate output with deferred clear-code.
+	ie: should not break older GIF readers.
+	Can specify index of image within file on read.
+		Input option: index=# (default 0)
+	Can specify to return decoded data so far rather than error if corrupt.
+		Input option: errok
+	Can specify screen size to write in output screen descriptor.
+		Output options: xscreen=#,yscreen=# (defaults: image size).
+	Can specify background colour index to write in file BMHD header.
+		Output option: background=# (default: 0)
+	Can specify position information in output image descriptor.
+		Output options: xpos=#,ypos=# (defaults: 0,0).
+	Can specify transparent colour index (useful for HTML embedding).
+		Output option: transcol=# (default is none).
+	Can specify transparent colour index same as first pixel.
+		Output option: transcol=edge
+	Extensively test on GIF files from a wide variety of sources.
+	Compatibility tested with xloadimage and xv.
+
+PCX : ZSoft PC Paintbrush Image format : .PCX .PCC
+	Reads and writes 1,4,8 and 24 bit colour files.
+	Subset of plane/bits-per-plane combinations supported.
+	Files are read and written using a run-length coding scheme.
+	Tested using Zsoft originated .PCX files.
+	Compressed runs of pixels are not supposed to straddle scan lines.
+	GBM never does this, but some other applications violate this rule.
+	By default, if GBM finds that a run of pixels is longer than the scan
+	line, it will use the leftover pixels on the next scan line.
+	Some images will not load properly, as they require the loading
+	program to discard those pixels in the run that extend beyond the end
+	of the scan line. This behaviour can be enabled in GBM.
+		Input option: trunc
+
+TIFF : Microsoft/Aldus Tagged Image File Format support : .TIF .TIFF
+	Reads and writes 1,4,8 and 24 bit colour files.
+	Can almost read all TIFF 6.0 Baseline compliant files.
+	  Can read uncompressed and Packbits images.
+	  CCITT Modified huffman compression is the missing peice.
+	Can read some files with extensions to Baseline.
+	  Can read 1bpp greyscale and palettised files.
+	  Can read Orientation==4 files.
+	  Can read PlanarConfiguration==2 files for RGB image data.
+	  Can read LZW compressed files too.
+	  Can also read CMYK 4 colour seperation files.
+	  No JPEG or Y-Cb-Cr support.
+	Writes files that comply with TIFF 6.0 Baseline.
+	  Usually writes uncompressed files only.
+	  Data is written out as a single large strip.
+	Can specify image within TIFF file with many images
+		Input option: index=# (default: 0)
+	Can write 1bpp as non-Baseline file preserving fg/bg cols
+		Output option: pal1bpp
+	Can ask for LZW compression.
+		Output option: lzw
+	Can specify informational tags to append on output.
+		Output options: artist=,software=,make=,model=,host=,documentname=,pagename=,imagedescription=
+
+Targa : Truevision Targa/Vista bitmap : .TGA .VST .AFI
+	Reads any uncompressed/run-length-compressed files.
+	Reads 8 bit and 24 bit files.
+	Can read 8 bit greyscale and 8 bit colour mapped files.
+	Reads both yup and ydown files.
+	Writes out as uncompressed 8 bit or 16,24,32 bit.
+		Output options: 16,24,32 (default 24)
+	8 bit data is always written out as a colour mapped file.
+	Can be made to write yup and ydown files.
+		Output options: ydown,yup (default: yup)
+
+ILBM : Amiga IFF / ILBM Interleaved bitmap format : .IFF .LBM
+	Reads 1 bit palettised files.
+	Reads 2,3 and 4 bit palettised files, returning them as 4 bit.
+	Reads 5,6,7 and 8 bit palettised files, returning them as 8 bit.
+	Reads 24 bit images and returns them as 24 bit.
+	Reads HAM6, HAM8, SHAM and Extra-Halfbrite images.
+	HAM6, HAM8 and SHAM returned as 24 bit data.
+	Writes 1,4 and 8 bit palettised colour files.
+	Writes 24 bit files normally, or by converting to HAM6 first.
+	This loses quality but results are still better than 8 bit.
+	Understands the RLE compression scheme used.
+	Uses BMHD, CMAP, CAMG and BODY sections of file only.
+	Only writes BMHD, CMAP, CAMG and BODY sections in output files.
+	Can specify position information in file BHMD header.
+		Output options: xpos=#,ypos=# (defaults: 0,0).
+	Can specify transparent colour to write in file BMHD header.
+		Output option: transcol=# (default: 0)
+	Can specify aspect ratio to write in file BMHD header.
+		Output options: xaspect=#,yaspect=# (defaults: 1,1).
+	Can specify screen size to write in output BMHD header.
+		Output options: xscreen=#,yscreen=# (defaults: image size).
+	Can specify to write 24 bpp data in HAM6 format.
+		Output option: ham6
+	Note that when DeluxePaint etc. try to load an 8 bit IFF file, they
+	switch to a 32 colour (5 bit mode) and only read the 5 least
+	significant planes of the file - this generally looks yukky!
+	Tested using DeluxePaint sample bitmaps.
+
+YUV12C : YUV12C M-Motion Frame Buffer : .VID
+	Reads files and presents data as 24 bit data.
+	Writes 24 bit data files by converting them into 12 bit YUV.
+	VID files MUST be a multiple of 4 pixels wide.
+	When writing a non-multiple of 4, the last 1, 2 or 3 pixels are lost.
+	Can specify image origin information in YUV12C header.
+		Output options: xpos=#,ypos=# (defaults: 0,0).
+	Tested using M-Control Program 2.0, Browser sample application.
+
+Greymap : Portable Greyscale-map (binary P5 type) : .PGM
+	Credit for file format to Jef Poskancer.
+	No palette present in file format.
+	Reads 8 bit grey scale files.
+	Writes red, green, blue plane or greyscale equivelent of 8 bit image.
+		Output options: r,g,b,k (default: k)
+
+Pixmap : Portable Pixel-map (binary P6 type) : .PPM
+	Credit for file format to Jef Poskancer.
+	Reads and writes 24 bit unpalettised RGB data files.
+
+KIPS : IBM KIPS : .KPS
+	Reads 8 bit palettised files.
+	Will look for palette in .PAL file unless .KPL file specified.
+		Input options: pal,kpl (default: pal)
+	Writes 8 bit palettised files.
+	Will write palette in .PAL file unless .KPL file specified.
+		Output options: pal,kpl (default: pal)
+
+IAX : IBM Image Access eXecutive : .IAX
+	Reads array as 8 bit greyscale.
+	File format does not hold image dimensions.
+	Hence code assumes width is 512 pixels unless overridden.
+		Input options: width=# (default: 512)
+	File format does not include palette.
+	Writes red, green, blue plane or greyscale equivelent of 8 bit image.
+		Output options: r,g,b,k (default: k)
+
+XBitmap : X Windows bitmap : .XBM
+	Reads 1bpp X bitmaps, presenting 1's as black, 0's as white.
+	Writes 1bpp X bitmaps, darkest colours as 1's, brightest colour as 0's.
+	Tested upon some sample .XBM files.
+
+Sprite : Archimedes Sprite format from RiscOS : .SPR .SPRITE
+	Technically sprite files have no extension.
+	But GBM recognises .SPR and .SPRITE for convenience.
+	Reads 1,4 and 8 bit sprites.
+	'First bit' value in header must be a multiple of 8 (v.likely).
+	Will only read image plane, will ignore any mask plane.
+	Will handle case when no palette present in file.
+	Will default to the default Wimp palette in this case.
+	If input contains more than one sprite then which can be specified.
+		Input options: index=# (default: 0)
+	Will output 1,4 and 8 bit files.
+	Will write a palette in the file.
+	Will only write an image plane, ie: no mask plane.
+	Will write a 16 entry palette for 8 bit data (not 64 entry).
+	Will map to wierd archmedes palette when writing 8 bit data.
+	Tested reading 4bpp sprites with no palette.
+	Tested reading 8bpp sprites with no palette and with 64 entry palette.
+	Sprites generated by GBM have been loaded on RiscOS.
+	Remember: Use SetType to change type of file from PC-file to Sprite,
+	by SetType option of filer menu or "*SetType <filename> Sprite".
+
+PSEG : IBM Printer Page Segment : .PSE .PSEG .PSEG38PP .PSEG3820
+	This is a file format used by IBM document/printing systems.
+	It is used to represent a bi-level image to be used in a document.
+	Reads data and presents a 1bpp bitmap.
+	Image is presented 1's as black on 0's as white background.
+	PSEG files should be downloaded from a VM host in binary mode.
+	Some PSEG files have a corrupt record structure.
+	This doesn't cause a problem on VM but can confuse a non-VM reader.
+	GBM can be made to attempt to handle these files.
+		Input option: fixrec
+	Will output 1bpp file.
+	Can specify 2x scale factor.
+		Output option: double
+	Palette in 1bpp data is lost when written to file.
+	The resulting non-VM file has no record structure.
+	So when it is uploaded it must be fixed using FIXL3820 EXEC or similar.
+	Image width is rounded up to next multiple of 8 when written.
+
+GemRas : GEM Raster : .IMG
+	There is a basic level of support, and assorted XIMG extensions.
+	One extension is the inclusion of palette info.
+	Another allows 24 bpp data to be placed into an .IMG file.
+	Reads 1 bpp files (which are B/W) and returns 1 bpp data.
+	Reads 2,3 and 4 bpp files (col, grey, XIMG with pal) and returns 4 bpp.
+	Reads 5,6,7 and 8 bpp files (grey, XIMG with pal) and returns 8 bpp.
+	Reads 24 bpp (which are by definition XIMG) files and returns 24 bpp.
+	Writes 1 bpp data as B/W 1 bpp file.
+	Writes 4 bpp data mapped to 'standard' 16 colour palette.
+	Or writes 4 bpp data greyscale 4 bpp file.
+		Output option: grey
+	Or writes 4 bpp data to XIMG file with palette.
+		Output option: pal
+	There is no 'standard' palette for 256 colour files.
+	Writes 8 bpp data as greyscale 8 bpp file.
+	Or writes 8 bpp to XIMG file with palette.
+		Output option: pal
+	Writes 24 bpp data as an XIMG file (normal file can't do 24 bpp).
+	The pixel dimensions in microns can be specified.
+		Output options: pixw=#,pixh=# (defaults: 85,85)
+
+Portrait : Portrait : .CVP
+	In Germany, photographers sometimes supply a floppy with a .CVP on it.
+	File holds a single 512x512 24bpp RGB image.
+	File is uncompressed, and will therefore always be 3/4Mb.
+	You can only write 512x512 images using this format.
+	Pixels in the file are not square, the width is approx. 3/4 the height.
+	This aspect ratio problem is not adjusted for when reading or writing.
+
+
+Sample Applications
+-------------------
+
+GBMHDR - Display header information from bitmap files
+
+usage: gbmhdr [-g] [-s] {fn.ext{,opt}}
+flags: -g            don't guess bitmap format, try each type
+       -s            be silent about errors
+       fn.ext{,opt}  input filenames (with any format specific options)
+                     Bitmap when ext in [BMP VGA BGA RLE DIB RL4 RL8]
+                     GIF when ext in [GIF]
+                     PCX when ext in [PCX]
+                     TIFF when ext in [TIF]
+                     Targa when ext in [TGA VST AFI]
+                     ILBM when ext in [IFF LBM]
+                     YUV12C when ext in [VID]
+                     Greymap when ext in [PGM]
+                     Pixmap when ext in [PPM]
+                     KIPS when ext in [KPS]
+                     IAX when ext in [IAX]
+                     XBitmap when ext in [XBM]
+                     Sprite when ext in [SPR]
+                     GemRas when ext in [IMG]
+                     Portrait when ext in [CVP]
+       opt           bitmap format specific option to pass to bitmap reader
+
+	Note that the GBM module only ever surfaces the size and bits per pixel
+	of images (regardless of the other information present in the header).
+	All GBM programs have access to the bitmap file formats documented
+	above, although this list is omitted in subsequent documentation.
+
+	GBMHDR displays output in the following style :-
+
+		 384x768   8bpp    51Kb  17% GIF        aab.gif
+		 227x254   8bpp    58Kb 102% Bitmap     andy.bmp
+		 256x256  24bpp    84Kb  43% TIFF       bardot.tif
+
+	Listed is the size, bits per pixel, Kb size of the file, a percentage
+	value, the file format, and the file name. The percentage is calculated
+	as (filesize*100/datasize) and effectively gives the compression ratio.
+	For example aab.gif is well compressed (to 17% of the theoretical
+	size). andy.bmp gives a >100% value because of the file header.
+
+GBMREF - Reflect in horizontal and/or vertical directions
+
+usage: gbmref [-h] [-v] [-t] fn1.ext{,opt} [fn2.ext{,opt}]
+flags: -h             reflect horizontally
+       -v             reflect vertically
+       -t             transpose x for y
+       fn1.ext{,opt}  input filename (with any format specific options)
+       fn2.ext{,opt}  optional output filename (or will use fn1 if not present)
+                      bitmap formats and options as before
+
+	Certain non-obvious combinations of -h, -v and -t can be very usefull.
+	None of them	can be used for just file format translation.
+	-h -v		reflect both, equivelent to 180 degree turn
+	-h -t		equivelent to 90 degree turn clockwise
+	-v -t		equivelent to 90 degree turn anti-clockwise.
+
+GBMSUB - Extract a subrectangle of a bitmap
+
+usage: gbmsub [-x x] [-y y] [-w w] [-h h] fn1.ext{,opt} [fn2.ext{,opt}]
+flags: -x x           left edge of rectangle (default 0)
+       -y y           bottom edge of rectangle (default 0)
+       -w w           width of rectangle (default width of image - x)
+       -h h           height of rectangle (default height of image - y)
+       fn1.ext{,opt}  input filename (with any format specific options)
+       fn2.ext{,opt}  optional output filename (or will use fn1 if not present)
+                      bitmap formats and options as before
+
+	If none of the -x,-y,-w and -h options are supplied the defaults
+	cover the whole of the input file. Hence this program will just read
+	one file and write the data as another. Great for format conversion.
+
+GBMSIZE - Change the size of a bitmap
+
+usage: gbmsize [-w w] [-h h] fn1.ext{,opt} [fn2.ext{,opt}]
+flags: -w w           new width of bitmap (default width of bitmap)
+       -h h           new height of bitmap (default height of bitmap)
+       fn1.ext{,opt}  input filename (with any format specific options)
+       fn2.ext{,opt}  optional output filename (or will use fn1 if not present)
+                      bitmap formats and options as before
+
+	If none of the -w or -h options are supplied, the defaults will be
+	the input image size. Hence this program will just read one file and
+	write the data as another. Great for format conversion.
+
+GBMBPP - Do various bits per pixel conversions
+
+usage: gbmbpp [-m map] [-e] [-hN] fn1.ext{,opt} [fn2.ext{,opt}]
+flags: -m map         mapping to perform (default 7x8x4)
+                      bw           black and white
+                      vga          16 colour VGA
+                      8            8 colour (in 4 bit file)
+                      4g           4 bit greyscale
+                      7x8x4        7 levels red, 8 green, 4 blue 8514/A
+                      6x6x6        6 levels red, 6 green, 6 blue
+                      8g           8 bit greyscale
+                      tripel       64 reds, 64 greens, 64 blues tripel
+                      freqR:G:B:N  keep R red, G green, b blue bits, and map to
+                                   N most used colours in 8 bit palette
+                      mcutN        median cut to N colours
+                      R:G:B        keep R red, G green, B blue bits (eg: 8:8:8)
+       -e             enable error-diffusion (default is to truncate)
+                      -e only with -m bw, vga, 4g, 7x8x4, 6x6x6 with no -h
+       -h             enable halftoning (default is to truncate)
+                      -h only with -m 7x8x4, 6x6x6, 8, vga or R:G:B, with no -e
+                      N is a halftoning algorithm number (default 0)
+       fn1.ext{,opt}  input filename (with any format specific options)
+       fn2.ext{,opt}  optional output filename (or will use fn1 if not present)
+                      bitmap formats and options as before
+
+	This program reads the input bitmap. If it is not 24 bit, then it is
+	expanded to 24 bit per pixel. The data is then processed using the
+	supplied mapping giving a 24,8,4 or 1 bit per pixel image, which is
+	then written to the output bitmap file. The bw mapping produces a 1
+	bpp output file, vga and 4g gives 4 bit output files, 7x8x4, 6x6x6, 8g,
+	freq and tripel give 8 bit output files. R:G:B (where R,G and B are
+	numbers in the range 0 to 8), gives a 24 bit output file where only
+	the top R bits of red are non-zero, the top G of green and B of blue.
+	The normal way to map is simply to map each colour in the source
+	bitmap to the closest one in the destination bitmap. However if -e
+	is supplied, error diffusion is used to get a smoother result. Also, if
+	-h is supplied halftoning may be used instead. -e and -h are not valid
+	together, and are only valid with certain mappings.
+
+GBMGAMMA - Convert between various colour spaces
+
+usage: gbmgamma [-m map] [-g gamma] [-s shelf] fn1.ext{,opt} [fn2.ext{,opt}]
+flags: -m map         mapping in the form ?_to_? (default: i_to_l), where ? is
+                      i  physical intensitys (eg: raytracer output)
+                      p  gamma corrected for a specific monitor
+                      l  L* cyclometric linear perceived intensitys (as in PM)
+       -g gamma       set monitor gamma (default 2.1)
+       -s shelf       set monitor shelf (default 0.0)
+                      gamma and shelf only used for mapping to or from p
+                      for 8514 monitor gamma=2.3,shelf=0.136
+                      for 8515 monitor gamma=2.1,shelf=0.0
+       fn1.ext{,opt}  input filename (with any format specific options)
+       fn2.ext{,opt}  optional output filename (or will use fn1 if not present)
+                      bitmap formats and options as before
+
+	This program reads a bitmap and assumes the pixel values in it are
+	in the input colour space. If the bitmap has a palette it maps each
+	palette entry according to the supplied mapping, otherwise it maps
+	each individual 24 bit pixel. For example, if you get a 24 bit per
+	pixel image from a Windows video capture program, the odds are in may
+	be in a gamma corrected colour space with a gamma of 2.2. You can
+	convert this to the L* cyclometric colour space used by PM by typing
+	"gbmgamma -m p_to_l -g 2.2 captured.bmp nicepm.bmp". The shelf option
+	is primarily for when converting to a gamma corrected colour space for
+	a specific monitor (when you aren't going to use PM to display the
+	bitmap, and the display program doesn't do any correction). Some
+	monitors don't actually start to light up pixels until the pixel
+	values are a certain value. Normally "-s shelf" will not be used.
+
+GBMCPAL - Map to Common Palette
+
+usage: gbmcpal [-m map] [-v] n1 n2 n3 ifspec{,opt} ofspec{,opt}
+flags: -m map         mapping to perform (default freq6:6:6:256)
+                      freqR:G:B:N       map all bitmaps to same palette, worked
+                                        out using frequency of use histogram
+                      mcutN             map all bitmaps to same palette, worked
+                                        out using median cut algorithm
+                      rofreqR:G:B:N:N2  map each bitmap to frequency palette,
+                                        reordered to minimise differences
+                                        between successive bitmaps
+                      romcutN:N2        map each bitmap to median cut palette,
+                                        reordered to minimise differences
+                                        between successive bitmaps
+                                        R,G,B are bits of red, green and blue
+                                        to keep, N is number of unique colours,
+                                        N2 is extra palette entries
+       -v             verbose mode
+       n1 n2 n3       for ( f=n1; f<n2; f+=n3 )
+       ifspec           printf(ifspec, f);
+       ofspec           printf(ofspec, f);
+                      filespecs are of the form fn.ext
+                      ext's are used to deduce desired bitmap file formats
+                      bitmap formats and options as before
+
+	Given a set of bitmaps, it is possible to examine them all and compute
+	a common palette for holding them, and then generated new bitmaps
+	mapped to that palette. The mappings available are frequency based
+	and median-cut based. Alternatively, it is possible to generate the
+	most suitable palette for each frame, and then reorder the palettes
+	of each bitmap so as to be as close as possible to its predecessor.
+
+	By reordering palettes (using rofreq/romcut) it is possible to remove
+	almost all flicker on playback. From frame to frame, almost all palette
+	entries in a given frame, have close entries in the previous frame.
+	However for a few, this is not true, and flicker may be seen. The N2
+	parameter is designed to alleviate this. The process will handle the
+	N2 worst palette changes using N2 extra palette entries. Thus the N2
+	worst causes of flicker can be eliminated. A typical use might be :-
+
+		gbmcpal -m romcut240:16 0 100 1 in%02d.bmp out%02d.bmp
+
+	This means map each frame to a palette with 240 unique colours in.
+	Any given frame only uses 240 colours at most. But the palette is
+	acutally 240+16 colours in length, and the additional 16 are used to
+	eliminate flicker caused by the 16 worst matches.
+
+GBMVFSA - View Full Screen Animation
+
+usage: gbmvfsa [-l] [-p] [-s] [-t] [-P] n1 n2 n3 fspec{,opt}
+flags: -l             loop indefinately
+       -p             set palette only once, assume same
+       -s             single step the frames
+       -t             annotate each frame with its title
+       -P             display palette bar
+       n1 n2 n3       for ( f=n1; f<n2; f+=n3 )
+       fspec            printf(fspec, f);
+                      filespecs are of the form fn.ext
+                      bitmap formats and options as before
+
+	This program can be used display an animation consisting of a
+	collection of individual bitmap frames. It displays the animation
+	to the OS/2 Full Screen 320x200 at 8bpp VGA screen mode. Because of
+	this, gbmvfsa is limited to displaying bitmaps of 320x200 or less, and
+	they must be 8bpp. Also, all the bitmaps must be the same size.
+
+	If all the bitmaps share the same palette (presumably enforced by
+	using gbmcpal above), then specify the -p option.
+
+	If the bitmaps have different palettes then visual artifacts can be
+	produced. This is because for each new frame, the palette is changed,
+	and then the screen bitmap bits are changed. Thus there is a small
+	window in which the old bits are displayed with the new palette.
+	At this time I know of no architected way to synchronise the changes
+	to occur with the vertical retrace, using the OS/2 Vio API.
+
+	One way to avoid the problem is to have each bitmap use 128 colours.
+	Even bitmaps would use palette entrys 0 - 127, and palette entries
+	128 - 255 would contain the previous pictures palette. Similarly in
+	reverse for odd bitmaps.
+
+	gbmcpal provides an attempt at solving the problem. Its rofreq and
+	romcut options reorder palette entries to try to minimise changes
+	between successive frames. This significantly reduces flicker.
+	In most cases, flicker can be totally eliminated.
+
+	The important thing to note is that it is not gbmvfsa's job to solve
+	this problem, it is the job of the bitmap generating program.
+
+	As the program runs, certain keys can be used :-
+
+		Space	advances a single frame
+		-	steps back one frame
+		0 .. 9	moves to 0/10 .. 9/10 of the way through
+		s	enters single step mode
+		g	resumes continuous play
+		t	toggles titleing on/off
+		p	toggles palette display on/off
+		Esc,q,x	quits
+
+GBMLOGO - Help in changing OS/2 Warp Logo on bootup
+
+usage: gbmlogo [-e] [-hN] filename.ext{,opt}
+flags: -e             error-diffuse to RGBI
+       -hN            halftone to RGBI
+                      N is a halftoning algorithm number (default 0)
+                      -e and -h can't be used together
+       filename.ext   640x400 bitmap
+                      bitmap formats and options as before
+
+	Tool to make VRAM0.DAT, VRAM1.DAT, VRAM2.DAT and VRAM3.DAT for
+	feeding into MAKELOGO.EXE supplied on Developer Connection CD 6.
+	MAKELOGO.EXE makes VRAM.DAT which can be copied over hidden
+	file \OS2LOGO on the boot drive, to change the boot screen.
+	The boot screen image can only be a 16 colour image, and the input
+	file is mapped to the VGA palette (perhaps with halftoning etc.).
+
+GBMV - GBM Viewer
+
+usage: gbmv [-e] [-h] fn.ext{,opt}
+flags: -e             error diffuse
+       -h             halftone
+                      -e and -h not allowed together
+       fn.ext{,opt}   input filename (with any format specific options)
+                      bitmap formats and options as before
+
+	This program is a minimal image viewer for OS/2 + PM.
+	It simply pops up the image in a window.
+
+GBMV2 - GBM Viewer 2
+
+usage: gbmv2 [fn.ext{,opt}]
+       fn.ext{,opt}   input filename (with any format specific options)
+                      bitmap formats and options as before
+
+	This program is a full featured PM application with full context
+	sensitive help. Virtually any function of the command line GBM tools
+	can be done interactively, with Undo capability. Interaction with
+	the PM printer and clipboard is possible also. The PM Desktop may
+	also be snapshotted. Also included is export to Metafile capability.
+	Functions pertaining to multiple bitmaps are not available here.
+	Try it!
+
+
+Colour spaces
+-------------
+
+If a light is physically twice as bright, the eye does not necessarily see it
+as twice as bright. Also, if a pixel is written onto a monitor screen with
+twice the value, the physical intensity of the pixel is not necessarily double.
+
+How exactly should numbers inside a bitmap file relate to physical or
+perceived intensitys when displayed on the screen?
+
+In OS/2 PM perceived intensitys are proportional to the values in the bitmap
+file. Pixels in such a bitmap are in the 'L* cyclometric' colour space.
+
+Ray Tracers often write pixel values in the bitmap proportional to the physical
+intensity computed for that ray. Such data is in the 'intensity' colour space.
+
+Finally, if a bitmap holds values computed in such a way as to compensate for
+the gamma of the monitor (ie: intensitys transformed to cancel out the gamma
+of the monitor), then the data is in a 'gamma corrected' colour space.
+
+So, if you have some Ray Tracer output, and you wish to display on an 8514
+monitor WITHOUT using OS/2 PM, then to get a decent colour rendition, you must
+map the bitmap from the 'intensity' to a 'gamma corrected' colour space.
+To do this you must know the gamma of the 8514 monitor (which is about 2.1).
+
+Also, if you have some Ray Tracer output, and you wish to display on OS/2 PM,
+then to get a decent rendition you must map the bitmap from the 'intensity' to
+the 'L* cyclometric' colour space.
+
+GBMGAMMA is a colour mapping program capable of performing mappings between
+any 2 of the 3 colour spaces above.
+
+Mapping of this sort should really be done on 24 bit data, before
+error-diffusion or halftoning takes place.
+
+
+Making bitmap animations
+------------------------
+
+GBM was originally written as the bitmap handling portion of my homebrew
+Ray Tracer, RT. RT was originally written to allow me to trace snazzy
+animations. For example, here is what I did to make a spinning globe animation.
+
+First I traced a largish number of individual bitmap frames using RT. I wrote
+these out under the names globeNNN.tif where NNN is 000, 010, 020, ... 350 (ie:
+the angle of rotation in degrees). I used the ",lzw" option to get the files
+written LZW encoded to reduce the disk space requirements.
+
+Then to map the data to a common palette, I used :-
+
+	gbmcpal -m freq6:6:6:256 0 360 10 globe%03d.tif globe%03d.bmp
+
+To display the animation under OS/2, using fullscreen VGA, I use :-
+
+	gbmvfsa -l -p 0 360 10 globe%03d.bmp
+
+Obviously there are file formats specifically for holding animations, and
+algorithms for having animations where palette entries vary from frame to
+frame, but the simple example above is ok for many purposes.
+
+
+Some examples
+-------------
+
+gbmhdr *.bmp *.tif
+	Displays the headers of all the bitmaps and TIFF files
+
+gbmref file.bmp file.tga
+	Perform no reflection (no -h, -v or -t).
+	Hence simply converts file from Bitmap to Targa format!
+
+gbmref -h larrow.tga rarrow.tga
+	Reflects larrow.tga to make rarrow.tga
+
+gbmref -h -t profit.gif loss.gif
+	The combination of a horizontal flip with a transpose gives a 90
+	degree rotation clockwise. Thus a graph going up from bottom left
+	to top right, ends up going from top left to bottom right!
+
+gbmref -v uarrow.pcx "darrow.lbm,xaspect=5,yaspect=6,xscreen=320,yscreen=200"
+	Reflects uarrow.pcx to make darrow.lbm
+	Output options defined for ILBM files used to write to aspect ratio
+	and screen size fields in output .lbm file.
+	Note: some command processors (such as OS/2 CMD.EXE) will split command
+	line arguments at spaces and commas, so we quote second argument.
+
+gbmsub -x 100 -y 50 page.bmp
+	Trims 100 pixels off the left, and 50 off of the bottom
+	Note: no second filename given, so output overwrites page.bmp
+
+gbmsize -w 1024 -h 768 strangesize.bmp screensized.bmp
+	Takes any bitmap and scales it to a typical SVGA screen size.
+
+gbmbpp -m 7x8x4 24bit.tga 8bit.bpp
+	Maps a 24 RGB image to the 8514/A PM palette
+	Note: Source image format (Targa) not same as output format (Bitmap)
+
+gbmbpp -m 7x8x4 -h 24bit.bmp nice8bit.bmp
+	As above but with halftoning
+
+gbmbpp -m 7x8x4 -e 24bit.bmp nice8bit.bmp
+	As above, but with error diffusion
+
+gbmbpp -m vga -e 24bit.bmp nice4bit.bmp
+	As above, but suitable for VGA display
+
+gbmbpp -m 5:5:5 -e 8r8g8b.tga "5r5g5b.tga,16"
+	Error diffuse from 24 bit RGB to 15 bit RGB
+	(bottom 3 bits of each of R,G and B become zero)
+	Output option ",16" ensures data written in Targa-16 form
+	This reduces wasted disk space.
+
+gbmbpp -m freq8:8:8:240 24bit.bmp 8bit.bmp
+	Finds 240 most frequently used colours.
+	For other colours finds closest match in most common 240 colours.
+	Maps colours in 24bit.bmp to give 8 bit output file.
+	If excessively large number of colours in original, may truncate bits.
+
+gbmgamma -m i_to_l raytrace.bmp pmsuited.bmp
+	raytrace.bmp has pixels values proportional to physical intensity.
+	pmsuited.bmp is made with pixels proportional to perceived intensity.
+
+gbmcpal -m freq6:6:6:256 0 360 10 globe%03d.bmp cpal%03d.bmp
+	Read globe000.bmp, globe010.bmp, ... globe350.bmp.
+	Compute a common shared palette.
+	Map each globeXXX.bmp file to a cpalXXX.bmp file.
+
+gbmvfsa -p 0 100 1 frame%03d.bmp
+	Display frame000.bmp, frame001.bmp, ... frame099.bmp in a full screen
+	OS/2 Session using the 320x200 8bpp VGA screen mode.
+	The -p says to gbmvfsa that all the bitmaps share a common palette,
+	and so it only needs to set the palette when the first bitmap is loaded.
+
+
+Source code
+-----------
+
+The main part of GBM is highly portable 32 bit C, and has been compiled on
+32 bit OS/2, AIX 3.2.5 and other systems. Certain associated parts, notably
+GBMV, GBMV2 and GBMVFSA programs are OS/2 dependant. Full source to these
+should be available where you obtained this package.
+
+Before compiling on OS/2, copy the os2 subdirectory to its parent. Similarly
+for any other operating system.
+
+The source code is folded, and was written using Andys Source Code Folding
+Editor, which is also public domain, and should hopefully be available where
+you obtained GBM.
+
+
+Public domain declaration
+-------------------------
+
+I wrote all this code in my own time on my own equiptment.
+I used public non-confidential information to do so.
+I hereby place all this code into the public domain.
+Feel free to do whatever you like with it.
+No copyright / no royalties / no guarantees / no problem.
+Caveat Emptor!
+
+
+Exception to the above
+----------------------
+
+Both Unisys and IBM (and others) have various patents pertaining to the LZW
+algorithm used in GIF and LZW compressed TIFF files. For many years Unisys have
+only licensed their LZW technology in hardware implementations (typically
+Modems). Now Unisys (through Compu$erve) are looking to license the use of LZW
+in software applications, such as GIF and TIFF. This is the infamous
+'Compu$erve GIF TAX'. Unisys have stated (in news postings) that non-commercial
+software need not be licensed. Assuming this to be true, GBM will continue to
+support GIF and LZW compressed TIFF. It is anticipated that this move will mean
+the death of LZW in image files, and that the net will develop a replacement
+based on LZSS, LZ77, LZHUF, Yabba or other (hopefully) non-patented technology.
+If and when this occurs, there is a good chance GBM will support it.
+
+
+Obtaining this code
+-------------------
+
+Internet:  hobbes.nmsu.edu: /pub/os2/32bit/graphics/ gbm.zip gbmsrc.zip
+             ftp.cdrom.com: /pub/os2/32bit/graphics/ gbm.zip gbmsrc.zip
+IBM-IPNet: grob.havant.ibm.com: c:/pub/ gbm.zip gbmsrc.zip
+IBM-VNET:  REQUEST GBM    FROM AKEY AT WINVMD
+           REQUEST GBMSRC FROM AKEY AT WINVMD
+Releases have been on the IBM OS/2 Developer Connection CD-ROMs 2 to 6.
+Also found on the Hobbes OS/2 Shareware CD-ROM.
+Included on the CD-ROM with the book "Encyclopedia of Graphics File Formats"
+by O'Reilly and Associates.
+This code may also be found on some BBSs, although I don't know which ones.
+
+
+Change Log
+----------
+
+11/5/92		Initial general release.
+
+Various dates	Fixed assorted bugs in, and speeded up, various parts of GBM.
+		Dropped support for 16 bit systems.
+		Changed all code to now be compiled multithreaded.
+		Changed GBM library to a DLL under OS/2, saved at least 500Kb.
+		/NOI now required when linking with GBM.LIB.
+		Added textual error messages.
+		Added GIF, X Bitmap and RiscOS Sprite support.
+		Extensively improved TIFF file support (now almost Baseline).
+		Extensively improved IFF support (HAM6, HAM8 etc.).
+		GBM structure enlarged => PLEASE RECOMPILE
+		Addition of bitmap transpose (and hence rotate) capability.
+		Added GBMV2.EXE, the flagship OS/2+PM program to show off GBM.
+		Handling of 1bpp data has changed - now honors colours.
+		Windows / (OS/2 2.0 subset) not OS/2 1.1 bitmaps now default.
+		Improved error checking some file readers.
+		Addition of -s and -g options to GBMHDR.EXE.
+		Added GBMWPOBJ.CMD to set up Workplace Shell Objects.
+
+29/11/93	Sanitised documentation
+		Copy supplied to IBM OS/2 Developer Connection.
+
+6/2/94		Removed max number of strips limitation in TIFF reader.
+		Added TIFF LZW encode option (alpha-level code).
+		Added percentage on GBMHDR.EXE listing.
+
+1/4/94		Bugfix for speckley IFF file writing.
+		Bugfix for map to black and white.
+		Added support for PSEGs.
+
+18/4/94		Added GBMSCALE.LIB and GBMSIZE.EXE to resize bitmaps.
+		Rewrote a large chunk of GBMV2.EXE.
+		Added Paste, Resize... and Snapshot capability.
+		Added reflect selection only etc. capability.
+		Removed Select All (now not required).
+
+3/5/94		Added GBMMCUT.LIB to implement median-cut algorithm.
+		Made GBMBPP.EXE and GBMV2.EXE able to do median-cut.
+		Split GBMHIST.LIB to enable multiple bitmap usage.
+		Added GBMCPAL.EXE to map multiple bitmaps to a common palette.
+		Added GBMVFSA.EXE to view multi-bitmap full screen animations.
+		Added export to PM Metafile (& via clipboard) for GBMV2.EXE.
+		Improved documentation.
+
+27/6/94		-m rofreqR:G:B:N:N2 and -m romcutN:N2 options to GBMCPAL.EXE.
+		RLE colour mapped, RLE RGB and 8bpp grey Targa loading support.
+		Change to Targa file writer to account for CJPEG reader feechur.
+		Commonised up source in GBM.DLL.
+		Bugfix for some widths of IFF/ILBM file.
+
+1/8/94		Faster/better LZW algorithm for GIF and TIFF writers.
+		Submitted to Internet hobbes.nmsu.edu.
+
+8/8/94		Added transcol=# option for GIF writer (for HTML embedding).
+
+3/10/94		Added 24 bit IFF support and ham6 option to give old behaviour.
+		Bugfix for Edit->Paste on GBMV2.EXE.
+
+14/10/94	Added transcol=edge for GIF writer.
+		Added .PCC extension to PCX support.
+
+22/10/94	Added _System Gbm_ entrypoints for IBM SmallTalk under OS/2.
+
+21/12/94	Fix to 1bpp bitmap cropping routine.
+		Improved XBM reader slightly.
+		Added first guess at support for GEM Raster .IMG files.
+
+10/1/95		Added gbm_version(), better error checking, const's.
+		Added clarification on LZW 'software patent'.
+		Submitted to hobbes.nmsu.edu.
+
+16/1/95		Added support for Portrait files (.CVP files).
+
+21/3/95		Fixed palettes in XIMG GemRas files (thanks Eero).
+		Fixed GIF writing transcol=edge, & reading local colour tables.
+		Added GBMLOGO.EXE to ease use of MAKELOGO.EXE on DevCon CD 6.
+
+16/5/95		Distribution now uses InfoZIP ZIP.EXE, not PKZIP.EXE 2.04g.
+		Added Product Information dialog box to GBMV2.EXE.
+		Fixed GBMLOGO.EXE error message trap for non 640x400 bitmaps.
+
+Future?		Palette Manager capability in GBMV.EXE and GBMV2.EXE?
+		Non-scaled and fixed scale print for GBMV2.EXE?
+		Special logic for print to 1bpp and 3bpp printers for GBMV2.EXE?
+		JPEG, Photo-CD, RLE-Bitmap, G3-TIFF, G3-Bitmap for GBM.DLL?
+		My free time is scarce - don't hold your breath!
+
+{{{ Andy Key
+
+Internet: ak@nyangau.aladdin.co.uk

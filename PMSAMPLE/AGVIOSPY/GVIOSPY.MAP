@@ -1,0 +1,52 @@
+
+ GVIOSPY
+
+ Start     Length     Name                   Class
+ 0001:0000 000D0H     GVIOSPY_TEXT           CODE
+ 0002:0000 00024H     _DATA                  DATA
+ 0002:0024 00000H     CONST                  CONST
+ 0002:0024 00000H     _BSS                   BSS
+ 0002:0030 00000H     c_common               BSS
+ 0003:0000 07D40H     FAR_BSS                FAR_BSS
+
+ Origin   Group
+ 0002:0   DGROUP
+
+ Address   Export                  Alias
+
+ 0002:0000 AVIOHMQ                 AVIOHMQ
+ 0003:0040 SESSIONS                SESSIONS
+ 0001:0000 VIOSERVICE              _VIOSERVICE
+ 0002:0004 WROTETOSESS             WROTETOSESS
+ 0003:0000 XCURSOR                 XCURSOR
+ 0003:0020 YCURSOR                 YCURSOR
+
+  Address         Publics by Name
+
+ 0002:0000       AVIOHMQ
+ 0000:0000  Imp  DOSGETINFOSEG        (DOSCALLS.8)
+ 0003:0040       SESSIONS
+ 0000:0000  Imp  VIOGETCURPOS         (VIOCALLS.9)
+ 0000:0000  Imp  VIOREADCHARSTR       (VIOCALLS.30)
+ 0000:0000  Imp  WINPOSTQUEUEMSG      (PMWIN.70)
+ 0002:0004       WROTETOSESS
+ 0003:0000       XCURSOR
+ 0003:0020       YCURSOR
+ 0001:0026       _AxDxFunction
+ 0001:0028       _ReadScreen
+ 0001:0000       _VIOSERVICE
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  VIOGETCURPOS         (VIOCALLS.9)
+ 0000:0000  Imp  DOSGETINFOSEG        (DOSCALLS.8)
+ 0000:0000  Imp  WINPOSTQUEUEMSG      (PMWIN.70)
+ 0000:0000  Imp  VIOREADCHARSTR       (VIOCALLS.30)
+ 0001:0000       _VIOSERVICE
+ 0001:0026       _AxDxFunction
+ 0001:0028       _ReadScreen
+ 0002:0000       AVIOHMQ
+ 0002:0004       WROTETOSESS
+ 0003:0000       XCURSOR
+ 0003:0020       YCURSOR
+ 0003:0040       SESSIONS

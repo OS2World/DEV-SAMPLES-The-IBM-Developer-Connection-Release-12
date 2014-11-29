@@ -1,0 +1,83 @@
+
+
+                       BITMAP32       ---    30 December 1992
+
+
+BITMAP32.EXE is a small application that allows one to view bitmap image 
+files in various formats.  To do this is uses the GBM code from Andy Key in 
+Hursley. The source code is provided.
+
+The bitmap displayer, and the associated code demonstrate two methods of
+bitmap drawing.  One method rescales the image as it is being drawn to the
+screen.  This method doesn't look so great while drawing (it draws in bands),
+plus if part of the window needs to be painted (e.g. another app. was
+partially covering it), the whole window gets repainted, again with the
+bands.  The other method is to keep one copy of the original bitmap in
+memory, and then when it is time to draw it, to make another copy, *scaling
+it in memory*, and then "blasting" the scaled copy to the screen.  This
+process is repeated for subsequent repaints ONLY if the size of the window
+has changed.  If it hasn't changed size, then we just "reblast" our scaled
+bitmap.  This method is *extermely* quick when the window needs to be
+repainted and the size hasn't changed (that's how PMLOGO does it so quick),
+but this mehtod is also very expensive, because two bitmaps must be kept in
+memory at all times.
+
+It is not possible to throw away the original bitmap once we have a scaled
+bitmap in memory because the GpiBitBlt function made some approximations when
+scaling the bitmap, so if our new bitmap in memory was very thin and long,
+and we threw out the original, then the long thin bitmap would become our
+reference for subsequent sizing requests, and we would be all screwed up.
+
+If the window you are drawing to cannot be sized, then you can throw away the
+original once you have created the "in-memory" reference, but you still need
+the both in memory at once while creating the "in-memory" reference!!  Still,
+if fast repainting is a must (like it is for PMLOGO), then this is probably
+the best method for you.
+
+You can see the difference between the two modes by selecting "Drawing" from
+BITMAP.EXE's action bar and changing the "Keep scaled bitmap in memory" 
+state.
+
+Other options on the menus include:
+   Use palette management - uses Palette Manager functions to display the 
+                            bitmap in the original colors, instead of
+                            translating to the default system palette.
+   Maintain bitmap proportions - keeps the relative x and y sizes in 
+                            proportion to that in the original bitmap.
+
+The command line invocation of BITMAP32 is:
+
+   BITMAP32 [switches] filename
+
+where the optional switches are:
+        /e      - ignore errors. Don't pop up a message box on an error.
+        /h      - vertical size of display window
+        /i      - minimize on startup
+        /k      - don't keep scaled bitmap in memory
+        /oopts  - pass "opts" to GBM as options when loading bitmaps
+        /p      - display bitmaps with palette manager support
+        /r      - display bitmaps keeping the x and y proportions correct
+        /s      - filename is a slide show file, otherwise it is a bitmap
+        /w      - horizontal size of display window
+        /x      - horizontal position of display window
+        /y      - vertical position of display window
+        /z      - maximize on startup
+
+Switches e, k, p and r are flip-flop switches, inverting the default (last)
+state of the switch.
+
+A slide show file consists of lines describing a slide show. The following 
+are valid slide show file lines:
+
+/               - terminate the slide show.
+/i              - set the default to wait for user input before advancing to 
+                  a new slide.
+/nnn            - wait "nnn" seconds before advancing to the next slide.
+path            - full or relative path to a bitmap file to be displayed as 
+                  the next slide.
+path /i         - show this bitmap file and wait for user action before 
+                  advancing.
+path /nnn       - show this bitmap file and wait "nnn" seconds before 
+                  advancing to the next slide.
+
+

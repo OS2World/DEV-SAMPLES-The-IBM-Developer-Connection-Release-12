@@ -1,0 +1,22 @@
+
+ VIOSPY
+
+ Start     Length     Name                   Class
+ 0001:0000 002D0H     VIOSPY_TEXT            CODE
+ 0002:0000 00024H     _DATA                  DATA
+ 0002:0024 00002H     CONST                  CONST
+ 0002:0026 00000H     _BSS                   BSS
+ 0002:0030 00000H     c_common               BSS
+ 0003:0000 07D06H     FAR_BSS                FAR_BSS
+
+ Origin   Group
+ 0002:0   DGROUP
+
+ Address   Export                  Alias
+
+ 0002:0020 AVIOHMQ                 AVIOHMQ
+ 0003:0000 SESSION                 SESSION
+ 0003:0006 SESSIONS                SESSIONS
+ 0001:0000 VIOSERVICE              _VIOSERVICE
+ 0003:0002 XCURSOR                 XCURSOR
+ 0003:0004 YCURSOR                 YCURSOR

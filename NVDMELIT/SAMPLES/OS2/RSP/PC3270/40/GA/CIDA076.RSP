@@ -1,0 +1,220 @@
+*=====================================================================*
+*      Start of installation function                                 *
+*=====================================================================*
+NOP=0
+TargetPath=C:\PC3270
+SourcePath=
+ReMove=
+Reinstall=1
+ReConfigure=
+Quiet=
+SelectFile=!SDK\*.*
+Administrator=
+Network=
+ServerPath=
+Folder=1
+*=====================================================================*
+*      Start of configuration function                                *
+*=====================================================================*
+Session=(
+         WSName=vm.ws
+         IconName=VM session
+        )
+Communication=(
+         WSName=vm.ws
+         AutoConnect=Y
+         Link=slan
+         Session=3270
+        )
+
+Window=(
+        SessFlags=8C68
+        ViewFlags=4E00
+        CaptionFormat=2A -
+        UserTitle=3270 Emulation
+        IconTitle=
+        IconFile=
+        InsertCursor=N
+        MFIcolor=Y
+        WSName=vm.ws
+       )
+
+3270=(
+      ScreenSize=43x80
+      SessionType=Display
+      HostGraphics=N
+      HostCodePage=037-U
+      LtNumber=FF
+      LuNumber=02
+      NativeGraphics=0
+      LoadPSS=0
+      QueryReplyMode=Auto
+      CharacterCellSize=
+      WSName=vm.ws
+     )
+
+SLAN=(
+      Adapter=0
+      GatewayAddress=40000C1DA099
+      DestinationSAP=04
+      TransmitFrameSize=2012
+      Identifier=05D00076
+      SourceSAP=08
+      ReceiveBufferCount=12
+      Linkstations=4
+      ReceiveBufferSize=2012
+      WSName=vm.ws
+     )
+
+API=(
+     DDE/HLL=Y
+     PcCodePage=819
+     DosBoxHll=N
+     SRPI=N
+     WSName=vm.ws
+    )
+
+Keyboard=(
+          TypeAHead=Y
+          SpotConversion=Y
+          Language=United-States
+          IBMDefaultKeyboard=n
+          DefaultKeyboard=C:\PC3270\PRIVATE\CM101_C.KMP
+          WSName=vm.ws
+         )
+
+Session=(
+         WSName=tso.ws
+         IconName=TSO session
+        )
+Communication=(
+         WSName=tso.ws
+         AutoConnect=Y
+         Link=slan
+         Session=3270
+        )
+
+3270=(
+      ScreenSize=43x80
+      SessionType=Display
+      HostGraphics=N
+      HostCodePage=037-U
+      LtNumber=FF
+      LuNumber=06
+      NativeGraphics=0
+      LoadPSS=0
+      QueryReplyMode=Auto
+      CharacterCellSize=
+      WSName=tso.ws
+     )
+
+SLAN=(
+      Adapter=0
+      GatewayAddress=40000C1DA099
+      DestinationSAP=04
+      TransmitFrameSize=2012
+      Identifier=05D00076
+      SourceSAP=08
+      ReceiveBufferCount=12
+      Linkstations=4
+      ReceiveBufferSize=2012
+      WSName=tso.ws
+     )
+
+Window=(
+        SessFlags=8C68
+        ViewFlags=4E00
+        CaptionFormat=2B -
+        UserTitle=3270 Emulation
+        IconTitle=
+        IconFile=
+        InsertCursor=N
+        MFIcolor=Y
+        WSName=tso.ws
+       )
+API=(
+     DDE/HLL=Y
+     PcCodePage=819
+     DosBoxHll=N
+     SRPI=N
+     WSName=tso.ws
+    )
+
+Keyboard=(
+          TypeAHead=Y
+          SpotConversion=Y
+          Language=United-States
+          IBMDefaultKeyboard=n
+          DefaultKeyboard=C:\PC3270\PRIVATE\CM101_C.KMP
+          WSName=tso.ws
+         )
+
+Session=(
+         WSName=xid.ws
+         IconName=XID session
+        )
+Communication=(
+         WSName=xid.ws
+         AutoConnect=Y
+         Link=slan
+         Session=3270
+        )
+
+Window=(
+        SessFlags=8C68
+        ViewFlags=4E00
+        CaptionFormat=2A -
+        UserTitle=3270 Emulation - XID
+        IconTitle=
+        IconFile=
+        InsertCursor=N
+        MFIcolor=Y
+        WSName=xid.ws
+       )
+
+3270=(
+      ScreenSize=43x80
+      SessionType=Display
+      HostGraphics=N
+      HostCodePage=037-U
+      LtNumber=FF
+      LuNumber=02
+      NativeGraphics=0
+      LoadPSS=0
+      QueryReplyMode=Auto
+      CharacterCellSize=
+      WSName=xid.ws
+     )
+
+SLAN=(
+      Adapter=0
+      GatewayAddress=400021191291
+      DestinationSAP=04
+      TransmitFrameSize=2012
+      Identifier=05D503A6
+      SourceSAP=08
+      ReceiveBufferCount=12
+      Linkstations=4
+      ReceiveBufferSize=2012
+      WSName=xid.ws
+     )
+
+API=(
+     DDE/HLL=Y
+     PcCodePage=819
+     DosBoxHll=N
+     SRPI=N
+     WSName=xid.ws
+    )
+
+Keyboard=(
+          TypeAHead=Y
+          SpotConversion=Y
+          Language=United-States
+          IBMDefaultKeyboard=n
+          DefaultKeyboard=C:\PC3270\PRIVATE\CM101_C.KMP
+          WSName=xid.ws
+         )
+
+include=A_5250.RSP
+

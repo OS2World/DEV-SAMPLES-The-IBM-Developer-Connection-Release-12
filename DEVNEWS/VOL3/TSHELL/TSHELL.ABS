@@ -1,0 +1,8 @@
+TSHELL ABSTRACT
+
+TShell is a text-only, non-GUI shell for OS/2. It does not
+initialize the Presentation Manager; only text-mode OS/2 and DOS
+programs will work. Specify TSHELL.EXE on the PROTSHELL statement
+in CONFIG.SYS. Optional: use supplied PGMSHELL.EXE to program the
+TShell start list.
+

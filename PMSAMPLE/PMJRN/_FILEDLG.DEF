@@ -1,0 +1,14 @@
+LIBRARY
+
+DESCRIPTION 'File Dialog Template for all Applications (JVK @ ZURLVM1)'
+
+STUB 'OS2STUB.EXE'
+
+DATA MULTIPLE
+
+CODE LOADONCALL
+
+EXPORTS
+  JVK_GetFileSelection   @1
+  JVK_FileDlg            @2
+

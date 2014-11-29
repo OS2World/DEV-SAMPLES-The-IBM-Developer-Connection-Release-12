@@ -1,0 +1,20 @@
+Move the gettext.DLL to a valid DLL path
+
+See the gettext.CMD for the sample REXX to make the function work
+(RxFuncAdd is mandatory once for a session)
+
+Use WITT command to move the mouse over the field you want to get the
+data from.
+the call Gettext function.
+Result is in the Text variable.
+
+I provide this sample with source as a demonstration for coding REXX
+functions.
+Just adapt it to your own needs. If you feel functions you create may
+be useful for the WITT community  make them requestable.
+
+Sorry no Support is implied. (I work for the Networking Systems Division)
+I do this on my own time
+Enjoy It
+Marc Fiammante
+

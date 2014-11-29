@@ -1,0 +1,1676 @@
+
+The following note describes the use of the Kernel Debugger functions in the SDK.  It is divided into 3 parts:
+
+        1.  Support Available for the Kernel Debugger
+        2.  Simple tips on Using the Kernel Debugger
+        3.  Manual on Kernel Debugger commands.
+
+__________________________________________________________________
+
+                                SUPPORT
+
+This release of the SDK contains a copy of the OS/2 debugging kernel.
+It is included to assist you in debugging your applications and/or
+drivers until such time that higher-level debuggers such as Codeview
+can provide adequate debugging functionality in complex situations.
+
+The kernel debugger is a low-level debugger oriented toward system and
+device driver debugging.  It is not intended to become or be part
+of the retail OS/2 product.
+
+The use of this kernel is supported in so far as an aid in debugging
+your software.  We offer support for the installation and use of the
+debugging kernel and it's commands and syntax.
+
+______________________________________________________________________
+
+                SIMPLE TIPS FOR USING THE KERNEL DEBUGGER
+
+
+The kernel debugger is a compiled part of the kernel. Hook up a terminal
+to com2 and you'll get kernel debugger output. To break into the debugger
+at any time, hit control-c on the terminal.
+
+?' will get you a help screen, and '.?' will get you an extended
+help screen.
+
+.p
+
+This command will display all the processes running in the system. The
+left hand column of this display will display the 'slot number', which
+is important for the '.s' command.
+
+When you set a breakpoint in an application, the current debugger 'context'
+must be changed to that process. For example, if you hit control-c and
+you break while 'bar.exe' is running but you want to set a breakpoint
+in 'foo.exe', you must change the debugger context to 'foo.exe'
+
+.s [slot number]
+
+So type '.p', find out the slot number of 'foo.exe', and type '.s [slot
+number]'. Now when you can set breakpoints in 'foo.exe'. Since .dlls have
+no 'process' associated with them, in order to set a breakpoint in a .dll
+you need to be in the context of an application that is dynamically linked
+to that .dll.
+
+bp [addr]
+
+This sets a break point at the address addr. addr can be symbolic or numeric.
+For 32 bit apps, this is a 32 bit address. For 16 bit apps it is a 16 bit
+address.
+
+bc [bp number]
+bd [bp number]
+bc *
+bd *
+
+'bc [bp number]' clears a breakpoint, while 'bd' disables it. 'bc *' will
+clear all breakpoints, while 'bd *' will disable all breakpoints.
+
+dw [addr]
+db [addr]
+dd [addr]
+
+These stand for 'dump word', 'dump byte' and 'dump double work',
+respectively. These simple display memory starting at address addr.
+'dw [addr] l 20' will display 0x20 words starting at addr.
+
+e [addr]
+
+This will allow you to edit memory (change memory contents)
+
+k
+
+This give a stack backtrace of the current application.
+
+.k [slot number]
+
+This gives a stack backtrace of the thread in this slot.
+
+dw ss:sp
+
+This dumps the stack at the current bottom of the stack.
+
+dw ss:bp
+
+This at anytime is what links 'C' stack frames together. The 'bp' register
+points on the stack to where the old 'bp' is saved, etc. After 'bp' on the
+stack you'll get the return address and then the passed parameters to the
+function currently executing. References to [bp+n] reference passed
+parameters, where references to [bp-n] reference local variables.
+
+g
+
+This means 'go' or execute.
+
+r
+
+This dumps the register set. To set a register, type r[reg]. For example,
+rax = 6 will put 6 in the register ax. To execute some code over again or
+jump ahead in code, reset the instruction pointer by typing rip=[addr].
+
+
+
+----------------------------------------------------------------------
+
+                        KERNEL DEBUGGER MANUAL
+
+                          September 8, 1989
+
+
+INTRODUCTION
+
+        The kernel debugger is derived from DEBUG and SYMDEB debuggers with
+        enhancements to handle both real and protected mode operation.  Most
+        of the commands and structure of this debugger is the same as DEBUG
+        and SYMDEB.  This manual will describe most of the kernel debuggers
+        commands and new features.
+
+        The debugger normally uses COM2 for it's input and output, but
+        if no COM2 exists it will look for a COM1 port.  If neither COM1
+        or COM2 exists, it will look for any other COM port in the ROM
+        data area (40:0).  A three wire null modem cable is all that is
+        needed.  Pin 2 and 3 are switched on one end of the cable.
+
+        Most commands are one or two characters with one character
+        options.  The semicolon character (;) is command seperator
+        and the comma (,) or a blank is operand seperator.
+
+        When the syntax of the command is shown the following conventions
+        are used:
+
+                * arguments between square brackets ([]) are optional,
+
+                * a horizontal bar (|) indicates that either argument is
+                  acceptable,
+
+                * here are some definitions of some of the arguments used in
+                  the commands:
+
+                        <range> = <addr> [<word>] | [<addr>] [L <word>]
+
+                        <addr> = [& | #][<word>:]<word> | %<dword>
+
+                        <list> = <byte>, <byte>, ... | "string"
+
+                        <string> = "char" | 'char'
+
+                        <dword>, <word>, <byte> = expressions that evaluate
+                        to the size indicated in the <>.
+
+
+ENTERING THE DEBUGGER
+
+        There are various ways to get into the debugger.  The first being
+        during initialization, if the following keys are hit at the debugger's
+        console, the debugger is entered:
+
+            "r" - (lower case r) enters the debugger at the beginning
+            of DOS initialization in real mode.  This is very early
+            in the DOS initialization.
+
+            "p" - enters the debugger after we have gone into protected
+            mode for the first time.  Symbols have not yet been loaded.
+
+            "<space-bar>" - enters the debugger after most of the dos has
+            been initialized.  Symbols for DOS have been loaded.
+
+        After initialization is complete the debugger can be entered at
+        any time by typing <ctrl-c> at the debugger's console.  The
+        debugger is entered when and where the next timer tic is taken
+        after the key was pressed.
+
+        A NMI switch will allow you to break into the debugger even
+        if interrupts are disabled (ctrl-c won't).
+
+        An "int 3" in the kernel or a program will also cause the debugger
+        to stop.
+
+        When a kernel panic occurs, a message is sent to both the screen
+        and the debuger port.  Before sending the message to the screen
+        the screen gets cleared and set to text mode.  This can be a
+        problem if you need to see how far a test case got before crashing.
+        If you set the BYTE flag fDebugOnly to non-zero, the message will
+        go only to the debug port and the screen will be left alone.
+
+        After symbols are loaded an initialization file called KDB.INI is
+        read and executed.  Any debugger command or list of debugger
+        commands can be in the KDB.INI file.  A "g" command should be at
+        the end of the commands unless you want the debugger to stop after
+        the KDB.INI file is run.
+
+EXPRESSIONS
+
+        The expression evaluator has been enhanced to provide support for
+        four types of addresses; real mode (&segment:offset), protected
+        mode (#selector:offset), linear address (%dword) and physical
+        address (%%dword).  The "&", "#", "%", and "%%" override the current
+        address type, allowing selectors to be used in real mode, segments
+        to be used in protected mode, etc.  The "%" linear address and the
+        "%%" physical address operator will actually convert other address
+        types to a linear or physical address (i.e. %(#001F:0220) will look
+        up selector 1F's linear address in the current LDT and add 0220
+        to it).  Linear and physical addresses are the same unless paging
+        is enabled on a 386.
+
+                #1f:02C0        Protected Mode Address
+
+                &3450:1234      Real Mode Address
+
+                %310230         Linear Address
+
+                %%310230        Physical Address
+
+        Addresses can be used in any mode.  In real mode you can use
+        protected mode address as long as there is an override.  The
+        default depends on the current debugger mode.
+
+        There are keywords that will return the value of registers,
+        breakpoints, etc. in expressions.  Here is a list of them:
+
+        AX, BX, CX, DX, SI, DI, BP, DS, ES, SS, CS, SP, IP  - register values,
+
+        FLG  - value of the flags,
+
+        GDTB - value of the GDT base as a physical address,
+
+        GDTL - value of the GDT limit,
+
+        IDTB - value of the IDT base as a physical address,
+
+        IDTL - value of the IDT limit,
+
+        TR, LDTR, MSW - value of the TR, LDTR, and MSW registers,
+
+        BR0,BR1,...,BR9 - value of the breakpoint address at that breakpoint.
+
+        The 386 keywords are (in addition to the above):
+
+        EAX, EBX, ECX, EDX, ESI, EDI, EBP, ESP, EIP - extended register values,
+
+        FS, GS - segment registers,
+
+        EFLG - value of extend flags,
+
+        CR0, CR2, CR3 - control register values,
+
+        DR0, DR1, DR2, DR3, DR6, DR7 - debug register values,
+
+        TR6, TR7 - test register values.
+
+        These register names are search for first before the symbol table
+        is searched.  The "@" character can override the register name
+        look up and search the symbol table for the name. "@ax" will search
+        for a symbol called "ax" instead of evaluating to the register
+        value.
+
+        The operators that can be used in expressions are documented in the
+        symdeb manual except for the address operators (&, #, %) and the new
+        relational operators.  I have also changed the precedence of the
+        operators to be more like "C" which should be a little more intuitive.
+
+        Operators in precedence order:
+
+        ( )
+        | :
+        & # % %% - ! NOT SEG OFF BY WO DW POI PORT WPORT (all unary operators)
+        * / MOD
+        + -
+        > < >= <=
+        == !=
+        AND XOR OR
+        && ||
+
+        Binary operator definitions:
+
+        ( )             Parentheses, used to change order of evaluation
+        :               Address binder, binds segment/selector and offsets
+        *               Multiplication
+        /               Division
+        MOD             Modulo (remainder)
+        +               Addition
+        -               Subtraction
+        >               Greater than relational operators
+        <               Less than relational operator
+        >=              Greater than or equal relational operator
+        <=              Less than or equal relational operator
+        ==              Equal to operator
+        !=              Not equal relational operator
+        AND             Bitwise AND
+        XOR             Bitwise exclusive OR
+        OR              Bitwise inclusive OR
+        &&              Logical AND
+        ||              Logical OR
+
+        Unary operator definitions:
+
+        |               Task number/address operator
+        &               Address is segment:offset type address
+        #               Address is selector:offset type address
+        %               Address is linear type address
+        %%              Address is physical type address
+        -               2's complement
+        !               Logical NOT operator
+        NOT             Bitwise 1's complement
+        SEG             Returns the segment portion
+        OFF             Returns the offset portion
+        BY              1 byte value from the address
+        WO              2 byte value from the address
+        DW              4 byte value from the address
+        POI             4 byte address from the address
+        PORT            1 byte value from 8 bit I/O port
+        WPORT           2 byte value from 16 bit I/O port
+
+        If the operator precedence is same the expression is evaluated
+        left to right even for unary operators.  "C" evaluates unary
+        operators right to left which is more intuitive and easy to use.  The
+        debugger's expression evaluator will do the right to left evaluation
+        soon.  So now expressions like "poi #60:133" will have to be written
+        as "poi (#60:133)" because of the way it handles unary operators.
+
+        Ranges are an address and either a length or a end.  "4544:0 L5" is
+        address (4555:0) and a length of 5 objects.  If you are dumping words,
+        5 words are dumped.  "#8:32 50" is a range of bytes from address
+        "8:32" to and including "8:50".
+
+        NOTE:
+
+        On <ranges> if the second address has a unary operator like "&" or "#",
+        then it must be separated by a comma from the first.  Parentheses work
+        as well.  Example:
+
+                >db ds:40,%40000                WORKS
+
+                >db ds:40 (%40000)              WORKS
+
+                >db ds:40 %40000                DOESN'T WORK
+
+        This is because of a bug in the expression evaluator.
+
+
+        ? <expr> | "<string>"
+
+        This command will evaluate the expression and print it out in
+        all the standard radixes plus the ascii character for the value
+        and an address's physical address.  It will also print if the
+        expression evaluated to TRUE (non-zero) or FALSE (zero).  It will
+        print a string if surrounded by quotes (single or double).
+
+
+NUMBERS
+                digitsY         Binary          0 1
+                digitsO         Octal           0 1 2 3 4 5 6 7
+                digitsQ
+                digitsT         Decimal         0 1 2 3 4 5 6 7 8 9
+                digitsH         Hexadecimal     0 1 2 3 4 5 6 7 8 9 A B C D E F
+
+        The default radix base is hex.
+
+
+STRINGS
+        'characters'
+        "characters"
+
+        A string represents a list of ASCII values.  It can be any number
+        of and combination of characters enclosed in single (') or double
+        (") quotation marks.  The starting and ending quotation marks must
+        be the same type.  If a matching quotation mark appears inside the
+        string, it must be given twice to prevent the debugger from ending
+        the string too soon.
+
+        Examples:
+
+                'This is a string'
+                "This is a string"
+                'This ''string'' is okay'
+                "This ""string"" is okay"
+
+
+SYMBOLS
+
+        The kernel debugger supports symbolic debugging.  When
+        a symbol file (generated with mapsym) is loaded for the DOS,
+        a base or installable device drivers, the debugger can use
+        any public symbols in the dos or device driver as part of
+        an expression.  The disassembler and the BL command also
+        display addresses symbolicly if the symbol exists for the
+        address.  The debugger uses the mapsym format for the symbol
+        file.  "mapsym mapfile.map" generates the ".sym" file needed.
+        For the DOS, ibmdosd.sym is automatically generated by the makefile
+        when ibmdosd.com is built.  The DOS's symbol must be on the boot
+        drive in the root directory and called "ibmdos.sym".  For base
+        device drivers, the .sym file must also be in the root of the
+        boot drive with the same name as the device file, but with the
+        .sym extension, (i.e. clock01.sym, diskdd02.sym).  For installable
+        device drivers, the .sym file must be in the same directory as
+        the device driver file with the .sym extension.
+
+        To load symbols for a program or module, the .sym file must
+        be in the same directory as the .exe or .dll and the symbols
+        will be loaded automatically.
+
+        There can be more than one symbol file loaded at one time and
+        more than one currently "active".  The "WA", "WR" and "LM" control
+        and list the currently active map files.  The term "map file"
+        refers to the .sym file generated by mapsym.  Each newly loaded
+        map file starts off active.
+
+        The message "Symbols Linked (xxxxxxxx)" is printed when there
+        is a successful load of an symbol file.  The "xxxxxxx" is
+        the map name listed in the "LM" command.  The message
+        "Symbols Unlinked (xxxxxxxxx)" is printed when a program that
+        has loaded symbols exits and the symbol file is removed.
+
+        Currently the symbols for DOS are not loaded when the
+        debugger first comes up.  The DOS symbols are loaded after
+        some of the DOS's data structures and the virtual memory
+        manager is initialized, but before the base device drivers
+        and most of the other DOS components are.  If you want to
+        break after the DOS's symbols are loaded, just type "bp cs:ip"
+        and "g".  The second time this code is initialized the DOS's
+        symbols have been loaded and the breakpoint is hit.  Also
+        see the above section titled "ENTERING THE DEBUGGER".
+
+        Symbols are case insensitive.  The "@" forces the string to
+        looked up as a symbol instead of a register name.
+
+BREAKPOINTS
+
+        There are two kinds of breakpoints in the kernel debugger:
+        temporary (sometimes called GO breakpoints) and sticky.  Temporary
+        breakpoints are set when the GO command is executed and go away
+        when the debugger is re-entered for any reason (hitting a GO or
+        sticky breakpoint, a trap or fault, etc).  Sticky breakpoints are
+        created, removed, disabled, etc. with the commands listed below.
+
+        If you set a breakpoint in an LDT segment when a thread other
+        than thread 1 is running, that breakpoint will be moved to
+        thread 1 when the current thread dies (so that it can still be
+        addressed).  When thread 1 dies, the breakpoint will be disabled,
+        and its address marked as invalid.  When that task slot is reused,
+        the breakpoint can be re-enabled; but it is not advisable to do so
+        unless you are SURE that the new task has the same code at that
+        spot.
+
+        On a 386, the debug registers can be used in a sticky breakpoint
+        (see the BR command).
+
+BP[n] [<address>] [<passcount>] [<breakpoint commands>]
+
+        This command sets a new or changes an old sticky breakpoints.  The
+        "n" is an optional breakpoint number to select a old breakpoint for
+        changing or forcing a new breakpoint to be a certain number.  If the
+        breakpoint number is omitted, then the first available breakpoint
+        number is used.  The number has to be right after the "BP", a digit
+        from '0' to '9' and a space after the number.  Up to ten breakpoints
+        can be set.  The address is required for all new breakpoints and
+        either an address or breakpoint number can be used to change an
+        existing break-point.  A breakpoint command or passcount can be
+        added or changed with commands like BP0 "DB DS:SI;R" or BP2 5.
+
+        A breakpoint command is a string of any debugger commands that are
+        executed when that breakpoint is hit.  Semi-colons (;) separate
+        commands from one another.  Everything is forced to upper case unless
+        surrounded by single quotes.  Two single or double quotes escapes
+        the special meaning of them.
+
+        A passcount of more than zero (default) means that this breakpoint
+        has to be executed that many times before the debugger actually
+        breaks.
+
+BR[<bp>] E|W|R|1|2|4 [<addr>] [<passcnt>] ["<bp cmds>"]
+
+        This command sets a 386 debug register.  Debug registers can
+        be used to break on data reads and writes, and instruction
+        execution (which is the same as a regular breakpoint).  Up to
+        four debug registers can be set and enabled at one time.  Disabled
+        BR breakpoints don't use up a debug register.  The flag definations
+        are:
+
+        1 - one-byte length (default)
+        2 - word length on word boundary
+        4 - dword length on dword boundary
+
+        E - break on instruction execution only (one-byte length only)
+        W - break on writes only
+        R - break on reads and writes
+
+        For one-byte breakpoints the linear address align doesn't matter,
+        but for word length breakpoints the linear address must be on
+        a word boundary.   For a dword length breakpoint the linear address
+        must be on a dword boundary.  The debugger will convert the address
+        to linear and print an error message if the alignment is incorrect.
+
+        Only addresses that can be converted to linear (segment, selector
+        and linear, but not physical) can be used in the BR command
+        address.  The rest of the arguments are exactly like a BP command.
+
+BT[<n>] [<address>]
+
+        This command sets a time stamping breakpoint.
+
+BS
+
+        This command shows the time stamp entries.
+
+BL
+
+        This command lists the currently set breakpoints along with the
+        current and original passcount and the breakpoint command if any.
+        An "e" after the breakpoint number means that the breakpoint is
+        enabled; a "d" means that it is disabled.  After either one of
+        those, there may be an "I" which indicates that the address was
+        invalid the last time the debugger tried to set or clear the
+        breakpoint.
+
+BC[n],[n],...
+
+        Removes (clears) the list of breakpoint numbers from the debugger's
+        breakpoint table.
+
+BE[n],[n],...
+
+        Enables the list of breakpoint numbers.
+
+BD[n],[n],...
+
+        Disables the list of breakpoint numbers, so the breakpoint is not
+        actually put in the code but is saved until it is enabled.
+
+
+COMPARE COMMAND
+
+C <range> <addr>
+
+        The Compare command compares the bytes in the memory location
+        specified by <range> with the corresponding bytes in the memory
+        locations beginning at <addr>.  If all corresponding bytes match,
+        the kernel debugger displays its prompt and waits for the next
+        command. If one or more corresponding bytes do not match, each
+        pair of mismatched bytes is displayed.
+
+
+DUMP COMMANDS
+
+D [<range>]
+
+        Dumps memory in the last format.
+
+DB [<range>]
+
+        Dumps memory in bytes and ascii.
+
+DW [<range>]
+
+        Dumps memory in words.
+
+DD [<range>]
+
+        Dumps memory in double words.
+
+DG[A] [<range>]
+
+        This command dumps the global descriptor table.  The "A" option
+        causes all the entries to be dumped (not just the valid entries).
+        The default is to display just the valid GDT entries.  A range of
+        entries or just one GDT entry can be displayed.  If the command
+        is passed an LDT selector, it will display "LDT" and the appropriate
+        LDT entry.
+
+DI[A] [<range>]
+
+        This command dumps the interrupt descriptor table.  The "A" option
+        causes all the entries to be dumped (not just the valid entries).
+        The default is to display just the valid IDT entries.  A range of
+        entries or just one IDT entry can be displayed.
+
+DL[A|P|S|H] [<range>]
+
+        This command dumps the local descriptor table.  The "A" option
+        causes all the entries to be dumped (not just the valid entries).
+        The default is to display just the valid LDT entries.  A range of
+        entries or just one LDT entry can be displayed.  If the command
+        is passed a GDT selector, it will display "GDT" and the appropriate
+        GDT entry.
+
+        The options P, S, and H are used to dump private, shared, or
+        huge segment selectors respectively. To dump the huge segment
+        selectors, give the shadow selector followed by the max. no.
+        of selectors reserved for that segment plus 1.
+
+DP[A|D] [<range>]
+
+        This command dumps the page directory and page tables.  Page
+        tables are always skipped if the corresponding page directory
+        entry is not present.  Page directory entries appear with an
+        asterisk next to the page frame, and are dumped once preceding
+        4 meg region.  As a general rule, you will want to ignore
+        any lines beginning with an asterisk.
+
+        The "A" option dumps all present page directory and page table
+        entries; the default is to skip page directory and page table
+        entries that are zero.  A zero page table entry means that the
+        page is uncommitted.
+
+        The "D" option dumps only page directory entries.  If a count
+        is given as part of the optional range, it will be interpreted
+        as a page directory entry count.
+
+        For example:
+
+        ##dp ff000 l4
+         linaddr   frame   pteframe  state res Dc Au CD WT Us rW Pn state
+        %000ff000* 00343  frame=00343  2    0  D  A        U  W  P  resident
+        %000ff000  000ff  frame=000ff  1    0  c  A        U  W  P  uvirt
+        %00100000  002ae  frame=002ae  0    0  c  A        U  W  P  pageable
+        %00101000  00215  vp id=0083c  0    0  c  u        U  W  n  pageable
+        %00102000         vp id=0083d  0    0  c  u        U  W  n  pageable
+
+               bit   bit
+               set  clear
+               ---  -----
+        key:    D    c    Dirty / clean
+                A    u    Accessed / unaccessed
+                U    s    User / supervisor
+                W    r    Writable / read-only
+                P    n    Present / not-present
+
+        The "pteframe" field contains the contents of the high 20 bits in
+        the pte.  If the page is present, that value is the high 20 bits
+        of the physical address the page maps.  To find out information
+        about that physical address, you can use the ".mp" command (see
+        below).  If the page is not present, the "pteframe" field contains
+        an index into the Virtual Page structure.  The ".mv" command
+        can dump information from that structure.  A not present page
+        may still be cross-linked to a page of physical memory via the
+        VP, and if so, that physical address is in the "frame" column.
+
+        An exception:  "uvirt" pages (noted in the "state" column") are
+        direct mapping of physical memory without any other page manager
+        structures associated with them.
+
+DT [<addr>]
+
+        This command dumps the TSS.  If no address is given, it will dump
+        the current TSS pointed to by the TR register, extracting the type
+        (16 or 32 bit) from the descriptor access byte.  If an address is
+        given, the type is extracted from the 386env flag.
+
+
+DX
+        This command dumps the 286 loadall buffer.
+
+
+ENTER COMMAND
+
+E <addr> [<list>]
+
+        The ENTER command enters one or more byte values into memory at
+        the specified <addr>.  If the optional <list> is given, the command
+        replaces the byte at the given address and the bytes at each
+        subsequent address until all values in the list have been used. If
+        no <list> is given, the command prompts for a replacement value.
+
+        If an error occurs, all bytes values remain unchanged.
+
+        If you do not supply a <list>, the kernel debugger prompts for a
+        new value at <addr> by displaying this address and its current value
+        followed by a dot (.).  You can then replace the value, skip to
+        the next value, return to a previous value, or exit the command
+        by following these steps:
+
+        1.  To replace the byte value, simply type the new value after
+            the current value.  Make sure you typed a 1- or 2-digit
+            hexadecimal number.  The command ignores extra trailing digits
+            or other characters.
+
+        2.  To skip to the next byte, press the SPACE bar. Once you have
+            skipped to the next byte, you can change its value or skip
+            to the next byte.  If you skip beyond an 8-byte boundary,
+            the kernel debugger starts a new display line by displaying
+            the new address and value.
+
+        3.  To return to the preceding byte, type a hyphen (-). When
+            you return to the preceding byte, the kernel debugger starts
+            a new display line with the address and value of that byte.
+
+        4.  To exit the E command, press the RETURN key. You can exit
+            the command at any time.
+
+
+FILL COMMAND
+
+F <range> <list>
+
+        The FILL command fills the addresses in the given <range> with the
+        values in the <list>.  If the range speifies more bytes than the
+        number of values in the list, the list is repeated until all bytes
+        in the range are filled.  If <list> has more values than the number
+        of bytes in the range, the command ignores any extra values.
+
+
+GO COMMAND
+
+G[S][T][=<start-address>][<break-address>],,,
+
+        The GO command passes execution control to the program at the
+        given <start-address>.  Execution continues to the end of the
+        code or until a <break-address> is encountered.  The debuggee
+        code also stops at any breakpoints set using the Breakpoint
+        Set command.
+
+        If no <start-address> is given, the command passes execution to
+        the address specified by the current values of CS and IP registers.
+        The equal sign (=) may be used only when a <start-address> is given.
+
+        If a <break-address> is given, it must specify an instruction
+        address (that is, the address must contain the first byte of an
+        instruction opcode).  Up to ten addresses can be given at one
+        time.  The addresses can be given in any order.  Only the first
+        address encountered during execution will cause a break.  All
+        others are ignored.  If you attempt to set more than ten
+        breakpoints, an error message will be displayed.
+
+        The "S" option will print the time (in perfview timer tics)
+        from when the system is started with GS til the next entry to
+        the debugger. No attempt is made to calculate and remove debugger
+        overhead from the measurement.
+
+        The "T" option allows trapped exceptions to resume at the
+        original trap handler address without having to unhook the
+        exception.  Instead of "vcp d; t; vsp d" this GO option can
+        be used.
+
+        When the debuggee code execution reaches a breakpoint, the
+        kernel debugger normally displays the current values of the
+        registers and flags.  It also displays the next instruction
+        to be executed.  If the "default command (Z)" has been
+        changed to something other the "R" command, the debugger
+        will execute the command list set by the last "ZS" command.
+
+
+HELP/PRINT EXPRESSION COMMAND
+
+?[<expr>]|'string'
+
+        Prints help if no arguments or the value for the evaluated
+        expression in all bases.  It will also print a string on
+        the console.
+
+
+HEX COMMAND
+
+H <value1> <value2>
+
+        The HEX command displays the sum and difference of two
+        hexadecimal numbers. The debugger adds <value1> to <value2>
+        and displays the result.  It then subtracts <value2> from
+        <value1> and displays that result. The results are displayed
+        on one line and are always in hex.  See the "?" command
+        for a more general expression display.
+
+
+INPUT COMMAND
+
+I <port>
+
+        The INPUT command reads and displays one byte from the given
+        input <port>.  The <port> can be any 16-bit port address.
+
+
+LIST NEAR SYMBOL COMMAND
+
+LN [<addr>]
+
+        This command lists the nearest symbol both forward and back
+        to the address passed.  The default is the current disassembly
+        address.  All the active maps are searched.
+
+        There is the possibility when <addr> is specified as a
+        selector:offset that there will be duplicates.  Be sure that
+        you have selected the correct slot(.s nn) before you use the
+        LN command with a selector:offset.
+
+LIST GROUPS COMMAND
+
+LG [<mapname>]
+
+        It lists the selector or segment and the name for each group
+        in the active maps or the specified map.
+
+
+LIST MAPS COMMAND
+
+LM
+        This command lists all the current symbol files loaded and
+        which are active.
+
+
+LIST ABSOLUTE SYMBOLS COMMAND
+
+LA [<mapname>]
+
+        It lists all the absolute symbols in the active maps or the
+        specified map.
+
+
+LIST SYMBOLS COMMAND
+
+LS <addr>
+
+        It lists all the symbols in the group the address is in.
+
+
+ADD/REMOVE ACTIVE MAP COMMAND
+
+WA <mapname> | *
+WR <mapname> | *
+
+        "WA" adds a map to the active list. "WR" removes it.  The "LM"
+        command is used see what map files are available.  "*" means all
+        maps.  All maps start active when first linked.
+
+
+CONDITIONAL EXECUTION COMMAND
+
+J <expr> [<command list>]
+
+        This command will execute the command list if the expression
+        evaluates to TRUE (non-zero).  Otherwise it continues to the
+        next command in the command line (not including the ones in the
+        "command list".  The command list must be in single or double
+        quotes if there is more than more command (separated by ";").
+        A single command or no command can also be used without quotes.
+        This command can be used in breakpoint commands, to conditionally
+        break when an expression becomes true, or even in the default
+        command (see below about the default command).
+
+        The command BP 167:1454 "J AX == 0;G" breaks when ax equals zero
+        when this breakpoint is hit.
+
+        The command BP 167:1452 "J BY (DS:SI+3) == 40 'R;G';DG DS" will
+        print the registers out and go, if when this breakpoint is hit
+        the byte pointed to by "DS:SI+3" is equal to 40.  Otherwise it
+        will print the descriptor table entry in DS.
+
+        The command BP 156:1455 "J (MSW AND 1) == 1 'G'" will break when the
+        breakpoint is reached in real mode.  BP 156:1455 "J (MSW AND 1)" is
+        a short cut that does the same thing (like "C" boolean expressions).
+
+        See the default command (Z) for more examples.
+
+
+STACK TRACE COMMAND
+
+K[S|B] [<SS:BPaddr>] [<CS:IPaddr>]
+
+        This command threads thru the BP chain on the stack and prints
+        the address, 4 words/dwords of parameters, and any symbol found
+        for the address.  The starting stack frame address (SS:BPaddr)
+        and the initial code segment (CS:IPaddr) can be specified.  Defaults
+        to SS:EBP and CS:EIP.  The "S" (Small) option indicates the frame
+        is 16 bits width and "B" (Big) indicates the frame is 32 bits width.
+        The default depends on the D bit in the CS selector.
+
+
+MOVE COMMAND
+
+M <range> <addr>
+
+        The MOVE command moves the block of memory specified by <range>
+        to the location starting at <addr>.
+
+        All moves are guaranteed to be performed without data loss, even
+        where the source and destination blocks overlap.  This means the
+        destination block is always an exact duplicate of the original
+        source block.  If the destination block overlaps some portion of
+        the source block, the original source will be changed.
+
+        To prevent data loss, MOVE copies data from the source block's
+        lowest address first whenever the source is at a higher address
+        than the destination.  If the source is at a lower address, MOVE
+        copies data from the source's highest address first.
+
+
+OUTPUT COMMAND
+
+O <port> <byte>
+
+        The OUTPUT comand sends the given <byte> to the specified output
+        <port>. The <port> can be any 16-bit port address.
+
+
+PTRACE COMMAND
+
+P[N|T] [=<start-address>] [<count>]
+
+        The PTRACE command executes the instruction at the given <start-
+        address>, then displays the current values of the all the registers
+        and flags (whatever the Z command has been set to).
+
+        The difference between PTRACE and TRACE is the PTRACE stops
+        after instructions like CALL, REP MOVSB, etc. instead of
+        tracing into the call or each rep string operation.
+
+        If the optional <start-address> is given, the command starts
+        execution at the given address.  Otherwise, it starts execution
+        at the instruction pointed to by the current CS and IP registers.
+        The equal sign (=) may be used only if a <start-address> is given.
+
+        If the optional <count> is given, the command continues to execute
+        <count> instructions before stopping.  The command displays the
+        current values of the registers and flags for each instruction
+        before executing the next.
+
+        The "N" option suppresses the register display so just the assembly
+        line is displayed.  This only works if the "default command" (see Z
+        command) is a "R" (the normal setting).
+
+        The "T" option allows original trap handler address to be traced into
+        without having to unhook the exception.  Instead of "vcp d; t; vsp d"
+        this "T" option can be used.
+
+
+REGISTER COMMAND
+
+R[T][<register-name> [<value>]]
+
+        The REGISTER command displays the contents of CPU register and
+        allows the contents to be changed to new values.
+
+        The "T" option toggles the "regterse" flag (see the "Y" command).
+
+        If no <register-name> is given, the command displays all the
+        registers, flags, and the instruction at the address pointed
+        to by the current CS and IP register values.
+
+        If a <register-name> is given, the command displays the current
+        value of the given rgister and prompts for a new value.  If both
+        a <register-name> and <value> are given, the command changes the
+        register to the given value.
+
+        The <register-name> can be any of one the following names:
+
+                AX, BX, CX, DX, SI, DI, BP, SP, IP, PC  - general registers.
+
+                DS, ES, SS, CS - segment registers.
+
+                GDTB - GDT base as a linear address.
+
+                GDTL - GDT limit.
+
+                IDTB - IDT base as a linear address.
+
+                IDTL - IDT limit.
+
+                TR, LDTR - TR, LDTR registers.
+
+                IOPL - iopl portion of flag registers.
+
+                F - flag register.
+
+                MSW - Machine status word.
+
+        The 386 <register-name) are the following (in addition to the
+        above):
+
+                EAX, EBX, ECX, EDX, ESI, EDI, EBP,
+                ESP, EIP - extended general registers.
+
+                FS, GS - segment registers.
+
+                EF - extended flag register.
+
+                CR0, CR2, CR3 - control registers.
+
+                DR0, DR1, DR2, DR3, DR6, DR7 - debug registers.
+
+                TR6, TR7 - test registers.
+
+        IP and PC name the same register: the Instruction Pointer. F is
+        a special name for the Flags register.
+
+        To change a register value, supply name of the register when you
+        enter the REGISTER command.  If you do not also supply a value,
+        the command displays the name of the register, its current value,
+        and a colon prompt.  Type the new value and press the RETURN key.
+        If you do not want to change the value, just press the RETURN key.
+        If you enter a illegal name, the command displays an error message.
+
+        To change a flag value, supply the register name "F" when you enter
+        the REGISTER command.  The command displays the current value of
+        each flag as a two-letter name. The following is a list of flag
+        values:
+
+                FLAG            SET             CLEAR
+                ----            ---             ------
+                OverFlow        OV              NV
+                Direction       DN (Decrement)  UP (Increment)
+                Interrupt       EI (Enabled)    DI (Disabled)
+                Sign            NG (Negative)   PL (Plus)
+                Zero            ZR              NZ
+                Aux Carry       AC              NA
+                Parity          PE (Even)       PO (Odd)
+                Carry           CY              NC
+                Nested Task     NT              (toggles)
+
+        At the end of the list of values, the command displays a hyphen
+        (-).  Once you see the hyphen, enter new values for the flags you
+        wish to change, then press the RETURN key.  You can enter flag
+        values in any order. Spaces between values are not required. Flags
+        for which new values are not entered remain unchanged. If you do
+        not want to change anys flags, just press the RETURN key.
+
+        If you enter a name other than those shown above, the command
+        will print an error message. The flags up to the error are
+        changed; flags at and after the error are not.
+
+        To change the MSW (Machine status word) is the same as change
+        the flag registers but with the following flag names:
+
+                FLAG            SET             CLEAR
+                ----            ---             ------
+                Protected Mode  PM              (toggles)
+                Monitor
+                  Processor
+                    Extension   MP              (toggles)
+                Emulate
+                  Processor
+                    Extension   EM              (toggles)
+                Task Switched   TS              (toggles)
+
+        "Toggles" means that if the flag is set, using the flag
+        name in the REGISTER command will clear it.  If the flag
+        is clear, using the flag name in the R command will set it.
+
+
+SEARCH COMMAND
+
+S <range> <list>
+
+        The SEARCH command searches the given <range> of memory locations
+        for the byte values given in <list>.  If the bytes in the list
+        are found, the command displays the address of each occurrence
+        of the list. Otherwise, it displays nothing.
+
+        The <list> can have any number of bytes. Each must be seperated
+        by a space or comma.  If the list contains more than one byte,
+        SEARCH does not display an address unless the bytes begining
+        at that address exactly match the value and order of the bytes
+        in the list.
+
+
+TRACE COMMAND
+
+T[A|C|N|S|T|X][=<start-address>][<count>][<addr>]
+
+        The TRACE command executes the instruction at the given
+        <start-address>, then displays the current values of all
+        the registers and flags.
+
+        If the optional <start-address> is given, the command starts
+        execution at the given address.  Otherwise, it starts execution
+        at the instruction pointed to by the current CS and IP registers.
+        The equal sign (=) may be used only if a <start-address> is given.
+
+        If the optional <count> is given, the command continues to execute
+        <count> instructions before stopping.  The command displays the
+        current values of the registers and flags for each instruction
+        before executing the next.
+
+        The "A" option allows the user to specify an ending address for
+        the trace. Instructions will be traced until [<addr>] is reached.
+
+        The "C" options suppresses all output and counts instructions traced.
+        An end address is required for this command.
+
+        The "N" option suppresses the register display so just the assembly
+        line is displayed.  This only works if the "default command" (see Z
+        command) is a "R" (the normal setting).
+
+        The "S" (special trace) option is identical to the "C" option except
+        that the instruction and count is displayed for every CALL and
+        the return from that call. The utility program ParseTS can be used
+        to generate a call-tree with instruction counts from this output.
+        Note that to allow ParseTS to operate correctly, calls must match
+        exits. To achieve this you must:
+           1) Start and stop tracing in the same procedure.
+           2) Stop tracing at least 2 instructions after the last traced
+              call.
+
+        For example:
+           push    word ptr [bp+08]
+           push    word ptr [bp+06]
+           call    1cc2:0000           <-- Start from here
+           cmp     ax,0074
+           jz      0997                <-- TS to here
+
+        The "T" option allows original trap handler address to be traced into
+        without having to unhook the exception.  Instead of "vcp d; t; vsp d"
+        this "T" option can be used.
+
+        The "X" option forces the debugger to trace regions of code known to
+        be untraceable (e.g. _PGSwitchContext).
+
+
+UNASSEMBLE COMMAND
+
+U [<range>]
+
+        The UNASSEMBLE command displays the instructions in a mnemonic
+        format. All the 286 and 287 opcodes can be displayed.
+
+        If given a <range>, the specified address is display for the
+        number of bytes specified.  If the <range> contains, the "L"
+        options (i.e. u 90:234 l3) this specifies the number of lines
+        to display.
+
+
+INTERRUPT AND TRAP VECTOR COMMANDS
+
+
+VL[N | P | V | R | F]
+
+        Lists the real and protected mode vectors that the debugger
+        intercepts.  Vectors that have been set with VT (as opposed
+        to VS) will be printed with a star following the vector number.
+        VLR will list only the real mode vectors and VLP will list only
+        the protect mode vectors.  VL will list both like this:
+
+        R 0 1 2 3 4 5 6
+        V 0 1 2
+        P 0 1 2 3 4 5 6 7 8* 9 A B
+
+        The "N" (Noisy) option lists the traps that beep when hit.
+
+        The "F" (Fatal) option causes the kernel to route the faults that
+        are fatal to a process to the debugger instead of displaying the
+        popup message.  For GP faults, "VSF D" is the same a "VSP D". For
+        page faults "VSP E" would trap all ring 3/2 page faults, but "VSF E"
+        would trap only the invalid page faults.
+
+VT[N | P | V | R | F] n[,n,..]
+
+        Adds a new vector that the debugger intercepts.  VTR will install
+        a debugger handler in the real mode IDT and VTP will do the same
+        for the protected mode IDT.  VSV or VTV intercepts V86 mode exceptions
+        or traps.
+
+        The "N" option causes the intercepted traps to beep when hit.
+
+        The "F" (Fatal) option causes the kernel to route the faults that
+        are fatal to a process to the debugger instead of displaying the
+        popup message.  For GP faults, "VSF D" is the same a "VSP D". For
+        page faults "VSP E" would trap all ring 3/2 page faults, but "VSF E"
+        would trap only the invalid page faults.
+
+VS[N | P | V | R | F] n[,n,..]
+
+        Behaves identically to VT except that VS will not intercept
+        ring 0 interrupts.  VSV or VTV intercepts V86 mode exceptions
+        or traps.
+
+        The "N" option causes the intercepted traps to beep when hit.
+
+        The "F" (Fatal) option causes the kernel to route the faults that
+        are fatal to a process to the debugger instead of displaying the
+        popup message.  For GP faults, "VSF D" is the same a "VSP D". For
+        page faults "VSP E" would trap all ring 3/2 page faults, but "VSF E"
+        would trap only the invalid page faults.
+
+VC[N | P | V | R | F] n,[n],..
+
+        Clears the vectors indicated, re-installing whatever address was
+        in the vector before the debugger grabbed the vector.
+
+        The "N" option causes the affected traps to not beep when hit.
+        It does not clear the trap itself.
+
+        The "F" (Fatal) option causes the kernel to route the faults that
+        are fatal to a process to the debugger instead of displaying the
+        popup message.  For GP faults, "VSF D" is the same a "VSP D". For
+        page faults "VSP E" would trap all ring 3/2 page faults, but "VSF E"
+        would trap only the invalid page faults.
+
+        NOTE:
+
+        If you want to intercept general protection faults before OS/2
+        does, then you can do "VTP D" before the fault is hit, examine
+        the information about the fault, do a "VCP D" and "G" which will
+        let the OS/2 GP handler get control (and kill the process, etc).
+        Or you could do a "VCP D" after hitting the fault and trace into
+        the exception handler.  The "TT" or "GT" commands now do this
+        automacticly.
+
+
+DEBUGGER OPTION COMMAND
+
+
+Y[?] [386env|dislwr|regterse]
+
+        This command allows the debugger configuration to be changed.  The
+        "?" prints the current options supported.  The "Y" command by itself
+        prints the current state of the options.  The  "Y" and a flag name
+        sets or toggles a options flag.
+
+        386env - 32 bit environment (toggles)
+        dislwr - lower case disassembly (toggles)
+        regterse - terse register set (toggles)
+
+        All these flags toggle their state when set and are printed only
+        when the option is on.
+
+        The "386env" flag controls the size of addresses, registers, etc.
+        when displayed.  When this option is on, addresses, registers, etc.
+        are printed in 32 bit formats; otherwise they are printed in the 16
+        bit formats.  This flag has nothing to do with the CPU (286/386) the
+        debugger is running on; only the display sizes.
+
+        The "dislwr" controls the disassembler's lower case option.  When
+        the flag is on, disassembly is in lower case.
+
+        The "regterse" controls the number of registers display in the
+        register dump command.  In the 386 environment, when the "regterse"
+        is on, only the first three lines are displayed (instead of
+        the normal six line plus disassembly line display).  In the
+        286 environment (386env off), only the first two lines of the
+        normal three line display (plus the disassembly line) are printed.
+
+
+DEFAULT COMMAND LINES
+
+
+Z
+        Executes the default command.  The default command is a string of
+        debugger commands that are executed any time the debugger is
+        entered and there is no breakpoint command attached to the entry.
+        It starts as just the "R" command but any string of commands can be
+        used.
+
+ZL
+        List the default command.
+
+
+ZS <string>
+
+        Change the default command.  If there are any errors (too long)
+        it will return to the "R" command.
+
+        If you want to just "GO" on all those INT 3's in your application
+        or test program, here is what you do:
+
+        ZS "J (BY CS:IP) == CC 'G'"
+
+        This will GO every time you enter the debugger on an INT 3.
+
+        A watchpoint can be set up as follows:
+
+        ZS "J (WO 40:1234) == 0EED 'r';t"
+
+        This commands traces until the word at 40:1234 is equal to 0EED.
+        This won't work if you are tracing thru the mode switching code
+        in DOS or other sections of code that can't be traced.
+
+
+
+EXTERNAL DEBUGGER COMMANDS
+
+
+        These are commands that are part of the debugger, but are
+        specific to the environment the debugger is running in.
+        The following commands are for the OS/2 2.0 environment.
+
+
+HELP COMMAND
+
+.?
+
+        This command prints the help menu for the external debugger
+        commands.
+
+
+COM PORT BAUD RATE COMMAND
+
+.B <baud rate> [<port addr>]
+
+        This command will set the baud rate of the debugging port (COM2).
+        Legal values for the baud rate are 150, 300, 600, 1200, 2400, 4800,
+        9600 and 19200.  Since the default radix for the debugger is 16
+        you must suffix numbers by "t" to indicate decimal values.  As
+        an example, if you wanted to debug over a 1200 baud line, the
+        correct command would be:
+
+        .b 1200t
+
+        The port address option can be "1" for COM1, "2" for COM2 and
+        any thing else is taken as a base port address.  During
+        initialization if there is no COM2, the debugger checks for
+        COM1 and then any other COM port address in the ROM data area
+        and uses it as the console.
+
+
+DUMP ABIOS COMMON DATA AREA COMMAND
+
+.C
+        This command dumps the ABIOS common data area.
+
+
+DUMP DOS DATA STRUCTURES COMMAND
+
+.D <data struc name> [<addr>]
+
+        This command displays a few common OS/2 data structures.
+        Here is a list of data structures supported:
+
+                SFT     - system file table entry
+                VPB     - volume parameter block
+                DPB     - disk parameter block
+                DEV     - device driver header
+                REQ     - device driver request packet
+                MFT     - master file table entry
+                BUF     - file system buffer
+                BPB     - bios parameter block
+                SEM32   - 32-bit Semaphore structure
+                MUXQ    - 32-bit Semaphore MuxQ chain
+                OPENQ   - 32-bit Semaphore OpenQ chain
+
+
+SWAP IN TSD OR PAGE COMMAND
+
+.I[D|B] [<addr>]
+.IT[D|B] [<slot>]
+
+        If just ".I" is given, the page enclosing that address will
+        be swapped in.  The address may include an optional task slot
+        number override, as in: %3|20000.  The ".IT" command swaps in
+        the corresponding task's TSD.  The "D" option queues up a single
+        swapin request to be acted upon at task time by the KDB daemon
+        thread.  If the "D" option is not given, the this command is
+        restricted to being executed in user mode (ring 3/2) or kernel mode
+        if it isn't interrupt time, if the thread isn't blocked, swapping
+        or leaving the kernel (InDos == 0).  The ".I[T]" checks for all
+        these conditions and prints an error.  The ".ID[T]" command can
+        never be used, but the context is losted because the kdb daemon
+        thread is switched to.
+
+USER STACK TRACE COMMAND
+
+.K[S|B] [<slot> | # | *]
+
+        This command threads through the BP chain on the user stack of
+        the slot specified and prints the address, 4 words/dwords of
+        parameters and any symbol found for the address.  The default
+        starting point is taken from the user SS:EBP and CS:EIP of the
+        debugger's default slot (the one selected with .S).  The "S"
+        (Small) option indicates the frame is 16 bits width and "B"
+        (Big) indicates the frame is 32 bits width.  The default depends
+        on the D bit in the user's CS.
+
+
+PRINT MTE SEGMENT TABLE COMMAND
+
+.LM[O][L|P|V|X] <hobmte|laddr|"modulename"]
+
+        This command prints module table entries and their associated
+        object and segment table entries.
+
+        The "O" option suppresses the object or segment table display.
+
+        The "L" option displays only library (.DLL) mtes.
+        The "P" option displays only Physical Device Driver (PDD) mtes.
+        The "V" option displays only Virtual Device Driver (VDD) mtes.
+        The "X" option displays only executable (.EXE) mtes.
+
+        If a non-zero hobmte is given, only those mtes with a matching
+        hobmte are printed.  If a non-zero linear address is given,
+        only the mte pointed to by the linear address are printed.
+        If a quoted string is given, only those mtes with a matching
+        module name are printed.  The module names for a:\bar.dll and
+        c:\foo\bar.exe are both "bar".  No drive, path or extension
+        information should be given.
+
+MEMORY ARENA RECORD DUMP COMMAND
+
+.MA[A|B|C|F|H|L|M|R] [<har|laddr>] | [<har|laddr> L<number of entries>]
+
+        This command displays the virtual memory manager's arena records.
+        If no handle or linear address is given, the entire table is
+        displayed.  If a linear address is given, it is taken to be a
+        pointer to an arena record.  One record or a range of records can
+        be displayed.
+
+
+        The "A" option displays all contexts (default is current context
+        only).
+
+        The "B" option displays only busy (allocated) entries (default).
+
+        The "F" option displays only free (un-allocated) entries.
+
+        The "C" option finds the corresponding object record, and displays
+        the arena, object, alias and context record chains.
+
+        The "H" option walks hash links, displaying entries.
+
+        The "L" option walks forward links, displaying entries.
+
+        The "R" option walks reverse links, displaying entries.
+
+        The "M" option causes all arena records whose linear address range
+        encloses the given linear address to be displayed.  A linear address
+        must also be given, and no count is allowed.  Context information
+        is ignored, so if the linear address is valid in multiple contexts,
+        mutiple arena records will be displayed.  A physical address may be
+        given intead of a linear address to allow not-present linear addresses
+        to get past the debugger's expression analyzer.  If a selector address
+        type is used, it must be converted to a linear address on the command
+        line.
+
+
+        If you ever come across the case where you need to find out who
+        owns a selector because of a GP fault in some unknown LDT or GDT
+        segment or memory object, the following command is most helpful:
+
+            .M
+        or
+            .MAMC CS:EIP
+
+        This will display the arena record and memory object record (and
+        the owner) of the code segment.  It will also walk the context
+        record chains and display them.  The "CS" can be substituted with
+        any selector, and the "EIP" with any offset.  This command converts
+        the selector:offset into a linear address automatically, so the
+        resulting address can be used to find and interpret the arena
+        record(s) and memory object record(s).
+
+        Since ".M" defaults to ".MAMC" when no options are given, and
+        since specifying the "M" option to any ".M" command uses "CS:EIP"
+        for the default, ".M" is the same as ".MAMC CS:EIP".
+
+
+MEMORY CONTEXT RECORD DUMP COMMAND
+
+.MC[B|C|F] [<hco|laddr>] | [<hco|laddr> L<number of entries>]
+
+        This command displays the virtual memory manager's context records.
+        If no handle or linear address is given, the entire table is
+        displayed.  If a linear address is given, it is taken to be a
+        pointer to a context record.  One record or a range of records can
+        be displayed.
+
+        The "B" option displays only busy (allocated) entries (default).
+
+        The "F" option displays only free (un-allocated) entries.
+
+        The "C" option also walks context record chains and displays them.
+
+
+MEMORY ALIAS RECORD DUMP COMMAND
+
+.ML[C] [<hal|laddr>] | [<hal|laddr> L<number of entries>]
+
+        This command displays the virtual memory manager's alias records.
+        If no handle or linear address is given, the entire table is
+        displayed.  If a linear address is given, it is taken to be a
+        pointer to an alias record.  One record or a range of records can
+        be displayed.
+
+        The "B" option displays only busy (allocated) entries (default).
+
+        The "F" option displays only free (un-allocated) entries.
+
+        The "C" option finds the corresponding object record, and displays
+        the arena, object, alias and context record chains.
+
+
+MEMORY OBJECT RECORD DUMP COMMAND
+
+.MO[B|C|F|M|N|P|S|V] [<hob|laddr>] | [<hob|laddr> L<number of entries>]
+
+        This command displays the virtual memory manager's memory object
+        records.  If no handle or linear address is given, the entire table
+        is displayed.  If a linear address is given, it is taken to be a
+        pointer to an object record.  One record or a range of records can
+        be displayed.
+
+        This command attempts to display what process, mte or ptda owns the
+        segment.  It will display the owner as a short ascii string when
+        appropriate.  It will display the PID of the process and, if possible,
+        the name of the module that owns this segment.  Code segments will
+        normally have only the module name and no process ID.  If the segment
+        is an MTE, PTDA or LDT, it will display the object name, the process
+        ID (if the segment is a PTDA) and the module name if possible.
+
+        Here are a few examples of the owners it can display:
+
+                free            - free memory
+                devhlp          - allocated by the AllocPhys devhlp.
+                idevice         - installable device driver memory
+                system          - system owned memory
+                dosexe          - the initial memory arena when dos
+                                  started (includes all the DOS code
+                                  and data segments).
+                mte             - a module table entry
+                ptda            - a per task data arena
+                ldt             - a local descriptor table
+
+        If it just has a PID or a module name, then this piece of memory
+        is owned by the process or module.
+
+        The "B" option causes in-use (busy) object records to be displayed.
+
+        The "F" option causes free object records to be displayed.
+
+        The "C" option displays the arena, object, alias and context record
+        chains.
+
+        The "M" option causes all pseudo object records with an exactly
+        matching linear address to be displayed.  A linear address must
+        also be given, and no count is allowed.  If a selector address type
+        is used, it must be converted to a linear address on the command
+        line.  A physical address may be given intead of a linear address
+        to allow not-present linear addresses to get past the debugger's
+        expression analyzer.
+
+        The "N" option causes non-pseudo object records to be displayed.
+
+        The "P" option causes pseudo object records to be displayed.
+
+        The "S" option causes object records with the semaphore busy or wanted
+        to be displayed.
+
+        The "V" option causes object record linear addresses to be displayed.
+        It also disables the owner interpretation.
+
+
+MEMORY PAGE FRAME DUMP COMMAND
+
+.MP[B|F|H|L|R|S] [<frame|laddr>] | [<frame|laddr> L<number of entries>]
+
+        This command displays the page manager's page frame structures.
+        If no handle or linear address is given, the entire table is
+        displayed.  If a linear address is given, it is taken to be a
+        pointer to a page frame structure.  One record or a range of
+        records can be displayed.
+
+        The "B" option displays only busy (allocated) entries (default).
+
+        The "F" option displays only free (un-allocated) entries.
+
+        The "H" option walks hash links, displaying entries.
+
+        The "L" option walks forward links, displaying entries.
+
+        The "R" option walks reverse links, displaying entries.
+
+        This data structure contains per-physical page information.
+        To find out the owner of a particular physical page,
+        use ".mp FrameNumber" where FrameNumber is the physical address
+        shifted right by 12 (take off 3 zeros).  If the page isn't free,
+        the "pVP" field contains a flat pointer to the virtual page
+        structure.  Use ".mv %pVP" where pVP is the value from the .mp
+        dump, to get the contents of the VP.  The "Hob" field of the VP
+        is a handle to the Object Record.  Use ".mo Hob" to dump it.
+        That will display a readable string for the owner on the
+        right of the display (see .mo above).  ".ma" of the
+        "Har" field in the object record will give the base virtual address
+        of the object containing the page (under "va").  Use the "HobPg"
+        field of the VP to get the page offset within the object.
+
+MEMORY VIRTUAL PAGE STRUCTURE DUMP COMMAND
+
+.MV[B|F|L|R] [<vpid|laddr>] | [<swapid|laddr> L<number of entries>]
+
+        This command displays the swap manager's swap frame structures.
+        If no handle or linear address is given, the entire table is
+        displayed.  If a linear address is given, it is taken to be a
+        pointer to a swap frame structure.  One record or a range of
+        records can be displayed.
+
+        See the ".mp" command above for an example.
+
+        The "B" option displays only busy (allocated) entries (default).
+
+        The "F" option displays only free (un-allocated) entries.
+
+        The "L" option walks forward links, displaying entries.
+
+        The "R" option walks reverse links, displaying entries.
+
+        To find the owner of a virtual page,
+
+
+PRINT PROCESS STATUS COMMAND
+
+.P[B|U] [<slot> | # | *]
+
+        This command displays the current process and thread status.  The
+        "*" by the slot number is the currently running task or the last
+        task to have blocked.  The "#" marks what the debugger thinks the
+        current task is (set by the .S command).  If "#", "*" or a slot
+        number is used on the command line, only the corresponding slot's
+        information will be displayed.
+
+        Without the "B" or "U" option, it prints the PID, parent PID,
+        command subtree number, thread number, state, priority, block ID,
+        PTDA address, TCB offset, dispatch SP, screen group and name of
+        the process or thread.
+
+        The "B" option will display the detailed blocked information.
+        The "handlesem" entry is the current virtual memory manager handle
+        semaphores owned by this process.  The "child" entry is a child
+        in the process of being exec'd.  It is printed after all the
+        threads in the exec'ing task (and their "handlesem" entries) have
+        been printed.
+
+        The "U" option will display user state information, which includes
+        the CS:IP and SS:SP at the time the kernel was entered, along with
+        the number of arguments that were passed, their PTDA offset, and
+        the offset of the register stack frame.
+
+
+USER REGISTER COMMAND
+
+.R [<slot> | # | *]
+
+        The .R command displays the contents of the user's (ie, at time
+        of entry to the kernel) CPU registers, flags and the next
+        instruction to be executed for a specified slot.
+
+        If no parameter is given, or if "#" is on the command line, the
+        debugger's current slot (selected by the .S command) will be used.
+        If "*" is on the command line, the currently scheduled slot (or
+        the last one to block) will be used.  Or if there is a number on
+        the command line, it will be taken as the slot to use.
+
+
+REBOOT COMMAND
+
+.REBOOT
+        This command warm boots the machine.  The whole string ".REBOOT"
+        needs to be typed.
+
+
+TASK CONTEXT CHANGE COMMAND
+
+.S[S] [<slot> | *]
+
+        This changes what the debugger thinks the current task context
+        is.  If no slot number is passed, it will print the current
+        task number.  This will allow dumping of some process-specific
+        data (the LDT or stack) for other than the current task.  The "S"
+        option also changes the SS and SP to the new task's PTDA selector
+        and dispatch SP value.  The original SS and SP is automatically
+        restored when the debugger exits, or when the ".SS" command is
+        used to switch back to the current task.  The "*" slot number
+        changes the debuggers current task number to the real OS2 task
+        number.
+
+
+RAS TRACE BUFFER PRINT COMMAND
+
+.T [<count>] [maj=<xx> [min=<yy>]]
+
+        This command dumps the RAS trace buffer, optionally dumping only
+        events with the specified major and minor event codes.
+

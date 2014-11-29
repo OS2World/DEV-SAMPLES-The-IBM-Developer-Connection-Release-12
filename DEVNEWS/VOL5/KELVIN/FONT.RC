@@ -1,0 +1,21 @@
+#define INCL_WIN
+#include <os2.h>
+#include "font.h"
+
+MENU ID_FONT PRELOAD
+BEGIN
+    SUBMENU    "Exit", -1
+    BEGIN
+        MENUITEM "~Exit now", IDM_EXIT  , MIS_TEXT, 0
+        MENUITEM "~Resume"  , IDM_RESUME, MIS_TEXT, 0
+    END
+
+    SUBMENU    "Fonts", -1
+    BEGIN
+        MENUITEM "Select font..." , IDM_SELFONT   , MIS_TEXT, 0
+    END
+
+END
+
+
+

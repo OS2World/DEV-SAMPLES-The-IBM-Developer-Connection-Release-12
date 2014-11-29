@@ -1,0 +1,51 @@
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³                                                                          ³*/
+/*³ PROGRAM NAME: PMSPY                                                      ³*/
+/*³ -------------                                                            ³*/
+/*³  A PM program that is used to look at or 'spy' on the message queue of   ³*/
+/*³  other PM applications windows.                                          ³*/
+/*³                                                                          ³*/
+/*³ COPYRIGHT:                                                               ³*/
+/*³ ----------                                                               ³*/
+/*³  Copyright (C) International Business Machines Corp., 1992               ³*/
+/*³                                                                          ³*/
+/*³ DISCLAIMER OF WARRANTIES:                                                ³*/
+/*³ -------------------------                                                ³*/
+/*³  The following [enclosed] code is sample code created by IBM Corporation.³*/
+/*³  This sample code is not part of any standard IBM product and is provided³*/
+/*³  to you solely for the purpose of assisting you in the development of    ³*/
+/*³  your applications.  The code is provided "AS IS", without warranty of   ³*/
+/*³  any kind.  IBM shall not be liable for any damages arising out of your  ³*/
+/*³  use of the sample code, even if they have been advised of the           ³*/
+/*³  possibility of such damages.                                            ³*/
+/*³                                                                          ³*/
+/*³ For details on what this program does etc., please see the PMSPY.C file. ³*/
+/*³                                                                          ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ PMSPYMP.H                                                                ³*/
+/*³                                                                          ³*/
+/*³ MP formatting externals                                                  ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ MpFormat                                                                 ³*/
+/*³                                                                          ³*/
+/*³ - format specified MP value according to specified MP format             ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+extern
+PSZ
+MpFormat(MPARAM    mpValue,
+         MP_FORMAT mpFormat,
+         PSZ       pszWhere);
+
+/*ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿*/
+/*³ MpDisplayText                                                            ³*/
+/*³                                                                          ³*/
+/*³ - return display text for specific MP format                             ³*/
+/*ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ*/
+extern
+PSZ
+MpDisplayText(MP_FORMAT mpFormat);
+

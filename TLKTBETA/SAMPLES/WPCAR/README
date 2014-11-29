@@ -1,0 +1,42 @@
+******************************************************************************
+
+*                 OS/2* 2.1 Workplace Shell* .IDL files BETA                 *
+
+*           (C) Copyright IBM Corp. 1993 All Rights Reserved                 *
+
+*                    IBM is a registered trademark of the                    *
+
+*                International Business Machines Corporation                 *
+
+*  U.S. Government Users Restricted Rights - Use, duplication or disclosure  *
+
+*           restricted by GSA ADP Schedule Contract with IBM Corp.           *
+
+******************************************************************************
+
+
+  This README document contains information that describes how the
+  Beta .IDL files for the Workplace Shell are to be used.
+
+  These files are pre-release versions and are provided on an as-is basis
+  for evaluation and demonstration.  They are not intended for use with
+  production code.
+
+  The files included in this beta have been provided for evaluation by
+  developers who have the SOMobjects Toolkit* and want to write their
+  Workplace Shell subclasses using the Interface Definition Language
+  (IDL) described in the SOMobjects Toolkit.
+
+To build and install the Car sample in this directory:
+
+1) edit the makefile so that it pertains to your environment
+
+   Make sure that the beta Workplace Shell idls and headers are in your INCLUDE and
+   SMINCLUDE paths as necessary.
+
+2) nmake -f car.mak
+
+3) register class and create instance using either the Workplace Class
+   List or via a REXX script.
+
+

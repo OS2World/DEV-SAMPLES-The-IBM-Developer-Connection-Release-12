@@ -1,0 +1,105 @@
+/***************************************************************************/
+/* XPRMRES.RC    XPG4 Primer for OS/2 WARP - V1.0       11/15/95           */
+/*               Menus and String definitions for English.                 */
+/***************************************************************************/
+#define INCL_WINSTDSPIN
+#define INCL_WIN
+#define INCL_NLS
+#include <os2.h>                       /* System Include File              */
+#include "xprmres.h"                   /* Application Include File         */
+
+BITMAP BID_MAIN PRELOAD os2logo.bmp
+
+MENU  WID_MAIN PRELOAD
+ BEGIN
+    SUBMENU "~Order",MID_ORDER, MIS_SUBMENU |  MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "~New...",MID_NEWORDER,  MIS_TEXT , 0
+        MENUITEM "In~Quire...",MID_FIND,  MIS_TEXT , 0
+     END
+    SUBMENU "~Cust. Info",MID_CUST, MIS_SUBMENU |  MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "~Regist...",MID_NEWCUST,  MIS_TEXT , 0
+        MENUITEM "~Find...",MID_FINDCUST,  MIS_TEXT , 0
+     END
+    SUBMENU "~Help...",MID_HELP, MIS_SUBMENU |  MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "Help ~Index", MID_HELPINDEX,  MIS_TEXT , 0
+        MENUITEM "~Key's Help", MID_HELPKEYS,     MIS_TEXT , 0
+        MENUITEM "~Using Help", MID_HELPFORHELP,  MIS_TEXT , 0
+        MENUITEM SEPARATOR
+        MENUITEM "~About...", MID_HELPABOUT, MIS_TEXT
+     END
+ END
+
+MENU  WID_VIEWORDER PRELOAD
+ BEGIN
+    SUBMENU "~Option",MID_OPTION, MIS_SUBMENU | MIS_TEXT  , 0
+     BEGIN
+        MENUITEM "~Font",MID_FONT,  MIS_TEXT , 0
+     END
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_HELP_TITLE              "Help for XPG4 Primer"
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_MAIN_TITLE              "OrderEntry Program"
+    IDS_INFO_CAPTION            "Information"
+    IDS_WARNING_CAPTION         "Warning"
+    IDS_ERROR_CAPTION           "Error!"
+    IDS_INFO_1                  "Data is saved successfully."
+    IDS_WARNING_1               "No record exists."
+    IDS_WARNING_2               "Select customer name."
+    IDS_WARNING_3               "Data is required."
+    IDS_WARNING_4               "Data must be a digit number."
+    IDS_WARNING_5               "Maximum number of products have been selected."
+    IDS_WARNING_6               "Default font is used."
+    IDS_WARNING_7               "Associating help instance failed."
+    IDS_ERROR_1                 "File I/O error."
+    IDS_ERROR_2                 "Data link was broken."
+    IDS_ERROR_3                 "Can't find product records."
+    IDS_ERROR_4                 "Can't find customer records."
+    IDS_ERROR_5                 "Memory allocation failed."
+    IDS_ERROR_6                 "Failed to create the logical font."
+    IDS_ERROR_7                 "Error in initializing help instance."
+    IDS_ERROR_8                 "Error in formatting data."
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_VO_TITLE         "View Order"
+    IDS_VO_NEXT          "Next"
+    IDS_VO_PREV          "Previous"
+    IDS_VO_CANCEL        "Cancel"
+    IDS_VO_DATE          "Date & Time"
+    IDS_VO_CUSTNUM       "Customer #"
+    IDS_VO_CUSTNAME      "Customer Name"
+    IDS_VO_PRODNAME      "Product"
+    IDS_VO_UNITPRICE     "Price"
+    IDS_VO_QTY           "Qty."
+    IDS_VO_SUB           "Sub Total"
+    IDS_VO_TOTQTY        "Total Qty."
+    IDS_VO_TOTPRICE      "Total Price"
+    IDS_VO_PREVIEW       "abcd ABCD"
+ END
+
+STRINGTABLE LOADONCALL
+ BEGIN
+    IDS_ABOUT_TITLE      "Product Information"
+    IDS_ABOUT_COPY1      "(C) Copyright IBM Corporation 1995. All Rights reserved."
+    IDS_ABOUT_COPY2      "International Business Machines Corp."
+    IDS_ABOUT_COPY3      "OS/2 is a registered trademark of"
+    IDS_ABOUT_OK         "OK"
+ END
+
+ACCELTABLE WID_MAIN PRELOAD
+ BEGIN
+    VK_F3,  VID_QUITPROG,  VIRTUALKEY
+ END
+
+rcinclude xprmhelp.rc
+rcinclude xprmres.dlg

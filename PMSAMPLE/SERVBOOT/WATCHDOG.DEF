@@ -1,0 +1,14 @@
+;
+;-*-*-*-*- Module Definition File for the program WATCHDOD  -*-*-*-*-
+;
+
+NAME WATCHDOG WINDOWCOMPAT   ; Specifies WATCHDOG as a Windown Compatible
+
+DESCRIPTION 'OS/2 Server - Reboot OS/2 after timeout count'
+
+STUB    'OS2STUB.EXE'
+
+HEAPSIZE    4096
+STACKSIZE   8192
+
+PROTMODE

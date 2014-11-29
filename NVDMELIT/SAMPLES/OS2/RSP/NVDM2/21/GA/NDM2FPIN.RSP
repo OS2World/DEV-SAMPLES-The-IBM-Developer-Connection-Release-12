@@ -1,0 +1,19 @@
+//*************************************************************************
+//*                                                                                *
+//*  IBM NetView DM/2 Ver. 2.1 NVDMFPIN RSP File                    *
+//*                                                                                *
+//*************************************************************************
+MaxRequests        = 8
+MaxClients         = 20
+MaxShrFiles        = 2000
+AdapterNum         = 0
+AgentTimeOut       = -1
+FPNetworkID        = USIBMNH
+FPLUName           = TCPA01
+RemoteActivation   = YES
+RemoteProcInvoc    = YES
+RemoteCM           = YES
+RemoteSend         = CREATE
+TimeZone           = 0
+RebootDelay        = 2
+//*************************************************************************

@@ -1,0 +1,13 @@
+[
+        uuid(008B650A-8053-1C0E-B604-10005A4F3057),
+        version(1.1)
+]
+
+interface UseCDS
+{
+        const long LEN          = 80;
+
+        typedef [string] char   string_t[LEN];
+
+        string_t *whoareyou ( [in] handle_t bh );
+}

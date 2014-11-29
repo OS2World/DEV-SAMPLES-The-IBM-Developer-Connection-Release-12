@@ -1,0 +1,14 @@
+
+LFLAGS   = /NOE /NOD /ALIGN:16 /EXEPACK /M /BASE:0x10000
+LINK    = LINK386  $(LFLAGS)
+
+nls32.exe: nls32.obj nls32.def nls32.l nls32.res
+        $(LINK)  @nls32.l
+        rc nls32.res
+nls32.res: nls32.rc nls32.ico nls32.h
+        rc -r nls32.rc
+
+nls32.obj: nls32.c nls32.h
+        icc /c /Sn+ /Ge+ /Gd- /Se /Re /Ss+ Gm+ nls32.c
+
+

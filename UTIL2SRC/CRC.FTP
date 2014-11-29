@@ -1,0 +1,14 @@
+user beyoder
+cd beyoder.191
+ascii
+put crc.doc                 crc.doc
+put crcchk.doc              crcchk.doc
+binary
+put crc.exe                 crc.exebin
+put crcchk.exe              crcchk.exebin
+put ..\utildos\crc.exe      crc.exedbin
+put ..\utildos\crcchk.exe   crcchk.exedbin
+close
+quit
+
+

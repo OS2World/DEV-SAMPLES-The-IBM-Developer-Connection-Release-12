@@ -1,0 +1,32 @@
+/*
+ * Interface Definition File for the MessageBox Example
+ */
+
+[
+        uuid(003597CE-8E8D-1BFB-A052-10005A4F3057),
+        version(2.0)
+]
+
+interface MessageBox
+{
+        const long MAX_CHAR             = 255;
+
+        typedef [string] char           string_t[MAX_CHAR];
+
+        long int mbox_new (
+                [in] handle_t           bh,
+                [in] string_t           principal
+        );
+
+        long int mbox_append (
+                [in] handle_t           bh,
+                [in] string_t           principal,
+                [in] string_t           message
+        );
+
+        long int mbox_next (
+                [in] handle_t           bh,
+                [out] string_t          message
+        );
+
+}

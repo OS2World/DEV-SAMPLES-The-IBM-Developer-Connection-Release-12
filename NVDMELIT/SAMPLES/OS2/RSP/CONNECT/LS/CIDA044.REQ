@@ -1,0 +1,57 @@
+
+DELETEIBMLAN = Networks<
+
+  netlb =
+
+>
+
+UPDATEIBMLAN = Networks<
+
+  net1 = NETBEUI$,*,LM10,*,75,*
+
+>
+
+UPDATEIBMLAN = Peer<
+
+  security = Migrate
+
+>
+
+UPDATEIBMLAN = Requester<
+
+  Computername = cida044
+  Domain = ELITELAN
+  useallmem = Migrate
+  wrkheuristics = *************************************2***
+
+>
+  ConfigTargetDrive = Migrate
+  ConfigApplDumpPath = Migrate
+  ConfigApplMaxDumps = Migrate
+  ConfigAutoStartFFST = Migrate
+  ConfigAutoStartLS = Migrate
+  ConfigDisplayMSG = Migrate
+  ConfigDosNumber = 0
+  ConfigMsgLogName = Migrate
+  ConfigRouteAlertsTo = Migrate
+  ConfigSourceDrive = C
+  ConfigSystemDumpPath = Migrate
+  ConfigSystemMaxDumps = Migrate
+  ConfigWsId = Migrate
+  ConfigWsSerial1 = Migrate
+  ConfigWsSerial2 = Migrate
+  ConfigWsType1 = Migrate
+  ConfigWStype2 = Migrate
+  InstallAPI = INSTALLIFREQUIRED
+  InstallDosLanApi = INSTALLIFREQUIRED
+  InstallFFST = INSTALLIFREQUIRED
+  InstallInstallProgram = INSTALLIFREQUIRED
+  InstallPeerService = INSTALLIFREQUIRED
+  InstallRemoteFaultTolerance = INSTALLIFREQUIRED
+  InstallRequester = INSTALLIFREQUIRED
+  InstallUPM = INSTALLIFREQUIRED
+  InstallMSGPopup = INSTALLIFREQUIRED
+  InstallGUI = INSTALLIFREQUIRED
+  InstallClipBoard = INSTALLIFREQUIRED
+  InstallDesktopIcons = YES
+

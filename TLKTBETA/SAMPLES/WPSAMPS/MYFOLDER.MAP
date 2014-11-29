@@ -1,0 +1,95 @@
+
+ myfolder
+
+ Start         Length     Name                   Class
+ 0001:00000000 000000558H CODE32                 CODE 32-bit
+ 0002:00000000 000000004H DDE4_DATA32            DATA 32-bit
+ 0003:00000000 0000002C0H DATA32                 DATA 32-bit
+ 0003:000002C0 000000000H CTOR_DTOR1             DATA 32-bit
+ 0003:000002C0 000000000H CTOR_DTOR2             DATA 32-bit
+ 0003:000002C0 000000000H CTOR_DTOR3             DATA 32-bit
+ 0003:000002C0 000000000H CONST32                CONST 32-bit
+ 0003:000002C0 000000000H BSS32                  BSS 32-bit
+ 0003:000002C0 000000008H c_common               BSS 32-bit
+
+ Origin   Group
+ 0003:0   DGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0003:00000008 MYFOLDERCClassData      MYFOLDERCClassData
+ 0003:00000000 MYFOLDERClassData       MYFOLDERClassData
+ 0001:00000000 MYFOLDERNewClass        MYFOLDERNewClass
+
+  Address         Publics by Name
+
+ 0000:00000000  Imp  DosQueryModuleHandle (DOSCALLS.319)
+ 0003:000002C4       hwndFirstView
+ 0003:00000008       MYFOLDERCClassData
+ 0003:00000000       MYFOLDERClassData
+ 0001:00000000       MYFOLDERNewClass
+ 0001:000002E8       myfold_CloseViews
+ 0001:00000260       myfold_wpMenuItemSelected
+ 0001:0000019C       myfold_wpModifyPopupMenu
+ 0001:0000002C       myfold_wpOpen
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  SOMClassMgrClassData (som.6)
+ 0000:00000000  Imp  SOMClassMgrObject    (som.7)
+ 0000:00000000  Imp  somIdFromString      (som.31)
+ 0000:00000000  Imp  SOMObjectClassData   (som.14)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  WinSendMsg           (PMWIN.920)
+ 0000:00000000  Imp  WPFolderClassData    (PMWP.14)
+ 0000:00000000  Imp  WPFolderNewClass     (PMWP.15)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0002:00000000       _dllentry
+ 0001:00000420       _DLL_InitTerm
+ 0003:000002C0       _edata
+ 0003:000002C8       _end
+ 0001:00000440       _fpninit
+ 0003:000002B0       __ctdtused
+ 0003:000002C0       __ctordtorCurrent
+ 0003:000002C0       __ctordtorEnd
+ 0001:00000474       __ctordtorInit
+ 0003:000002C0       __ctordtorStart
+ 0001:00000444       __ctordtorTerm
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  SOMClassMgrClassData (som.6)
+ 0000:00000000  Imp  WPFolderClassData    (PMWP.14)
+ 0000:00000000  Imp  DosQueryModuleHandle (DOSCALLS.319)
+ 0000:00000000  Imp  WinSendMsg           (PMWIN.920)
+ 0000:00000000  Imp  somIdFromString      (som.31)
+ 0000:00000000  Imp  somPrintf            (som.35)
+ 0000:00000000  Imp  somParentNumResolve  (som.50)
+ 0000:00000000  Imp  somBuildClass        (som.49)
+ 0000:00000000  Imp  WPObjectClassData    (PMWP.23)
+ 0000:00000000  Imp  SOMClassMgrObject    (som.7)
+ 0000:00000000  Imp  SOM_TraceLevel       (som.18)
+ 0000:00000000  Imp  WPFolderNewClass     (PMWP.15)
+ 0000:00000000  Imp  SOMObjectClassData   (som.14)
+ 0001:00000000       MYFOLDERNewClass
+ 0001:0000002C       myfold_wpOpen
+ 0001:0000019C       myfold_wpModifyPopupMenu
+ 0001:00000260       myfold_wpMenuItemSelected
+ 0001:000002E8       myfold_CloseViews
+ 0001:00000420       _DLL_InitTerm
+ 0001:00000440       _fpninit
+ 0001:00000444       __ctordtorTerm
+ 0001:00000474       __ctordtorInit
+ 0002:00000000       _dllentry
+ 0003:00000000       MYFOLDERClassData
+ 0003:00000008       MYFOLDERCClassData
+ 0003:000002B0       __ctdtused
+ 0003:000002C0       __ctordtorStart
+ 0003:000002C0       __ctordtorCurrent
+ 0003:000002C0       __ctordtorEnd
+ 0003:000002C0       _edata
+ 0003:000002C4       hwndFirstView
+ 0003:000002C8       _end
+
+Program entry point at 0001:00000420

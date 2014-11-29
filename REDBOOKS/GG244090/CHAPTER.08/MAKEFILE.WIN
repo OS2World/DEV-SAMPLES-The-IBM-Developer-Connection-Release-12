@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "use CDS" sample application.
+#
+
+all: usecds.h getcds.exe usecds.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = getcds.c usecds.c
+COBJECTS        = getcds.obj usecdsc.obj
+SOBJECTS        = usecds.obj usecdss.obj
+
+usecds.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+getcds.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc getcds.exe
+
+usecds.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc usecds.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del usecds.h
+        -del usecdsc.c
+        -del usecdss.c
+

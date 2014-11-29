@@ -1,0 +1,23 @@
+INST_SECTION = (
+   MIGRATECONTROLFILES = 0
+   targetpath = C:\LSP
+   AdapterCheck = 1
+   )
+
+PROT_SECTION = (
+;   DRIVERFILE = DXMC0MOD.SYS
+   DRIVERNAME = DXMC0MOD$
+   LSP_PRIMARY = 1
+   )
+
+PROT_SECTION = (
+;   DRIVERFILE = DXMT0MOD.SYS
+   DRIVERNAME = DXMT0MOD$
+   S=16
+   C=14
+   ES=2
+   EST=2
+   PBA=0
+   LSP_PRIMARY = 1
+   )
+

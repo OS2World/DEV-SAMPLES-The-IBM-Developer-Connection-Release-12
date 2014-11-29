@@ -1,0 +1,151 @@
+/*** OS/2 Application Primer "MISC Sample Secondary Window Procedures"*/
+/*                                                                    */
+/* Module name : MISCPRG.RC                                           */
+/* Version : 2.1 (12/24/93)                                           */
+/*                                                                    */
+/*    << This sample program is only for DBCS OS/2 V2.1. >>           */
+/*                                                                    */
+/*    Resource file of Sample Miscellenaeus program.                  */
+/*                                                                    */
+/**********************************************************************/
+
+#define INCL_WIN
+#define INCL_NLS
+#include <os2.h>
+#include "miscrsc.h"
+
+MENU  WID_MAIN PRELOAD
+BEGIN
+ SUBMENU "File",MID_FILE, MIS_SUBMENU | MIS_TEXT  , 0
+   BEGIN
+   MENUITEM "CP conv.", MID_CONV,  MIS_TEXT , 0
+   MENUITEM "Editor",MID_EDITOR,  MIS_TEXT , 0
+   MENUITEM "WordBreak",MID_WORD,  MIS_TEXT , 0
+   MENUITEM "----------------",MID_SEP,  MIS_SEPARATOR , 0
+   MENUITEM "Exit", MID_EXIT,  MIS_TEXT , 0
+   END
+END
+
+DLGTEMPLATE DID_CONV LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  DIALOG  "PC-HOST Code Conversion Sample Program",DID_CONV,31,13,321,220,
+        WS_VISIBLE,
+        FCF_DLGBORDER | FCF_MAXBUTTON | FCF_MINBUTTON |
+        FCF_SYSMENU | FCF_TITLEBAR | FCF_DBE_APPSTAT
+   BEGIN
+     CONTROL "Choose a Host Code Page and enter a string. You'll "
+             "get three Hexdecimal strings, one in PC code "
+             "and others in Host code, which are converted "
+             "by WinCpTranslateString and TransDt.",
+     STX_TEXT,27,154,268 , 49
+        WC_STATIC,SS_TEXT | DT_WORDBREAK | WS_VISIBLE
+     CONTROL  "Execute",PB_EXE,63,17,51 , 15
+        WC_BUTTON,BS_PUSHBUTTON | WS_VISIBLE
+     CONTROL  "Cancel",PB_CAN,201,17,53 , 15
+        WC_BUTTON,BS_PUSHBUTTON | WS_VISIBLE
+     CONTROL  "PC Code Page",STX_PC0,18,133,49 , 9
+        WC_STATIC,SS_TEXT | WS_VISIBLE
+     CONTROL  "",EF_PCCP,31,121,34 , 8
+        WC_ENTRYFIELD, WS_VISIBLE | ES_MARGIN | ES_READONLY | ES_RIGHT
+     CONTROL  "Host Code Page",STX_HOST,89,133,59 , 10
+        WC_STATIC,SS_TEXT | WS_VISIBLE | DT_CENTER
+     CONTROL  "",CB_HCODE,109,84,39 , 46
+        WC_COMBOBOX, WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST
+     CONTROL  "",EF_HCTEXT,162,121,112 , 8
+        WC_ENTRYFIELD, WS_TABSTOP | WS_VISIBLE |
+        ES_AUTOSCROLL | ES_MARGIN | ES_READONLY
+     CONTROL  "Enter a string ( < 30 bytes)",STX_ENTERSTR,18,89,95 , 10
+        WC_STATIC,SS_TEXT | WS_VISIBLE | DT_VCENTER
+     CONTROL  "",EF_STRING,139,90,132 , 8
+        WC_ENTRYFIELD, WS_TABSTOP | WS_VISIBLE | ES_AUTOSCROLL | ES_MARGIN
+     CONTROL  "Hex String",STX_HEX,18,75,95 , 10
+        WC_STATIC,SS_TEXT | WS_VISIBLE | DT_VCENTER
+     CONTROL  "",EF_PC,139,75,132 , 8
+        WC_ENTRYFIELD, WS_TABSTOP | WS_VISIBLE |
+        ES_AUTOSCROLL | ES_MARGIN | ES_READONLY
+     CONTROL  "Host TransDt",STX_TRANS,18,47,95 , 10
+        WC_STATIC,SS_TEXT | WS_VISIBLE | DT_VCENTER
+     CONTROL  "",EF_HOSTTRAN,139,48,132 , 8
+        WC_ENTRYFIELD, WS_TABSTOP | WS_VISIBLE |
+        ES_AUTOSCROLL | ES_MARGIN | ES_READONLY
+     CONTROL  "Host WinCPTranslateString",STX_WINCP,18,61,95 , 10
+        WC_STATIC,SS_TEXT | WS_VISIBLE | DT_VCENTER
+     CONTROL  "",EF_HOSTWIN,139,62,132 , 8
+        WC_ENTRYFIELD, WS_TABSTOP | WS_VISIBLE |
+        ES_MARGIN | ES_READONLY | ES_AUTOSCROLL
+   END
+END
+
+MENU  WID_EDITOR PRELOAD
+BEGIN
+ SUBMENU "Option",MID_EDITOPT, MIS_SUBMENU | MIS_TEXT  , 0
+   BEGIN
+   MENUITEM "On-the-spot", MID_ONSPOT,  MIS_TEXT , 0
+   END
+ END
+
+DLGTEMPLATE DID_WORD LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  DIALOG  "Sample for WORDBREAK",DID_WORD,0,0,155,89,
+        WS_MAXIMIZED,
+        FCF_DLGBORDER | FCF_MENU | FCF_TITLEBAR
+    BEGIN
+      CONTROL  "",STX_SAMPLE,4,4,0 ,0
+               WC_STATIC, SS_TEXT
+    END
+END
+
+MENU  DID_WORD PRELOAD
+BEGIN
+ SUBMENU "WordBreak",MID_WDBREAK, MIS_SUBMENU | MIS_TEXT  , 0
+   BEGIN
+     MENUITEM "On",MID_BREAKON,  MIS_TEXT
+     MENUITEM "----------------",MID_SEP,  MIS_SEPARATOR , 0
+     MENUITEM "Exit",MID_EXIT,  MIS_TEXT , 0
+   END
+END
+
+STRINGTABLE PRELOAD MOVEABLE
+BEGIN
+       IDS_MAINTEXT1, "This program shows several typical routines"
+                      " for DBCS, which are not contained in the O"
+                      "RDENTRY program. "
+       IDS_MAINTEXT2, "You can find PC-EBCDIC code conversion prog"
+                      "ram, an editor which is too simple to scrol"
+                      "l up/down(!) but supports both ON-THE-SPOT "
+                      "and FIXED-POSITION conversion, and a dialog"
+       IDS_MAINTEXT3, " showing the usage of the word break."
+       IDS_TEXTENJOY, "ENJOY IT!"
+
+       IDS_TEXT1, "This is an example to show you what happens"
+                  " when the DT_WORDBREAK flag is set.  This e"
+                  "xample is for the pure SBCS string."
+       IDS_TEXT2, "Notice when a line ends with a DBCS charact"
+                  "er, it is recognized as a DBCS character an"
+                  "d is treated properly.  The DBCS strings ar"
+                  "e broken by characters and not by words.  S"
+                  "ee Example 3."
+       IDS_TEXT3, "夕飯を食べていると、武蔵がにじにじとにじり寄"
+                  "って来る。どさくさにまぎれて、そぉっとにじっ"
+                  "てくる。"
+       IDS_TEXT4, "Notice that '、' and '。', which are the DB"
+                  "CS punctuations that correspond with an SBC"
+                  "S comma and a period, are never separatated"
+                  " from the preceeding character.  See Exampl"
+                  "e 5."
+       IDS_TEXT5, "ふと気が付くと武蔵がすぐそばにいるのである。"
+                  "しかもこっちに背を向けていることが多い。"
+                  "つまり怒られるのがわかっているから、僕、"
+                  "気付いてないよ、というふりをするのだ。"
+
+       ERR_TITLE,    "ERROR"
+       ERR_CTRYCODE, "Illegal country code specified."
+       ERR_FILE,     "Unable to open the file containing the list of "
+                     "code pages and their descriptions.  Check to see "
+                     "if the *.dat file is properly named.  (CPTABLEJ.DAT / "
+                     "CPTABLEH.DAT / CPTABLET.DAT)"
+       ERR_CPFLAG,   "Illegal code page type specified.  Check the *.dat"
+                     " file to see if the third item in each line is "
+                     "properly specified.  (dbcs / sbcs / combined)"
+END
+

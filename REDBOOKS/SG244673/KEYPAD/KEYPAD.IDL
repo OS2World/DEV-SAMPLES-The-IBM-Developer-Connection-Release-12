@@ -1,0 +1,202 @@
+/* ******************************************************************** *  
+ * Copyright International Business Machines Corporation 1995, 1996     *
+ * DISCLAIMER OF WARRANTIES.                                            *  
+ * The following [enclosed] code is sample code created by IBM          *  
+ * Corporation. This sample code is not part of any standard or IBM     *  
+ * product and is provided to you solely for the purpose of assisting   *  
+ * you in the development of your applications.  The code is provided   *  
+ * "AS IS". IBM MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT  *  
+ * NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS *  
+ * FOR A PARTICULAR PURPOSE, REGARDING THE FUNCTION OR PERFORMANCE OF   *  
+ * THIS CODE.  IBM shall not be liable for any damages arising out of   *  
+ * your use of the sample code, even if they have been advised of the   *  
+ * possibility of such damages.                                         *  
+ *                                                                      *  
+ * DISTRIBUTION.                                                        *  
+ * This sample code can be freely distributed, copied, altered, and     *  
+ * incorporated into other software, provided that it bears the above   *  
+ * Copyright notice and DISCLAIMER intact.                              *  
+ * -------------------------------------------------------------------- *  
+ * This file is part of the source for OpenDoc parts document in:       *
+ *  IBM International Technical Support Organization Bulletin (Redbook) *  
+ *  "OpenDoc : An Introduction to Part Development" (SG24-4673)         *
+ *                                                                      *
+ * ******************************************************************** *  
+ */   
+#ifndef _KEYPAD_IDL_
+#define _KEYPAD_IDL_
+#include "simplprt.idl"
+
+interface ODPart;
+interface ODMenuBar;
+interface ODFrame;
+interface ODTransform;
+interface ODFocus;
+interface ODSettingsExtension;
+
+#pragma somemittypes on
+
+struct KPButton {
+       HWND hwndPB;
+       long winID;
+       long xPos;
+       long yPos;
+       long xSize;
+       long ySize;
+       string butText;
+};
+
+struct KPPartDataStruct {
+       long maxDisplayLength;
+       long Color;
+       long LinkDelay;
+       boolean  BeepOn;
+};
+typedef KPPartDataStruct *PKPPartDataStruct;
+
+#pragma somemittypes off
+
+interface ODxOrderedCollection;
+interface M_KeyPadPart;
+
+interface KeyPadPart:SimplePart
+{
+   void      KPCommonInit(in ODPart PartWrapper);
+   void      KPInitMenuBar(in ODPart PartWrapper);
+   void      KPInitPopup();
+   void      KPInitStorageUnit();
+   void      KPInitButtonInfo();
+   void      KPInitSemanticInterface();
+   void      KPCreateButtons(in HWND hwndFacet);
+   void      KPChangeButtonText(in long buttonID, in string newText);
+   void      KPReadDataFromStorage();
+   void      KPWriteDataToStorage();
+   void      KPReadLinksFromStorage();
+   void      KPWriteLinksToStorage();
+   void      KPWriteLinkData(in ODFrame frame, in ODUpdateID updateID);
+   ODBoolean KPDoPasteAs(in ODFrame frame);
+   ODBoolean KPIsLinkInClipboard(in ODFrame frame);
+   void      KPPostLinkToClipBoard(in ODFrame frame);
+   void      KPPasteLinkFromClipboard(in ODFrame frame);
+   void      KPPopupMenu();
+   void      KPHandleKeyBoard(in MPARAM pm1, in MPARAM pm2);
+   ODBoolean KPHandleCommand(in ODEventData event,
+                             in ODFrame frame,
+                             in ODFacet facet);
+   void      KPHandleOSAEventSend(in ODFrame frame, in string myString); //@SAKUMA
+   void      KPCalcDisplayRect(in ODRect rect);
+   void      KPCalcKPButLayout(in ODTransform transform, in ODRect rect);
+   void      KPResize(in ODFrame frame);
+   void      KPDrawDisplay(in HPS hpsDraw);
+   void      KPDrawTextToDisp(in HPS hpsDraw);
+   void      KPDrawFrame(in HPS hpsDraw, in RECTL frameRect);
+   void      KPDrawButtons();
+   void      KPChangeSetting(in ODFrame aFrame,
+                             in RGBColor whichColor,
+                             in ODUShort idelay,
+                             in ODBoolean beep );
+   void      KPGetSetting(in PKPPartDataStruct PartData);
+
+   void      KPSetMaxDisplayLength(in long MaxDisplayLength);
+
+   implementation {
+      metaclass    = M_KeyPadPart;
+
+      releaseorder:
+          KPInitButtonInfo,
+          KPCreateButtons,
+          KPChangeButtonText,
+          KPPopupMenu,
+          KPHandleCommand,
+          KPCalcDisplayRect,
+          KPCalcKPButLayout,
+          KPHandleKeyBoard,
+          KPResize,
+          KPDrawDisplay,
+          KPDrawTextToDisp,
+          KPDrawFrame,
+          KPDrawButtons,
+          KPCommonInit,
+          KPDoPasteAs,
+          KPPasteLinkFromClipboard,
+          KPInitMenuBar,
+          KPInitPopup,
+          KPInitStorageUnit,
+          KPInitSemanticInterface,
+          KPIsLinkInClipboard,
+          KPReadDataFromStorage,
+          KPReadLinksFromStorage,
+          KPWriteDataToStorage,
+          KPWriteLinksToStorage,
+          KPPostLinkToClipBoard,
+          KPWriteLinkData,
+          KPHandleOSAEventSend,
+          KPChangeSetting,
+          KPSetMaxDisplayLength,
+          KPGetSetting
+          ;
+      override:
+          AdjustMenus,
+          CloneInto,
+          CreateLink,
+          Draw,
+          DisplayFrameAdded,
+          DisplayFrameConnected,
+          Externalize,
+          FacetAdded,
+          FacetRemoved,
+          FocusAcquired,
+          FocusLost,
+          FrameShapeChanged,
+          GeometryChanged,
+          HandleEvent,
+          InitPart,
+          InitPartFromStorage,
+          LinkUpdated,
+          HasExtension,
+          AcquireExtension,
+          ReleaseExtension,
+          somUninit,
+          somInit
+          ;
+
+      ODBoolean                  fAlreadyActive;
+      ODBoolean                  fIsLinkSource;
+      ODBoolean                  fIsLinkTarget;
+      ODTypeToken                fClipboardFocus;
+      ODTypeToken                fMenuFocus;
+      ODTypeToken                fSelectionFocus;
+      ODTypeToken                fKeyFocus;
+      ODFrame                    fFrame;
+      ODFacet                    fFacet;
+      ODLink                     fLinkPtr;
+      ODLinkSource               fLinkSrcPtr;
+      ODLinkInfo                 fLinkInfo;
+      ODMenuBar                  fMenuBar;
+      ODMenuBar                  fPopup;
+      ODSession                  fSession;
+      ODSemanticInterface        fSemtIntf;
+      RECTL                      ODisplayRect;
+      RECTL                      IDisplayRect;
+      string                     DisplayString;
+      KPButton                   KPButtonSeq[12];
+      KPPartDataStruct           KPPartData;
+      ODSettingsExtension        fNotebook;
+      ODPart                     fPartWrapper;
+   };
+};
+
+interface M_KeyPadPart : M_SimplePart
+ {
+    #ifdef __SOMIDL__
+    implementation
+     {
+        override:
+            clsGetODPartHandlerName,
+            clsGetODPartHandlerDisplayName,
+            clsGetODPartKinds;
+     };
+    #endif
+ };
+#endif
+

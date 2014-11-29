@@ -1,0 +1,29 @@
+
+UPDATEIBMLAN = Peer<
+
+  srvcomment = 
+
+>
+
+UPDATEIBMLAN = Requester<
+
+  Computername = cida044
+  Domain = ELITELAN
+
+>
+  ConfigTargetDrive = C
+  ConfigAutoStartLS = Migrate
+  ConfigSourceDrive = C
+  ReplaceNetAcc = NO
+  InstallFFST = YES
+  InstallAPI = INSTALLIFREQUIRED
+  InstallDosLanApi = INSTALLIFREQUIRED
+  InstallInstallProgram = INSTALLIFREQUIRED
+  InstallPeerService = INSTALLIFREQUIRED
+  InstallRequester = INSTALLIFREQUIRED
+  InstallUPM = INSTALLIFREQUIRED
+  InstallMSGPopup = INSTALLIFREQUIRED
+  InstallGUI = INSTALLIFREQUIRED
+  InstallClipBoard = INSTALLIFREQUIRED
+  InstallBooks = INSTALLIFREQUIRED
+

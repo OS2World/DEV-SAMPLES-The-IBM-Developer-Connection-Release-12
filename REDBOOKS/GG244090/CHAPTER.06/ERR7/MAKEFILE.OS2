@@ -1,0 +1,71 @@
+
+# Command names
+CC  = icc        # Your compiler
+LD  = link386    # Your linker
+IDL = idl        # Your IDL Compiler
+
+
+# Command flags and default args
+SO32FLAGS = /DMPTN /DSO32 /DOS2 /DBSD_SELECT
+THREADFLAGS = /D_CMA_PROTO_ /D_CMA_NOWRAPPERS_ /DCMA_UNIPROCESSOR
+DSSFLAGS = /DINTEL80x86 /DIBMOS2 /Dunix /D__STDC__ /D_BSD
+CINCFLAGS = /I.
+CDEBFLAGS = /Ti+
+CFLAGS=/Q+ /W3 /Gm+ /O- /C+ /Sem /Ss+ /Mp /Ms $(DSSFLAGS) $(SO32FLAGS) $(THREADFLAGS) $(CDEBFLAGS) $(CINCFLAGS)
+ICFLAGS=/P+ $(CFLAGS)
+LDEBFLAGS = /DE /CO
+LDFLAGS=/BATCH /E /MAP /NOI /NOL /NOD $(LDEBFLAGS) $(LIBFLAGS)
+IDLFLAGS = -no_cpp -v -keep c_source
+
+
+# application specific libraries
+LIBRARIES = dceos2.lib
+
+# generic libs for all dce apps
+LDLIBS=$(LIBRARIES) dde4mbs.lib os2386.lib  # libraries
+
+# major name of the *.h file
+IF = err7
+
+# inference rules
+.c.obj:
+   $(CC) -Fo$@ $(CFLAGS) $*.c
+
+.idl.h:
+   $(IDL) $*.idl $(IDLFLAGS)
+
+.idl.c:
+   $(IDL) $*.idl $(IDLFLAGS)
+
+# targets
+all: $(IF)_cli.exe $(IF)_srv.exe
+
+clean:
+   del *.obj *stub.c $(IF).h  *.map
+
+$(IF)_srv.exe: $(IF)_srv.obj $(IF)_mgr.obj $(IF)_sstub.obj os2.def
+   $(LD) $(IF)_srv.obj $(IF)_mgr.obj $(IF)_sstub.obj,\
+         $*.exe, $*.map, $(LDFLAGS) $(LDLIBS), os2.def
+
+
+$(IF)_cli.exe: $(IF)_cli.obj $(IF)_cstub.obj os2.def
+   $(LD) $(IF)_cli.obj $(IF)_cstub.obj,\
+         $*.exe, $*.map, $(LDFLAGS) $(LDLIBS), os2.def
+
+
+$(IF)_sstub.c   : $(IF).idl $(IF).acf
+   $(IDL) $(IF).idl $(IDLFLAGS)
+
+$(IF)_cstub.c   : $(IF).idl $(IF).acf
+   $(IDL) $(IF).idl $(IDLFLAGS)
+
+$(IF).h         : $(IF).idl $(IF).acf
+   $(IDL) $*.idl $(IDLFLAGS)
+
+$(IF)_cli.obj        : $(IF)_cli.c      $(IF).h
+$(IF)_srv.obj        : $(IF)_srv.c      $(IF).h
+$(IF)_cstub.obj         : $(IF)_cstub.c       $(IF).h
+$(IF)_sstub.obj         : $(IF)_sstub.c       $(IF).h
+$(IF)_mgr.obj       : $(IF)_mgr.c     $(IF).h
+
+

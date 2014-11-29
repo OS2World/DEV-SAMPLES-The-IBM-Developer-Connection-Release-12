@@ -1,0 +1,1093 @@
+  ------------------------------------------------------------------------------
+  PCM OS/2 2.x Compatible Systems - 06/94
+
+
+          INFORMATION UPDATED THROUGH LAST BUSINESS DAY OF JUNE, 1994.
+
+     The IBM OS/2 2.x operating system supports all Intel 386SX and higher
+     (or compatible) based Personal Computer Manufacturer (PCM) systems in
+     the marketplace.  The following table depicts those PCM's systems that
+     have passed compatibility testing with the IBM OS/2 2.x product.  IBM
+     compatibility testing verifies (18) key functions of the OS/2 2.x
+     operating system.  These test results are based on selected PCM model
+     configurations tested.
+
+     The following IBM OS/2 products have been tested on a significant
+     number of PCM systems listed in the table below.  Based on these
+     tests, IBM has determined that these products are considered
+     compatible with all the PCM systems listed.
+
+     o   OS/2 Extended Services Version 1.0
+     o   DataBase 2 for OS/2 (DB2/2) Version 1.0
+     o   Extended Services CID Utility
+     o   Communications Manager/2
+     o   CM High Speed SDLC/2
+     o   Distributed Database Connection Services/2 (DDCS/2)
+     o   OS/2 LAN Server Version 3.00.1
+     o   OS/2 LAN Enabler Version 2.0
+     o   LAN NetView Start Version 1.1
+     o   NTS/2 Version 1.0
+     o   RouteXpander/2 (RXR/2)
+     o   System Performance Monitor/2 Version 2.0
+     o   NetWare From IBM Products
+     o   Lan Distance Version 1.1
+
+------------------------------------------------------------------------------
+  IBM OS/2 2.x Compatible Hardware Devices - 06/94
+
+
+     The following tables specify hardware devices tested and found to be
+     compatible with IBM OS/2 Version 2.x. The 'Available' column indicates
+     either the initial OS/2 release containing support for the device or
+     the the company from which device driver support is available. Unless
+     otherwise noted, device drivers included in OS/2 are carried forward
+     to subsequent releases of the operating system.
+
+     Not all of the products listed have been tested by IBM. Many have been
+     tested by the respective hardware vendors or third parties.
+
+     Presence on this list does not necessarily mean that the product
+     listed is compatible with OS/2 in your system configuration. When in
+     doubt, you should seek additional information from your dealer or the
+     appropriate vendor.
+
+     The compatibility test information provided herein is provided for
+     information purposes.  IBM makes no warranty, express or implied, with
+     respect to the operation of OS/2 with the devices, or adapters listed.
+
+     NOTE: This table is available on the IBM National Support Center
+     Bulletin Board System (919-517-0001), on Compuserve (IBM OS/2 Support
+     Forum \ Library \ IBM Files \ PCMTABLE.ZIP), and on the internal IBM
+     forum MKTTOOLS as PCMTAB PACKAGE.
+
+
+------------------------------------------------------------------------------
+  OS/2 Miscellaneous Storage Support
+
+
+
+  +----------------------------------------------------------------------------+
+  | Table 6. OS/2 Miscellaneous Storage Support                                |
+  +---------------------------------+---------------------------------+--------+
+  | PRODUCT NAME                    | SUPPORT FROM/AS OF              | DRIVER |
+  |                                 |                                 | TESTED |
+  +---------------------------------+---------------------------------+--------+
+  | ADPI     Sales (800) 758-1041                                              |
+  +---------------------------------+---------------------------------+--------+
+  | One For All - RO128 Parallel    | Driver Shipped with Hardware    | LOGO   |
+  | Port Optical Drive              |                                 |        |
+  +---------------------------------+---------------------------------+--------+
+  | Cheyenne     516-484-5110                                                  |
+  +---------------------------------+---------------------------------+--------+
+  | Optical Storage Manager         | An Entry Level Hierarchical     | LOGO   |
+  |                                 | Storage Manager for Optical     |        |
+  |                                 | Drives and Optical Jukeboxes    |        |
+  +---------------------------------+---------------------------------+--------+
+  | Core International, Inc.                                                   |
+  +---------------------------------+---------------------------------+--------+
+  | SCSI RAID Array                 | No Special Driver Required      | Other  |
+  +---------------------------------+---------------------------------+--------+
+  | SCSI Micro RAID Array           | No Special Driver Required      | Other  |
+  +---------------------------------+---------------------------------+--------+
+  | IBM                                                                        |
+  +---------------------------------+---------------------------------+--------+
+  | IBM 3995 (Jukebox)              | Driver Shipped with Hardware    | IBM    |
+  +---------------------------------+---------------------------------+--------+
+  | IBM MD3125 (3.5") (Read/Write   | Driver Shipped with Hardware    | IBM    |
+  | Optical Drive)                  |                                 |        |
+  +---------------------------------+---------------------------------+--------+
+  | IBM MD3431 (5.5") (Read/Write   | Driver Shipped with Hardware    | IBM    |
+  | Optical Drive)                  |                                 |        |
+  +---------------------------------+---------------------------------+--------+
+  | Integra Technologies                                                       |
+  +---------------------------------+---------------------------------+--------+
+  | Oasas I RAID Disk Array         | Oasas I Ver 2                   | Other  |
+  +---------------------------------+---------------------------------+--------+
+  | Iomega  BBS (801) 392-9819                                                 |
+  +---------------------------------+---------------------------------+--------+
+  | Floptical Drives                | Drivers Available from Iomega   | Other  |
+  +---------------------------------+---------------------------------+--------+
+  | Bernoulli Transportable 44      | OS/2 2.0, Updated Drivers       | Other  |
+  |                                 | Available from Iomega           |        |
+  +---------------------------------+---------------------------------+--------+
+  | Bernoulli Transportable 90      | OS/2 2.0, Updated Drivers       | Other  |
+  |                                 | Available from Iomega           |        |
+  +---------------------------------+---------------------------------+--------+
+  | Bernoulli Transportable 150     | OS/2 2.0, Updated Drivers       | Other  |
+  |                                 | Available from Iomega           |        |
+  +---------------------------------+---------------------------------+--------+
+  | Pegasus  (510) 938-5346                                                    |
+  +---------------------------------+---------------------------------+--------+
+  | Optical Disk Driveand Jukebox   | Full Function Storage Manager   | Other  |
+  | Support                         | for Optical Drives and Optical  |        |
+  |                                 | Jukeboxes                       |        |
+  +---------------------------------+---------------------------------+--------+
+  | Pro-Engineering   (613) 738-3864                                           |
+  +---------------------------------+---------------------------------+--------+
+  | EZ-RAID Software RAID Support   | Pro-Engineering                 | Other  |
+  +---------------------------------+---------------------------------+--------+
+  | Quantum                                                                    |
+  +---------------------------------+---------------------------------+--------+
+  | Passport XL                     | OS/2 2.0                        | IBM    |
+  +---------------------------------+---------------------------------+--------+
+  | Hardcard EZ                     | OS/2 2.0                        | IBM    |
+  +---------------------------------+---------------------------------+--------+
+  | Hardcard II XL 105              | OS/2 2.0                        | IBM    |
+  +---------------------------------+---------------------------------+--------+
+  | SyQuest                                                                    |
+  +---------------------------------+---------------------------------+--------+
+  | SQ800                           | OS/2 2.0                        | Other  |
+  +---------------------------------+---------------------------------+--------+
+
+
+         DEVICE DRIVER COMPATIBILITY TEST
+         IBM = IBM Tested
+         LOGO = IBM Approved Test Process
+         OTHER = Tested Independently
+
+
+
+------------------------------------------------------------------------------
+  OS/2 PCMCIA Support
+
+
+
+  +----------------------------------------------------------------------------+
+  | Table 11 (Page 1 of 2). OS/2 PCMCIA Support                                |
+  +--------------------------------+------+-------------------+-------+--------+
+  | PRODUCT NAME                   | BUS  | SUPPORT FROM/AS   | NOTES | DRIVER |
+  |                                | TYPE | OF                |       | TESTED |
+  +--------------------------------+------+-------------------+-------+--------+
++--------------------------------+------+-------------------+-------  |                               LAN                                          |
+  +----------------------------------------------------------------------------+
+  | IBM    (800) IBM-CALL                                                      |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Token-Ring 16/4 Adapter        | C    | Driver Shipped    | 1,2   | IBM    |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Ethernet 10BaseT Adapter       | C    | Driver Shipped    | 1,2   | IBM    |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Ethernet 10Base2 Adapter       | C    | Driver Shipped    | 1,2   | IBM    |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+  | 3270 Emulation PCMCIA Adapter  | C    | Driver Shipped    | 1,2   | IBM    |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Magic Ram   (213) 413-9999                                                 |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Token-Ring 16/4 Adapter        | C    | Driver Shipped    | 1     | Other  |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Ethernet 10Base2 Adapter       | C    | Driver Shipped    | 1     | Other  |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+  | Ethernet 10BaseT Adapter       | C    | Driver Shipped    | 1     | Other  |
+  |                                |      | with Hardware     |       |        |
+  +--------------------------------+------+-------------------+-------+--------+
+
+
+     NOTES:
+
+     1.  Requires OS/2 PCMCIA Sockets Services Device Driver.
+     2.  Requires Communication Manager/2.
+     3.  Requires OS/2 PCMCIA Memory Driver.
+
+         BUS TYPE
+         C = PCMCIA
+         E = EISA
+         I = ISA
+         M = Microchannel
+         P = PCI
+         V = VESA
+
+         DEVICE DRIVER COMPATIBILITY TEST
+         IBM = IBM Tested
+         LOGO = IBM Approved Test Process
+         OTHER = Tested Independently
+
+
+
+------------------------------------------------------------------------------
+  LAN Adapter Support
+
+
+     The following table does not imply testing or certification by either
+     IBM and/or National Software Testing Labs (NSTL).  Where appropriate,
+     certification of these adapters is indicated in this table.
+
+     For further information regarding NSTL-OS/2 Certification Programs,
+     contact:
+
+          Michael Ward
+          IBM Corp.
+          Dept 483 - NDIS
+          11501 Burnet Road
+          Austin, Texas 78758
+
+
+  +----------------------------------------------------------------------------+
+  | Table 13. LAN Adapter Support                                              |
+  +-----------------------------+-------+------------------------------+-------+
+  | PRODUCT NAME                | BUS   | AVAILABLE FROM               | NSTL  |
+  |                             | TYPE  |                              | CERT. |
+  +-----------------------------+-------+------------------------------+-------+
+  | 3Com Corporation                                                           |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink II Model 3C503    | I     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (ELNKII.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink II-16 Model       | I     | Lan Server 3.0 & NTS/2       |       |
+  | 3C503-16                    |       | (ELNKII.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink 16 Model 3C507    | I     | 3Com                         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink/MC Model 3C523    | M     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (ELNKMC.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink/MC/32 Model 3C527 | M     | 3Com                         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink 3 Model 3C509     | I     | 3Com                         | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink 3 Model 3C529     | M     | 3Com                         | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | Etherlink 3 Model 3C579     | E     | 3Com                         | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token ring 3 Model 3C609    | I     | 3Com, Lan Server 3.0 & NTS/2 | Y     |
+  |                             |       | (IBMTOK.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Link 3 Model 3C629    | M     | 3Com, Lan Server 3.0 & NTS/2 | Y     |
+  |                             |       | (IBMTOK.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Link 3 Model 3C679    | E     |  3Com, Lan Server 3.0 &      | Y     |
+  |                             |       | NTS/2 (IBMTOK.OS/2)          |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | FDDI-Link-STP Model 3C770   | E     | 3Com                         | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | FDDI-Link-F Model 3C771     | E     | 3Com                         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Cabletron Systems, Inc.                                                    |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token-Ring DNI Adapter      | I     | Cabletron                    | Y     |
+  | T2015                       |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token-Ring DNI Adapter      | M     | Cabletron                    | Y     |
+  | T3015                       |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet DNI Adapter E11xx  | I     | Cabletron                    | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet DNI Adapter E21xx  | I     | Cabletron                    | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet DNI Adapter E31xx  | M     | Cabletron                    | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | COMPAQ Computer Corporation                                                |
+  +-----------------------------+-------+------------------------------+-------+
+  | Netflex Controller          |       | Compaq - NETFLX.OS2          |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Netflex 32-bit Dual Speed   |       | Compaq - NETFLX.OS2          |       |
+  | TRN Controller Card         |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Cray Communications                                                        |
+  +-----------------------------+-------+------------------------------+-------+
+  | ScaNet Network Interface    | I     | Cray Comm.                   | Y     |
+  | Adapter                     |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | ScaNet Network Interface    | M     | Cray Comm.                   | Y     |
+  | Adapter                     |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | DCA                                                                        |
+  +-----------------------------+-------+------------------------------+-------+
+  | IRMAtrac - (NDIS 2.0 TRN -  |       | Lan Server 3.0 & NTS/2       | Y     |
+  | 16/4, ISA & MAC switchable) |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Digital Equipment Corporation                                              |
+  +-----------------------------+-------+------------------------------+-------+
+  | DE100 (Supports NDIS 2.01)  | E, I, | Digital                      |       |
+  |                             | M     |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | DE200 (Supports NDIS 2.01)  | E, I, | Digital                      |       |
+  |                             | M     |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | DE210 (Supports NDIS 2.01)  | E, I, | Digital                      |       |
+  |                             | M     |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | DEPCA (Supports NDIS 2.01)  | E, I, | Digital                      |       |
+  |                             | M     |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Dowty Network Systems A/S                                                  |
+  +-----------------------------+-------+------------------------------+-------+
+  | ScaNet Network Interface    | I     | Cray Comm.                   | Y     |
+  | Adapter                     |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | ScaNet Network Interface    | M     | Cray Comm.                   | Y     |
+  | Adapter                     |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Fujitsu-ICL Systems, Inc.                                                  |
+  +-----------------------------+-------+------------------------------+-------+
+  | Proprietry HDLC linkd       |       | Fujitsu-ICL Systems, Inc.    |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | G&H Consulting                                                             |
+  +-----------------------------+-------+------------------------------+-------+
+  | Arcnet chip card            |       | Lan Server 3.0 & NTS/2       |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | IBM                                                                        |
+  +-----------------------------+-------+------------------------------+-------+
+  | FDDI Base Adapter/A Card    | M     | IBM                          |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | FDDI Extender Adapter/A     | M     | IBM                          |       |
+  | Card                        |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | FDDI Copper Extender        | M     | IBM                          |       |
+  | Adapter/A Card              |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | FDDI For Novell             |       | IBM                          |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring Network 16/4     | I     | Lan Server 3.0 & NTS/2       |       |
+  | Adapter/II Card             |       | Driver (IBM16TR.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet Adapter/A Card     | M     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | Driver (MACETH.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | 3174 Peer Communications    | M     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | Driver (IBM XLN.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring Network          | I     | Lan Server 3.0 & NTS/2       |       |
+  | Adapter/II Card             |       | Driver (IBMTOK.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring 16/4 Adapter     | I     | Lan Server 3.0 & NTS/2       |       |
+  | Card                        |       | Driver (IBMTOK.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring Network          | M     | Lan Server 3.0 & NTS/2       |       |
+  | Adapter/IIA Card            |       | Driver (IBMTOK.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring 16/4 Adapter/A   | M     | Lan Server 3.0 & NTS/2       |       |
+  | Card                        |       | Driver (IBMTOK.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring Network PS/2     | M     | Lan Server 3.0 & NTS/2       |       |
+  | Model P70 386 Adapter Card  |       | Driver (IBMTOK.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Token Ring 16/4 Busmaster   | M     | Lan Server 3.0 & NTS/2       |       |
+  | Server Adapter Card         |       | Driver (IBMTRBM.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Broadband        | M     | Lan Server 3.0 & NTS/2       |       |
+  | Adapter II Card             |       | Driver (IBMNET.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Adapter Card II  | I     | Lan Server 3.0 & NTS/2       |       |
+  | Frequency 2                 |       | Driver (IBMNET.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Adapter Card II  | I     | Lan Server 3.0 & NTS/2       |       |
+  | Frequency 3                 |       | Driver (IBMNET.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Baseband Adapter | I     | Lan Server 3.0 & NTS/2       |       |
+  | II Card                     |       | Driver (IBMNET.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Broadband        | M     | Lan Server 3.0 & NTS/2       |       |
+  | Adapter II/A Card           |       | Driver (IBMNETA.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Adapter Card     | M     | Lan Server 3.0 & NTS/2       |       |
+  | II/A Frequency 2            |       | Driver (IBMNETA.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Adapter Card     | M     | Lan Server 3.0 & NTS/2       |       |
+  | II/A Frequency 3            |       | Driver (IBMNETA.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | PC Network Baseband Adapter | M     | Lan Server 3.0 & NTS/2       |       |
+  | II/A Card                   |       | Driver (IBMNETA.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Lan Adapter for Ethernet    | I     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | Driver (IBMENI.OS/2)         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Lan Adapter/A for Ethernet  | M     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | Driver (IBMENII.OS/2)        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Intel Corporation                                                          |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ether Express 16 - Ethernet | I     | Intel                        | Y     |
+  | Card                        |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ether Express 32 - Ethernet | E     |                              |       |
+  | Card                        |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet Express MCA -      | M     | Lan Server 3.0 & NTS/2       |       |
+  | Ethernet Card               |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | 593 Ethernet NDIS Driver    |       | Intel                        |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Madge Networks, Inc                                                        |
+  +-----------------------------+-------+------------------------------+-------+
+  | Smart Ringnode MC/32        | M     | Madge Networks, Inc          | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | National Semiconductor                                                     |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernode - 16AT 4-5 Models | I     | National Semiconductor       |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | NCR Systems Engineering                                                    |
+  +-----------------------------+-------+------------------------------+-------+
+  | WaveLan - wireless          | I,M   | NCR                          | Y     |
+  +-----------------------------+-------+------------------------------+-------+
+  | WaveLan - AT/MA             |       | NCR                          |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | NEC Information Systems, Inc.                                              |
+  +-----------------------------+-------+------------------------------+-------+
+  | NEC Netcard                 |       | NEC Information Systems,     |       |
+  |                             |       | Inc.                         |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Network Controls International                                             |
+  +-----------------------------+-------+------------------------------+-------+
+  | NCI BANCRING                | I,M   | Network Controls             |       |
+  |                             |       | International                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | SMC Corporation                                                            |
+  +-----------------------------+-------+------------------------------+-------+
+  | TokenCard Elite SMC-TRE     | I     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (SMCMAC.OS/2 or              |       |
+  |                             |       | SCMMAC2.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | TokenCard Elite/A SMC-TRE/A | M     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (SMCMAC.OS/2 or              |       |
+  |                             |       | SCMMAC2.OS/2)                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | I     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 16T                         |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | I     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 10T                         |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | M     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 10T/A                       |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | E     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 32T                         |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | I     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 16 COMB                     |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | I     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 16                          |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | I     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS        | M     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | Elite/A                     |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | EtherCard Elite PLUS Elite  | E     | SMCMAC.OS/2 or SCMMAC2.OS/2  |       |
+  | 32                          |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Tiara Computer Systems, Inc.                                               |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet Universal LanCard  | I     | Tiara Computer Systems, Inc. |       |
+  | E2000                       |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Arcnet Universal Lan Card.  | I     | Tiara Computer Systems, Inc. |       |
+  | TM                          |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | 10NET                       |       | Tiara Computer Systems, Inc. |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Thomas Conrad Corporation                                                  |
+  +-----------------------------+-------+------------------------------+-------+
+  | TRN - TC4945                | I     | Thomas Conrad                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | ARCNET - TC6245             | I     | Thomas Conrad                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ungerman-Bass                                                              |
+  +-----------------------------+-------+------------------------------+-------+
+  | NIU-PCEOTP                  | I     | Ungerman-Bass                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernext                   |       | Ungerman-Bass                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Access                      | I,M   | Ungerman-Bass                |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Bass NUI pc Model PC2030    | I,M   | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (UBNEI.OS/2)                 |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Bass NUI ps/2 Model PC2030  | I,M   | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (UBNEI.OS/2)                 |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Western Digital Corporation                                                |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethercard Plus              | I     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (MACWD.OS/2)                 |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethercard Plus/A            | M     | Lan Server 3.0 & NTS/2       |       |
+  |                             |       | (MACWD.OS/2)                 |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Zenith  Tech Support - (708) 391-8901                                      |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN10 Series-Ethernet       | I,M   | Zenith                       |       |
+  |                             |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN10E (8-bit 16-bit BNC    | I,M   | Zenith                       |       |
+  | AUI)                        |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN10T (16-bit 8-bit        | I,M   | Zenith                       |       |
+  | Drivers)                    |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN10M (16-bit 8-bit        |       | Zenith                       |       |
+  | Drivers)                    |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN16 TR series-TRN (16/4   | I,M   | Zenith                       |       |
+  | TRN)                        |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN16 TRF series - (16/4    | I     | Zenith                       |       |
+  | TRN)                        |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN4TR 4 Mbps TRN           | M     | Zenith                       |       |
+  |                             |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | LAN4000C                    | C     | Zenith                       |       |
+  |                             |       | (MACZEC.OS/2)/(MACZEC2.OS2)  |       |
+  +-----------------------------+-------+------------------------------+-------+
+  | Zenith Data Systems - Groupe Bull                                          |
+  +-----------------------------+-------+------------------------------+-------+
+  | Ethernet integrated network |       | Zenith                       |       |
+  | controller                  |       |                              |       |
+  +-----------------------------+-------+------------------------------+-------+
+
+
+         BUS TYPE
+         C = PCMCIA
+         E = EISA
+         I = ISA
+         M = Microchannel
+         P = PCI
+         V = VESA
+
+
+
+  ------------------------------------------------------------------------------
+  Tape Support
+
+
+     The following table shows tape hardware devices that are supported
+     under OS/2 by third parties.  IBM makes no warranty, express or
+     implied, with respect to the operation of these devices with the
+     software listed below nor to the completeness of this list.  When in
+     doubt you should seek additional information from your dealer or the
+     appropriate vendor.  Vendor phone numbers for the products listed are
+     at the end of this table.
+
+
+  +----------------------------------------------------------------------------+
+  | Table 14 (Page 1 of 2). Tape Support                                       |
+  +-----------------------------------+----------------------------------------+
+  | TAPE PRODUCT NAME                 | SOFTWARE SUPPORT AVAILABLE FROM        |
+  +-----------------------------------+----------------------------------------+
+  | ADIC                                                                       |
+  +-----------------------------------+----------------------------------------+
+  | DAT 1300                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | DAT 2000a                         | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | DAT 8000a                         | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | ADPI                                                                       |
+  +-----------------------------------+----------------------------------------+
+  | One For All FT1, FT6, FT12-       | Driver Shipped with Hardware, NovaBack |
+  | Parallel Port Data Cassette Tape  | for OS/2                               |
+  | Drive                             |                                        |
+  +-----------------------------------+----------------------------------------+
+  | One For All FT7, FT15-  DC2000    | Driver Shipped with Hardware, NovaBack |
+  | Parallel Port Tape Drive          | for OS/2                               |
+  +-----------------------------------+----------------------------------------+
+  | One For All FT40 - Parallel Port  | Driver Shipped with Hardware, NovaBack |
+  | DAT                               | for OS/2                               |
+  +-----------------------------------+----------------------------------------+
+  | Alliance                                                                   |
+  +-----------------------------------+----------------------------------------+
+  | QA60/QA150/QA1200                 | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | Archive                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | 2060S                             | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 2150S                             | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 2525S                             | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Anaconda                          | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | Anaconda 2750                     | PCX Backup Wiz                         |
+  +-----------------------------------+----------------------------------------+
+  | Python                            | PCX Backup Wiz                         |
+  +-----------------------------------+----------------------------------------+
+  | Python Autoloader                 | PCX Backup Wiz                         |
+  +-----------------------------------+----------------------------------------+
+  | Python DAT                        | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | Python DDS-DC                     | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | Python 4320/4520 DAT              | Sytos Plus for OS/2, PCX Backup Wiz    |
+  +-----------------------------------+----------------------------------------+
+  | Python 4322/4350                  | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | XL 80                             | MSR Backmaster, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Viper 2060S, 2150S, 2525S         | PCX Backup Wiz, NovaBack for OS/2,     |
+  |                                   | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | ASM     (800) 992-0120                                                     |
+  +-----------------------------------+----------------------------------------+
+  | Gator 1G Parallel Port Tape Drive | ASM, NovaBack for OS/2                 |
+  +-----------------------------------+----------------------------------------+
+  | Gator 1G Internal SCSI Tape Drive | ASM, NovaBack for OS/2                 |
+  +-----------------------------------+----------------------------------------+
+  | Braemer                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | SCSI QicBac                       | PCX Backup Wiz                         |
+  +-----------------------------------+----------------------------------------+
+  | Caliper                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | CP150, CP525, CP1000              | PCX Backup Wiz, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Cipher                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | 5400/5400 Plus                    | Sytron Plus Ver 1.35, NovaBack for     |
+  |                                   | OS/2                                   |
+  +-----------------------------------+----------------------------------------+
+  | Ciera                             | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | F880ES                            | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | C995S                             | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | T480                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Colorado Memory Systems, Inc.                                              |
+  +-----------------------------------+----------------------------------------+
+  | CMS Jumbo Tape Drives (120, 250)  | Sytos Plus for OS/2 for Jumbo Tape     |
+  |                                   | Drives, Available from CMS, MSR        |
+  |                                   | Backmaster, NovaBack for OS/2          |
+  +-----------------------------------+----------------------------------------+
+  | CMS Power Tape                    | Sytos Plus for OS/2 for PowerTape,     |
+  |                                   | Available from CMS, NovaBack for OS/2  |
+  +-----------------------------------+----------------------------------------+
+  | CMS Power Tape PT-25              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | CMS Power Tape PT-25E             | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | COMPAQ Computer Corporation                                                |
+  +-----------------------------------+----------------------------------------+
+  | 1.3/2.0 DAT                       | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | 150/250                           | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | 320/525                           | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | Conner                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | 525 (SCSI)                        | Conner Backup Exec Ver 3.1, NovaBack   |
+  |                                   | for OS/2                               |
+  +-----------------------------------+----------------------------------------+
+  | DAT (SCSI)                        | Conner Backup Exec Ver 3.1, NovaBack   |
+  |                                   | for OS/2                               |
+  +-----------------------------------+----------------------------------------+
+  | Accutrack (F/T)                   | Conner Backup Exec Ver 3.1             |
+  +-----------------------------------+----------------------------------------+
+  | Python 4322NP                     | ARCsolo for OS/2                       |
+  +-----------------------------------+----------------------------------------+
+  | Python 4324NP                     | ARCsolo for OS/2                       |
+  +-----------------------------------+----------------------------------------+
+  | Cristie Electonics, LTD.    UK (44) 453-823611                             |
+  +-----------------------------------+----------------------------------------+
+  | Parallel Port Personal Tape Drive | Cristie Electronics, NovaBack for OS/2 |
+  | (DC2000)                          |                                        |
+  +-----------------------------------+----------------------------------------+
+  | TS4100G 1 Gig Parallel Port Tape  | Cristie Electronics, NovaBack for OS/2 |
+  | Drive (DC6000)                    |                                        |
+  +-----------------------------------+----------------------------------------+
+  | TS4200G 2 Gig Parallel Port Tape  | Cristie Electronics, NovaBack for OS/2 |
+  | Drive (DC6000)                    |                                        |
+  +-----------------------------------+----------------------------------------+
+  | TS4250 250 Meg Parallel Port Tape | Cristie Electronics, NovaBack for OS/2 |
+  | Drive (DC6000)                    |                                        |
+  +-----------------------------------+----------------------------------------+
+  | TS4525 525 Meg Parallel Port Tape | Cristie Electronics, NovaBack for OS/2 |
+  | Drive (DC6000)                    |                                        |
+  +-----------------------------------+----------------------------------------+
+  | TS5450 DAT Parallel Port Tape     | Cristie Electronics, NovaBack for OS/2 |
+  | Drive                             |                                        |
+  +-----------------------------------+----------------------------------------+
+  | Dynatek                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | DAT 2000                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | DAT 2600                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | DAT 4000                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | HSB 2300                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Exabyte                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | Excel (SCSI)                      | Conner Backup Exec Ver 3.1, NovaBack   |
+  |                                   | for OS/2                               |
+  +-----------------------------------+----------------------------------------+
+  | EXB-8200 (SCSI)                   | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Conner Backup Exec Ver 3.1, PCX  |
+  |                                   | Backup Wiz, ARCsolo for OS/2           |
+  +-----------------------------------+----------------------------------------+
+  | EXB 8200SX (SCSI)                 | NovaBack for OS/2, Conner Backup Exec  |
+  |                                   | Ver 3.1, PCX Backup Wiz                |
+  +-----------------------------------+----------------------------------------+
+  +----------------------------------------------------------------------------+
+  | Table 14 (Page 1 of 2). Tape Support                                       |
+  +-----------------------------------+----------------------------------------+
+  | TAPE PRODUCT NAME                 | SOFTWARE SUPPORT AVAILABLE FROM        |
+  +-----------------------------------+----------------------------------------+
+  | EXB-8205                          | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Conner Backup Exec Ver 3.1, PCX  |
+  |                                   | Backup Wiz, ARCsolo for OS/2           |
+  +-----------------------------------+----------------------------------------+
+  | 8500                              | NovaBack for OS/2, Conner Backup Exec  |
+  |                                   | Ver 3.1, (Irwin Firmware only), PCX    |
+  |                                   | Backup Wiz, ARCsolo for OS/2, Fastback |
+  |                                   | for OS/2                               |
+  +-----------------------------------+----------------------------------------+
+  | 8500c                             | ARCsolo for OS/2, Fastback for OS/2    |
+  +-----------------------------------+----------------------------------------+
+  | 10i                               | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | 2501                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 4200c                             | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 8200                              | Fastbackfor OS/2                       |
+  +-----------------------------------+----------------------------------------+
+  | 8205                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 8505                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Fujitsu                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | M2481A                            | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 2483                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Hewlett Packard Company                                                    |
+  +-----------------------------------+----------------------------------------+
+  | 35450A                            | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Conner Backup Exec Ver 3.1, PCX  |
+  |                                   | Backup Wiz                             |
+  +-----------------------------------+----------------------------------------+
+  | 35470A 4mm DAT (Jet Store 2000)   | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Conner Backup Exec Ver 3.1, PCX  |
+  |                                   | Backup Wiz, ARCsolo for OS/2           |
+  +-----------------------------------+----------------------------------------+
+  | 35480 4mm DAT (Jet Store 2000)    | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Conner Backup Exec Ver 3.1, PCX  |
+  |                                   | Backup Wiz, ARCsolo for OS/2           |
+  +-----------------------------------+----------------------------------------+
+  | 88780 9 Track                     | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 35470A                            | Fastabck for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 35480A                            | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | IBM                                                                        |
+  +-----------------------------------+----------------------------------------+
+  | Accutrack (F/T)                   | Conner Backup Exec Ver 3.1 :row,       |
+  +-----------------------------------+----------------------------------------+
+  | PS/2 Internal Tape Backup Unit    | IBM Internal Tape Backup Program       |
+  |                                   | (PMTAPE)                               |
+  +-----------------------------------+----------------------------------------+
+  | 1.2GB External 001                | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, ARCsolo for OS/2                 |
+  +-----------------------------------+----------------------------------------+
+  | 5.0GB Tape 001                    | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, ARCsolo for OS/2                 |
+  +-----------------------------------+----------------------------------------+
+  | PS/2 3.5" Optical Drive           | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | 2.0GB Tape Drive                  | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, ARCsolo for OS/2                 |
+  +-----------------------------------+----------------------------------------+
+  | 2.3GB Tape Drive                  | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | 6157 Streaming Tape Drive         | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | PS/2 2.88MB Diskette Drive        | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | 3421 Model 023                    | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Identica                                                                   |
+  +-----------------------------------+----------------------------------------+
+  | IDT-P60/250                       | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | IDT-150                           | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | IDT-150/250                       | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | IDT-320/525                       | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | IDT-1000                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | IDT-2000                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Iomega                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | Tape 250                          | MSR Backmaster, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Irwin                                                                      |
+  +-----------------------------------+----------------------------------------+
+  | 2320                              | PCX Backup Wiz                         |
+  +-----------------------------------+----------------------------------------+
+  | Legacy                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | 45/60                             | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 150S/X                            | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 500s                              | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 1000s                             | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 2000s                             | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | LMSI                                                                       |
+  +-----------------------------------+----------------------------------------+
+  | 9490                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 1545                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Keystone                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | M4 Data                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | M4 9905 9 Track                   | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | M4 9914 9 Track                   | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Mountain Systems                                                           |
+  +-----------------------------------+----------------------------------------+
+  | Mountain Filesafe 4000            | MSR Backmaster, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Mountain Filesafe 8000            | MSR Backmaster, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Parallel Storage Solutions (PSS) (800) 998-7839                            |
+  +-----------------------------------+----------------------------------------+
+  | PSS-250 250MB/525MB Parallel Port | PSS                                    |
+  | Tape Drive(DC6000)                |                                        |
+  +-----------------------------------+----------------------------------------+
+  | PSS-525 525MB/1GB Parallel Port   | PSS                                    |
+  | Tape Drive (DC6000)               |                                        |
+  +-----------------------------------+----------------------------------------+
+  | PSS-1000 1GB/2GB Parallel Port    | PSS                                    |
+  | Tape Drive (DC6000)               |                                        |
+  +-----------------------------------+----------------------------------------+
+  | PSS-2000 2GB/4GB Parallel Port    | PSS                                    |
+  | Tape Drive (DC6000)               |                                        |
+  +-----------------------------------+----------------------------------------+
+  | PSS-2 2GB/4GB Parallel Port DAT   | PSS                                    |
+  | Drive (4mm)                       |                                        |
+  +-----------------------------------+----------------------------------------+
+  | PSS-4 4GB/8GB Parallel Port DAT   | PSS                                    |
+  | Drive (4mm)                       |                                        |
+  +-----------------------------------+----------------------------------------+
+  | Parastor                                                                   |
+  +-----------------------------------+----------------------------------------+
+  | 250                               | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 525                               | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 1000                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Qualstar                                                                   |
+  +-----------------------------------+----------------------------------------+
+  | 1054                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 1260                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 3412                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | R-Byte                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | RB-100                            | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | RB-150                            | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | Sankyo                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | CP150                             | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | CP320                             | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | CP525                             | PCX Backup Wiz, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | CP1000                            | PCX Backup Wiz, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Soltronics                                                                 |
+  +-----------------------------------+----------------------------------------+
+  | David I                           | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | David II                          | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Samson II                         | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Sony                                                                       |
+  +-----------------------------------+----------------------------------------+
+  | SDT1000                           | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | SDT1020                           | PCX Backup Wiz, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | SDT2000                           | NovaBack for OS/2, PCX Backup Wiz      |
+  +-----------------------------------+----------------------------------------+
+  | SDT4000                           | PCX Backup Wiz, NovaBack for OS/2,     |
+  |                                   | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | SDT5000                           | NovaBack for OS/2, Fastback for OS/2   |
+  +-----------------------------------+----------------------------------------+
+  | Storage Solutions                                                          |
+  +-----------------------------------+----------------------------------------+
+  | SSI DATa-bak                      | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | StorageTek                                                                 |
+  +-----------------------------------+----------------------------------------+
+  | 4220                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 4280                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 9914                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Summit Technologies                                                        |
+  +-----------------------------------+----------------------------------------+
+  | SE120                             | MSR Backmaster, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | SE250                             | MSR Backmaster, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Tandberg                                                                   |
+  +-----------------------------------+----------------------------------------+
+  | 3600                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 3610                              | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 3620                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 3650                              | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 3660                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 3800                              | PCX Backup Wiz, NovaBack for OS/2,     |
+  |                                   | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 3820                              | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Fastback for OS/2                |
+  +-----------------------------------+----------------------------------------+
+  | 4100                              | NovaBack for OS/2, ARCsolo for OS/2,   |
+  |                                   | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 4120                              | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, Fastback for OS/2                |
+  +-----------------------------------+----------------------------------------+
+  | 4200                              | ARCsolo for OS/2, Fastback for OS/2    |
+  +-----------------------------------+----------------------------------------+
+  | 4220                              | PCX Backup Wiz, NovaBack for OS/2,     |
+  |                                   | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 4520                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | Teac                                                                       |
+  +-----------------------------------+----------------------------------------+
+  | MT-01N                            | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | MT-2ST/45ST, MT-2ST/F50B          | PCX Backup Wiz, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | MT-2ST/F50, MT-2ST/N50            | PCX Backup Wiz, NovaBack for OS/2      |
+  +-----------------------------------+----------------------------------------+
+  | Tecmar                                                                     |
+  +-----------------------------------+----------------------------------------+
+  | QT-60                             | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | QT-100                            | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | QT-125                            | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | QT-250/QT-250ES/Proline 250       | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | QT-525ES/Proline 525ES            | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | QT 1000ES/Proline 1000            | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | THS-2200                          | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | DataVault                         | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | Proline DAT                       | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | Proline 2200                      | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 4000 DAT                          | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | WangDAT                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | 1300                              | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, PCX Backup Wiz, Fastback for     |
+  |                                   | OS/2                                   |
+  +-----------------------------------+----------------------------------------+
+  | 1300XL                            | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 2000                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 2600                              | NovaBack for OS/2, Fastback for OS/2   |
+  +-----------------------------------+----------------------------------------+
+  | 3200                              | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, ARCsolo for OS/2                 |
+  +-----------------------------------+----------------------------------------+
+  | 3400                              | ARCsolo for OS/2                       |
+  +-----------------------------------+----------------------------------------+
+  | Wangtek                                                                    |
+  +-----------------------------------+----------------------------------------+
+  | 5099                              | NovaBack for OS/2, Fastback for OS/2   |
+  +-----------------------------------+----------------------------------------+
+  | 5100                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 5150                              | Fastbackfor OS/2                       |
+  +-----------------------------------+----------------------------------------+
+  | 5150ES                            | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, PCX Backup Wiz                   |
+  +-----------------------------------+----------------------------------------+
+  | 5250                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 5525                              | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 5525ES                            | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, PCX Backup Wiz, ARCsolo for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | 51000                             | Fastback for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 51000ES                           | Sytos Plus for OS/2, PCX Backup Wiz,   |
+  |                                   | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | 6130/6200 DAT                     | Sytos Plus for OS/2, NovaBack for      |
+  |                                   | OS/2, PCX Backup Wiz, Fastback for     |
+  |                                   | OS/2                                   |
+  +-----------------------------------+----------------------------------------+
+  | 7200                              | NovaBack for OS/2                      |
+  +-----------------------------------+----------------------------------------+
+  | PC-36 60MB                        | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | PC-36 125MB                       | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | PC-36 150MB                       | Sytos Plus for OS/2, NovaBack for OS/2 |
+  +-----------------------------------+----------------------------------------+
+  | PC-02 150/250MB                   | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+  | MC-02 150/250MB                   | Sytos Plus for OS/2                    |
+  +-----------------------------------+----------------------------------------+
+
+
+     NOTE:
+
+     SCSI tape drives require a SCSI adapter card.  Users should verify
+     that their software is compatible with both the tape drive and the
+     adapter card combination.  Not all combinations may work properly.
+
+     Vendor Phone Numbers
+
+          ADPI      800-758-1041   One For All
+          Cheyenne  516-484-5110   ARCsolo for OS/2
+          Conner    800-222-5871   Backup Exec for OS/2
+          MSR       409-564-1862   Backmaster
+          NovaSto   818-707-9900   Novaback
+          PCX       619-259-9797   Backup Wiz
+          Sytron    508-898-0100   Sytos Plus
+          Symantec  503-465-8420   Fastback for OS/2
+

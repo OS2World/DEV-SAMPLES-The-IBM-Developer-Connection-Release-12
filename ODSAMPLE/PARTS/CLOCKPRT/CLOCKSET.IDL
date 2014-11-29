@@ -1,0 +1,74 @@
+#ifdef __PRIVATE__
+//#
+//#	File:		clockset.idl
+//#
+//#	Contains:	IDL description of ODSettingsExtension Extension for 
+//#                   the clockprt part
+//#	Written by:	Joe Ochipinti
+//#
+//#	Copyright:	(c) 1995 by IBM Corp., all rights reserved.
+//#
+//#	Change History (most recent first):
+//#
+//#		 <1>	 10/6/95	jso	first checked in
+//#
+//#	To Do:
+//#
+#else
+//#	Copyright:	(c) 1993-1995 by IBM Corp., all rights reserved.
+#endif
+
+#ifndef _CLOCKSET_
+#define _CLOCKSET_
+
+#ifndef _SETTINGS_
+#include "Settings.idl"
+#endif
+
+   
+//==============================================================================
+// Theory of Operation
+//==============================================================================
+
+/*
+  CNNotebk is implemented as a subclass of ODNotebk. The AddNotebookPages
+  method is overridden to allow the part to add presentation page. 
+*/
+
+//==============================================================================
+// Classes defined in this interface
+//==============================================================================
+interface ClockSet;
+
+//=====================================================================================
+// Implementation Types
+//=====================================================================================
+
+
+//==============================================================================
+// Classes used by this interface
+//==============================================================================
+
+//==============================================================================
+// ODExtension
+//==============================================================================
+
+interface ClockSet : ODSettingsExtension
+{
+   
+
+
+
+#ifdef __SOMIDL__
+  implementation
+  {
+
+    functionprefix = ClockSet;
+
+  override:
+    AddNotebookPages; 
+  
+  };
+#endif
+};
+#endif     // CLOCKSET

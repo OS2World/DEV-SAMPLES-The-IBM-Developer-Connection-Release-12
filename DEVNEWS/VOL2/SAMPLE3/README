@@ -1,0 +1,10 @@
+The enclosed code is part of of the sample code that goes with Volume 3 of the
+Developer Connection News article on WIN/OS2 - OS2/ communication. The final
+version of this code will be provided with Volume 4.
+The enclosed code fragments as documented in the article show how a OS/2 process
+can send messages and receive message into a VDD. The remaining portion of how
+the WIN/OS/2 side can  do it's work will be provided in the next release with
+the corresponding article.
+-Regards
+David Kenner
+

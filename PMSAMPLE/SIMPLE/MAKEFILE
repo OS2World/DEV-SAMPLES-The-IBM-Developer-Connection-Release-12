@@ -1,0 +1,27 @@
+# IBM Developer's Workframe/2 Make File Creation run at 11:12:33 on 05/25/93
+
+# Make File Creation run in directory:
+#   I:\SIMPLE;
+
+.SUFFIXES:
+
+.SUFFIXES: .c
+
+SIMPLE.EXE:  \
+  SIMPLE.OBJ \
+  SIMPLE.DEF \
+  MAKEFILE
+   @REM @<<SIMPLE.@0
+     /CO /PM:PM +
+     SIMPLE.OBJ
+     SIMPLE.EXE
+     
+     
+     SIMPLE.DEF;
+<<
+   LINK386.EXE @SIMPLE.@0
+
+{.}.c.obj:
+   ICC.EXE /Ti /Gm /C .\$*.c
+
+!include MAKEFILE.DEP

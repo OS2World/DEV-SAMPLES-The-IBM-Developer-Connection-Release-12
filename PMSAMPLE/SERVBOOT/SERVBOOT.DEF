@@ -1,0 +1,13 @@
+;
+;-*-*-*-*- Module Definition File for the Device Driver SERVBOOT -*-*-*-*-
+;
+
+LIBRARY    SERVBOOT     ; Specifies SERVBOOT as a dynamic link module
+
+PROTMODE                ; Runs only in protect mode
+
+CODE       PRELOAD      ; Device driver - preload
+
+DATA       PRELOAD      ; Device driver - preload
+
+;-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-

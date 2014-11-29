@@ -1,0 +1,107 @@
+/***************************************************************************************
+**
+** JOURNAL resource File
+**
+** Change History:
+** ---------------
+**
+****************************************************************************************/
+
+#include <os2.h>
+#include "pmjrn.h"
+
+ICON       ID_MAINWND               PRELOAD pmjrn.ico
+
+POINTER    ID_JOURNAL_POINTER       PRELOAD pmjrn.ptr
+
+RESOURCE   IDT_HELP IDT_AB_HELP     pmjrn.hlp
+RESOURCE   IDT_HELP IDT_NEWS        pmjrn.new
+
+/****************************************************************************************/
+/**                                                                                    **/
+/** Main Window Accelerator Table                                                      **/
+/** - Define fast-path keys to selected functions                                      **/
+/**                                                                                    **/
+/****************************************************************************************/
+
+ACCELTABLE ID_MAINWND
+
+BEGIN
+    VK_F1,         ID_HELP,      VIRTUALKEY
+    VK_F3,         ID_AB_EXIT,   VIRTUALKEY
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+STRINGTABLE
+BEGIN
+ IDS_TITLE                    ,"PM Journal & test : Version 2.0"
+
+ IDS_MAX_MESSAGES             ,"250"  /*** Max # messages in list ***/
+ IDS_MAX_MSG_PERCENT          ,"80"   /*** % of widest Msg text for column width *****/
+ IDS_MAX_PM_Q_SIZE            ,"400"  /*** # elements in PM Queue ***/
+
+ IDS_DLL_NAME                 ,"PMJRNDLL"
+
+ IDS_FMT_LEVEL                ,"The JOURNAL.EXE version %d requires at least the JOURNAL.DLL version %d. This does not match the loaded DLL version %d."
+
+ /************************************************************************
+ **** the \15 in the following ForMaT string are used to "parse" data
+ ************************************************************************/
+
+ IDS_FMT_TITLE                ,"%s (%d)"
+ IDS_FMT_OK_TO_EXIT           ,"You are still Journalling. Do you really want to stop?"
+ IDS_FMT_OK_TO_HOOK           ,"Are you ready to set the hook? Is the window positionned?"
+
+ IDS_HELP_TITLE_MAIN          ,"PM Jrn Help: Menu and Pulldowns"
+ IDS_HELP_TITLE_NEWS          ,"PM Jrn News"
+
+ IDS_MSG_TOO_MANY_SPIES       ,"No more than 2 instances of PM Jrn supported!"
+
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+MENU ID_MAINWND
+
+
+BEGIN
+
+
+
+  MENUITEM "~Record",      ID_T_RECORD,     MIS_TEXT
+  MENUITEM "~Playback",    ID_T_PLAYBACK,   MIS_TEXT
+
+  MENUITEM "~StopPlayOrRecord",   ID_DESELECT,     MIS_TEXT
+
+
+  MENUITEM   "~News",                   ID_AB_NEWS,
+
+  MENUITEM   "~Exit",                   ID_AB_EXIT,
+
+  MENUITEM "F1=Help",                   ID_HELP,         MIS_BUTTONSEPARATOR
+
+END
+
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
+
+DLGTEMPLATE IDD_HELP LOADONCALL DISCARDABLE
+
+BEGIN
+  DIALOG "PM Journal: Help", IDD_HELP, 0, 0, 400, 140,
+              WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS,
+              FCF_NOBYTEALIGN | FCF_TITLEBAR | FCF_DLGBORDER
+  BEGIN
+
+    CONTROL "",        IDD_HELP,         0, 25, 395, 115,
+                       WC_LISTBOX, WS_VISIBLE
+
+    CONTROL "End Help",DID_CANCEL,  4,  4, 393,  18,
+                       WC_BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE | BS_DEFAULT
+  END
+END
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+

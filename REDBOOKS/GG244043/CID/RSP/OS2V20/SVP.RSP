@@ -1,0 +1,7 @@
+**** Default Response File for OS/2 2.0 Service package
+*
+:SERVICE
+:DIRLIST
+<default>
+:ENDDIRLIST
+

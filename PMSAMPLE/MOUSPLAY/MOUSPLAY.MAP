@@ -1,0 +1,20 @@
+
+ mousplay
+
+ Start         Length     Name                   Class
+ 0001:00000000 0000039F0H CODE32                 CODE 32-bit
+ 0001:000039F0 000000030H _MSGSEG32              CODE 32-bit
+ 0002:00000000 0000008E8H DATA32                 DATA 32-bit
+ 0002:000008E8 00000020CH CONST32                CONST 32-bit
+ 0002:00000AF4 00000000CH EDC1                   EDC_CLASS 32-bit
+ 0002:00000B00 0000001B0H EDC2                   EDC_CLASS 32-bit
+ 0002:00000CB0 000000004H EDC3                   EDC_CLASS 32-bit
+ 0002:00000CB4 000000000H BSS32                  BSS 32-bit
+ 0002:00000CB4 0000000BCH c_common               BSS 32-bit
+ 0002:00000D70 000001000H STACK32                STACK 32-bit
+
+ Origin   Group
+ 0002:0   DGROUP
+ 0000:0   FLAT
+
+Program entry point at 0001:00000BCC

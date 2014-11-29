@@ -1,0 +1,64 @@
+//#
+//#  File:    XFrmIter.idl
+//#
+//#  Contains:  Class definition for XEmbeddedFramesIterator
+//#
+//#  Written by:  
+//#
+//#  Copyright:  (c) 1994 by IBM Corp., all rights reserved.
+//#
+//#  Change History (most recent first):
+//#
+//#  To Do:
+//#
+
+#ifndef _XFRMITER_
+#define _XFRMITER_
+
+#ifndef _EMBFRITR_
+   #include "EmbFrItr.idl"
+#endif
+
+//==============================================================================
+// Classes defined in this interface
+//==============================================================================
+
+interface  XEmbeddedFramesIterator;
+
+//==============================================================================
+// Classes used by this interface
+//==============================================================================
+
+interface ODxOrderedCollectionIterator;
+interface ODxOrderedCollection;
+
+//==============================================================================
+// ODEmbeddedFramesIterator
+//==============================================================================
+
+interface XEmbeddedFramesIterator : ODEmbeddedFramesIterator
+{
+   void InitXEmbeddedFramesIterator(in ODxOrderedCollection ocol);
+
+   #ifdef __SOMIDL__
+      implementation
+      {
+        override:
+          First,
+          Next,
+          IsNotComplete,
+          somInit,
+          somUninit;
+        releaseorder:
+          InitXEmbeddedFramesIterator;
+    
+        #ifdef __PRIVATE__
+           ODxOrderedCollectionIterator iter;
+        #endif
+    
+      };
+   #endif
+};
+
+#endif //# _XFRMITER_
+

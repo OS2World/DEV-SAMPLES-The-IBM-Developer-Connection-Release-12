@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "maths" sample application.
+#
+
+all: maths.h  maths_c.exe maths_s.exe
+
+OPTS            = -nologo -AL -Aw -W2
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = maths_c.c maths_m.c maths_s.c
+COBJECTS        = maths_c.obj mathsc.obj
+SOBJECTS        = maths_m.obj maths_s.obj mathss.obj
+
+maths.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+maths_c.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc maths_c.exe
+
+maths_s.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc maths_s.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del maths.h
+        -del mathsc.c
+        -del mathss.c
+

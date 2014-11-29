@@ -1,0 +1,28 @@
+#define INCL_WIN
+#include <os2.h>
+
+#include "dialog.h"
+
+ICON  ID_LOCK     LOCKED.ICO
+ICON  ID_UNLOCK   UNLOCKED.ICO
+
+MENU ID_CXTMENU_LOCK LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+   MENUITEM "~Lock Folder", IDM_LOCK
+END
+
+
+DLGTEMPLATE ID_DLG_PASSWORD LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Password", ID_DLG_PASSWORD, 35, 26, 224, 76, FS_SYSMODAL |
+            FS_SCREENALIGN | WS_VISIBLE, FCF_TITLEBAR
+    BEGIN
+        ENTRYFIELD      "", ID_EF_PASSWORD, 13, 38, 97, 8, NOT ES_AUTOSCROLL |
+                        ES_MARGIN | ES_UNREADABLE
+        LTEXT           "Folder is locked.  Please enter password to open",
+                        102, 10, 56, 197, 8
+        DEFPUSHBUTTON   "Ok", DID_OK, 36, 9, 40, 14
+        PUSHBUTTON      "Cancel", DID_CANCEL, 137, 10, 40, 14
+    END
+END
+

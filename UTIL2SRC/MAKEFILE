@@ -1,0 +1,521 @@
+#==============================================================================
+# makefile - For the 'util' directory.
+#
+# (C) Copyright IBM Corporation, 1992, 1993                     Brian E. Yoder
+#
+# 04/03/91 - Created.
+# 07/22/92 - Build using C Set/2 1.0 (and the make.exe from IBM C/2 1.1).
+# 09/22/92 - Latest version.
+# 11/11/92 - Add os2386.lib to get access to DOS16FIND* functions. Early
+#            versions of OS/2 2.0's HPFS.IFS had 32-bit file-find problems.
+# 09/28/93 - Build using OS/2 2.1 toolkit and C-Set/2 1.0. I installed C-Set/2
+#            using 2 migration libraries: single-threaded static link, and
+#            multi-threaded dynamic link. For whatever reason, when linking
+#            a program with setargv, I now must specify the /NOE flag.
+# 10/04/93 - Bind the C Set/2 run-time message library to each executable
+#            using the msgbind utility from the OS/2 2.1 toolkit.
+#==============================================================================
+
+#==============================================================================
+# The default is to make all programs
+#==============================================================================
+
+default: ALL
+
+ALL:           util.lib       \
+               args.exe       \
+               argx.exe       \
+               bmtbl.exe      \
+               ccmt.exe       \
+               ccp.exe        \
+               cdir.exe       \
+               cfdmp.exe      \
+               chmod.exe      \
+               crc.exe        \
+               crcchk.exe     \
+               du.exe         \
+               ftest.exe      \
+               grep.exe       \
+               list2bm.exe    \
+               ls.exe         \
+               pmt.exe        \
+               t2bm.exe       \
+               tlbuf.exe      \
+               txtcut.exe
+
+
+#------------------------------------------------------------------------------
+# Common definitions
+#------------------------------------------------------------------------------
+
+UTILH   = util.h
+
+UTILLIB = util.lib
+
+UTILDEF = util.def
+
+#------------------------------------------------------------------------------
+# Compiler and linker options
+#------------------------------------------------------------------------------
+
+CFLAGS = -C+ -Sm -O+ -Ss+ -Q+
+CC     = icc
+
+LFLAGS = /AL:4 /EXEPACK /BASE:0x10000 /MAP /STACK:16000 /NOL
+LINK   = link386
+
+SETARG = c:\ibmc\lib\setargv.obj
+
+MSGF   = c:\ibmc\help\dde4.msg
+
+#==============================================================================
+# Library: util.lib
+#==============================================================================
+
+OBJ_LIB      = cfaccess.obj   \
+               text2bm.obj    \
+               rxpm.obj       \
+               futil.obj      \
+               makepath.obj   \
+               crcfile.obj    \
+               speclist.obj   \
+               lbuf.obj
+
+util.lib:      $(OBJ_LIB)
+               echo Deleting old .lib file if present...
+               if exist util.lib del util.lib
+               echo Building library...
+               lib @<<
+util.lib
+y
++cfaccess+rxpm+text2bm+futil+makepath+crcfile+speclist+lbuf
+util.ref
+<<
+
+#==============================================================================
+# args - Test program to display command line arguments
+#==============================================================================
+
+args.exe     : args.obj  util.def
+               $(LINK) $(LFLAGS) @<<
+args
+args.exe
+args.map
+,
+$(UTILDEF);
+<<
+               msgbind <<
+>args.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# argx - Test program:  Display args with OS's filename expansion
+#==============================================================================
+
+argx.exe     : args.obj  $(UTILDEF)
+               $(LINK) $(LFLAGS) /NOE @<<
+args+
+$(SETARG)
+argx.exe
+argx.map
+,
+$(UTILDEF);
+<<
+               msgbind <<
+>argx.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# bmtbl - Build a BookMaster table definition
+#==============================================================================
+
+bmtbl.exe    : bmtbl.obj     \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+bmtbl.obj
+bmtbl.exe
+bmtbl.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>bmtbl.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# ccmt - C Comment Checking
+#==============================================================================
+
+ccmt.exe     : ccmt.obj   \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) /NOE @<<
+ccmt+
+$(SETARG)
+ccmt.exe
+ccmt.map
+,
+$(UTILDEF);
+<<
+               msgbind <<
+>ccmt.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# ccp - Conditional Copy
+#==============================================================================
+
+ccp.exe      : ccp.obj       \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+ccp.obj
+ccp.exe
+ccp.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>ccp.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# cdir - Change directory
+#==============================================================================
+
+cdir.exe     : cdir.obj      \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+cdir.obj
+cdir.exe
+cdir.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>cdir.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# cfdmp - Customization file dump (test functions in cfaccess.c)
+#==============================================================================
+
+cfdmp.exe    : cfdmp.obj  cfaccess.obj  $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+cfdmp+
+cfaccess
+cfdmp.exe
+cfdmp.map
+,
+$(UTILDEF);
+<<
+               msgbind <<
+>cfdmp.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# chmod - Change file mode
+#==============================================================================
+
+chmod.exe    : chmod.obj     \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+chmod.obj
+chmod.exe
+chmod.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>chmod.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# crc - Calculate CRC for file(s)
+#==============================================================================
+
+crc.exe      : crc.obj       \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+crc.obj
+crc.exe
+crc.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>crc.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# crcchk - Calculate and check CRC for file(s)
+#==============================================================================
+
+crcchk.exe   : crcchk.obj    \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+crcchk.obj
+crcchk.exe
+crcchk.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>crcchk.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# du - Display file space usage
+#==============================================================================
+
+du.exe       : du.obj        \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+du.obj
+du.exe
+du.map
+$(UTILLIB)+os2386
+$(UTILDEF);
+<<
+               msgbind <<
+>du.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# ftest - Test various file functions
+#==============================================================================
+
+ftest.exe    : ftest.obj    \
+               $(UTILLIB)   \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+ftest.obj
+ftest.exe
+ftest.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>ftest.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# grep - Get regular expression and print
+#==============================================================================
+
+grep.exe     : grep.obj     \
+               $(UTILLIB)   \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+grep.obj
+grep.exe
+grep.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>grep.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# list2bm - Convert list of files to a BookMaster source document
+#==============================================================================
+
+list2bm.exe  : list2bm.obj   \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+list2bm.obj
+list2bm.exe
+list2bm.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>list2bm.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# ls - List directory
+#==============================================================================
+
+ls.exe       : ls.obj        \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+ls.obj
+ls.exe
+ls.map
+$(UTILLIB)+os2386
+$(UTILDEF);
+<<
+               msgbind <<
+>ls.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# pmt - Pattern matching test, for functions in rxpm.c
+#==============================================================================
+
+pmt.exe      : pmt.obj  rxpm.obj  util.def
+               $(LINK) $(LFLAGS) /NOE @<<
+pmt+
+rxpm+
+$(SETARG)
+pmt.exe
+pmt.map
+,
+$(UTILDEF);
+<<
+               msgbind <<
+>pmt.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# t2bm - Text to BookMaster conversion
+#==============================================================================
+
+t2bm.exe     : t2bm.obj      \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+t2bm.obj
+t2bm.exe
+t2bm.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>t2bm.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# tlbuf - Test for lbuf.c functions
+#==============================================================================
+
+tlbuf.exe    : tlbuf.obj     \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+tlbuf.obj
+tlbuf.exe
+tlbuf.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>tlbuf.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# txtcut - Text pre-processor for cut, awk, and Perl
+#==============================================================================
+
+txtcut.exe   : txtcut.obj    \
+               $(UTILLIB)    \
+               $(UTILDEF)
+               $(LINK) $(LFLAGS) @<<
+txtcut.obj
+txtcut.exe
+txtcut.map
+$(UTILLIB)+os2386.lib
+$(UTILDEF);
+<<
+               msgbind <<
+>txtcut.exe
+<$(MSGF)
+*
+<<
+
+#==============================================================================
+# Additional object file dependencies
+#==============================================================================
+
+bmtbl.obj    : $(UTILH)  bmtbl.h
+
+ccp.obj      : $(UTILH)
+
+cdir.obj     : $(UTILH)
+
+cfaccess.obj : $(UTILH)
+
+cfdmp.obj    : $(UTILH)
+
+chmod.obj    : $(UTILH)
+
+crc.obj      : $(UTILH)
+
+crcchk.obj   : $(UTILH)
+
+crcfile.obj  : $(UTILH)
+
+du.obj       : $(UTILH)
+
+ftest.obj    : $(UTILH)
+
+futil.obj    : $(UTILH)
+
+grep.obj     : $(UTILH)
+
+lbuf.obj     : $(UTILH)
+
+list2bm.obj  : $(UTILH)
+
+ls.obj       : $(UTILH)
+
+makepath.obj : $(UTILH)
+
+pmt.obj      : $(UTILH)
+
+rxpm.obj     : $(UTILH)  regexp.h
+
+speclist.obj : $(UTILH)
+
+t2bm.obj     : $(UTILH)
+
+text2bm.obj  : $(UTILH)
+
+tlbuf.obj    : $(UTILH)
+
+txtcut.obj   : $(UTILH)

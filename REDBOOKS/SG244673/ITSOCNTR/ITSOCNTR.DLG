@@ -1,0 +1,25 @@
+#ifndef OS2_INCLUDED
+   #include <os2.h>
+#endif
+DLGINCLUDE 1 "itsorc.h"
+
+DLGTEMPLATE IDD_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "About", IDD_ABOUT, 5, 5, 200, 143, WS_VISIBLE, FCF_SYSMENU | 
+            FCF_TITLEBAR
+    BEGIN
+        DEFPUSHBUTTON   "~OK", IDD_ABOUT_OK, 80, 5, 40, 14, WS_GROUP
+        ICON            ICON_VIEW_ID, 100, 91, 121, 16, 15
+        CTEXT           """Opendoc: An Introduction to", 4241, 29, 63, 146, 
+                        8, NOT WS_GROUP
+        LTEXT           "Part Development"" (SG24-4673)", 4242, 31, 54, 142, 
+                        8
+        CTEXT           "Copyright IBM Corporation 1995, 1996", 4243, 21, 84, 
+                        162, 8, NOT WS_GROUP
+        LTEXT           "An IBM International Technical Support", 4239, 22, 
+                        38, 161, 8
+        LTEXT           "Organization Technical Bulletin", 4240, 38, 29, 129, 
+                        8
+        LTEXT           "ITSOCNTR Part", 4244, 64, 94, 76, 8
+    END
+END

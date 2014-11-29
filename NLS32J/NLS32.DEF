@@ -1,0 +1,21 @@
+;******* Nls32  C Sample Program Module Definition File (.DEF) ********
+;
+;  The module definition file supplies extra information about the program
+;  module to the LINKER.
+;
+;  Different HEAPSIZE used.  ( 32768 bytes )
+
+
+NAME    Nls32  WINDOWAPI
+
+DESCRIPTION 'OS/2 PM Simple Text Application'
+
+STUB    'OS2STUB.EXE'
+
+DATA    MULTIPLE
+
+STACKSIZE   8192
+HEAPSIZE   32768
+
+PROTMODE
+

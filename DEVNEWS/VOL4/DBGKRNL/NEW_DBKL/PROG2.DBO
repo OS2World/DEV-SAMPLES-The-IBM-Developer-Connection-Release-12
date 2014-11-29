@@ -1,0 +1,52 @@
+Symbols linked (prog2)
+eax=00000000 ebx=7b9b000c ecx=8000fffd edx=7bba8a58 esi=7bba920c edi=ffffffff
+eip=fff46572 esp=00006688 ebp=00006688 iopl=2 -- -- -- nv up ei pl zr na pe nc
+cs=0170 ss=0030 ds=0168 es=0168 fs=0000 gs=0000  cr2=00053ffe  cr3=001cd000
+0170:fff46572 833d7c1ff1ff00 cmp     dword ptr [_ptcbPriQReady (fff11f7c)],+00
+                                                           ds:fff11f7c=7bba8a58
+##.p
+ Slot  Pid  Ppid Csid Ord  Sta Pri  pTSD     pPTDA    pTCB     Disp SG Name
+ 0026  000d 0008 000d 0001 blk 0300 7b9f2000 7bbc60d0 7bbabd70 1eec 12 prog2
+ 0027  000d 0008 000d 0002 blk 0300 7b9f4000 7bbc60d0 7bbabf24 1eec 12 prog2
+##.ss 26
+##.pb#
+ Slot  Sta BlockID  Name     Type        Addr    Symbol
+ 0026# blk fe96be20 prog2    Sem32     8001 0027 hmtx2
+##.d sem32 %fe96be20
+        Type: Shared Mutex
+       Flags:
+       pMuxQ: 00000000
+  Request Ct: 0001
+       Owner: 0027
+Requester Ct: 0001
+      pOpenQ: fe96b76c
+       pName: fd48da28
+ Create Addr: 00020e4c
+
+##da %fd48da28
+%fd48da28 MUTEX2
+##.r
+eax=0000011f ebx=00000000 ecx=00060200 edx=00000000 esi=00000000 edi=00000000
+eip=00010072 esp=00022e28 ebp=00022e3c iopl=2 -- -- -- nv up ei pl nz na po nc
+cs=005b ss=0053 ds=0053 es=0053 fs=150b gs=0000  cr2=00053ffe  cr3=001cd000
+005b:00010072 b820000200     mov     eax,00020020
+##.pu#
+ Slot  Pid  Ord  pPTDA    Name     pstkframe  CS:EIP        SS:ESP     cbargs
+ 0026# 000d 0001 7bbc60d0 prog2    7b9f3f48 005b:00010072 0053:00022e28 000c
+##.ss 27
+##.pb#
+ Slot  Sta BlockID  Name     Type        Addr    Symbol
+ 0027# blk fe96be40 prog2    Sem32     8001 0026 hmtx1
+##.d sem32 %fe96be40
+        Type: Shared Mutex
+       Flags:
+       pMuxQ: 00000000
+  Request Ct: 0001
+       Owner: 0026
+Requester Ct: 0001
+      pOpenQ: fe96b718
+       pName: fd48da18
+ Create Addr: 00020e48
+
+##
+

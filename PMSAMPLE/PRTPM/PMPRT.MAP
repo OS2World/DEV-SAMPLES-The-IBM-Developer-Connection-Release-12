@@ -1,0 +1,547 @@
+
+
+ PMPRT
+
+ Start     Length     Name                   Class
+ 0001:0000 02512H     PMPRT_TEXT             CODE
+ 0001:2512 01B8EH     _TEXT                  CODE
+ 0001:40A0 00000H     C_ETEXT                ENDCODE
+ 0002:0000 031E6H     FAR_BSS                FAR_BSS
+ 0003:0000 10000H     FAR_BSS                FAR_BSS
+ 0004:0000 00024H     FAR_BSS                FAR_BSS
+ 0005:0000 00042H     NULL                   BEGDATA
+ 0005:0042 00A7EH     _DATA                  DATA
+ 0005:0AC0 0000EH     CDATA                  DATA
+ 0005:0ACE 00000H     XIFB                   DATA
+ 0005:0ACE 00000H     XIF                    DATA
+ 0005:0ACE 00000H     XIFE                   DATA
+ 0005:0ACE 00000H     XIB                    DATA
+ 0005:0ACE 00000H     XI                     DATA
+ 0005:0ACE 00000H     XIE                    DATA
+ 0005:0ACE 00000H     XPB                    DATA
+ 0005:0ACE 00004H     XP                     DATA
+ 0005:0AD2 00000H     XPE                    DATA
+ 0005:0AD2 00000H     XCB                    DATA
+ 0005:0AD2 00000H     XC                     DATA
+ 0005:0AD2 00000H     XCE                    DATA
+ 0005:0AD2 00000H     XCFB                   DATA
+ 0005:0AD2 00000H     XCF                    DATA
+ 0005:0AD2 00000H     XCFE                   DATA
+ 0005:0AD2 0004CH     CONST                  CONST
+ 0005:0B1E 00008H     HDR                    MSG
+ 0005:0B26 000FAH     MSG                    MSG
+ 0005:0C20 00002H     PAD                    MSG
+ 0005:0C22 00001H     EPAD                   MSG
+ 0005:0C24 001A4H     _BSS                   BSS
+ 0005:0DC8 00000H     XOB                    BSS
+ 0005:0DC8 00000H     XO                     BSS
+ 0005:0DC8 00000H     XOE                    BSS
+ 0005:0DD0 00000H     c_common               BSS
+ 0005:0DD0 08000H     STACK                  STACK
+
+ Origin   Group
+ 0005:0   DGROUP
+
+  Address         Publics by Name
+
+ 0000:0000  Imp  DEVCLOSEDC           (PMGPI.2)
+ 0000:0000  Imp  DEVESCAPE            (PMGPI.4)
+ 0000:0000  Imp  DEVOPENDC            (PMGPI.1)
+ 0000:0000  Imp  DEVPOSTDEVICEMODES   (PMGPI.3)
+ 0000:0000  Imp  DEVQUERYCAPS         (PMGPI.6)
+ 0000:0000  Imp  DOSALLOCHUGE         (DOSCALLS.40)
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  DOSBEEP              (DOSCALLS.50)
+ 0000:0000  Imp  DOSCHGFILEPTR        (DOSCALLS.58)
+ 0000:0000  Imp  DOSCLOSE             (DOSCALLS.59)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  DOSFREESEG           (DOSCALLS.39)
+ 0000:0000  Imp  DOSGETDBCSEV         (NLS.4)
+ 0000:0000  Imp  DOSGETHUGESHIFT      (DOSCALLS.41)
+ 0000:0000  Imp  DOSGETMACHINEMODE    (DOSCALLS.49)
+ 0000:0000  Imp  DOSGETMODHANDLE      (DOSCALLS.47)
+ 0000:0000  Imp  DOSGETVERSION        (DOSCALLS.92)
+ 0000:0000  Imp  DOSOPEN              (DOSCALLS.70)
+ 0000:0000  Imp  DOSQHANDTYPE         (DOSCALLS.77)
+ 0000:0000  Imp  DOSREALLOCSEG        (DOSCALLS.38)
+ 0000:0000  Imp  DOSSETVEC            (DOSCALLS.89)
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+ 0000:0000  Imp  GPIASSOCIATE         (PMGPI.14)
+ 0000:0000  Imp  GPIBITBLT            (PMGPI.205)
+ 0000:0000  Imp  GPICREATEBITMAP      (PMGPI.196)
+ 0000:0000  Imp  GPICREATELOGCOLORTABLE (PMGPI.99)
+ 0000:0000  Imp  GPICREATEPS          (PMGPI.7)
+ 0000:0000  Imp  GPIDELETEBITMAP      (PMGPI.197)
+ 0000:0000  Imp  GPIDESTROYPS         (PMGPI.10)
+ 0000:0000  Imp  GPIQUERYBITMAPBITS   (PMGPI.204)
+ 0000:0000  Imp  GPIQUERYBITMAPPARAMETERS (PMGPI.202)
+ 0000:0000  Imp  GPIQUERYCOLORINDEX   (PMGPI.106)
+ 0000:0000  Imp  GPIQUERYREALCOLORS   (PMGPI.104)
+ 0000:0000  Imp  GPISETBITMAP         (PMGPI.198)
+ 0000:0000  Imp  GPISETBITMAPBITS     (PMGPI.203)
+ 0000:0000  Imp  INPUTHOOKPROC        (PMPRTD.1)
+ 0001:0168       PRINTPROC
+ 0001:02BE       PRTDLGPROC
+ 0000:0000  Imp  PRTWINDOW            (PMPRTD.2)
+ 0005:0936       STKHQQ
+ 0000:0000  Imp  WINALARM             (PMWIN.138)
+ 0000:0000  Imp  WINCREATEMSGQUEUE    (PMWIN.58)
+ 0000:0000  Imp  WINCREATEWINDOW      (PMWIN.6)
+ 0000:0000  Imp  WINDEFDLGPROC        (PMWIN.179)
+ 0000:0000  Imp  WINDEFWINDOWPROC     (PMWIN.178)
+ 0000:0000  Imp  WINDESTROYMSGQUEUE   (PMWIN.59)
+ 0000:0000  Imp  WINDESTROYWINDOW     (PMWIN.7)
+ 0000:0000  Imp  WINDISMISSDLG        (PMWIN.126)
+ 0000:0000  Imp  WINDISPATCHMSG       (PMWIN.68)
+ 0000:0000  Imp  WINDLGBOX            (PMWIN.125)
+ 0000:0000  Imp  WINGETLASTERROR      (PMWIN.243)
+ 0000:0000  Imp  WINGETMSG            (PMWIN.65)
+ 0000:0000  Imp  WINGETSCREENPS       (PMWIN.42)
+ 0000:0000  Imp  WININITIALIZE        (PMWIN.246)
+ 0000:0000  Imp  WININVALIDATEREGION  (PMWIN.48)
+ 0000:0000  Imp  WINMAPWINDOWPOINTS   (PMWIN.36)
+ 0000:0000  Imp  WINMESSAGEBOX        (PMWIN.139)
+ 0000:0000  Imp  WINPOSTMSG           (PMWIN.69)
+ 0000:0000  Imp  WINQUERYACTIVEWINDOW (PMWIN.80)
+ 0000:0000  Imp  WINQUERYPROFILESTRING (PMSHAPI.3)
+ 0000:0000  Imp  WINQUERYSYSCOLOR     (PMWIN.152)
+ 0000:0000  Imp  WINQUERYWINDOWRECT   (PMWIN.26)
+ 0000:0000  Imp  WINQUERYWINDOWTEXT   (PMWIN.17)
+ 0000:0000  Imp  WINREGISTERCLASS     (PMWIN.3)
+ 0000:0000  Imp  WINRELEASEHOOK       (PMWIN.110)
+ 0000:0000  Imp  WINRELEASEPS         (PMWIN.44)
+ 0000:0000  Imp  WINSETACTIVEWINDOW   (PMWIN.79)
+ 0000:0000  Imp  WINSETHOOK           (PMWIN.109)
+ 0000:0000  Imp  WINTERMINATE         (PMWIN.247)
+ 0000:0000  Imp  WINWINDOWFROMID      (PMWIN.19)
+ 0002:0A65       _Backg
+ 0002:31B6       _bmafh
+ 0002:1074       _bmBits
+ 0002:000A       _bmBitsLineSize
+ 0002:013A       _bmHdrBuf
+ 0002:30A2       _BmiTemp
+ 0001:38BC       _brkctl
+ 0002:31E4       _Change
+ 0004:0006       _CheckLine
+ 0002:0020       _Color
+ 0002:0E72       _Contrast
+ 0001:15DE       _ConvertBitmap
+ 0002:1072       _Curcol
+ 0004:001E       _Curline
+ 0002:0E70       _CurSel
+ 0001:1FFC       _Cvt16
+ 0001:2388       _Cvt256
+ 0002:000E       _CvtFunct
+ 0002:0446       _DbleBackg
+ 0002:31DE       _DbleForeg
+ 0005:02D4       _dcdatablk
+ 0005:0188       _DialogShowing
+ 0005:0C24       _edata
+ 0005:0DD0       _end
+ 0005:08DF       _environ
+ 0005:08A6       _errno
+ 0001:2936       _exit
+ 0001:4010       _fflush
+ 0001:0FBC       _FileImageBmp
+ 0002:0012       _Filename
+ 0004:001C       _FirstBack
+ 0002:0130       _FirstFore
+ 0001:3FCC       _flushall
+ 0002:0750       _ForBack
+ 0004:000A       _Foreg
+ 0001:2614       _free
+ 0002:0006       _hab
+ 0005:017C       _hbmSimpic
+ 0004:0020       _hdcMem
+ 0002:0004       _hDll
+ 0002:0A66       _hpsMem
+ 0002:307E       _hResIn
+ 0002:0852       _hResOut
+ 0004:0002       _HugeBuff
+ 0004:0000       _HugeSel
+ 0002:307C       _HugeShift
+ 0002:0128       _hwndModeless
+ 0003:0000       _Image
+ 0002:012C       _Index
+ 0005:018A       _Input
+ 0001:3E98       _isatty
+ 0002:0131       _LastColor
+ 0002:0132       _Line
+ 0002:074C       _LineDeb
+ 0002:0000       _Lines
+ 0002:30B2       _LookTbl
+ 0002:0028       _LookTbl2
+ 0001:3C94       _lseek
+ 0001:0000       _main
+ 0001:2629       _malloc
+ 0002:0850       _New
+ 0002:0136       _numRealClrs
+ 0002:0E6E       _NumSeg
+ 0002:0A64       _OldChar
+ 0005:018C       _Output
+ 0005:0184       _pBmi
+ 0005:0180       _pBmih
+ 0005:005C       _PMColors
+ 0002:3082       _pointl
+ 0001:04F2       _PrintBitmap
+ 0002:0024       _Read
+ 0002:0A6E       _realClrs
+ 0004:000C       _Rectl
+ 0002:0448       _rgbValues
+ 0001:0CBA       _SaveImageBmp
+ 0002:0748       _SaveLine
+ 0002:0856       _size
+ 0002:0862       _Size
+ 0001:26E4       _sprintf
+ 0001:3F54       _stackavail
+ 0001:3E76       _strlen
+ 0001:276A       _strtok
+ 0002:0A6A       _TargetLine
+ 0002:31B2       _TotalSize
+ 0001:3E8E       _ultoa
+ 0002:31E0       _vResIn
+ 0002:3078       _vResOut
+ 0001:0C5E       _WindowDestroy
+ 0001:0B66       _WindowInitialization
+ 0001:3CD2       _write
+ 0002:085E       _Wrote
+ 0005:0932       __aaltstkovr
+ 0005:0882       __abrkp
+ 0005:0482       __abrktb
+ 0005:0882       __abrktbe
+ 0005:0884       __acfinfo
+ 0005:0478       __acmdln
+ 0000:9876  Abs  __acrtmsg
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0005:08EA       __adbgmsg
+ 0000:D6D6  Abs  __aDBused
+ 0005:047A       __aenvseg
+ 0005:0480       __aexit_rtn
+ 0001:2816       __aFlmul
+ 0001:284A       __aFuldiv
+ 0001:2816       __aFulmul
+ 0001:375B       __amalloc
+ 0001:389A       __amallocbrk
+ 0005:0916       __amblksiz
+ 0001:383E       __amexpand
+ 0001:3878       __amlink
+ 0001:2590       __amsg_exit
+ 0005:0042       __anullsize
+ 0005:0910       __aseg1
+ 0005:0906       __asegds
+ 0005:0892       __aseghi
+ 0005:0894       __aseglo
+ 0005:0912       __asegn
+ 0005:0914       __asegr
+ 0005:047C       __asizds
+ 0005:0ABC       __asizeC
+ 0005:0ABD       __asizeD
+ 0001:2522       __astart
+ 0005:047E       __atopsp
+ 0002:0864       __bufin
+ 0005:0AA4       __cfltcvt_tab
+ 0005:0ABE       __cflush
+ 0005:08E7       __child
+ 0001:3B7A       __chkstk
+ 0001:28AC       __cinit
+ 0001:2586       __cintDIV
+ 0001:3F68       __cltoasub
+ 0001:2986       __ctermsub
+ 0001:3F75       __cxtoa
+ 0005:08AD       __doserrno
+ 0005:08AC       __dosmode
+ 0001:3F17       __dosret
+ 0001:3F08       __dosretf
+ 0005:08AA       __dosvermajor
+ 0005:08AB       __dosverminor
+ 0001:294D       __exit
+ 0005:089E       __fac
+ 0001:2614       __ffree
+ 0001:29A8       __FF_MSGBANNER
+ 0001:2ABE       __flsbuf
+ 0001:2629       __fmalloc
+ 0005:0AC2       __fpinit
+ 0001:3B74       __fptrap
+ 0001:3C06       __getbuf
+ 0005:0938       __iob
+ 0005:0A28       __iob2
+ 0005:0AA0       __lastiob
+ 0005:08AF       __nfile
+ 0001:3700       __nfree
+ 0001:3712       __nmalloc
+ 0001:2A58       __NMSG_TEXT
+ 0001:2A88       __NMSG_WRITE
+ 0001:3B9E       __nullcheck
+ 0005:08AD       __oserr
+ 0005:08B1       __osfile
+ 0005:08AA       __osmajor
+ 0005:08AB       __osminor
+ 0005:08AC       __osmode
+ 0005:08AA       __osversion
+ 0001:2C46       __output
+ 0005:08E3       __pgmptr
+ 0005:08C5       __pipe
+ 0001:3972       __setargv
+ 0001:29CC       __setenvp
+ 0005:0ABA       __sigintoff
+ 0005:0AB8       __sigintseg
+ 0001:3BC4       __stdalloc
+ 0005:08A8       __umaskval
+ 0005:0898       ___aDBrterr
+ 0005:0896       ___aDBswpflg
+ 0005:08D9       ___argc
+ 0005:08DB       ___argv
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  WINALARM             (PMWIN.138)
+ 0000:0000  Imp  DOSCHGFILEPTR        (DOSCALLS.58)
+ 0000:0000  Imp  WINDLGBOX            (PMWIN.125)
+ 0000:0000  Imp  DOSALLOCHUGE         (DOSCALLS.40)
+ 0000:0000  Imp  GPIBITBLT            (PMGPI.205)
+ 0000:0000  Imp  DOSALLOCSEG          (DOSCALLS.34)
+ 0000:0000  Imp  GPIDELETEBITMAP      (PMGPI.197)
+ 0000:0000  Imp  WINDESTROYWINDOW     (PMWIN.7)
+ 0000:0000  Imp  WINGETMSG            (PMWIN.65)
+ 0000:0000  Imp  DOSGETDBCSEV         (NLS.4)
+ 0000:0000  Imp  INPUTHOOKPROC        (PMPRTD.1)
+ 0000:0000  Imp  DOSGETMODHANDLE      (DOSCALLS.47)
+ 0000:0000  Imp  WINGETLASTERROR      (PMWIN.243)
+ 0000:0000  Imp  DEVCLOSEDC           (PMGPI.2)
+ 0000:0000  Imp  DEVPOSTDEVICEMODES   (PMGPI.3)
+ 0000:0000  Imp  GPIDESTROYPS         (PMGPI.10)
+ 0000:0000  Imp  DEVESCAPE            (PMGPI.4)
+ 0000:0000  Imp  WINCREATEMSGQUEUE    (PMWIN.58)
+ 0000:0000  Imp  GPIQUERYCOLORINDEX   (PMGPI.106)
+ 0000:0000  Imp  WINTERMINATE         (PMWIN.247)
+ 0000:0000  Imp  GPIQUERYBITMAPPARAMETERS (PMGPI.202)
+ 0000:0000  Imp  DOSBEEP              (DOSCALLS.50)
+ 0000:0000  Imp  GPIASSOCIATE         (PMGPI.14)
+ 0000:0000  Imp  DOSEXIT              (DOSCALLS.5)
+ 0000:0000  Imp  WININVALIDATEREGION  (PMWIN.48)
+ 0000:0000  Imp  WININITIALIZE        (PMWIN.246)
+ 0000:0000  Imp  WINCREATEWINDOW      (PMWIN.6)
+ 0000:0000  Imp  WINQUERYSYSCOLOR     (PMWIN.152)
+ 0000:0000  Imp  GPISETBITMAPBITS     (PMGPI.203)
+ 0000:0000  Imp  DOSGETHUGESHIFT      (DOSCALLS.41)
+ 0000:0000  Imp  DOSQHANDTYPE         (DOSCALLS.77)
+ 0000:0000  Imp  GPICREATELOGCOLORTABLE (PMGPI.99)
+ 0000:0000  Imp  DOSFREESEG           (DOSCALLS.39)
+ 0000:0000  Imp  GPIQUERYREALCOLORS   (PMGPI.104)
+ 0000:0000  Imp  PRTWINDOW            (PMPRTD.2)
+ 0000:0000  Imp  WINGETSCREENPS       (PMWIN.42)
+ 0000:0000  Imp  WINSETHOOK           (PMWIN.109)
+ 0000:0000  Imp  WINMAPWINDOWPOINTS   (PMWIN.36)
+ 0000:0000  Imp  WINDISMISSDLG        (PMWIN.126)
+ 0000:0000  Imp  WINSETACTIVEWINDOW   (PMWIN.79)
+ 0000:0000  Imp  DOSGETVERSION        (DOSCALLS.92)
+ 0000:0000  Imp  WINPOSTMSG           (PMWIN.69)
+ 0000:0000  Imp  WINDEFDLGPROC        (PMWIN.179)
+ 0000:0000  Imp  DEVOPENDC            (PMGPI.1)
+ 0000:0000  Imp  WINQUERYWINDOWRECT   (PMWIN.26)
+ 0000:0000  Imp  DOSSETVEC            (DOSCALLS.89)
+ 0000:0000  Imp  DOSOPEN              (DOSCALLS.70)
+ 0000:0000  Imp  WINDISPATCHMSG       (PMWIN.68)
+ 0000:0000  Imp  WINDEFWINDOWPROC     (PMWIN.178)
+ 0000:0000  Imp  GPISETBITMAP         (PMGPI.198)
+ 0000:0000  Imp  WINMESSAGEBOX        (PMWIN.139)
+ 0000:0000  Imp  WINQUERYPROFILESTRING (PMSHAPI.3)
+ 0000:0000  Imp  WINDESTROYMSGQUEUE   (PMWIN.59)
+ 0000:0000  Imp  WINWINDOWFROMID      (PMWIN.19)
+ 0000:0000  Imp  DOSCLOSE             (DOSCALLS.59)
+ 0000:0000  Imp  DEVQUERYCAPS         (PMGPI.6)
+ 0000:0000  Imp  WINRELEASEHOOK       (PMWIN.110)
+ 0000:0000  Imp  WINREGISTERCLASS     (PMWIN.3)
+ 0000:0000  Imp  DOSREALLOCSEG        (DOSCALLS.38)
+ 0000:0000  Imp  GPIQUERYBITMAPBITS   (PMGPI.204)
+ 0000:0000  Imp  GPICREATEPS          (PMGPI.7)
+ 0000:0000  Imp  DOSGETMACHINEMODE    (DOSCALLS.49)
+ 0000:0000  Imp  DOSWRITE             (DOSCALLS.138)
+ 0000:0000  Imp  WINQUERYWINDOWTEXT   (PMWIN.17)
+ 0000:0000  Imp  WINQUERYACTIVEWINDOW (PMWIN.80)
+ 0000:0000  Imp  GPICREATEBITMAP      (PMGPI.196)
+ 0000:0000  Imp  WINRELEASEPS         (PMWIN.44)
+ 0000:9876  Abs  __acrtused
+ 0000:9876  Abs  __acrtmsg
+ 0000:D6D6  Abs  __aDBdoswp
+ 0000:D6D6  Abs  __aDBused
+ 0001:0000       _main
+ 0001:0168       PRINTPROC
+ 0001:02BE       PRTDLGPROC
+ 0001:04F2       _PrintBitmap
+ 0001:0B66       _WindowInitialization
+ 0001:0C5E       _WindowDestroy
+ 0001:0CBA       _SaveImageBmp
+ 0001:0FBC       _FileImageBmp
+ 0001:15DE       _ConvertBitmap
+ 0001:1FFC       _Cvt16
+ 0001:2388       _Cvt256
+ 0001:2522       __astart
+ 0001:2586       __cintDIV
+ 0001:2590       __amsg_exit
+ 0001:2614       __ffree
+ 0001:2614       _free
+ 0001:2629       __fmalloc
+ 0001:2629       _malloc
+ 0001:26E4       _sprintf
+ 0001:276A       _strtok
+ 0001:2816       __aFlmul
+ 0001:2816       __aFulmul
+ 0001:284A       __aFuldiv
+ 0001:28AC       __cinit
+ 0001:2936       _exit
+ 0001:294D       __exit
+ 0001:2986       __ctermsub
+ 0001:29A8       __FF_MSGBANNER
+ 0001:29CC       __setenvp
+ 0001:2A58       __NMSG_TEXT
+ 0001:2A88       __NMSG_WRITE
+ 0001:2ABE       __flsbuf
+ 0001:2C46       __output
+ 0001:3700       __nfree
+ 0001:3712       __nmalloc
+ 0001:375B       __amalloc
+ 0001:383E       __amexpand
+ 0001:3878       __amlink
+ 0001:389A       __amallocbrk
+ 0001:38BC       _brkctl
+ 0001:3972       __setargv
+ 0001:3B74       __fptrap
+ 0001:3B7A       __chkstk
+ 0001:3B9E       __nullcheck
+ 0001:3BC4       __stdalloc
+ 0001:3C06       __getbuf
+ 0001:3C94       _lseek
+ 0001:3CD2       _write
+ 0001:3E76       _strlen
+ 0001:3E8E       _ultoa
+ 0001:3E98       _isatty
+ 0001:3F08       __dosretf
+ 0001:3F17       __dosret
+ 0001:3F54       _stackavail
+ 0001:3F68       __cltoasub
+ 0001:3F75       __cxtoa
+ 0001:3FCC       _flushall
+ 0001:4010       _fflush
+ 0002:0000       _Lines
+ 0002:0004       _hDll
+ 0002:0006       _hab
+ 0002:000A       _bmBitsLineSize
+ 0002:000E       _CvtFunct
+ 0002:0012       _Filename
+ 0002:0020       _Color
+ 0002:0024       _Read
+ 0002:0028       _LookTbl2
+ 0002:0128       _hwndModeless
+ 0002:012C       _Index
+ 0002:0130       _FirstFore
+ 0002:0131       _LastColor
+ 0002:0132       _Line
+ 0002:0136       _numRealClrs
+ 0002:013A       _bmHdrBuf
+ 0002:0446       _DbleBackg
+ 0002:0448       _rgbValues
+ 0002:0748       _SaveLine
+ 0002:074C       _LineDeb
+ 0002:0750       _ForBack
+ 0002:0850       _New
+ 0002:0852       _hResOut
+ 0002:0856       _size
+ 0002:085E       _Wrote
+ 0002:0862       _Size
+ 0002:0864       __bufin
+ 0002:0A64       _OldChar
+ 0002:0A65       _Backg
+ 0002:0A66       _hpsMem
+ 0002:0A6A       _TargetLine
+ 0002:0A6E       _realClrs
+ 0002:0E6E       _NumSeg
+ 0002:0E70       _CurSel
+ 0002:0E72       _Contrast
+ 0002:1072       _Curcol
+ 0002:1074       _bmBits
+ 0002:3078       _vResOut
+ 0002:307C       _HugeShift
+ 0002:307E       _hResIn
+ 0002:3082       _pointl
+ 0002:30A2       _BmiTemp
+ 0002:30B2       _LookTbl
+ 0002:31B2       _TotalSize
+ 0002:31B6       _bmafh
+ 0002:31DE       _DbleForeg
+ 0002:31E0       _vResIn
+ 0002:31E4       _Change
+ 0003:0000       _Image
+ 0004:0000       _HugeSel
+ 0004:0002       _HugeBuff
+ 0004:0006       _CheckLine
+ 0004:000A       _Foreg
+ 0004:000C       _Rectl
+ 0004:001C       _FirstBack
+ 0004:001E       _Curline
+ 0004:0020       _hdcMem
+ 0005:0042       __anullsize
+ 0005:005C       _PMColors
+ 0005:017C       _hbmSimpic
+ 0005:0180       _pBmih
+ 0005:0184       _pBmi
+ 0005:0188       _DialogShowing
+ 0005:018A       _Input
+ 0005:018C       _Output
+ 0005:02D4       _dcdatablk
+ 0005:0478       __acmdln
+ 0005:047A       __aenvseg
+ 0005:047C       __asizds
+ 0005:047E       __atopsp
+ 0005:0480       __aexit_rtn
+ 0005:0482       __abrktb
+ 0005:0882       __abrkp
+ 0005:0882       __abrktbe
+ 0005:0884       __acfinfo
+ 0005:0892       __aseghi
+ 0005:0894       __aseglo
+ 0005:0896       ___aDBswpflg
+ 0005:0898       ___aDBrterr
+ 0005:089E       __fac
+ 0005:08A6       _errno
+ 0005:08A8       __umaskval
+ 0005:08AA       __osversion
+ 0005:08AA       __dosvermajor
+ 0005:08AA       __osmajor
+ 0005:08AB       __osminor
+ 0005:08AB       __dosverminor
+ 0005:08AC       __osmode
+ 0005:08AC       __dosmode
+ 0005:08AD       __oserr
+ 0005:08AD       __doserrno
+ 0005:08AF       __nfile
+ 0005:08B1       __osfile
+ 0005:08C5       __pipe
+ 0005:08D9       ___argc
+ 0005:08DB       ___argv
+ 0005:08DF       _environ
+ 0005:08E3       __pgmptr
+ 0005:08E7       __child
+ 0005:08EA       __adbgmsg
+ 0005:0906       __asegds
+ 0005:0910       __aseg1
+ 0005:0912       __asegn
+ 0005:0914       __asegr
+ 0005:0916       __amblksiz
+ 0005:0932       __aaltstkovr
+ 0005:0936       STKHQQ
+ 0005:0938       __iob
+ 0005:0A28       __iob2
+ 0005:0AA0       __lastiob
+ 0005:0AA4       __cfltcvt_tab
+ 0005:0AB8       __sigintseg
+ 0005:0ABA       __sigintoff
+ 0005:0ABC       __asizeC
+ 0005:0ABD       __asizeD
+ 0005:0ABE       __cflush
+ 0005:0AC2       __fpinit
+ 0005:0C24       _edata
+ 0005:0DD0       _end
+
+Program entry point at 0001:2522

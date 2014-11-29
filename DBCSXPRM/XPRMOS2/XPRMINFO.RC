@@ -1,0 +1,25 @@
+/***************************************************************************/
+/* XPRMINFO.RC   XPG4 Primer for OS/2 WARP - V1.0       11/15/95           */
+/*               Product Information dialog definition.                    */
+/***************************************************************************/
+#define INCL_WINSTDSPIN
+#define INCL_WIN
+#define INCL_NLS
+#include <os2.h>                       /* System Include File              */
+#include "xprminfo.h"                  /* Application Include File         */
+
+BITMAP 2663 PRELOAD dtcologo.bmp
+
+DLGTEMPLATE DID_ABOUT LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "",DID_ABOUT, 10,10,300,200, WS_VISIBLE,
+            FCF_DLGBORDER | FCF_SYSMENU | FCF_TITLEBAR
+    BEGIN
+        CONTROL  "#2663", AB_BID_LOGO,52,94,200,100,WC_STATIC,
+                 SS_BITMAP | WS_VISIBLE
+        CTEXT    "", AB_STX_COPY1, 1, 54, 298, 8
+        CTEXT    "", AB_STX_COPY2, 1, 34, 298, 8
+        CTEXT    "", AB_STX_COPY3, 1, 44, 298, 8
+        DEFPUSHBUTTON  "", DID_OK, 130,15,40,13, BS_PUSHBUTTON | WS_VISIBLE
+    END
+END

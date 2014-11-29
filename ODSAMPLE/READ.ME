@@ -1,0 +1,74 @@
+READ.ME
+-------
+
+This is the READ.ME file for the OpenDoc sample source code.  These samples
+have been written by the OpenDoc Development Team and are provided as is and
+in addition to those provided with the toolkit.
+
+To build the samples you should define to NMAKE (using either the OS/2
+environment or a command line parameter) a symbol named WARPTOOLKIT. This
+symbol gives the root directory of the new WARP TOOLKIT. For example:
+  SET WARPTOOLKIT=d:\toolkit
+
+The samples makefiles are written to use IBM Visual Age C++. If you are using
+the IBM CSET 2.1 compiler, you should change the library name CPPOM30 to 
+OS2CMBSI. Ensure you are using at least CSD 9 for the CSET compiler.
+
+
+The following samples are available:
+
+The PARTS\CLOCKPRT subdirectory contains the source code for the Clock part.
+This part handler demonstrates using an object window, timers, and dynamic
+drawing.
+
+The PARTS\GTKPART subdirectory contains the source code for the Graphics part.
+This is exactly the same part that is shipped in binary form in the OpenDoc
+run-time. We have provided this source as an example of a full function part.
+This part makes use of the UCMENUS that can be found elsewhere on this DevCon.
+
+The PARTS\MLEPART subdirectory contains the source code for the MLE part.
+This part handler uses the standard PM Multi-Line Edit control to demonstrate
+how parts can embed PM controls.
+
+The PMAPPS\OSASAMP subdirectory contains the source for the PM
+application PRTSAMP.  This application is an OSA-aware factored PM application
+which sends OSA events to itself (Intra-Application Communication).  The
+PRTSAMP application has been developed using the Print Sample code from the
+OS/2 Developer's Toolkit as the code base.  The idea is to make the Print
+Sample OSA-aware so programmers will understand what it takes to make a PM
+application OSA-aware.  PRTSAMP supports the four required OSA events:
+     Open Application
+     Quit Application
+     Open Document
+     Print Document
+
+The PMAPPS\OSATEST subdirectory contains the source for the a OSA test
+application. It includes a version of a OSA script editor based on the
+MLE control. This application makes use of the UCMENUS that can be found 
+elsewhere on this DevCon.
+
+The PARTS\SIMPLPRT contains the source code for the Simple part.
+This is the simplest part handler.  It beeps when a key is pressed while the
+part is active-that is, when it has the keyboard focus.  This part is not
+recommended as a base for developers, as it does not support embedding.  This
+sample code will be removed in future drops in favor of a container part
+suitable for subclassing.
+
+The PARTS\SIMPLDTS subdirectory contains the source for the Direct to SOM
+(DTS) version of the Simple part. The symbol INCL_ODDTS should be defined
+to ensure that the OpenDoc DTS header files are included. Note that the
+Visual Age C++ compiler sometimes traps if you don't delete the CSETCPP.PCH
+pre-compiled header file.
+
+The PARTS\SMPDSPM subdirectory contains the source code for the
+Sample Monitor part.  This part handler installs a dispatch monitor which
+formats and prints events which go through the OpenDoc dispatcher to the
+PMPRINTF message queue.  The PMRPINTF.EXE program needs to be running to view
+these messages. The PMPRINTF program is available on this DevCon. To install
+the shell plugin, the DLL needs to reside in the OpenDoc Shell Plug-ins
+folder. The WPS object ID is "<OD_SHELLPLUGINS>".
+
+
+If you have any problems or questions with these samples please contact the
+OpenDoc for OS/2 development team either on CompuServe OS2DF1 forum, section
+14 or by sending email directly to MPERKS@VNET.IBM.COM.

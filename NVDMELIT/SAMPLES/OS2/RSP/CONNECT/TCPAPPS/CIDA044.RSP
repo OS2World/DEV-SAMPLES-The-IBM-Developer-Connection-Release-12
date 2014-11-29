@@ -1,0 +1,37 @@
+// Default response file for PRODUCT DISK install
+
+INSTALL_WPS=Y
+hostname=ELITE044
+ipaddress=9.67.48.144
+netmask=255.255.255.128
+router=9.67.48.200
+domain=raleigh.ibm.com
+dns=9.67.1.5
+
+//IPADDR=129.35.100.166
+//NETMASK=255.255.240.0
+//ROUTE=129.35.96.1
+//HOSTNAME=wkgp03
+//DOMAIN=austin.ibm.com
+//DNS_DOMAIN=austin.ibm.com
+//NAMESERVER=9.3.199.2
+//NAME_SERVER=9.3.199.2
+CONFIGURE_TCP=Y
+ATTENDED=N
+//SOURCE_PATH=D:\CID\IMG\TCPAPPS
+TARGET_PATH=C:\TCPIP
+
+// Default response file for PRODUCT DISK install
+
+INSTALL_TITLE = TCP/IP for OS/2 Client
+
+INSTALL_NAME = BASE 8.48   1 4 "Client Kit"  Base TCP/IP Applications
+INSTALL_NAME = INET 3.59   5 6 "Client Kit"  Feature TCP/IP Applications
+INSTALL_NAME = DBOX  1.77  7 7 "Client Kit"  DOS\Windows Access
+INSTALL_NAME = UMAIL 4.51  7 8 "Client Kit"  UltiMail Lite
+
+EXEC = BASE call clntxt
+EXEC = DBOX call dboxxt
+EXEC = UMAIL call umlitext
+
+

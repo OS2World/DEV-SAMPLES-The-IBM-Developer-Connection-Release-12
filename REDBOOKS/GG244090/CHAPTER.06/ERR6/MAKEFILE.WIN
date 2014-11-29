@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err6" sample application.
+#
+
+all: err6.h  err6_cli.exe err6_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err6_cli.c err6_mgr.c err6_srv.c
+COBJECTS        = err6_cli.obj err6c.obj
+SOBJECTS        = err6_mgr.obj err6_srv.obj err6s.obj
+
+err6.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err6_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err6_cli.exe
+
+err6_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err6_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err6.h
+        -del err6c.c
+        -del err6s.c
+

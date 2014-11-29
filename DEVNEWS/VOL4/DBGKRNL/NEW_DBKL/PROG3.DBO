@@ -1,0 +1,46 @@
+Symbols linked (prog3)
+eax=00000001 ebx=00000000 ecx=00060010 edx=00060110 esi=00000000 edi=00000000
+eip=0001377c esp=00022d20 ebp=00022d2c iopl=2 -- -- -- nv up ei pl nz na pe nc
+cs=005b ss=0053 ds=0053 es=0053 fs=150b gs=0000  cr2=0006100b  cr3=001cd000
+prog3:CODE32:int3:
+005b:0001377c cc             int     3
+##vsf*
+##bc*
+##g
+Trap 14 (0EH) - Page Fault 0006, Not Present, Write Access, User Mode
+eax=000d1000 ebx=00000000 ecx=00020057 edx=00060110 esi=00000000 edi=00000000
+eip=0001008b esp=00022cec ebp=00022cfc iopl=2 rf -- -- nv up ei pl nz na po nc
+cs=005b ss=0053 ds=0053 es=0053 fs=150b gs=0000  cr2=000d1000  cr3=001cd000
+005b:0001008b 8808           mov     byte ptr [eax],cl      ds:000d1000=invalid
+##.m
+
+*har     par      cpg        va    flg next prev link hash hob   hal
+ 0240 %fed0418a 00000010 %00010000 1d9 0241 023e 0000 0000 02ae 0000 hptda=02aa
+ hob   har hobnxt flgs own  hmte  sown,cnt lt st xf
+ 02ae  0240 0000  0838 02b5 02b5  0000 00  00 00 00 shared    c:prog3.exe
+##.p#
+ Slot  Pid  Ppid Csid Ord  Sta Pri  pTSD     pPTDA    pTCB     Disp SG Name
+*0026# 000f 0008 000f 0001 run 0300 7b9f2000 7bbc60d0 7bbabd70 1f48 12 prog3
+##ln
+005b:00010060 prog3:CODE32:my_strcpy + 2b
+005b:000100a4 _beginthread - 19
+##k
+005b:0001005a 000d1001 00020007 00022d2c 00010031 loadBuffer + 12
+005b:00010031 000d0ffa 00022d28 00001000 00000013 main + 31
+005b:000109c8 00000001 00060110 00060010 ffffffff __RunExitList + 98
+005b:1a0302af 000002b5 00000000 00030000 00030267 DOS32R3EXITADDR
+##dd ebp L4
+0053:00022cfc  00022d0c 0001005a 000d1001 00020007
+##ln %0001005a
+%00010048 prog3:CODE32:loadBuffer + 12
+%00010060 my_strcpy - 6
+##dd %00022d0c L4
+%00022d0c  00022d2c 00010031 000d0ffa 00022d28
+##ln %10031
+%00010000 prog3:CODE32:main + 31
+%00010048 loadBuffer - 17
+##db %000d1001
+Invalid linear address: %000d1001
+##gt
+Symbols unlinked (prog3)
+

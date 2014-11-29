@@ -1,0 +1,8 @@
+DMPWIN is a sample Rexx function in DLL and .CMD to dump the active             
+window and all childs information such as Style, text , control data            
+detects if it is a Frame detects if subclassed gives position relative          
+to active etc.                                                                  
+To test it use PMREXX                                                           
+enter PMREXX DMPWIN                                                             
+Enjoy it.                                                                       
+

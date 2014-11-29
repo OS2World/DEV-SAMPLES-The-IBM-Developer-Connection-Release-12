@@ -1,0 +1,13 @@
+[OPTIONS]
+CONTENTS=general_info
+TITLE=DAPIE Sample Application
+COMPRESS=0
+
+[CONFIG]
+BrowseButtons()
+
+[FILES]
+sample.rtf
+
+[MAP]
+general_info    1

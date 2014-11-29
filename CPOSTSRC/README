@@ -1,0 +1,38 @@
+
+                         Source / Porting Notes
+
+            cPost - C language file formatter for PostScript
+
+                           by Patrick Mueller
+
+                          pmuellr@vnet.ibm.com
+
+
+----------------------------------------------------
+What you've got
+----------------------------------------------------
+
+You've got all the source for cPost included in this package.
+The packing list is in the file cpostsrc.lst.  It's just plain
+old C source, with #defined out stuff for AIX, OS/2 1.x, OS/2 2.x.
+
+The code is intended to be straight ANSI C, with possible non-portable
+stuff marked by #if defined() sections.
+
+Here's what you should #define for particular platforms:
+
+OS/2 1.x  #define OPSYS_OS2
+OS/2 2.x  #define OPSYS_OS2V2
+VM/CMS    #define OPSYS_CMS    - untested
+others    don't define one of the above
+
+AIX versions have been compiled without using any of the #define's.  DOS
+versions should also compile fine, but as I don't have access to a DOS
+compiler, I can no longer verify this myself.
+
+The main operating system dependent stuff is in cPostUtl - the FileSpecAddXXX
+series of functions.  If you need to modify this code, I would suggest
+adding a new #if defined() section in there for the new platform, just
+like the others.  Nice and neat.
+
+Patrick Mueller

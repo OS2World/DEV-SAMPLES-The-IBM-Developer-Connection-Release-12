@@ -1,0 +1,68 @@
+#UNIXLIKE Development makefile
+# Each program includes (or will soon) a file from \unixlike\src\include
+# Make sure this path is part of the INCLUDE environment variable
+# 05.03.93: modified for IBM C-SET/2 make
+
+# NOTE:  the more program is not being compiled for 32 bit, nor is ps
+
+CDFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /I\unixlike\src\include
+CFLAGS  = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+CDMFLAGS= /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm+ /Q+ /i\unixlike\src\include
+CMFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm+ /Q+ /i\unixlike\src\include
+COFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+LDFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+LFLAGS  =        /ALIGN:32 /EXEPACK /M /NOI
+
+LINKER = link386
+
+# MS C6.0: CFLAGS = -c -AL -G2s -W3 -I\unixlike\src\include
+# MS C6.0: CDFLAGS = -c -AL -G2s -W3 -I\unixlike\src\include -Zi -Od
+# MS C6.0: COFLAGS = -c -AL -G2s -W3 -Ozax -Gr -I\unixlike\src\include
+# MS C6.0: LFLAGS =
+# MS C6.0: LFLAGS = /CO
+
+B = \unixlike\bin
+F = \unixlike\util\fmf
+G = \unixlike\util\getopt
+GU= \unixlike\util\greputil
+M = \unixlike\util\myerror
+MF = \unixlike\mapfiles
+MP= \unixlike\util\makepath
+P = \unixlike\util\getopt
+S = \unixlike\src
+SL =\unixlike\util\sleep
+#Z = \unixlike\src\more
+
+ATOBJS   = $F\fmf+$M\myerror
+ATDOBJS   = $F\fmfn+$M\myerron
+
+all    : $B\at.exe       $B\atd.exe      
+
+$B\at.exe       :  $S\at\at.obj $S\at\at.def $F\fmf.obj $M\myerror.obj
+         $(LINKER) $(LDFLAGS) $S\at\at+$(ATOBJS),$B\at.exe,NUL,,$S\at\at.def;
+
+$B\atd.exe      :  $S\at\atd.obj $F\fmfn.obj $M\myerron.obj $S\at\atd.def
+         $(LINKER) $(LDFLAGS) $S\at\atd+$(ATDOBJS),$B\atd.exe,NUL,,$S\at\atd.def;
+
+
+$S\at\at.obj             : $S\at\at.c $S\at\at.h 
+         icc $(CDFLAGS) -I$F -I$S\at /Fo$S\at\at.obj $S\at\at.c
+
+$S\at\atd.obj            : $S\at\atd.c $S\at\at.h
+#         icc $(CFLAGS) -Gm+ -I$S\at -I$F /Fo$S\at\atd.obj $S\at\atd.c
+         icc  $(CDMFLAGS) -I$S\at -I$F /Fo$S\at\atd.obj $S\at\atd.c
+
+
+$M\myerror.obj           : $M\myerror.c
+         icc $(CFLAGS) /Fo$M\myerror.obj $M\myerror.c
+
+$M\myerron.obj           : $M\myerror.c
+         icc $(CDMFLAGS) /Fo$M\myerron.obj $M\myerror.c
+
+$F\fmf.obj               :  $F\fmf.c $F\fmf.h
+         icc $(CDFLAGS) /Fo$F\fmf.obj $F\fmf.c
+
+$F\fmfn.obj              :  $F\fmf.c $F\fmf.h
+         icc $(CDMFLAGS) /Fo$F\fmfn.obj $F\fmf.c
+
+

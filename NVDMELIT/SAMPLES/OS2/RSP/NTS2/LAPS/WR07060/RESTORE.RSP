@@ -1,0 +1,12 @@
+**********************************************************************
+*
+*   This is a sample response file to be used when backing out of a fix
+*   service package or a ServicePak to the previous fix level.  There are 
+*   no optional tags.  You must specify BACKUP on the TARGET general
+*   tag to return to the previous fix level.
+*
+   :LOGFILE C:\WR07060\SERVICE.LOG
+   :TARGET  BACKUP
+   :BACKOUT
+   :SYSLEVEL C:\IBMCOM\syslevel.trp
+

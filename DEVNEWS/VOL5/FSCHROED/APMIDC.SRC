@@ -1,0 +1,212 @@
+
+AttachDD        struc
+                dw      ?               ; reserved
+                dw      ?               ; reserved
+                dw      ?               ; reserved
+pm_offset       dw      ?               ; prot mode offset of IDC entry point
+pm_cssegment    dw      ?               ; pm code selector of IDC entry point
+pm_dssegment    dw      ?               ; pm data selector of IDC entry point
+AttachDD        ends
+
+; APM IDC SERVICES
+
+RegisterDDRtn   EQU     0               ; REGISTER EVENT NOITIFICATION ROUTINE
+DeregisterDDRtn EQU     1               ; DEREGISTER EVENT NOTIFICATION ROUTINE
+SendPowerEvent  EQU     2               ; SEND POWER EVENT
+QueryPowerStatus EQU    3               ; QUERY POWER STATUS
+QueryPowerInfo  EQU     4               ; QUERY POWER INFO
+
+; POWER MANAGEMENT EVENT NOTIFICATION ROUTINE REGISTRATION STRUCTURE
+
+RegDDRtn        struc
+Function        dw      ?               ; APM IDC SERVICE
+Handle          dw      ?               ; REGISTRATION HANDLE (RETURNED)
+EventHandler    dd      ?               ; OUR APM EVENT HANDLER
+NotifyMask      dd      ?               ; MASK OF EVENTS TO BE NOTIFIED OF
+ClientDS        dw      ?               ; OUR DS SELECTOR
+DeviceID        dw      ?               ; DEVICES TO BE NOTIFIED OF
+RegDDRtn        ends
+
+; POWER MANAGEMENT EVENT MESSAGES
+
+PowerEvent      struc
+PEType          dw      ?               ; POWER EVENT TYPE
+SubID           dw      ?               ; APM EVENT MESSAGE ID
+Reserved        dw      ?               ; RESERVED, MUST BE ZERO
+DevID           dw      ?               ; DEVICES TO BE NOTIFIED OF
+PwrState        dw      ?               ; POWER STATE
+PowerEvent      ends
+
+; POWER EVENT TYPES
+
+NOTIFYEVENT     EQU     0000h           ; POWER EVENT NOTIFICATION
+
+; APM NOTIFICATION MASKS
+
+EnablePM        EQU     0008h           ; ENABLE POWER MANAGMENT NOTIFICATION
+DisablePM       EQU     0010h           ; DISABLE POWER MANAGEMENT NOTIFICATION
+RestoreBIOS     EQU     0020h           ; RESTORE APM BIOS DEFAULT VALUES
+SetPowerState   EQU     0040h           ; SET DEVICE POWER STATE NOTIFICATION
+BatteryLow      EQU     0080h           ; BATTERY LOW NOTIFICATION
+NormResume      EQU     0100h           ; NORMAL RESUME NOTIFICATION
+CritResume      EQU     0200h           ; CRITICAL RESUME NOTIFICATION
+
+; SUB IDs
+
+SI_EnablePM     EQU     0003h           ; ENABLE APM BIOS EVENT MESSAGE
+SI_DisablePM    EQU     0004h           ; DISABLE APM BIOS EVENT MESSAGE
+SI_RestoreBIOS  EQU     0005h           ; SET BIOS DEFAULTS EVENT MESSAGE
+SI_SetPowerState EQU    0006h           ; SET POWER STATE EVENT MESSAGE
+SI_BatteryLow   EQU     0007h           ; BATTERY LOW EVENT MESSAGE
+SI_NormalResume EQU     0008h           ; NORMAL RESUME EVENT MESSAGE
+SI_CritResume   EQU     0009h           ; CRITICAL RESUME EVENT MESSAGE
+
+; DEVICE IDs
+
+APMBIOS         EQU     0000h           ; APM BIOS
+BIOSDEVICES     EQU     0001h           ; BIOS MANAGED DEVICES
+DISPLAYS        EQU     0100h           ; DISPLAY DEVICES - NOT SUPPORTED YET
+DISKS           EQU     0200h           ; DISK DEVICES - NOT SUPPORTED YET
+PARALLEL        EQU     0300h           ; PARALLEL DEVICES - NOT SUPPORTED YET
+SERIAL          EQU     0400h           ; SERIAL DEVICES - NOT SUPPORTED YET
+
+; APM POWER STATES
+
+READY           EQU     0000h           ; DEVICE IS READY, FULL POWER
+STANDBY         EQU     0001h           ; DEVICE IS IN STANDBY, PARTIAL POWER
+SUSPEND         EQU     0002h           ; DEVICE IS SUSPENDED, PARTIAL POWER
+OFF             EQU     0003h           ; DEVICE IS OFF, NO POWER
+
+
+ddname          db      "APM$    ",0    ; ASCIIZ STRING OF APM DEVICE NAME
+ddaddr          AttachDD  <>            ; APM IDC ENTRY POINT
+
+apmreg          RegDDRtn <>             ; APM REGISTRATION STRUCTURE
+
+; ROUTINE NAME: ProInitComp.
+;
+; FUNCTION:     This routine is called after all device drivers are
+;               initialized so that device drivers can setup their
+;               inter-device driver communications.  This routine
+;               removes ordering dependencies from within config.sys.
+;
+; NOTES:        System initialization resized our code segment on return
+;               from the init command.  Since the init command happens
+;               before init complete, this routine cannot be discarded
+;               like the init routine.  The next best thing is to make
+;               this routine swappable.
+;
+;               This routine is called at kernel (task) time, not
+;               device driver initialization time.
+;
+; ENTRY:        es:bx -> to initialization complete request packet
+;               ds       our data segment
+;
+; EXIT:         all other registers are not preserved
+;
+proinitcomp     proc    near
+        ASSUME  CS:CSEG,DS:DSEG,ES:NOTHING,SS:NOTHING
+        push    es                                      ; SAVE REGISTER
+        push    bx                                      ; SAVE RETISTER
+
+        ; ATTACH TO APM DEVICE DRIVER
+
+        mov     bx, OFFSET ddname                       ; NAME OF DEV DRIVER
+        mov     di, OFFSET ddaddr                       ; STRUC OF DD ADDRESSES
+        mov     dl, DevHlp_AttachDD                     ; ISSUE ATTACH DD FUNC
+        call    DWORD PTR [device_help]                 ; CALL DEVHELP
+        jc      proinitcomp1                            ; IF ERROR, EXIT
+
+        mov     ax, [ddaddr].pm_offset
+        or      ax, [ddaddr].pm_cssegment               ; IF BOTH ARE ZERO
+        jz      proinitcomp1                            ; THEN ERROR, EXIT
+
+        ; CALL APM$ TO REGISTER OUR POWER MGMT EVENT NOTIFICATION ROUTINE
+
+        push    ds
+        pop     es
+        mov     bx, OFFSET apmreg                       ; ES:BX -> IDC PARMS
+        mov     es:[bx].Function, RegisterDDRtn         ; SET FUNCTION CODE
+        mov     WORD PTR es:[bx].EventHandler, OFFSET ProAPMEventHdlr
+        mov     WORD PTR es:[bx].EventHandler + 2, CS   ; SET EVENT HANDLER
+        mov     ax, NormResume OR CritResume
+        mov     WORD PTR es:[bx].NotifyMask, ax         ; SET NOTIFY MASK
+        mov     es:[bx].ClientDS, DS                    ; SET OUR DS
+        mov     es:[bx].DeviceID, BIOSDEVICES           ; SET DEVICE ID
+        call    DWORD PTR [ddaddr].pm_offset            ; CALL APM$
+
+proinitcomp1:
+        pop     bx                                      ; RESTORE REGISTER
+        pop     es                                      ; RESTORE REGISTER
+
+        mov     es:[bx].PktStatus, REQDONE              ; SET THE DONE BIT
+        ret
+proinitcomp     endp
+
+; ROUTINE NAME: ProAPMEventHdlr
+;
+; FUNCTION:     This routine is called by the APM device driver to
+;               process power management events that this driver
+;               registered for.
+;
+; NOTE:         This routine must save/restore all registers used.
+;
+; ENTRY:        ES:BX -> to power management event message
+;               DS = our data segment selector
+;
+; EXIT:         NC - carry flag clear
+;               AX = 0, no error
+;
+ProAPMEventHdlr proc far
+        ASSUME  CS:CSEG,DS:DSEG,ES:NOTHING,SS:NOTHING
+        pusha                                           ; SAVE REGISTERS
+
+        cmp     es:[bx].PEType, NOTIFYEVENT             ; NOTIFICATION EVENT?
+        jne     proapmeventh2                           ; NO, IGNORE IT
+
+        cmp     es:[bx].SubID, SI_NormalResume          ; EVENT INTERESTED IN?
+        je      proapmeventh1                           ; YES, PROCESS EVENT
+
+        cmp     es:[bx].SubID, SI_CritResume            ; EVENT INTERESTED IN?
+        jne     proapmeventh2                           ; NO, IGNORE EVENT
+
+proapmeventh1:
+
+        ; DO NORMAL RESUME OR CRITICAL RESUME PROCESSING HERE.
+
+proapmeventh2:
+        popa                                            ; RESTORE REGISTERS
+        sub     ax,ax                                   ; SET AX TO ZERO
+        clc                                             ; CLEAR CARRY FLAG
+        ret
+ProAPMEventHdlr endp
+
+; ROUTINE NAME: ProAPMDeregister
+;
+; FUNCTION:     This routine is called to deregister the power
+;               management event handler (ProAPMEventHdlr) with the
+;               APM device driver.
+;
+; NOTE:         Handle already set in registration structure
+;
+; ENTRY:        DS = our data segment selector
+;
+; EXIT:         NONE
+;
+ProAPMDeregister proc near
+        ASSUME  CS:CSEG,DS:DSEG,ES:NOTHING,SS:NOTHING
+
+        push    es                                      ; SAVE REGISTERS
+        push    bx
+
+        push    ds
+        pop     es
+        mov     bx, OFFSET apmreg                       ; ES:BX -> IDC PARMS
+        mov     es:[bx].Function, DeregisterDDRtn       ; SET FUNCTION CODE
+        call    DWORD PTR [ddaddr].pm_offset            ; CALL APM$
+
+        pop     bx                                      ; RESTORE REGISTERS
+        pop     es
+        ret
+ProAPMDeregister endp
+

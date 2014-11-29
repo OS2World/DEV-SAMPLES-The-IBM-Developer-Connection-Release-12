@@ -1,0 +1,17 @@
+NAME         PMJRN      WINDOWAPI
+
+DESCRIPTION 'OS/2 Presentation Manager Journal Play and record by FIAMMANT @ LGEVM2'
+
+STUB        'OS2STUB.EXE'
+
+DATA        MULTIPLE
+
+STACKSIZE   8192        ; recommend 4k as minimum stacksize
+HEAPSIZE    4096        ; recommend 4k as minimum heapsize
+
+PROTMODE
+
+EXPORTS
+SpyWindowProc   @1
+HelpWindowProc  @2
+

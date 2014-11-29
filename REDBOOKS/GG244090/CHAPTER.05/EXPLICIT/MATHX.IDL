@@ -1,0 +1,15 @@
+[
+uuid(008FB3A8-0FD7-1BFC-AB6C-10005A4F5444),
+version(1.0)
+]
+interface mathx
+{
+   const short MAX_VALUES = 12;
+   typedef long value_array_t[ MAX_VALUES ];
+   void add (
+      [ in ] handle_t bh,
+      [ in ] value_array_t value_a,
+      [ in ] long num_values,
+      [ out ] long *sum
+   );
+}

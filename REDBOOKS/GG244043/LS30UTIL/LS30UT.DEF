@@ -1,0 +1,20 @@
+LIBRARY LS30UT INITINSTANCE LONGNAMES
+PROTMODE
+DESCRIPTION 'IBM LAN Server 3.0 Utilities - (c) Copyright IBM Corporation 1993'
+DATA MULTIPLE NONSHARED
+STACKSIZE 32768
+EXPORTS
+   GetDCName
+   CopyDirAcls
+   DumpAllUsers
+   DumpUser
+   InsertAllUsers
+   MoveDirAlias
+   QueryDirAliasPath
+   SetLogonAsn
+   GetLogonAsn
+   NetEnum
+   GetLogonAsnAcp
+   DropLs30utFuncs
+   LoadLs30utFuncs
+

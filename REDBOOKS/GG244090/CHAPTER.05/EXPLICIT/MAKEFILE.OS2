@@ -1,0 +1,49 @@
+#
+# Makefile for the OS/2 Version of the Explicit Binding Example.
+#
+
+# interface name
+INTFC    = mathx
+
+# command names
+CC       = icc
+LD       = link386
+IDL      = idl
+DEL      = del
+
+# command flags
+CMADEFS  = /D_CMA_PROTO_ /D_CMA_NOWRAPPERS_ /DCMA_UNIPROCESSOR
+DEFS     = /DINTEL80x86 /DIBMOS2
+CFLAGS   = /I. /Q+ /Ms $(CMADEFS) $(DEFS)
+LDFLAGS  = /BATCH /E /MAP /NOI /NOL /NOD
+IDLFLAGS = /no_cpp /I.
+
+# libraries
+LIBS     = dceos2.lib dde4mbs.lib os2386.lib
+
+# object files
+SOBJS    = $(INTFC)_s.obj $(INTFC)_m.obj $(INTFC)_sstub.obj
+COBJS    = $(INTFC)_c.obj $(INTFC)_cstub.obj
+
+# targets
+all: $(INTFC)_s.exe $(INTFC)_c.exe
+
+$(INTFC)_s.exe: $(SOBJS)
+        $(LD) $(SOBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+$(INTFC)_c.exe: $(COBJS)
+        $(LD) $(COBJS), $@, $*.map, $(LDFLAGS) $(LIBS), os2.def
+
+$(INTFC).h $(INTFC)_sstub.c $(INTFC)_cstub.c: $(INTFC).idl $(INTFC).acf
+        $(IDL) $(IDLFLAGS) $(INTFC).idl
+
+clean:
+        -$(DEL) *.obj $(INTFC).h *stub.c  *.map
+
+# dependencies
+$(INTFC)_m.obj: $(INTFC)_m.c $(INTFC).h
+
+$(INTFC)_s.obj: $(INTFC)_s.c $(INTFC).h
+
+$(INTFC)_c.obj: $(INTFC)_c.c $(INTFC).h
+

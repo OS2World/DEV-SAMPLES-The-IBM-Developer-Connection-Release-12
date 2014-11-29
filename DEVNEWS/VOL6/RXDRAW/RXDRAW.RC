@@ -1,0 +1,13 @@
+// rxdraw.rc
+
+#include <os2.h>
+#include "def.h"
+#include "rxdraw.h"
+
+POINTER ID_RXDRAW  "rxdraw.ico"
+
+MENU ID_RXDRAW PRELOAD
+BEGIN
+  MENUITEM   "Run",                      ID_RUN,   MIS_TEXT
+END
+

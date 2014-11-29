@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "err2" sample application.
+#
+
+all: err2.h  err2_cli.exe err2_srv.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = err2_cli.c err2_mgr.c err2_srv.c
+COBJECTS        = err2_cli.obj err2c.obj
+SOBJECTS        = err2_mgr.obj err2_srv.obj err2s.obj
+
+err2.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+err2_cli.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err2_cli.exe
+
+err2_srv.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc err2_srv.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del err2.h
+        -del err2c.c
+        -del err2s.c
+

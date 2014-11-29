@@ -1,0 +1,8 @@
+General Bitmap Viewer
+
+/*...Vmakefile \45\ how to make this demo:0:*/
+
+/*...Vgbmv\46\def \45\ module definition file:0:*/
+/*...Vgbmv\46\h   \45\ header:0:*/
+/*...Vgbmv\46\rc  \45\ resource file:0:*/
+/*...Vgbmv\46\c   \45\ c program main body:0:*/

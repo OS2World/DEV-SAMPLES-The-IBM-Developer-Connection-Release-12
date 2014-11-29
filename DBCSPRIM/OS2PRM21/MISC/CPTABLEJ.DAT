@@ -1,0 +1,8 @@
+930,JPN(KANA) Ext.  (290 +  300),combined,
+931,JPN(LATIN)      (037 +  300),combined,
+939,JPN(LATIN) Ext. (1027 + 300),combined,
+290,JPN(Katakana),sbcs,
+037,JPN(LATIN),sbcs,
+1027,JPN(LATIN) Ext.,sbcs,
+300,DBCS-HOST with 1880 UDCs,dbcs,
+

@@ -1,0 +1,64 @@
+Marc,
+   Here is a sample dialog box with a menu that works well for me.
+You have to be careful which level of the resource compiler you use,
+because there is a bug which caused a TRAP D when the program starts
+if you use CTLDATA MENU.
+
+   The latest CSD for 1.2 (I don't know the number) has a fix for this,
+and the 1.1 version of RC.exe works also.
+If you have any questions, let me know.
+
+Don LaCroix
+
+
+œinclude <os2.h>
+œinclude "rtd.h"
+DLGTEMPLATE IDD_RTDDLG1 LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Real Time Tester Data Display for Station 1",
+           IDD_RTDDLG1, 14, 7, 492, 267,
+           FS_NOBYTEALIGN ! FS_DLGBORDER ! WS_VISIBLE ! WS_CLIPSIBLINGS !
+           WS_SAVEBITS, FCF_SYSMENU ! FCF_TITLEBAR ! FCF_MINBUTTON !
+           FCF_MENU ! FCF_TASKLIST ! FCF_SIZEBORDER
+    BEGIN
+        CONTROL "",      FID_MENU,             1, 257, 490,  10,
+                WC_MENU, MS_ACTIONBAR ! WS_VISIBLE
+        CTLDATA MENU
+        BEGIN
+          SUBMENU "ùExclude", ID_EXCLUDE
+          BEGIN
+            MENUITEM "ùRSW",               ID_RSW,        MIS_TEXT
+            MENUITEM "ùDPS",               ID_DPS,        MIS_TEXT
+            MENUITEM "System ùPMU",        ID_SYSPMU,     MIS_TEXT
+            MENUITEM "DC Test ùFail",      ID_DCTFAIL,    MIS_TEXT
+            MENUITEM "DC Test ùReadings",  ID_DCTREADING, MIS_TEXT
+            MENUITEM "ùSignatures",        ID_SIGNATURES, MIS_TEXT
+            MENUITEM "DSF pùattern",       ID_PATTERN,    MIS_TEXT
+            MENUITEM "ùWRP",               ID_WRP,        MIS_TEXT
+            MENUITEM "ùText",              ID_TEXT,       MIS_TEXT
+            MENUITEM "ùetc...",            ID_ETC,        MIS_TEXT
+          END
+          SUBMENU "ùOptions", ID_OPTIONS
+          BEGIN
+            MENUITEM "ùAuto Scroll",         ID_AUTO,       MIS_TEXT
+            MENUITEM "ùManual Scroll",       ID_MANUAL,     MIS_TEXT
+            MENUITEM "",                     -1,            MIS_SEPARATOR
+            MENUITEM "Display ùFails",  ID_FAILS,           MIS_TEXT
+            MENUITEM "Display ùPasses", ID_PASSES,          MIS_TEXT
+            MENUITEM "Display ùData",   ID_TESTDATA,        MIS_TEXT
+          END
+          SUBMENU "Eùxit", ID_EXIT
+          BEGIN
+            MENUITEM "Eùxit RTD",          ID_EXITPROGRAM, MIS_TEXT
+            MENUITEM "ùResume RTD",        ID_RESUME,      MIS_TEXT
+          END
+        END
+        CONTROL "Scroll Mode = Auto", IDST_SCROLL, 80, 250, 134, 8, WC_STATIC,
+                SS_TEXT ! DT_LEFT ! DT_TOP ! WS_GROUP ! WS_VISIBLE
+        CONTROL "Display = All Data", IDST_DISPLAY, 240, 250, 145, 8, WC_STATIC,
+                SS_TEXT ! DT_LEFT ! DT_TOP ! WS_GROUP ! WS_VISIBLE
+        CONTROL "", IDLB_RTDBOX, 0, 0, 490, 254, WC_LISTBOX,
+                LS_OWNERDRAW ! WS_VISIBLE ! WS_TABSTOP
+    END
+END
+

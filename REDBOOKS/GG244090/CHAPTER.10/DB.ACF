@@ -1,0 +1,16 @@
+/*****************************************************************************/
+/* Module: database.acf                                                      */
+/*                                                                           */
+/* Description:                                                              */
+/*    This ACF file gives the fault_status and comm_status attributes to     */
+/*    all RPC operation of the interface Database.                           */
+/*                                                                           */
+/*****************************************************************************/
+interface Database
+{
+   db_open(   [ fault_status, comm_status ] pst );
+   db_close(  [ fault_status, comm_status ] pst );
+   db_read(   [ fault_status, comm_status ] pst );
+   db_setpos( [ fault_status, comm_status ] pst );
+   db_getpos( [ fault_status, comm_status ] pst );
+}

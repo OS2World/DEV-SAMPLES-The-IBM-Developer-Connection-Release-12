@@ -1,0 +1,17 @@
+
+DLGTEMPLATE ID_PICKQ LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Printer Setup", ID_PICKQ, 91, 60, 200, 154, FS_NOBYTEALIGN |
+            WS_VISIBLE, FCF_TITLEBAR
+    BEGIN
+        LTEXT           "Select a printer", 260, 15, 140, 101, 8
+        LISTBOX         IDC_LISTBOX, 16, 55, 170, 83
+        AUTOCHECKBOX    "Print to file", IDC_TOFILE, 16, 41, 139, 10
+        ENTRYFIELD      "", IDC_ENTRY, 17, 30, 169, 8, ES_MARGIN
+        DEFPUSHBUTTON   "OK", SETUP_NOQUEUES, 16, 7, 32, 13, WS_GROUP
+        PUSHBUTTON      "Job ~Properties...", IDC_JOBPROP, 56, 7, 87, 13,
+                        NOT WS_TABSTOP
+        PUSHBUTTON      "Cancel", SETUP_NODC, 152, 7, 37, 13, NOT WS_TABSTOP
+    END
+END
+

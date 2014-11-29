@@ -1,0 +1,36 @@
+#
+# Makefile for the Windows "mathi" sample application.
+#
+
+all: mathi.h  mathi_c.exe mathi_s.exe
+
+OPTS            = -nologo -AL -Aw -W2
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+SRCS            = mathi_c.c mathi_m.c mathi_s.c
+COBJECTS        = mathi_c.obj mathic.obj
+SOBJECTS        = mathi_m.obj mathi_s.obj mathis.obj
+
+mathi.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+mathi_c.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc mathi_c.exe
+
+mathi_s.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc mathi_s.exe
+
+clean:
+        del *.map
+        del *.obj
+        del mathi.h
+        del mathic.c
+        del mathis.c
+

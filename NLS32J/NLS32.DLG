@@ -1,0 +1,27 @@
+/**** NLS32 C サンプル・プログラム・ダイアログ・リソース・ファイル(.DLG)    ***/
+/*                                                                            */
+/*  このファイルにはダイアログ・ボックス・テンプレートを含んでいます。        */
+/*  このファイルは .RC ファイル内の RCINCLUDE ステートメントにより参照され    */
+/*  サンプル・プログラムで使用する他のリソースとともに NLS32.RES にコンパ     */
+/*  イルされます。 NLS32.H 内の #include が記号定数を解決します。             */
+/*                                                                            */
+/******************************************************************************/
+
+DLGTEMPLATE  IDD_FONTLIST LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "使用可能なフォント", IDD_FONTLIST, 69, 13, 150, 116, FS_DLGBORDER | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS, FCF_TITLEBAR
+    BEGIN
+         CONTROL         "", IDDLISTBOX, 5, 23, 140, 67, WC_LISTBOX,
+                WS_GROUP | WS_TABSTOP | WS_VISIBLE
+         CONTROL         "Enter(改行)", ID_NLSSAMP, 6, 4, 50, 12, WC_BUTTON,
+                BS_PUSHBUTTON | BS_DEFAULT | WS_GROUP | WS_VISIBLE
+         CONTROL         "取消", IDD_FONTLIST, 63, 4, 38, 12, WC_BUTTON,
+                BS_PUSHBUTTON | WS_VISIBLE
+         CONTROL         "ヘルプ", 0, 106, 4, 38, 12, WC_BUTTON,
+                BS_PUSHBUTTON | BS_HELP | WS_VISIBLE
+         CONTROL         "書体名を選んでください", IDDLISTMSG, 27, 98, 96, 10, WC_STATIC,
+                SS_TEXT | DT_CENTER | DT_TOP | WS_GROUP | WS_VISIBLE
+    END
+END
+
+

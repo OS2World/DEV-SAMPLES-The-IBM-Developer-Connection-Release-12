@@ -1,0 +1,17 @@
+; PMGUIDE/2 generated Module Definition file.
+
+NAME         XPRMOS2
+
+DESCRIPTION             'XPG4 Primer for OS/2 WARP V3'
+PROTMODE
+
+
+STUB                    'OS2STUB.EXE'
+
+HEAPSIZE                        60000
+
+
+
+
+
+

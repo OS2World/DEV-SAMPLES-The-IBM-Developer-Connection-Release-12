@@ -1,0 +1,8 @@
+# COMMENT
+
+TARGETDIR = C:\DCAF13D
+
+INSTALL = DOSTGT
+# Installs the DCAF DOS Target component with default parameter settings
+
+

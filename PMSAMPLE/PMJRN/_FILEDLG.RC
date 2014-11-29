@@ -1,0 +1,51 @@
+/*---------------------------------------------------------------------------+
++----------------------------------------------------------------------------+
+|                                                                            |
+| _FILEDLG.RC                                                                |
+|                                                                            |
+| File selection dialog DLL module for OS/2 Presentation Manager applications|
+| DLL resource file                                                          |
++-------------------------------------+--------------------------------------+
+|                                     |   Juerg von Kaenel (JVK at ZURLVM1)  |
+| Version: 0.07                       |   IBM Research Laboratory            |
+|                                     |   Saeumerstrasse 4                   |
+|                                     |   CH - 8803 Rueschlikon              |
+|                                     |   Switzerland                        |
++-------------------------------------+--------------------------------------+
+| History:                                                                   |
+| --------                                                                   |
+|                                                                            |
+| created: dec 16 1988 by J. von Kaenel                                      |
+| updated: mar  1 1989 by J. von Kaenel - added runtime linking to dll       |
+| updated: mai 17 1989 by J. von Kaenel - changed window to be mouse aligned |
++---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------+
+| Includes                                                                   |
++---------------------------------------------------------------------------*/
+#include <os2.h>
+#include "_filedlg.h"
+
+/*---------------------------------------------------------------------------+
+| File Dialog Template                                                       |
++---------------------------------------------------------------------------*/
+DLGTEMPLATE IDD_FILE_DLG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  DIALOG "File Selection", IDD_FILE_DLG, 13, 11, 288,  84, FS_NOBYTEALIGN | FS_MOUSEALIGN | FS_DLGBORDER | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SAVEBITS, FCF_ACCELTABLE | FCF_TITLEBAR | FCF_MOUSEALIGN | FCF_NOBYTEALIGN
+  BEGIN
+    CONTROL "*.*",                IDD_EDIT,   6, 64, 274,  8, WC_ENTRYFIELD, ES_LEFT | ES_AUTOSCROLL | ES_MARGIN | WS_TABSTOP | WS_VISIBLE
+
+    CONTROL "Drives:",                  -1,   4, 52,  30,  8, WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+    CONTROL "Drives:",    IDD_DRIVE_LSTBOX,   4,  4,  30, 51, WC_LISTBOX, WS_VISIBLE | WS_TABSTOP
+    CONTROL "Directories:",             -1,  42, 52,  88,  8, WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+    CONTROL "Directories:", IDD_DIR_LSTBOX,  42,  4,  88, 51, WC_LISTBOX, WS_VISIBLE | WS_TABSTOP
+    CONTROL "Files:",                   -1, 138, 52,  88,  8, WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+    CONTROL "Files:",      IDD_FILE_LSTBOX, 138,  4,  88, 51, WC_LISTBOX, WS_VISIBLE | WS_TABSTOP
+
+    CONTROL "F1=Help",            IDD_HELP, 234, 43,  48, 12, WC_BUTTON, BS_PUSHBUTTON | BS_HELP | WS_TABSTOP | WS_VISIBLE
+    CONTROL "OK",                   IDD_OK, 234, 24,  48, 12, WC_BUTTON, BS_PUSHBUTTON | BS_DEFAULT | WS_TABSTOP | WS_VISIBLE
+    CONTROL "Cancel",           IDD_CANCEL, 234,  4,  48, 12, WC_BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE
+  END
+END
+/*--- end of file ----------------------------------------------------------*/
+

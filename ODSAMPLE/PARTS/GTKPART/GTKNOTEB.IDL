@@ -1,0 +1,64 @@
+#ifdef __PRIVATE__
+//#
+//#	File:		cnNotebk.idl
+//#
+//#	Contains:	IDL description of ODSettingsExtension Extension for
+//#                   the container part
+//#	Written by:	Joe Ochipinti
+//#
+//#	Copyright:	(c) 1994 by IBM Corp., all rights reserved.
+//#
+//#	Change History (most recent first):
+//#
+//#		 <1>	  7/6/94	jso	first checked in
+//#
+//#	To Do:
+//#
+#else
+//#	Copyright:	(c) 1993-1994 by IBM Corp., all rights reserved.
+#endif
+
+#ifndef _GTKNOTEBK_
+#define _GTKNOTEBK_
+
+#ifndef _SETTINGS_
+#include "Settings.idl"
+#endif
+
+
+//==============================================================================
+// Theory of Operation
+//==============================================================================
+
+/*
+  CNNotebk is implemented as a subclass of ODNotebk. The AddNotebookPages
+  method is overridden to allow the part to add only the background page. The
+  InsertBackgroundPage is added to provide the new page.
+*/
+
+//==============================================================================
+// Classes defined in this interface
+//==============================================================================
+interface GtkNotebook;
+
+
+//==============================================================================
+// ODExtension
+//==============================================================================
+
+interface GtkNotebook : ODSettingsExtension
+{
+
+#ifdef __SOMIDL__
+  implementation
+  {
+
+    functionprefix = GtkNotebook;
+
+  override:
+    AddNotebookPages;
+
+  };
+#endif
+};
+#endif     // GTKNOTEBK

@@ -1,0 +1,8 @@
+* Comments deleted 
+*SOURCE_PATH=e:\serv  Commented out from sample
+HELP_PATH = C:\OS2\HELP
+* changed from sample NO to YES
+REBOOT_AT_END  = YES
+DATABASE_USERID  =  USERID
+DATABASE_PASSWORD  =  PASSWORD
+

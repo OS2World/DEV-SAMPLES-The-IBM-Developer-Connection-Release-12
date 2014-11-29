@@ -1,0 +1,195 @@
+#define INCL_PM
+#include <os2.h>
+
+#include "inkps.h"
+
+POINTER WND_ID  inkps.ico
+
+MENU WND_ID PRELOAD
+BEGIN
+    SUBMENU     "Options",                      MI_OPT
+    BEGIN
+        MENUITEM    "~Clear Screen",            MI_OPT_CLEAR
+    END
+    SUBMENU     "Attributes",                   MI_ATTRS
+    BEGIN
+        SUBMENU     "Foreground Mix",           MI_FM
+        BEGIN
+            MENUITEM     "OR         ",         MI_FM_OR
+            MENUITEM     "OVERPAINT  ",         MI_FM_OVERPAINT
+            MENUITEM     "LEAVEALONE ",         MI_FM_LEAVEALONE
+            MENUITEM     "XOR        ",         MI_FM_XOR
+            MENUITEM     "AND        ",         MI_FM_AND
+            MENUITEM     "SUBTRACT   ",         MI_FM_SUBTRACT
+            MENUITEM     "MASKSRCNOT ",         MI_FM_MASKSRCNOT
+            MENUITEM     "ZERO       ",         MI_FM_ZERO
+            MENUITEM     "NOTMERGESRC",         MI_FM_NOTMERGESRC
+            MENUITEM     "NOTXORSRC  ",         MI_FM_NOTXORSRC
+            MENUITEM     "INVERT     ",         MI_FM_INVERT
+            MENUITEM     "MERGESRCNOT",         MI_FM_MERGESRCNOT
+            MENUITEM     "NOTCOPYSRC ",         MI_FM_NOTCOPYSRC
+            MENUITEM     "MERGENOTSRC",         MI_FM_MERGENOTSRC
+            MENUITEM     "NOTMASKSRC ",         MI_FM_NOTMASKSRC
+            MENUITEM     "ONE        ",         MI_FM_ONE
+        END
+        SUBMENU     "Background Mix",           MI_BM
+        BEGIN
+            MENUITEM     "OR         ",         MI_BM_OR
+            MENUITEM     "OVERPAINT  ",         MI_BM_OVERPAINT
+            MENUITEM     "LEAVEALONE ",         MI_BM_LEAVEALONE
+            MENUITEM     "XOR        ",         MI_BM_XOR
+            MENUITEM     "AND        ",         MI_BM_AND
+            MENUITEM     "SUBTRACT   ",         MI_BM_SUBTRACT
+            MENUITEM     "MASKSRCNOT ",         MI_BM_MASKSRCNOT
+            MENUITEM     "ZERO       ",         MI_BM_ZERO
+            MENUITEM     "NOTMERGESRC",         MI_BM_NOTMERGESRC
+            MENUITEM     "NOTXORSRC  ",         MI_BM_NOTXORSRC
+            MENUITEM     "INVERT     ",         MI_BM_INVERT
+            MENUITEM     "MERGESRCNOT",         MI_BM_MERGESRCNOT
+            MENUITEM     "NOTCOPYSRC ",         MI_BM_NOTCOPYSRC
+            MENUITEM     "MERGENOTSRC",         MI_BM_MERGENOTSRC
+            MENUITEM     "NOTMASKSRC ",         MI_BM_NOTMASKSRC
+            MENUITEM     "ONE        ",         MI_BM_ONE
+        END
+        SUBMENU     "Foreground Color",         MI_FC
+        BEGIN
+            MENUITEM     "DEFAULT   ",          MI_FC_DEFAULT
+            MENUITEM     "WHITE     ",          MI_FC_WHITE
+            MENUITEM     "BLACK     ",          MI_FC_BLACK
+            MENUITEM     "BLUE      ",          MI_FC_BLUE
+            MENUITEM     "RED       ",          MI_FC_RED
+            MENUITEM     "PINK      ",          MI_FC_PINK
+            MENUITEM     "GREEN     ",          MI_FC_GREEN
+            MENUITEM     "CYAN      ",          MI_FC_CYAN
+            MENUITEM     "YELLOW    ",          MI_FC_YELLOW
+            MENUITEM     "NEUTRAL   ",          MI_FC_NEUTRAL
+            MENUITEM     "DARKGRAY  ",          MI_FC_DARKGRAY
+            MENUITEM     "DARKBLUE  ",          MI_FC_DARKBLUE
+            MENUITEM     "DARKRED   ",          MI_FC_DARKRED
+            MENUITEM     "DARKPINK  ",          MI_FC_DARKPINK
+            MENUITEM     "DARKGREEN ",          MI_FC_DARKGREEN
+            MENUITEM     "DARKCYAN  ",          MI_FC_DARKCYAN
+            MENUITEM     "BROWN     ",          MI_FC_BROWN
+            MENUITEM     "PALEGRAY  ",          MI_FC_PALEGRAY
+        END
+        SUBMENU     "Background Color",         MI_BC
+        BEGIN
+            MENUITEM     "DEFAULT   ",          MI_BC_DEFAULT
+            MENUITEM     "WHITE     ",          MI_BC_WHITE
+            MENUITEM     "BLACK     ",          MI_BC_BLACK
+            MENUITEM     "BLUE      ",          MI_BC_BLUE
+            MENUITEM     "RED       ",          MI_BC_RED
+            MENUITEM     "PINK      ",          MI_BC_PINK
+            MENUITEM     "GREEN     ",          MI_BC_GREEN
+            MENUITEM     "CYAN      ",          MI_BC_CYAN
+            MENUITEM     "YELLOW    ",          MI_BC_YELLOW
+            MENUITEM     "NEUTRAL   ",          MI_BC_NEUTRAL
+            MENUITEM     "DARKGRAY  ",          MI_BC_DARKGRAY
+            MENUITEM     "DARKBLUE  ",          MI_BC_DARKBLUE
+            MENUITEM     "DARKRED   ",          MI_BC_DARKRED
+            MENUITEM     "DARKPINK  ",          MI_BC_DARKPINK
+            MENUITEM     "DARKGREEN ",          MI_BC_DARKGREEN
+            MENUITEM     "DARKCYAN  ",          MI_BC_DARKCYAN
+            MENUITEM     "BROWN     ",          MI_BC_BROWN
+            MENUITEM     "PALEGRAY  ",          MI_BC_PALEGRAY
+        END
+        SUBMENU     "Screen Color",             MI_SC
+        BEGIN
+            MENUITEM     "DEFAULT   ",          MI_SC_DEFAULT
+            MENUITEM     "WHITE     ",          MI_SC_WHITE
+            MENUITEM     "BLACK     ",          MI_SC_BLACK
+            MENUITEM     "BLUE      ",          MI_SC_BLUE
+            MENUITEM     "RED       ",          MI_SC_RED
+            MENUITEM     "PINK      ",          MI_SC_PINK
+            MENUITEM     "GREEN     ",          MI_SC_GREEN
+            MENUITEM     "CYAN      ",          MI_SC_CYAN
+            MENUITEM     "YELLOW    ",          MI_SC_YELLOW
+            MENUITEM     "NEUTRAL   ",          MI_SC_NEUTRAL
+            MENUITEM     "DARKGRAY  ",          MI_SC_DARKGRAY
+            MENUITEM     "DARKBLUE  ",          MI_SC_DARKBLUE
+            MENUITEM     "DARKRED   ",          MI_SC_DARKRED
+            MENUITEM     "DARKPINK  ",          MI_SC_DARKPINK
+            MENUITEM     "DARKGREEN ",          MI_SC_DARKGREEN
+            MENUITEM     "DARKCYAN  ",          MI_SC_DARKCYAN
+            MENUITEM     "BROWN     ",          MI_SC_BROWN
+            MENUITEM     "PALEGRAY  ",          MI_SC_PALEGRAY
+        END
+        MENUITEM        SEPARATOR
+        SUBMENU     "Geometric Line Width",     MI_LW
+        BEGIN
+            MENUITEM     "1",                   MI_LW_1
+            MENUITEM     "2",                   MI_LW_2
+            MENUITEM     "3",                   MI_LW_3
+            MENUITEM     "4",                   MI_LW_4
+            MENUITEM     "5",                   MI_LW_5
+            MENUITEM     "6",                   MI_LW_6
+            MENUITEM     "7",                   MI_LW_7
+            MENUITEM     "8",                   MI_LW_8
+            MENUITEM     "9",                   MI_LW_9
+            MENUITEM     "10",                  MI_LW_10
+            MENUITEM     "15",                  MI_LW_15
+            MENUITEM     "20",                  MI_LW_20
+        END
+        SUBMENU     "Line Type",                MI_LT
+        BEGIN
+            MENUITEM     "DOT",                 MI_LT_DOT
+            MENUITEM     "SHORTDASH",           MI_LT_SHORTDASH
+            MENUITEM     "DASHDOT",             MI_LT_DASHDOT
+            MENUITEM     "DOUBLEDOT",           MI_LT_DOUBLEDOT
+            MENUITEM     "LONGDASH",            MI_LT_LONGDASH
+            MENUITEM     "DASHDOUBLEDOT",       MI_LT_DASHDOUBLEDOT
+            MENUITEM     "SOLID",               MI_LT_SOLID
+            MENUITEM     "INVISIBLE",           MI_LT_INVISIBLE
+            MENUITEM     "ALTERNATE",           MI_LT_ALTERNATE
+        END
+        SUBMENU     "Line End",                 MI_LE
+        BEGIN
+            MENUITEM     "FLAT",                MI_LE_FLAT
+            MENUITEM     "SQUARE",              MI_LE_SQUARE
+            MENUITEM     "ROUND",               MI_LE_ROUND
+        END
+        SUBMENU     "Line Join",                MI_LJ
+        BEGIN
+            MENUITEM     "BEVEL",               MI_LJ_BEVEL
+            MENUITEM     "ROUND",               MI_LJ_ROUND
+            MENUITEM     "MITRE",               MI_LJ_MITRE
+        END
+        MENUITEM        SEPARATOR
+        SUBMENU     "Fill Pattern",             MI_FP
+        BEGIN
+            MENUITEM     "DENSE1",              MI_FP_DENSE1
+            MENUITEM     "DENSE2",              MI_FP_DENSE2
+            MENUITEM     "DENSE3",              MI_FP_DENSE3
+            MENUITEM     "DENSE4",              MI_FP_DENSE4
+            MENUITEM     "DENSE5",              MI_FP_DENSE5
+            MENUITEM     "DENSE6",              MI_FP_DENSE6
+            MENUITEM     "DENSE7",              MI_FP_DENSE7
+            MENUITEM     "DENSE8",              MI_FP_DENSE8
+            MENUITEM     "VERT",                MI_FP_VERT
+            MENUITEM     "HORIZ",               MI_FP_HORIZ
+            MENUITEM     "DIAG1",               MI_FP_DIAG1
+            MENUITEM     "DIAG2",               MI_FP_DIAG2
+            MENUITEM     "DIAG3",               MI_FP_DIAG3
+            MENUITEM     "DIAG4",               MI_FP_DIAG4
+            MENUITEM     "NOSHADE",             MI_FP_NOSHADE
+            MENUITEM     "SOLID",               MI_FP_SOLID
+            MENUITEM     "HALFTONE",            MI_FP_HALFTONE
+            MENUITEM     "HATCH",               MI_FP_HATCH
+            MENUITEM     "DIAGHATCH",           MI_FP_DIAGHATCH
+        END
+        MENUITEM        SEPARATOR
+        SUBMENU     "Ink XOR Options",          MI_IO
+        BEGIN
+            MENUITEM    "Erase Ink Path",       MI_IO_ERASE
+            MENUITEM    "Keep Ink Path",        MI_IO_KEEP
+        END
+        SUBMENU     "Ink PS Options",           MI_PS
+        BEGIN
+            MENUITEM    "Desktop PS",           MI_PS_DESKTOP
+            MENUITEM    "Window PS",            MI_PS_WINDOW
+        END
+        MENUITEM    "Lock Desktop",             MI_LOCK
+    END
+END
+
+

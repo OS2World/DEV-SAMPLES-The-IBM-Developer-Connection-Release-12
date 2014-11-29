@@ -1,0 +1,304 @@
+
+ prog1
+
+ Start         Length     Name                   Class
+ 0001:00000000 000003736H CODE32                 CODE 32-bit
+ 0001:00003738 000000030H _MSGSEG32              CODE 32-bit
+ 0002:00000000 0000008DCH DATA32                 DATA 32-bit
+ 0002:000008DC 00000020CH CONST32                CONST 32-bit
+ 0002:00000AE8 00000000CH EDC1                   EDC_CLASS 32-bit
+ 0002:00000AF4 0000001B0H EDC2                   EDC_CLASS 32-bit
+ 0002:00000CA4 000000004H EDC3                   EDC_CLASS 32-bit
+ 0002:00000CA8 000000000H BSS32                  BSS 32-bit
+ 0002:00000CA8 00000009EH c_common               BSS 32-bit
+ 0002:00000D50 000002000H STACK32                STACK 32-bit
+
+ Origin   Group
+ 0000:0   FLAT
+ 0002:0   DGROUP
+
+  Address         Publics by Name
+
+ 0002:00000CFC       @BSSEDCINIT.C
+ 0002:00000D1C       @BSSN_EXCEPT.C
+ 0002:00000D18       @BSSPRTEMSG.C
+ 0001:00000048       Add3Numbers
+ 0001:000002C4       calloc
+ 0000:00000000  Imp  DOS32FLATTOSEL       (DOSCALLS.425)
+ 0001:0000374A       DOS32GETMESSAGE
+ 0000:00000000  Imp  DOS32IQUERYMESSAGECP (MSG.8)
+ 0000:00000000  Imp  DOS32SELTOFLAT       (DOSCALLS.426)
+ 0000:00000000  Imp  DOS32TRUEGETMESSAGE  (MSG.6)
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  DosCloseEventSem     (DOSCALLS.326)
+ 0000:00000000  Imp  DosCloseMutexSem     (DOSCALLS.333)
+ 0000:00000000  Imp  DosCreateEventSem    (DOSCALLS.324)
+ 0000:00000000  Imp  DosCreateMutexSem    (DOSCALLS.331)
+ 0000:00000000  Imp  DosCreateThread      (DOSCALLS.311)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  DosExitList          (DOSCALLS.296)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  DosGetInfoBlocks     (DOSCALLS.312)
+ 0001:0000374A       DosGetMessage
+ 0000:00000000  Imp  DOSPOSTEVENTSEM      (DOSCALLS.328)
+ 0000:00000000  Imp  DosQueryDBCSEnv      (NLS.6)
+ 0000:00000000  Imp  DosQueryHType        (DOSCALLS.224)
+ 0000:00000000  Imp  DosQuerySysInfo      (DOSCALLS.348)
+ 0000:00000000  Imp  DosRaiseException    (DOSCALLS.356)
+ 0000:00000000  Imp  DOSRELEASEMUTEXSEM   (DOSCALLS.335)
+ 0000:00000000  Imp  DOSREQUESTMUTEXSEM   (DOSCALLS.334)
+ 0000:00000000  Imp  DOSRESETEVENTSEM     (DOSCALLS.327)
+ 0000:00000000  Imp  DosSetExceptionHandler (DOSCALLS.354)
+ 0000:00000000  Imp  DosSetFilePtr        (DOSCALLS.256)
+ 0000:00000000  Imp  DosSetSignalExceptionFocus (DOSCALLS.378)
+ 0000:00000000  Imp  DOSWAITEVENTSEM      (DOSCALLS.329)
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0001:00000C94       exit
+ 0001:00000EB8       fflush
+ 0001:000014DC       free
+ 0001:00001750       getenv
+ 0001:00003734       int3
+ 0001:00000000       main
+ 0001:00001D5C       malloc
+ 0001:00003738       sig32
+ 0002:00000098       stderr
+ 0002:00000090       stdin
+ 0002:00000094       stdout
+ 0001:00003570       strspn
+ 0001:000035AC       strupr
+ 0002:000006D8       _argc
+ 0002:000006DC       _argv
+ 0001:0000005C       _beginthread
+ 0001:000002B0       _bit_test_set
+ 0001:00003000       _callback_opt_sys
+ 0001:00000D4C       _CloseSem
+ 0001:00000D94       _CreateSem
+ 0001:00002C70       _critlib_except
+ 0001:00000108       _CrtGetLocalData
+ 0001:000000C4       _CrtInitThread
+ 0001:00000384       _CRT_init
+ 0001:000009A0       _CRT_term
+ 0002:000000A0       _ctable
+ 0002:00000D34       _ctype
+ 0002:000001A4       _daylight
+ 0001:0000328C       _DosFlatToSel
+ 0001:00003284       _DosSelToFlat
+ 0002:00000CA8       _edata
+ 0001:000008B0       _edcGetMessage
+ 0002:00000CEC       _edcinit_fin
+ 0002:00000D50       _end
+ 0001:00000B74       _endthread
+ 0002:00000D40       _environ
+ 0001:00003648       _errno
+ 0001:00002FDC       _Exception
+ 0001:000021F0       _exception_dllinit
+ 0001:000021BC       _exception_procinit
+ 0002:000006D4       _exeentry
+ 0001:00002EF0       _EXE_Exception
+ 0001:00000EA4       _fcloseall_weak
+ 0002:00000AE8       _firsteib
+ 0001:00000FF4       _Flush
+ 0001:000011B4       _flushb
+ 0001:000014CC       _fpreset
+ 0001:000015CC       _FreeFCB
+ 0001:000016AC       _freeThreadStorage
+ 0001:00003018       _get_seglim
+ 0002:00000CA8       _have_freed
+ 0001:000018B8       _heapmin
+ 0001:00001A24       _heapmin_int
+ 0001:00001C68       _ilog2
+ 0001:00003730       _int3
+ 0001:00001C70       _internal_err
+ 0002:00000CA4       _lasteib
+ 0001:00002B14       _Lib_excpt
+ 0001:00001CC4       _ltoa
+ 0001:0000211C       _matherr
+ 0002:00000760       _matherr_ptr
+ 0001:000008D4       _Math_Exception_Def
+ 0002:00000CF0       _memory_sem
+ 0001:00003054       _MesgServ
+ 0001:00002150       _mig_eib_store
+ 0002:00000D44       _osmajor
+ 0002:00000D45       _osminor
+ 0002:000001AC       _osmode
+ 0002:00000CAC       _pBucketArr
+ 0002:0000009C       _PGLOBAL_PTR
+ 0001:00003224       _PrintErrMsg
+ 0001:00002D8C       _recreate_exception
+ 0001:0000300C       _Regen_exception
+ 0001:00000E8C       _ReleaseSem
+ 0001:00000E0C       _RequestSem
+ 0001:00003294       _setuparg
+ 0001:0000348C       _setupenv
+ 0001:00001DE4       _split_chunk
+ 0001:000035FC       _terminate
+ 0001:00002FF4       _Test_and_reset
+ 0001:00000854       _test_handle
+ 0002:000001A8       _timezone
+ 0002:00000D0C       _tmemory_sem
+ 0002:00000D38       _tzname
+ 0001:0000327C       _w_raise
+ 0001:00002130       __Async_exception_flag
+ 0001:00003698       __broken_time_ptr
+ 0001:000036A8       __cvt_buf_ptr
+ 0001:00003658       __doserrno
+ 0001:00003668       __dttm_ptr
+ 0001:00002220       __Exception
+ 0001:00003688       __flags
+ 0001:00001548       __free
+ 0001:000036C8       __internal_buf_ptr
+ 0001:000036B8       __lcvt_buf_ptr
+ 0001:00001ED4       __malloc
+ 0001:000036D8       __perror_msg_ptr
+ 0001:00003714       __random_seed
+ 0001:000008E8       __RunExitList
+ 0001:00002140       __Saved_return_address
+ 0001:00003678       __strerror_msg_ptr
+ 0001:000036F8       __strtok_pos
+ 0001:000036E8       __tempname_ptr
+ 0001:0000361C       __threadid
+ 0001:00003708       __version
+
+  Address         Publics by Value
+
+ 0000:00000000  Imp  DosWrite             (DOSCALLS.282)
+ 0000:00000000  Imp  DOS32TRUEGETMESSAGE  (MSG.6)
+ 0000:00000000  Imp  DOSRELEASEMUTEXSEM   (DOSCALLS.335)
+ 0000:00000000  Imp  DosSetExceptionHandler (DOSCALLS.354)
+ 0000:00000000  Imp  DosCreateMutexSem    (DOSCALLS.331)
+ 0000:00000000  Imp  DosSetFilePtr        (DOSCALLS.256)
+ 0000:00000000  Imp  DosCreateEventSem    (DOSCALLS.324)
+ 0000:00000000  Imp  DosRaiseException    (DOSCALLS.356)
+ 0000:00000000  Imp  DosSetSignalExceptionFocus (DOSCALLS.378)
+ 0000:00000000  Imp  DosQueryHType        (DOSCALLS.224)
+ 0000:00000000  Imp  DOS32IQUERYMESSAGECP (MSG.8)
+ 0000:00000000  Imp  DosAllocMem          (DOSCALLS.299)
+ 0000:00000000  Imp  DosExit              (DOSCALLS.234)
+ 0000:00000000  Imp  DosCloseMutexSem     (DOSCALLS.333)
+ 0000:00000000  Imp  DosQuerySysInfo      (DOSCALLS.348)
+ 0000:00000000  Imp  DosCloseEventSem     (DOSCALLS.326)
+ 0000:00000000  Imp  DOSPOSTEVENTSEM      (DOSCALLS.328)
+ 0000:00000000  Imp  DosGetInfoBlocks     (DOSCALLS.312)
+ 0000:00000000  Imp  DOS32SELTOFLAT       (DOSCALLS.426)
+ 0000:00000000  Imp  DosExitList          (DOSCALLS.296)
+ 0000:00000000  Imp  DOSWAITEVENTSEM      (DOSCALLS.329)
+ 0000:00000000  Imp  DOSRESETEVENTSEM     (DOSCALLS.327)
+ 0000:00000000  Imp  DOS32FLATTOSEL       (DOSCALLS.425)
+ 0000:00000000  Imp  DosCreateThread      (DOSCALLS.311)
+ 0000:00000000  Imp  DosFreeMem           (DOSCALLS.304)
+ 0000:00000000  Imp  DosQueryDBCSEnv      (NLS.6)
+ 0000:00000000  Imp  DOSREQUESTMUTEXSEM   (DOSCALLS.334)
+ 0001:00000000       main
+ 0001:00000048       Add3Numbers
+ 0001:0000005C       _beginthread
+ 0001:000000C4       _CrtInitThread
+ 0001:00000108       _CrtGetLocalData
+ 0001:000002B0       _bit_test_set
+ 0001:000002C4       calloc
+ 0001:00000384       _CRT_init
+ 0001:00000854       _test_handle
+ 0001:000008B0       _edcGetMessage
+ 0001:000008D4       _Math_Exception_Def
+ 0001:000008E8       __RunExitList
+ 0001:000009A0       _CRT_term
+ 0001:00000B74       _endthread
+ 0001:00000C94       exit
+ 0001:00000D4C       _CloseSem
+ 0001:00000D94       _CreateSem
+ 0001:00000E0C       _RequestSem
+ 0001:00000E8C       _ReleaseSem
+ 0001:00000EA4       _fcloseall_weak
+ 0001:00000EB8       fflush
+ 0001:00000FF4       _Flush
+ 0001:000011B4       _flushb
+ 0001:000014CC       _fpreset
+ 0001:000014DC       free
+ 0001:00001548       __free
+ 0001:000015CC       _FreeFCB
+ 0001:000016AC       _freeThreadStorage
+ 0001:00001750       getenv
+ 0001:000018B8       _heapmin
+ 0001:00001A24       _heapmin_int
+ 0001:00001C68       _ilog2
+ 0001:00001C70       _internal_err
+ 0001:00001CC4       _ltoa
+ 0001:00001D5C       malloc
+ 0001:00001DE4       _split_chunk
+ 0001:00001ED4       __malloc
+ 0001:0000211C       _matherr
+ 0001:00002130       __Async_exception_flag
+ 0001:00002140       __Saved_return_address
+ 0001:00002150       _mig_eib_store
+ 0001:000021BC       _exception_procinit
+ 0001:000021F0       _exception_dllinit
+ 0001:00002220       __Exception
+ 0001:00002B14       _Lib_excpt
+ 0001:00002C70       _critlib_except
+ 0001:00002D8C       _recreate_exception
+ 0001:00002EF0       _EXE_Exception
+ 0001:00002FDC       _Exception
+ 0001:00002FF4       _Test_and_reset
+ 0001:00003000       _callback_opt_sys
+ 0001:0000300C       _Regen_exception
+ 0001:00003018       _get_seglim
+ 0001:00003054       _MesgServ
+ 0001:00003224       _PrintErrMsg
+ 0001:0000327C       _w_raise
+ 0001:00003284       _DosSelToFlat
+ 0001:0000328C       _DosFlatToSel
+ 0001:00003294       _setuparg
+ 0001:0000348C       _setupenv
+ 0001:00003570       strspn
+ 0001:000035AC       strupr
+ 0001:000035FC       _terminate
+ 0001:0000361C       __threadid
+ 0001:00003648       _errno
+ 0001:00003658       __doserrno
+ 0001:00003668       __dttm_ptr
+ 0001:00003678       __strerror_msg_ptr
+ 0001:00003688       __flags
+ 0001:00003698       __broken_time_ptr
+ 0001:000036A8       __cvt_buf_ptr
+ 0001:000036B8       __lcvt_buf_ptr
+ 0001:000036C8       __internal_buf_ptr
+ 0001:000036D8       __perror_msg_ptr
+ 0001:000036E8       __tempname_ptr
+ 0001:000036F8       __strtok_pos
+ 0001:00003708       __version
+ 0001:00003714       __random_seed
+ 0001:00003730       _int3
+ 0001:00003734       int3
+ 0001:00003738       sig32
+ 0001:0000374A       DOS32GETMESSAGE
+ 0001:0000374A       DosGetMessage
+ 0002:00000090       stdin
+ 0002:00000094       stdout
+ 0002:00000098       stderr
+ 0002:0000009C       _PGLOBAL_PTR
+ 0002:000000A0       _ctable
+ 0002:000001A4       _daylight
+ 0002:000001A8       _timezone
+ 0002:000001AC       _osmode
+ 0002:000006D4       _exeentry
+ 0002:000006D8       _argc
+ 0002:000006DC       _argv
+ 0002:00000760       _matherr_ptr
+ 0002:00000AE8       _firsteib
+ 0002:00000CA4       _lasteib
+ 0002:00000CA8       _have_freed
+ 0002:00000CA8       _edata
+ 0002:00000CAC       _pBucketArr
+ 0002:00000CEC       _edcinit_fin
+ 0002:00000CF0       _memory_sem
+ 0002:00000CFC       @BSSEDCINIT.C
+ 0002:00000D0C       _tmemory_sem
+ 0002:00000D18       @BSSPRTEMSG.C
+ 0002:00000D1C       @BSSN_EXCEPT.C
+ 0002:00000D34       _ctype
+ 0002:00000D38       _tzname
+ 0002:00000D40       _environ
+ 0002:00000D44       _osmajor
+ 0002:00000D45       _osminor
+ 0002:00000D50       _end
+
+Program entry point at 0001:0000090C

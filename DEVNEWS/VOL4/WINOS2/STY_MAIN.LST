@@ -1,0 +1,59 @@
+STY_MAIN.C                                                                                     12/29/93 16:18:09     Page     1
+                                      * * * * *   P R O L O G   * * * * *
+
+ Compiler . . . . . . . . . . . . : IBM C/C++ Tools V2.0
+ Command options:
+    Compiler mode . . . . . . . . : C
+    Program name. . . . . . . . . : STY_MAIN.C
+    Assemble name . . . . . . . . : "sty_main.asm"
+    Object name . . . . . . . . . : "sty_main.obj"
+    Listing name. . . . . . . . . : sty_main.lst
+    Compiler options. . . . . . . : /C+  /Fa+ /Fc- /Fd- /Fi- /Fl- /Fm- /Fo+ /Fw- /Gd- /Ge+ /Gf- /Gh- /Gi- /Gm- /Gn- /Gr+ /Gs-
+                                  : /Gt- /Gu- /Gv- /Gw- /J+  /L-  /La- /Lb- /Le- /Lf- /Li- /Lj- /Ls+ /Lx- /Ly- /O-  /Ol- /Om-
+                                  : /Op+ /Os- /P-  /Pc- /Pd- /Pe- /Q+  /Sd- /Sh- /Si- /Sm- /Sn- /Sr- /Ss+ /Sv- /Ti- /Tm- /Tx-
+                                  : /Xi-
+                                  : /Wcls- /Wcmp- /Wcnd- /Wcns- /Wcnv- /Wcpy- /Wdcl- /Weff- /Wenu- /Wext- /Wgen- /Wgnr- /Wgot-
+                                  : /Wini- /Wlan- /Wobs- /Word- /Wpar- /Wpor- /Wppc- /Wppt- /Wpro- /Wrea- /Wret- /Wtrd- /Wtru-
+                                  : /Wund- /Wuni- /Wuse- /Wvft-
+                                  : /Mp  /Rn  /Se  /Sp1  /G3  /W3  /H255  /Lp66  /Sg-  /Sq-  /N  /Oi0  /Su-  /Tl10 
+                                  : /DM_I386=1  
+                                  : /I  
+                                  : /Lt 
+                                  : /Lu 
+                                  : /B  
+                                  : /V  
+STY_MAIN.C                                                                                     12/29/93 16:18:09     Page     2
+                                          * * * * *   S O U R C E   * * * * *
+
+ LINE  STMT                                                                                                       SEQNBR INCNO
+             *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9.......*
+    1       |/*************************************************************************                        |      1           
+    2       |*                                                                                                 |      2           
+    3       |*  File Name   : Sty_main.c                                                                       |      3           
+    4       |*                                                                                                 |      4           
+    5       |*  Description : This PM sample application demonstates the                                       |      5           
+    6       |*                standard menus, dialogs, and controls found                                      |      6           
+    7       |*                in most PM applications.                                                         |      7           
+    8       |*                                                                                                 |      8           
+    9       |*  Concepts    : PM window creation                                                               |      9           
+   10       |*                Menu Creation                                                                    |     10           
+   11       |*                Dialog box creation                                                              |     11           
+   12       |*                Presentation parameters                                                          |     12           
+   13       |*                Initizalition and display of PM controls                                         |     13           
+   14       |*                Help creation and initialization                                                 |     14           
+   15       |*                                                                                                 |     15           
+   16       |*  API's       :                                                                                  |     16           
+   17       |*  -------------                                                                                  |     17           
+   18       |*  DosAllocMem              WinFontDlg             WinCreateStdWindow                             |     18           
+   19       |*  DosBeep                  WinGetMsg              WinCreateWindow                                |     19           
+   20       |*  DosClose                 WinGetPs               WinDefDlgProc                                  |     20           
+   21       |*  DosExit                  WinInitialize          WinDefDlgProc                                  |     21           
+   22       |*  DosExitList              WinIsWindow            WinDefWindowProc                               |     22           
+   23       |*  DosFreeMem               WinLoadMenu            WinDestroyHelpINstance                         |     23           
+   24       |*  DosOpen                  WinLoadString          WinDestroyWIndow                               |     24           
+   25       |*  DosRead                  WinMapWIndowPoints     WinDismissDlg                                  |     25           
+   26       |*  DosWrite                 WinMessageBox          WinDispatchMsg                                 |     26           
+   27       |*  GpiCreateLogFont         WinOpenClipbrd         WinDlgBox                                      |     27           
+   28       |*  GpiDeleteSetID           WinPopupMenu           WinEndPaint                                    |     28           
+   29       |*  GpiQueryFontMetrics      WinPostMsg             WinSendMsg                                     |     29           
+   30       |*  GpiQueryFonts            WinQueryClipbrdFmtInfo WinSetDlgItemText                              |     30           

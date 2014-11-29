@@ -1,0 +1,87 @@
+#UNIXLIKE Development makefile
+# Each program includes (or will soon) a file from \unixlike\src\include
+# Make sure this path is part of the INCLUDE environment variable
+# 05.03.93: modified for IBM C-SET/2 make
+
+# NOTE:  the more program is not being compiled for 32 bit, nor is ps
+
+CDFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O- /Ti /Gm- /Q+ /I\unixlike\src\include
+CFLAGS  = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+CMFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm+ /Q+ /i\unixlike\src\include
+COFLAGS = /c /Gd- /Sm /Re /Ss /Ms /O+    /Gm- /Q+ /I\unixlike\src\include
+LDFLAGS = /DEBUG /ALIGN:32 /EXEPACK /M /NOI
+LFLAGS  =        /ALIGN:32 /EXEPACK /M /NOI
+
+AGREP_CFLAGS = /C+      /Gm+ /Q+ /Sp /O+ /Ss+ /W3 
+AGREP_LFLAGS = /NOI /PM:VIO 
+
+LINKER = link386
+
+# MS C6.0: CFLAGS = -c -AL -G2s -W3 -I\unixlike\src\include
+# MS C6.0: CDFLAGS = -c -AL -G2s -W3 -I\unixlike\src\include -Zi -Od
+# MS C6.0: COFLAGS = -c -AL -G2s -W3 -Ozax -Gr -I\unixlike\src\include
+# MS C6.0: LFLAGS =
+# MS C6.0: LDFLAGS = /CO
+
+B = \unixlike\bin
+F = \unixlike\util\fmf
+G = \unixlike\util\getopt
+GU= \unixlike\util\greputil
+M = \unixlike\util\myerror
+MF = \unixlike\mapfiles
+MP= \unixlike\util\makepath
+P = \unixlike\util\getopt
+S = \unixlike\src
+SL =\unixlike\util\sleep
+#Z = \unixlike\src\more
+AGD = $S\agrep
+
+AGREPOBJ =$(AGD)\asearch.obj \
+          $(AGD)\asearch1.obj \
+          $(AGD)\bitap.obj \
+          $(AGD)\chkfile.obj \
+          $(AGD)\compat.obj \
+          $(AGD)\follow.obj \
+          $(AGD)\main.obj \
+          $(AGD)\maskgen.obj \
+          $(AGD)\mgrep.obj \
+          $(AGD)\parse.obj \
+          $(AGD)\preproc.obj \
+          $(AGD)\sgrep.obj \
+          $(AGD)\util.obj
+ATOBJS   = $F\fmf+$M\myerror
+ATDOBJS   = $F\fmfn+$M\myerron
+COMPOBJS = $S\compress\compress.obj+$S\compress\comprutl.obj
+CUTOBJS  = $S\cut\cut+$F\fmf+$G\getopt+$M\myerror
+DFOBJS   = $S\df\df+$G\getopt
+DUOBJS   = $S\du\du+$G\getopt
+#FGREPOBJ = $S\fgrep\fgrep+$F\fmfn+$G\getoptn+$M\myerron
+FGREPOBJ = $S\fgrep\fgrep+$F\fmf+$G\getopt+$M\myerror
+FINDOBJS = $S\find\find+$F\fmf+$M\myerror+$(GU)\greputil
+GREPOBJS = $S\grep\grep+$(GU)\greputil+$F\fmf+$M\myerror
+HEADOBJS = $S\head\head+$F\fmf+$M\myerror
+PASTEOBJ  = $S\paste\paste+$F\fmf+$G\getopt+$M\myerror
+RMOBJS   = $S\rm\rm+$M\myerror+$G\getopt
+SEDOBJS =  $S\sed\sed+$S\sed\sedparse+$S\sed\sedapply+$S\sed\sedtable+$F\fmf+$M\myerror+$(GU)\greputil
+SLEEPOBJ = $S\sleep\sleepexe+$(SL)\sleep
+SPLITOBJ = $S\split\split+$S\compress\comprutl
+TAILOBJS = $S\tail\tail+$F\fmf+$M\myerror+$(SL)\sleep
+TEEOBJS  = $S\tee\tee+$F\fmf+$M\myerror
+TIMEXOBJ = $S\timex\timex+$G\getopt+$M\myerror
+TOUCHOBJ = $S\touch\touch+$F\fmf+$G\getopt+$M\myerror
+TROBJ    = $S\tr\tr+$G\getopt
+UNIQOBJS = $S\uniq\uniq+$(MP)\makepath+$M\myerror
+WCOBJS   = $S\wc\wc+$F\fmf+$G\getopt+$M\myerror
+WHICHOBJ = $S\which\which+$F\fmf+$M\myerror
+
+
+$B\du.exe       : $S\du\du.obj $S\du\du.def $G\getopt.obj
+         $(LINKER) $(LDFLAGS) $(DUOBJS),$B\du.exe,NUL,,$S\du\du.def;
+
+
+$S\du\du.obj             :  $S\du\du.c
+         icc $(CDFLAGS) -I$S\du /Fo$S\du\du.obj $S\du\du.c
+
+$G\getopt.obj            : $G\getopt.c
+         icc $(CDFLAGS) /Fo$G\getopt.obj $G\getopt.c
+

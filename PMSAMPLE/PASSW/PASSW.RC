@@ -1,0 +1,35 @@
+/*********** passw C Sample Program Resource Script File (.RC) ***************/
+/*                                                                            */
+/*  The window resources used by an application are defined in a resource     */
+/*  script file .RC.  This file is compiled by the resource compiler to       */
+/*  produce an executable-format file.                                        */
+/*  The definitions are either statements which define resources or           */
+/*  references to other files containing resources.                           */
+/*                                                                            */
+/*  In this resource script file:                                             */
+/*  ------------------------------------------------------------------------  */
+/*  Statement:                        References:                             */
+/*  MENU  ID_WINDOW PRELOAD           #include <os2.h>                        */
+/*  ACCELTABLE ID_WINDOW PRELOAD      #include "passw.h"                     */
+/*  STRINGTABLE PRELOAD               ICON ID_WINDOW passw.ico               */
+/*                                                                            */
+/******************************************************************************/
+
+
+#include <os2.h>
+#include "passw.h"
+
+ICON    ID_WINDOW passw.ico
+
+
+MENU    ID_WINDOW PRELOAD
+BEGIN
+    MENUITEM "E~xit \tF3",       ID_EXITPROG, MIS_TEXT
+END
+
+ACCELTABLE ID_WINDOW PRELOAD
+BEGIN
+  VK_F3, ID_EXITPROG, VIRTUALKEY
+END
+
+

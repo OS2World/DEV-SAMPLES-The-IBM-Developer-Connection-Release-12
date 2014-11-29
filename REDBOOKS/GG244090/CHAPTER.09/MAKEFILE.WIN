@@ -1,0 +1,41 @@
+#
+# Makefile for the Windows "Message Box" sample application.
+#
+
+all: mbox.h mbox.exe message.exe
+
+OPTS            = -nologo -AL -Aw -W2 -c
+DEFS            = -D__MSC__ -DMSW3 -D_WINDOWS -D__STDC__
+INCS            = -I.
+CFLAGS          = $(OPTS) $(DEFS) $(INCS)
+IDLFLAGS        = -keep c_source -I$(DCEDIR)\include
+LFLAGS          = /map /nol
+LLIBS           = ldcewin dce llibcew libw
+
+!ifdef DEBUG
+CFLAGS = $(CFLAGS) -Zid -Od
+LFLAGS = $(LFLAGS) /cod /lin
+!endif
+
+SRCS            = client.c server.c
+COBJECTS        = client.obj mboxc.obj
+SOBJECTS        = server.obj manager.obj security.obj mboxs.obj
+
+mbox.h: $*.idl
+        idl $(IDLFLAGS) $?
+
+message.exe: $(COBJECTS)
+        link $(LFLAGS) $(COBJECTS),$*.exe,,$(LLIBS),win.def
+        rc $*.exe
+
+mbox.exe: $(SOBJECTS)
+        link $(LFLAGS) $(SOBJECTS),$*.exe,,$(LLIBS),win.def
+        rc $*.exe
+
+clean:
+        -del *.map
+        -del *.obj
+        -del mbox.h
+        -del mboxc.c
+        -del mboxs.c
+

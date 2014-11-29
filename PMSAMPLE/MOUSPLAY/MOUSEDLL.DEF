@@ -1,0 +1,21 @@
+LIBRARY mousedll
+
+DESCRIPTION 'OS/2 Presentation Manager Sample playback by FIAMMANT @ LGEVM2'
+
+PROTMODE
+
+CODE PRELOAD
+
+DATA MULTIPLE NONSHARED
+
+SEGMENTS
+    GLOBDATA CLASS 'DATA' SHARED
+
+EXPORTS
+MousePlayHookProc @1
+KeyPlayHookProc   @2
+Thmq              @3
+sXCoordinate      @4
+sYCoordinate      @5
+PlayString        @6
+

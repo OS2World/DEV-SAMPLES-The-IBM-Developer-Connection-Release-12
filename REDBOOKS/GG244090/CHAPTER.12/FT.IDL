@@ -1,0 +1,19 @@
+[
+uuid(0028230A-7067-1C1E-95AF-10005A4F5444),
+version(1.0)
+]
+interface ft
+{
+   const short FILE_NAME_LENGTH = 80;
+   const short BUFFER_SIZE = 30000;
+   typedef [ string ] char file_name_t[ FILE_NAME_LENGTH + 1 ];
+   typedef pipe byte b_pipe_t;
+   error_status_t send_file (
+      [ in ] file_name_t file_name,
+      [ in ] b_pipe_t data
+   );
+   error_status_t receive_file (
+      [ in ] file_name_t file_name,
+      [ out ] b_pipe_t *data
+   );
+}

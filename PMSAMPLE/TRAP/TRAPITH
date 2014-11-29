@@ -1,0 +1,28 @@
+# IBM Developer's Workframe/2 Make File Creation run at 15:29:28 on 09/29/93
+
+# Make File Creation run in directory:
+#   G:\UNL;
+
+.SUFFIXES:
+
+.SUFFIXES: .c
+
+TRAPITH.DLL:  \
+  TRAPITH.OBJ \
+  TRAPITH.DEF \
+  TRAPITH
+   @REM @<<TRAPITH.@0
+     TRAPITH.OBJ/MAP
+     TRAPITH.DLL
+     TRAPITH.MAP
+
+     TRAPITH.DEF;
+<<
+   LINK386.EXE @TRAPITH.@0
+  IMPLIB TRAPITH.LIB TRAPITH.DEF
+
+{.}.c.obj:
+   ICC.EXE /Ge- /C .\$*.c
+
+!include TRAPITH.DEP
+

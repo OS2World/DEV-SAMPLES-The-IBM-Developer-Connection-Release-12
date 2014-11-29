@@ -1,0 +1,15 @@
+
+LIBRARY         3DFrame INITINSTANCE TERMINSTANCE 
+
+DESCRIPTION     '3D Frame Custom Control'
+
+CODE            MOVEABLE
+DATA            MULTIPLE NONSHARED MOVEABLE
+
+PROTMODE
+
+EXETYPE         OS2
+
+EXPORTS         Frame3d_Register = FrameRegister @ 1
+                Frame3d_Styles = FrameStyles @ 3
+                Frame3d_Query = FrameQuery @ 2

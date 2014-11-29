@@ -1,0 +1,238 @@
+ 
+VOID saveImageIco(PCHAR pFileName,HPS hpsSrc,PRECTL pRectl,PPOINTS pHotSpot)
+//-------------------------------------------------------------------------
+// This routine saves an rectangle in a PS as a 1.2 .ICO file.
+//
+// Input:  pFileName - points to the name to save the icon as
+//         hpsSrc - the source hps to save from
+//         pRectl - points to the rectangle within hpsSrc to save
+//
+// Written by:  Larry Salomon, Jr.
+//-------------------------------------------------------------------------
+{
+   HDC hdcTemp;
+   HPS hpsTemp;
+   HBITMAP hbmTemp;
+   UCHAR bmBits[8196];
+   UCHAR bmHdrBuf[sizeof(BITMAPINFOHEADER)+sizeof(RGB)*256];
+   PBITMAPINFOHEADER pBmih=(PBITMAPINFOHEADER)bmHdrBuf;
+   PBITMAPINFO pBmi=(PBITMAPINFO)bmHdrBuf;
+   BITMAPARRAYFILEHEADER bmafh;
+   LONG numRealClrs;
+   RGB rgbValues[256];
+   LONG realClrs[256];
+   USHORT index1;
+   ULONG index2;
+   ULONG bmMaskLineSize;
+   ULONG bmBitsLineSize;
+   USHORT dosRc;
+   HFILE hFile;
+   USHORT bytesToWrite;
+   USHORT bytesWritten;
+   USHORT action;
+   POINTL pointl[4];
+   SIZEL sizeBmp;
+ 
+   sizeBmp.cx=pRectl->xRight-pRectl->xLeft;
+   sizeBmp.cy=pRectl->yTop-pRectl->yBottom;
+ 
+   // Create a memory device context and hps to copy the rectangle into.
+   // Note that we could have probably used the existing HDC, but that's
+   // one more parameter to pass...Ugh!
+   hdcTemp=DevOpenDC(hab,OD_MEMORY,"*",0L,NULL,NULL);
+ 
+   hpsTemp=GpiCreatePS(hab,
+                       hdcTemp,
+                       &sizeBmp,
+                       PU_PELS|GPIF_DEFAULT|GPIT_MICRO|GPIA_ASSOC);
+ 
+   // Query the number of colors in the hpsSrc and create
+   // a logical color table in the temp HPS
+   numRealClrs=GpiQueryRealColors(hpsSrc,0L,0L,256L,realClrs);
+ 
+   GpiCreateLogColorTable(hpsTemp,
+                          NULL,
+                          LCOLF_CONSECRGB,
+                          0L,
+                          numRealClrs,
+                          realClrs);
+ 
+   // Create a bitmap, and set it in the temp HPS, so
+   // that we can copy the rectangle into it
+   pBmih->cbFix=sizeof(BITMAPINFOHEADER);
+   pBmih->cx=(USHORT)sizeBmp.cx;
+   pBmih->cy=(USHORT)sizeBmp.cy;
+   DevQueryCaps(hdcTemp,CAPS_COLOR_PLANES,1L,(PLONG)&pBmih->cPlanes);
+   DevQueryCaps(hdcTemp,CAPS_COLOR_BITCOUNT,1L,(PLONG)&pBmih->cBitCount);
+ 
+   hbmTemp=GpiCreateBitmap(hpsTemp,pBmih,0L,0L,NULL);
+   if (hbmTemp==NULL) {
+      WinAlarm(HWND_DESKTOP,WA_ERROR);
+      goto EXIT_PROC;
+   } /* endif */
+ 
+   GpiSetBitmap(hpsTemp,hbmTemp);
+ 
+   pointl[0].x=pointl[2].x=0;
+   pointl[0].y=pointl[2].y=0;
+   pointl[1].x=pointl[3].x=sizeBmp.cx;
+   pointl[1].y=pointl[3].y=sizeBmp.cy;
+   GpiBitBlt(hpsTemp,hpsSrc,4L,pointl,ROP_SRCCOPY,BBO_IGNORE);
+ 
+   // bmBitsLineSize is the size of one line of the bitmap
+   // The formula was taken from the 1.2 Programming Reference.
+   // For bmMaskLineSize, the masks only have two colors => cBitcount=1 &
+   // cPlanes=1 which means we can eliminate them from the equation
+   bmMaskLineSize=(((sizeBmp.cx+31)/32)*4);
+   bmBitsLineSize=(((pBmih->cBitCount*sizeBmp.cx+31)/32)*4*pBmih->cPlanes);
+ 
+   dosRc=DosOpen(pFileName,
+                 &hFile,
+                 &action,
+                 0L,
+                 FILE_ARCHIVED,
+                 0x11,
+                 0x92,
+                 0L);
+   if (dosRc!=0) {
+      WinAlarm(HWND_DESKTOP,WA_ERROR);
+      goto EXIT_PROC;
+   } /* endif */
+ 
+   // In 1.2, you must create the file as an array (actually, it is closer
+   // to being a linked list), with each element equal to one of the atomic
+   // types (icon, pointer, or bitmap).  All elements must be of the same
+   // type.
+   bmafh.usType=BFT_BITMAPARRAY;
+   bmafh.cbSize=sizeof(BITMAPARRAYFILEHEADER);
+   bmafh.offNext=0;                          // Points to next array hdr,
+                                             // or 0 if this is the last
+   DevQueryCaps(hdcTemp,CAPS_WIDTH,1L,(PLONG)&bmafh.cxDisplay);
+   DevQueryCaps(hdcTemp,CAPS_HEIGHT,1L,(PLONG)&bmafh.cyDisplay);
+   bmafh.bfh.usType=BFT_COLORICON;           // Array element - color icon
+   bmafh.bfh.cbSize=sizeof(BITMAPFILEHEADER);
+   bmafh.bfh.xHotspot=pHotSpot->x;
+   bmafh.bfh.yHotspot=pHotSpot->y;
+   bmafh.bfh.offBits=sizeof(BITMAPARRAYFILEHEADER)+
+                     sizeof(RGB)*2+
+                     sizeof(BITMAPFILEHEADER)+
+                     sizeof(RGB)*numRealClrs;
+   bmafh.bfh.bmp.cbFix=sizeof(BITMAPINFOHEADER);
+   bmafh.bfh.bmp.cx=(USHORT)sizeBmp.cx;
+   bmafh.bfh.bmp.cy=(USHORT)sizeBmp.cy*2;
+   bmafh.bfh.bmp.cPlanes=1;
+   bmafh.bfh.bmp.cBitCount=1;
+ 
+   bytesToWrite=sizeof(bmafh);
+   dosRc=DosWrite(hFile,
+                  &bmafh,
+                  bytesToWrite,
+                  &bytesWritten);
+   if ((dosRc!=0) || (bytesToWrite!=bytesWritten)) {
+      WinAlarm(HWND_DESKTOP,WA_ERROR);
+      goto EXIT_PROC;
+   } /* endif */
+ 
+   // Write the color table for the AND/XOR masks (FF FF FF/00 00 00)
+   memset(&rgbValues[0],0,sizeof(RGB));
+   memset(&rgbValues[1],255,sizeof(RGB));
+ 
+   bytesToWrite=sizeof(RGB)*2;
+   dosRc=DosWrite(hFile,
+                  rgbValues,
+                  bytesToWrite,
+                  &bytesWritten);
+   if ((dosRc!=0) || (bytesToWrite!=bytesWritten)) {
+      WinAlarm(HWND_DESKTOP,WA_ERROR);
+      goto EXIT_PROC;
+   } /* endif */
+ 
+   bmafh.bfh.usType=BFT_COLORICON;           // Array element - color icon
+   bmafh.bfh.cbSize=sizeof(BITMAPFILEHEADER);
+   bmafh.bfh.xHotspot=pHotSpot->x;
+   bmafh.bfh.yHotspot=pHotSpot->y;
+   bmafh.bfh.offBits=sizeof(BITMAPARRAYFILEHEADER)+
+                     sizeof(RGB)*2+
+                     sizeof(BITMAPFILEHEADER)+
+                     sizeof(RGB)*numRealClrs+
+                     bmMaskLineSize*sizeBmp.cy*2;
+   bmafh.bfh.bmp.cbFix=sizeof(BITMAPINFOHEADER);
+   bmafh.bfh.bmp.cx=(USHORT)sizeBmp.cx;
+   bmafh.bfh.bmp.cy=(USHORT)sizeBmp.cy;
+   bmafh.bfh.bmp.cPlanes=pBmih->cPlanes;
+   bmafh.bfh.bmp.cBitCount=pBmih->cBitCount;
+ 
+   bytesToWrite=sizeof(bmafh.bfh);
+   dosRc=DosWrite(hFile,
+                  &bmafh.bfh,
+                  bytesToWrite,
+                  &bytesWritten);
+   if ((dosRc!=0) || (bytesToWrite!=bytesWritten)) {
+      WinAlarm(HWND_DESKTOP,WA_ERROR);
+      goto EXIT_PROC;
+   } /* endif */
+ 
+   // Query all of the logical colors, to get their
+   // RGB values, so that we can write them to a file
+   for (index1=0; (ULONG)index1<numRealClrs; index1++) {
+     index2=GpiQueryColorIndex(hpsTemp,0L,realClrs[index1]);
+     rgbValues[index2].bBlue=(UCHAR)(realClrs[index1]);
+     rgbValues[index2].bGreen=(UCHAR)(realClrs[index1]>>8);
+     rgbValues[index2].bRed=(UCHAR)(realClrs[index1]>>16);
+   } /* endfor */
+ 
+   bytesToWrite=sizeof(RGB)*(SHORT)numRealClrs;
+   dosRc=DosWrite(hFile,
+                  rgbValues,
+                  bytesToWrite,
+                  &bytesWritten);
+   if ((dosRc!=0) || (bytesToWrite!=bytesWritten)) {
+      WinAlarm(HWND_DESKTOP,WA_ERROR);
+      goto EXIT_PROC;
+   } /* endif */
+ 
+   // Write 0's for the mask, meaning do an ROP_SRCCOPY
+   memset(bmBits,0,sizeof(bmBits));
+ 
+   for (index2=0; index2<sizeBmp.cy*2; index2++) {
+      dosRc=DosWrite(hFile,
+                     bmBits,
+                     (USHORT)bmMaskLineSize,
+                     &bytesWritten);
+      if ((dosRc!=0) || (bmMaskLineSize!=bytesWritten)) {
+         WinAlarm(HWND_DESKTOP,WA_ERROR);
+         goto EXIT_PROC;
+      } /* endif */
+   } /* endfor */
+ 
+   // Query and write the bitmap bits
+   for (index2=0; index2<sizeBmp.cy; index2++) {
+      GpiQueryBitmapBits(hpsTemp,index2,1L,bmBits,pBmi);
+      dosRc=DosWrite(hFile,
+                     bmBits,
+                     (USHORT)bmBitsLineSize,
+                     &bytesWritten);
+      if ((dosRc!=0) || (bmBitsLineSize!=bytesWritten)) {
+         WinAlarm(HWND_DESKTOP,WA_ERROR);
+         goto EXIT_PROC;
+      } /* endif */
+   } /* endfor */
+ 
+   EXIT_PROC:
+ 
+   if (hFile!=NULL) {
+      dosRc=DosClose(hFile);
+   } /* endif */
+ 
+   if (hbmTemp!=NULL) {
+      GpiDeleteBitmap(hbmTemp);
+   } /* endif */
+ 
+   if (hpsTemp!=NULL) {
+      GpiDestroyPS(hpsTemp);
+      DevCloseDC(hdcTemp);
+   } /* endif */
+ 
+   WinAlarm(HWND_DESKTOP,WA_NOTE);
+}
+ 
